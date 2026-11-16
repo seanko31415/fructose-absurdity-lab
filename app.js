@@ -1069,6 +1069,15 @@
     adjustCentrifugeRpm(Math.round(b * 180));
   }
 
+  // 點擊藝術雕塑晶格激發光學脈衝
+  function pulseArtInstallation() {
+    if (window.labAudio && window.labAudio.playSugarDrop) {
+      window.labAudio.playSugarDrop(3);
+    }
+    setGlobalSugarCubes(appState.globalSugarCubes + 1, { syncLadder: false });
+    showToast('✨ 藝術晶格激發', '光學雕塑共振！琥珀光環流轉，凝聚 1 枚純淨水晶方糖！', 'amber');
+  }
+
   function renderLadderSection() {
     const lv = appState.activeLadderLevel;
     const maxLv = appState.easterEggUnlocked ? 15 : 14;
@@ -1077,10 +1086,24 @@
     const liquid = document.getElementById('cylinder-liquid');
     const slider = document.getElementById('ladder-slider');
     const pourStream = document.getElementById('cylinder-top-stream');
+    const mlVal = document.getElementById('cylinder-ml-val');
+    const levelVal = document.getElementById('cylinder-level-val');
+    const sliderBadge = document.getElementById('ladder-slider-val-badge');
 
     if (slider) {
       slider.max = String(maxLv);
       slider.value = String(lv);
+    }
+
+    if (mlVal) {
+      const mlMap = [0, 15, 30, 45, 60, 120, 200, 250, 400, 600, 750, 800, 880, 950, 1000, 1500];
+      mlVal.textContent = `${mlMap[lv] !== undefined ? mlMap[lv] : 60} mL`;
+    }
+    if (levelVal) {
+      levelVal.textContent = `Lv.${item.level} ${item.name}`;
+    }
+    if (sliderBadge) {
+      sliderBadge.textContent = `目前選擇：Lv.${item.level} ${item.name}`;
     }
 
     if (liquid) {
@@ -3293,6 +3316,7 @@
     emergencyGreenTeaFlush,
     selectBeverageStandard,
     selectLadderLevel,
+    pulseArtInstallation,
     mintEmbossedSugar,
     adjustRefractometer,
     adjustCentrifugeRpm,
