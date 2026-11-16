@@ -64,245 +64,369 @@ body {
 }
 
 /* ==========================================================================
-   1. CUSTOM DYNAMIC FLUID CURSOR
+   1. CUSTOM DYNAMIC FLUID CURSOR (100% 零延遲貼合鼠標 + 流體波紋光環)
    ========================================================================== */
 #custom-cursor-dot {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 8px;
-  height: 8px;
-  background: radial-gradient(circle, #fff 30%, #F59E0B 100%);
+  top: -100px;
+  left: -100px;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, #ffffff 35%, #FBBF24 70%, #F59E0B 100%);
   border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
+  pointer-events: none !important;
+  z-index: 99999;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 10px #F59E0B, 0 0 20px rgba(245, 158, 11, 0.6);
-  transition: opacity 0.2s ease, transform 0.08s ease-out;
+  box-shadow: 0 0 12px #FBBF24, 0 0 24px rgba(245, 158, 11, 0.85);
+  will-change: left, top, transform;
 }
 
 #custom-cursor-ring {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 34px;
-  height: 34px;
-  border: 1.5px solid rgba(245, 158, 11, 0.65);
+  top: -100px;
+  left: -100px;
+  width: 38px;
+  height: 38px;
+  border: 2px solid rgba(251, 191, 36, 0.78);
+  border-top-color: rgba(255, 255, 255, 0.95);
+  border-bottom-color: rgba(6, 182, 212, 0.75);
   border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
+  pointer-events: none !important;
+  z-index: 99998;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 15px rgba(245, 158, 11, 0.25), inset 0 0 8px rgba(6, 182, 212, 0.2);
-  backdrop-filter: blur(1px);
-  -webkit-backdrop-filter: blur(1px);
-  transition: width 0.24s cubic-bezier(0.2, 0.8, 0.2, 1),
-              height 0.24s cubic-bezier(0.2, 0.8, 0.2, 1),
-              border-color 0.24s ease,
-              background-color 0.24s ease,
-              box-shadow 0.24s ease,
-              transform 0.16s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, rgba(6, 182, 212, 0.08) 65%, transparent 100%);
+  box-shadow:
+    0 0 18px rgba(245, 158, 11, 0.4),
+    inset 0 1px 3px rgba(255, 255, 255, 0.65);
+  transition: width 0.18s ease, height 0.18s ease, border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+  will-change: left, top, width, height;
 }
 
 body.cursor-is-hovering #custom-cursor-ring {
-  width: 52px;
-  height: 52px;
-  border-color: rgba(251, 191, 36, 0.95);
-  background-color: rgba(245, 158, 11, 0.12);
-  box-shadow: 0 0 25px rgba(245, 158, 11, 0.5), inset 0 0 14px rgba(255, 255, 255, 0.25);
+  width: 56px;
+  height: 56px;
+  border-color: #FDE047;
+  background-color: rgba(245, 158, 11, 0.22);
+  box-shadow:
+    0 0 32px rgba(245, 158, 11, 0.75),
+    0 0 16px rgba(6, 182, 212, 0.5),
+    inset 0 0 16px rgba(255, 255, 255, 0.45);
 }
 
 body.cursor-is-hovering #custom-cursor-dot {
-  transform: translate(-50%, -50%) scale(1.4);
-  background: #fff;
+  transform: translate(-50%, -50%) scale(1.45);
+  background: #ffffff;
+  box-shadow: 0 0 16px #ffffff, 0 0 30px #F59E0B;
 }
 
 body.cursor-is-clicking #custom-cursor-ring {
-  transform: translate(-50%, -50%) scale(0.75);
+  width: 28px;
+  height: 28px;
   border-color: #06B6D4;
-  background-color: rgba(6, 182, 212, 0.25);
+  background-color: rgba(6, 182, 212, 0.35);
+  box-shadow: 0 0 30px #06B6D4, inset 0 0 12px #ffffff;
+}
+
+.cursor-trail-spark {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none !important;
+  z-index: 99997;
+  transform: translate(-50%, -50%);
+  animation: cursorSparkFade 0.5s ease-out forwards;
+}
+
+@keyframes cursorSparkFade {
+  0% { opacity: 0.9; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -140%) scale(0.15); }
 }
 
 @media (hover: none) and (pointer: coarse) {
-  #custom-cursor-dot, #custom-cursor-ring {
+  #custom-cursor-dot, #custom-cursor-ring, .cursor-trail-spark {
     display: none !important;
   }
 }
 
 /* ==========================================================================
-   2. 3D FLOATING CAROUSEL WITH LUXURY BACKGROUND & CENTER FOCUS
+   2. 3D ROYAL FILIGREE FLOATING CAROUSEL (皇家浮雕標紋 3D 懸浮典藏卡)
    ========================================================================== */
-@keyframes nebulaShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
 @keyframes floatLevitation {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes cardIndividualFloat {
+  0%, 100% { transform: translateY(0px) rotateZ(0deg); }
+  50% { transform: translateY(-9px) rotateZ(0.4deg); }
+}
+
+@keyframes foilShimmerSweep {
+  0% { transform: translateX(-140%) rotate(25deg); }
+  50%, 100% { transform: translateX(180%) rotate(25deg); }
+}
+
+@keyframes spinSlowCrest {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 #login-3d-overlay {
   background:
-    radial-gradient(circle at 50% 15%, rgba(245, 158, 11, 0.35) 0%, transparent 55%),
-    radial-gradient(circle at 15% 85%, rgba(6, 182, 212, 0.28) 0%, transparent 50%),
-    radial-gradient(circle at 85% 75%, rgba(236, 72, 153, 0.22) 0%, transparent 50%),
-    linear-gradient(180deg, #02040a 0%, #080f24 50%, #030611 100%);
+    radial-gradient(circle at 50% 18%, rgba(245, 158, 11, 0.38) 0%, transparent 52%),
+    radial-gradient(circle at 15% 82%, rgba(6, 182, 212, 0.30) 0%, transparent 48%),
+    radial-gradient(circle at 85% 75%, rgba(236, 72, 153, 0.24) 0%, transparent 48%),
+    linear-gradient(180deg, #030612 0%, #09122c 50%, #040714 100%);
   position: fixed;
   inset: 0;
   z-index: 110;
-  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  overflow-y: auto;
-  overflow-x: hidden;
+  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1), transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow: hidden;
 }
 
 #login-3d-overlay.portal-hidden {
   opacity: 0;
-  transform: scale(1.08);
+  transform: scale(1.06);
   pointer-events: none;
 }
 
 .carousel-3d-scene {
-  perspective: 1100px;
+  perspective: 1150px;
   width: 100%;
-  height: 350px;
+  height: 330px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: visible;
   user-select: none;
-  animation: floatLevitation 6s ease-in-out infinite;
+  animation: floatLevitation 5.5s ease-in-out infinite;
 }
 
 .carousel-3d-ring {
-  width: 230px;
-  height: 300px;
+  width: 226px;
+  height: 298px;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.5s cubic-bezier(0.2, 0.85, 0.3, 1.05);
 }
 
 .card-3d-item {
   position: absolute;
   inset: 0;
-  border-radius: 26px;
-  padding: 18px;
-  background: linear-gradient(155deg, rgba(255, 255, 255, 0.16) 0%, rgba(15, 23, 42, 0.88) 45%, rgba(5, 8, 17, 0.98) 100%);
-  backdrop-filter: blur(28px) saturate(200%);
-  -webkit-backdrop-filter: blur(28px) saturate(200%);
-  border: 1.5px solid rgba(255, 255, 255, 0.26);
-  border-top-color: rgba(255, 255, 255, 0.7);
-  box-shadow:
-    0 22px 50px rgba(0, 0, 0, 0.8),
-    0 0 25px rgba(245, 158, 11, 0.2),
-    inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  border-radius: 24px;
+  padding: 0;
   backface-visibility: visible;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: border-color 0.35s ease, box-shadow 0.35s ease;
+  transition: filter 0.35s ease;
 }
 
 .card-3d-inner {
   width: 100%;
   height: 100%;
+  border-radius: 24px;
+  padding: 15px;
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  /* 液態玻璃 + 皇家深邃浮雕底紋 */
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.26) 0%, transparent 60%),
+    linear-gradient(155deg, rgba(255, 255, 255, 0.18) 0%, rgba(15, 23, 42, 0.86) 42%, rgba(6, 10, 24, 0.96) 100%);
+  backdrop-filter: blur(26px) saturate(210%);
+  -webkit-backdrop-filter: blur(26px) saturate(210%);
+  border: 2px solid rgba(251, 191, 36, 0.42);
+  border-top-color: rgba(255, 255, 255, 0.85);
+  border-left-color: rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 22px 48px rgba(0, 0, 0, 0.85),
+    0 0 24px rgba(245, 158, 11, 0.22),
+    inset 0 2px 4px rgba(255, 255, 255, 0.65),
+    inset 0 -4px 8px rgba(0, 0, 0, 0.75),
+    inset 0 0 0 3px rgba(251, 191, 36, 0.14);
+  animation: cardIndividualFloat 3.8s ease-in-out infinite;
+  transition: transform 0.38s cubic-bezier(0.2, 0.9, 0.3, 1.2),
+              border-color 0.35s ease,
+              box-shadow 0.35s ease;
 }
 
-/* Active card in front center: prominent glow and inner scale focus */
+/* 華麗幾何暗紋與皇家雕花紋路 (Ornate Damask & Sacred Geometry Pattern) */
+.card-3d-inner::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: 19px;
+  border: 1px dashed rgba(251, 191, 36, 0.38);
+  background-image:
+    radial-gradient(circle at 50% 38%, rgba(251, 191, 36, 0.14) 0%, transparent 58%),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 2px, transparent 2px, transparent 8px),
+    repeating-linear-gradient(-45deg, rgba(251, 191, 36, 0.035) 0px, rgba(251, 191, 36, 0.035) 2px, transparent 2px, transparent 8px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 全息雷射流光掃描鍍膜 */
+.card-3d-inner::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 65%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.24), rgba(251, 191, 36, 0.2), transparent);
+  transform: rotate(25deg);
+  animation: foilShimmerSweep 5.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 正前方聚焦卡牌：浮雕金框與放大立體感 */
 .card-3d-item.active-3d-card {
-  border-color: #FBBF24 !important;
-  border-top-color: #FFFFFF !important;
-  box-shadow:
-    0 28px 75px rgba(0, 0, 0, 0.95),
-    0 0 60px rgba(245, 158, 11, 0.75),
-    0 0 35px rgba(6, 182, 212, 0.55),
-    inset 0 0 25px rgba(251, 191, 36, 0.45) !important;
-  z-index: 50;
+  z-index: 60;
 }
 
 .card-3d-item.active-3d-card .card-3d-inner {
-  transform: scale(1.08);
+  transform: scale(1.11) translateY(-6px);
+  border-color: #FDE047 !important;
+  border-top-color: #FFFFFF !important;
+  box-shadow:
+    0 30px 75px rgba(0, 0, 0, 0.95),
+    0 0 55px rgba(245, 158, 11, 0.8),
+    0 0 32px rgba(6, 182, 212, 0.6),
+    inset 0 2px 5px rgba(255, 255, 255, 0.9),
+    inset 0 -4px 10px rgba(217, 119, 6, 0.5),
+    inset 0 0 0 4px rgba(253, 224, 71, 0.35) !important;
 }
 
-.card-3d-item:hover {
-  border-color: rgba(251, 191, 36, 0.9);
+.card-3d-item:hover .card-3d-inner {
+  border-color: #FDE047;
+}
+
+.crest-spin-ring {
+  animation: spinSlowCrest 16s linear infinite;
 }
 
 @media (max-width: 639px) {
   .carousel-3d-scene {
-    height: 290px;
+    height: 270px;
     perspective: 850px;
   }
   .carousel-3d-ring {
-    width: 180px;
-    height: 250px;
+    width: 184px;
+    height: 248px;
   }
-  .card-3d-item {
-    padding: 14px;
+  .card-3d-inner {
+    padding: 12px;
     border-radius: 20px;
   }
 }
 
 /* ==========================================================================
-   3. LIQUID GLASS (液態玻璃) SYSTEM
+   3. TRUE SPECULAR LIQUID GLASS & 3D EMBOSSED RELIEF (液態玻璃與立體浮雕工藝)
    ========================================================================== */
-.liquid-glass-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(15, 23, 42, 0.75) 45%, rgba(6, 10, 20, 0.9) 100%);
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-top-color: rgba(255, 255, 255, 0.35);
-  border-left-color: rgba(255, 255, 255, 0.25);
+.liquid-glass-card,
+.lab-card {
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.04) 45%, transparent 100%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, rgba(15, 23, 42, 0.68) 52%, rgba(8, 13, 26, 0.82) 100%);
+  backdrop-filter: blur(26px) saturate(200%) brightness(1.06);
+  -webkit-backdrop-filter: blur(26px) saturate(200%) brightness(1.06);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  border-top: 2px solid rgba(255, 255, 255, 0.68);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.45);
   box-shadow:
-    0 16px 40px rgba(0, 0, 0, 0.5),
-    0 0 30px rgba(245, 158, 11, 0.06),
-    inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    0 18px 42px rgba(0, 0, 0, 0.6),
+    0 4px 18px rgba(245, 158, 11, 0.1),
+    inset 0 2px 3px rgba(255, 255, 255, 0.55),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.07);
   position: relative;
   overflow: hidden;
-  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
-              border-color 0.28s ease,
-              box-shadow 0.28s ease;
+  transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.26s ease,
+              box-shadow 0.26s ease;
 }
 
-.liquid-glass-card:hover {
-  border-color: rgba(251, 191, 36, 0.55);
-  border-top-color: rgba(255, 255, 255, 0.5);
+/* 液態玻璃頂部水滴折射高光弧線 */
+.liquid-glass-card::before,
+.lab-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), rgba(253, 224, 71, 0.7), transparent);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.liquid-glass-card:hover,
+.lab-card:hover {
+  border-color: rgba(251, 191, 36, 0.65);
+  border-top-color: #ffffff;
   box-shadow:
-    0 20px 48px rgba(0, 0, 0, 0.65),
-    0 0 35px rgba(245, 158, 11, 0.16),
-    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+    0 22px 52px rgba(0, 0, 0, 0.7),
+    0 0 32px rgba(245, 158, 11, 0.22),
+    inset 0 2px 4px rgba(255, 255, 255, 0.72),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.55);
 }
 
+/* 3D 浮雕凹槽內嵌面盤 (Embossed Recessed Well) */
+.embossed-well {
+  background: linear-gradient(180deg, rgba(3, 6, 15, 0.92) 0%, rgba(12, 19, 36, 0.85) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom-color: rgba(255, 255, 255, 0.32);
+  box-shadow:
+    inset 0 4px 10px rgba(0, 0, 0, 0.85),
+    inset 0 1px 2px rgba(0, 0, 0, 0.9),
+    0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+/* 3D 皇家金屬浮雕徽章 (Embossed Relief Badge) */
+.embossed-badge {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(245, 158, 11, 0.25) 50%, rgba(15, 23, 42, 0.85) 100%);
+  border: 1px solid rgba(253, 224, 71, 0.55);
+  border-top-color: rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.45),
+    inset 0 1px 2px rgba(255, 255, 255, 0.65),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* 液態玻璃按鈕系統 (含水滴折射與浮雕手感) */
 .liquid-glass-btn {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(245, 158, 11, 0.2) 50%, rgba(15, 23, 42, 0.65) 100%);
-  backdrop-filter: blur(14px) saturate(160%);
-  -webkit-backdrop-filter: blur(14px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  border-top-color: rgba(255, 255, 255, 0.45);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.32) 0%, transparent 70%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(245, 158, 11, 0.24) 50%, rgba(15, 23, 42, 0.72) 100%);
+  backdrop-filter: blur(18px) saturate(190%);
+  -webkit-backdrop-filter: blur(18px) saturate(190%);
+  border: 1.5px solid rgba(255, 255, 255, 0.32);
+  border-top-color: rgba(255, 255, 255, 0.78);
   box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.4),
-    0 0 20px rgba(245, 158, 11, 0.18),
-    inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    0 8px 22px rgba(0, 0, 0, 0.48),
+    0 0 18px rgba(245, 158, 11, 0.2),
+    inset 0 2px 2px rgba(255, 255, 255, 0.6),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.45);
   position: relative;
   overflow: hidden;
-  transition: all 0.24s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
   cursor: pointer;
   user-select: none;
 }
 
 .liquid-glass-btn:hover {
   transform: translateY(-2px);
-  border-color: rgba(251, 191, 36, 0.7);
+  border-color: rgba(253, 224, 71, 0.85);
+  border-top-color: #ffffff;
   box-shadow:
-    0 12px 30px rgba(0, 0, 0, 0.5),
-    0 0 28px rgba(245, 158, 11, 0.35),
-    inset 0 1px 2px rgba(255, 255, 255, 0.6);
+    0 12px 28px rgba(0, 0, 0, 0.6),
+    0 0 28px rgba(245, 158, 11, 0.42),
+    inset 0 2px 3px rgba(255, 255, 255, 0.8),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .liquid-glass-btn:active {
@@ -310,29 +434,71 @@ body.cursor-is-clicking #custom-cursor-ring {
 }
 
 .liquid-glass-amber {
-  background: linear-gradient(135deg, rgba(251, 191, 36, 0.35) 0%, rgba(245, 158, 11, 0.7) 50%, rgba(217, 119, 6, 0.9) 100%) !important;
-  color: #060911 !important;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.65) 0%, transparent 65%),
+    linear-gradient(135deg, #FDE047 0%, #F59E0B 55%, #D97706 100%) !important;
+  color: #050811 !important;
   font-weight: 900 !important;
-  border: 1px solid rgba(255, 255, 255, 0.5) !important;
-  box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.85) !important;
+  box-shadow:
+    0 10px 28px rgba(245, 158, 11, 0.5),
+    inset 0 2px 3px rgba(255, 255, 255, 0.92),
+    inset 0 -3px 5px rgba(146, 64, 14, 0.65) !important;
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.liquid-glass-amber:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 14px 36px rgba(245, 158, 11, 0.7),
+    inset 0 2px 4px #ffffff !important;
 }
 
 .liquid-glass-cyan {
-  background: linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(14, 116, 144, 0.5) 50%, rgba(15, 23, 42, 0.7) 100%);
-  border: 1px solid rgba(6, 182, 212, 0.45);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 20px rgba(6, 182, 212, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.35) 0%, transparent 68%),
+    linear-gradient(135deg, rgba(6, 182, 212, 0.32) 0%, rgba(14, 116, 144, 0.62) 55%, rgba(15, 23, 42, 0.8) 100%);
+  backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(103, 232, 249, 0.55);
+  border-top-color: rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.45),
+    0 0 20px rgba(6, 182, 212, 0.28),
+    inset 0 2px 2px rgba(255, 255, 255, 0.55),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  transition: all 0.22s ease;
 }
 
 .liquid-glass-emerald {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(5, 150, 105, 0.65) 100%);
-  border: 1px solid rgba(52, 211, 153, 0.5);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 20px rgba(16, 185, 129, 0.25);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.45) 0%, transparent 65%),
+    linear-gradient(135deg, rgba(52, 211, 153, 0.45) 0%, rgba(5, 150, 105, 0.78) 100%);
+  backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(110, 231, 183, 0.65);
+  border-top-color: rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.45),
+    0 0 20px rgba(16, 185, 129, 0.35),
+    inset 0 2px 2px rgba(255, 255, 255, 0.65);
+  cursor: pointer;
+  transition: all 0.22s ease;
 }
 
 .liquid-glass-red {
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(185, 28, 28, 0.65) 100%);
-  border: 1px solid rgba(248, 113, 113, 0.5);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 20px rgba(239, 68, 68, 0.25);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.38) 0%, transparent 65%),
+    linear-gradient(135deg, rgba(248, 113, 113, 0.4) 0%, rgba(185, 28, 28, 0.78) 100%);
+  backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(252, 165, 165, 0.6);
+  border-top-color: rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.45),
+    0 0 22px rgba(239, 68, 68, 0.35),
+    inset 0 2px 2px rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  transition: all 0.22s ease;
 }
 
 /* ==========================================================================
@@ -449,7 +615,7 @@ body.cursor-is-clicking #custom-cursor-ring {
 }
 
 .shake-screen {
-  animation: labShake 0.55s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  animation: labShake 0.55s cubic-bezier(0.36, 0.07, 0.19, 0.97);
 }
 
 @keyframes sugarDizzyWobble {

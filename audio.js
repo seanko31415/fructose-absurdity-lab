@@ -41,7 +41,7 @@ class FructoseAudioEngine {
   }
 
   // ========================================================================
-  // PROCEDURAL SCI-FI LAB AMBIENT BGM (背景環境音樂合成器)
+  // PROCEDURAL SCI-FI LAB AMBIENT BGM (高音質立體聲科幻實驗室背景音樂)
   // ========================================================================
   startBGM() {
     if (this.bgmPlaying) return;
@@ -51,74 +51,90 @@ class FructoseAudioEngine {
     try {
       const now = this.ctx.currentTime;
       const masterBgmGain = this.ctx.createGain();
-      masterBgmGain.gain.setValueAtTime(0.001, now);
-      masterBgmGain.gain.exponentialRampToValueAtTime(0.065, now + 2.5); // 舒適柔和背景音量
+      masterBgmGain.gain.setValueAtTime(0.01, now);
+      // 大幅提升背景音樂音量，清晰溫暖不刺耳
+      masterBgmGain.gain.exponentialRampToValueAtTime(0.32, now + 1.2);
       masterBgmGain.connect(this.ctx.destination);
 
-      // 溫暖低音濾波器 (緩慢呼吸掃頻)
+      // 溫暖立體聲濾波器 (緩慢呼吸掃頻)
       const filter = this.ctx.createBiquadFilter();
       filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(260, now);
-      filter.Q.setValueAtTime(3.2, now);
+      filter.frequency.setValueAtTime(520, now);
+      filter.Q.setValueAtTime(2.4, now);
       filter.connect(masterBgmGain);
 
-      // 濾波調製 LFO (超慢速呼吸)
+      // 濾波調製 LFO
       const lfo = this.ctx.createOscillator();
       const lfoGain = this.ctx.createGain();
-      lfo.frequency.setValueAtTime(0.12, now); // ~8秒一個週期
-      lfoGain.gain.setValueAtTime(140, now);
+      lfo.frequency.setValueAtTime(0.18, now);
+      lfoGain.gain.setValueAtTime(220, now);
       lfo.connect(lfoGain);
       lfoGain.connect(filter.frequency);
       lfo.start(now);
 
-      // 雙溫暖正弦振盪器 (C2: 65.41Hz, G2: 98.00Hz, 微失諧)
+      // 豐滿三和弦 Pad 振盪器 (C3: 130.81Hz, G3: 196.00Hz, E4: 329.63Hz)
       const osc1 = this.ctx.createOscillator();
       osc1.type = 'sine';
-      osc1.frequency.setValueAtTime(65.41, now);
+      osc1.frequency.setValueAtTime(130.81, now);
 
       const osc2 = this.ctx.createOscillator();
       osc2.type = 'triangle';
-      osc2.frequency.setValueAtTime(98.00 + 0.35, now);
+      osc2.frequency.setValueAtTime(196.00 + 0.4, now);
+
+      const osc3 = this.ctx.createOscillator();
+      osc3.type = 'sine';
+      osc3.frequency.setValueAtTime(246.94, now);
 
       const droneGain = this.ctx.createGain();
-      droneGain.gain.setValueAtTime(0.45, now);
+      droneGain.gain.setValueAtTime(0.38, now);
 
       osc1.connect(droneGain);
       osc2.connect(droneGain);
+      osc3.connect(droneGain);
       droneGain.connect(filter);
 
       osc1.start(now);
       osc2.start(now);
+      osc3.start(now);
 
-      this.bgmNodes = { masterBgmGain, filter, lfo, osc1, osc2 };
+      this.bgmNodes = { masterBgmGain, filter, lfo, osc1, osc2, osc3 };
       this.bgmPlaying = true;
 
-      // 隨機實驗室微泡/晶體風鈴琶音 (每 2.5 ~ 4.5 秒輕柔響起一次)
-      const pentatonic = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 659.25];
+      // 科幻水晶五聲音階旋律琶音 (每 0.9 ~ 1.6 秒清脆響起)
+      const pentatonic = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25, 783.99];
+      let noteStep = 0;
       const scheduleAmbientSparkle = () => {
         if (!this.bgmPlaying || !this.ctx) return;
         const curTime = this.ctx.currentTime;
-        const freq = pentatonic[Math.floor(Math.random() * pentatonic.length)];
+        const freq = pentatonic[(noteStep + Math.floor(Math.random() * 3)) % pentatonic.length];
+        noteStep = (noteStep + 1) % pentatonic.length;
 
         const bellOsc = this.ctx.createOscillator();
+        const subOsc = this.ctx.createOscillator();
         const bellGain = this.ctx.createGain();
+
         bellOsc.type = 'sine';
         bellOsc.frequency.setValueAtTime(freq, curTime);
+        subOsc.type = 'triangle';
+        subOsc.frequency.setValueAtTime(freq * 0.5, curTime);
 
-        bellGain.gain.setValueAtTime(0.018, curTime);
-        bellGain.gain.exponentialRampToValueAtTime(0.0001, curTime + 1.8);
+        bellGain.gain.setValueAtTime(0.28, curTime);
+        bellGain.gain.exponentialRampToValueAtTime(0.001, curTime + 1.4);
 
         bellOsc.connect(bellGain);
+        subOsc.connect(bellGain);
         bellGain.connect(masterBgmGain);
 
         bellOsc.start(curTime);
-        bellOsc.stop(curTime + 1.9);
+        subOsc.start(curTime);
+        bellOsc.stop(curTime + 1.45);
+        subOsc.stop(curTime + 1.45);
 
-        const nextDelay = 2200 + Math.random() * 2600;
+        const nextDelay = 850 + Math.random() * 750;
         this.bgmTimer = setTimeout(scheduleAmbientSparkle, nextDelay);
       };
 
-      this.bgmTimer = setTimeout(scheduleAmbientSparkle, 1800);
+      this.bgmTimer = setTimeout(scheduleAmbientSparkle, 300);
     } catch (e) {
       console.warn('BGM initialization deferred until user interaction', e);
     }
@@ -134,15 +150,16 @@ class FructoseAudioEngine {
       const now = this.ctx.currentTime;
       try {
         this.bgmNodes.masterBgmGain.gain.setValueAtTime(this.bgmNodes.masterBgmGain.gain.value, now);
-        this.bgmNodes.masterBgmGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+        this.bgmNodes.masterBgmGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
         setTimeout(() => {
           try {
             this.bgmNodes.osc1.stop();
             this.bgmNodes.osc2.stop();
+            if (this.bgmNodes.osc3) this.bgmNodes.osc3.stop();
             this.bgmNodes.lfo.stop();
           } catch (e) {}
           this.bgmNodes = null;
-        }, 700);
+        }, 600);
       } catch (e) {
         this.bgmNodes = null;
       }
@@ -159,6 +176,26 @@ class FructoseAudioEngine {
       this.startBGM();
       return true;
     }
+  }
+
+  // 通用頻率音調合成器 (供折射儀、量子反應爐、神經元調諧器調用)
+  playTone(freq = 440, type = 'sine', duration = 0.15, vol = 0.18) {
+    if (!this.soundEnabled) return;
+    this.init();
+    if (!this.ctx) return;
+    try {
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(Math.max(40, Math.min(4000, freq)), now);
+      gain.gain.setValueAtTime(vol, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + duration + 0.02);
+    } catch (e) {}
   }
 
   // ========================================================================

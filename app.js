@@ -109,9 +109,11 @@
   }
 
   function triggerLabShake() {
-    document.body.classList.remove('shake-screen');
-    void document.body.offsetWidth;
-    document.body.classList.add('shake-screen');
+    const frame = document.getElementById('viewport-simulator-frame') || document.body;
+    frame.classList.remove('shake-screen');
+    void frame.offsetWidth;
+    frame.classList.add('shake-screen');
+    setTimeout(() => frame.classList.remove('shake-screen'), 580);
     if (navigator.vibrate) {
       try { navigator.vibrate([70, 30, 90]); } catch (e) {}
     }
@@ -151,7 +153,7 @@
   }
 
   // ========================================================================
-  // 2. 3D 環繞卡牌登入介面 (3D Orbiting Card Carousel Login Portal)
+  // 2. 3D 皇家浮雕標紋卡牌登入介面 (Royal Filigree 3D Orbiting Card Portal)
   // ========================================================================
   function render3DCarouselCards() {
     const ring = document.getElementById('carousel-3d-ring');
@@ -161,34 +163,63 @@
     const count = cards.length;
     const stepDeg = 360 / count;
     const isMobile = window.innerWidth < 640;
-    const radius = isMobile ? 200 : 260;
+    const radius = isMobile ? 205 : 265;
 
     ring.innerHTML = cards.map((c, idx) => {
       const isSelected = idx === appState.carouselIndex;
       const angle = idx * stepDeg;
+      const floatDelay = (idx * -0.75).toFixed(2);
       return `
         <div onclick="window.LabApp.select3DCard(${idx})"
              style="transform: rotateY(${angle}deg) translateZ(${radius}px);"
              class="card-3d-item ${isSelected ? 'active-3d-card' : ''}">
-          <div class="card-3d-inner w-full h-full flex flex-col justify-between select-none">
-            <div>
-              <div class="flex items-center justify-between font-mono text-[9px] text-slate-400 mb-1.5">
-                <span style="color:${c.accent}" class="font-extrabold tracking-wider">${c.code}</span>
-                <span class="px-2 py-0.5 rounded-full bg-slate-900/90 border border-amber-500/40 text-amber-300 font-mono text-[10px] font-bold shadow-sm">${c.initCubes} 顆</span>
+          <div class="card-3d-inner w-full h-full flex flex-col justify-between select-none"
+               style="animation-delay: ${floatDelay}s;">
+
+            <!-- 四角皇家燙金浮雕紋飾 (Royal Gold Corner Filigree SVG) -->
+            <svg viewBox="0 0 100 100" class="absolute inset-1.5 w-[calc(100%-12px)] h-[calc(100%-12px)] pointer-events-none z-0 opacity-75">
+              <!-- 左上雕花 -->
+              <path d="M2,22 L2,6 Q2,2 6,2 L22,2 M6,14 L14,6 M2,10 Q10,10 10,2" fill="none" stroke="${c.accent}" stroke-width="1.5" />
+              <!-- 右上雕花 -->
+              <path d="M98,22 L98,6 Q98,2 94,2 L78,2 M94,14 L86,6 M98,10 Q90,10 90,2" fill="none" stroke="${c.accent}" stroke-width="1.5" />
+              <!-- 左下雕花 -->
+              <path d="M2,78 L2,94 Q2,98 6,98 L22,98 M6,86 L14,94 M2,90 Q10,90 10,98" fill="none" stroke="${c.accent}" stroke-width="1.5" />
+              <!-- 右下雕花 -->
+              <path d="M98,78 L98,94 Q98,98 94,98 L78,98 M94,86 L86,94 M98,90 Q90,90 90,98" fill="none" stroke="${c.accent}" stroke-width="1.5" />
+              <!-- 中央神聖幾何菱紋標紋 -->
+              <polygon points="50,6 92,50 50,94 8,50" fill="none" stroke="rgba(253,224,71,0.16)" stroke-width="0.8" stroke-dasharray="2 2" />
+            </svg>
+
+            <div class="relative z-10">
+              <div class="flex items-center justify-between font-mono text-[9px] mb-1 px-1">
+                <span style="color:${c.accent}" class="font-extrabold tracking-widest uppercase">⚜ ${c.code}</span>
+                <span class="embossed-badge px-2 py-0.5 rounded-full text-amber-200 font-mono text-[10px] font-black">${c.initCubes}顆</span>
               </div>
-              <div class="w-14 h-14 rounded-2xl mx-auto my-2 flex items-center justify-center text-3xl border shadow-lg"
-                   style="background:${c.accent}25; border-color:${c.accent}; box-shadow: 0 0 22px ${c.accent}45;">
-                ${c.icon}
+
+              <!-- 皇家星盤浮雕徽章座 (Spinning Astral Crest Medallion) -->
+              <div class="relative w-16 h-16 mx-auto my-1.5 flex items-center justify-center">
+                <svg viewBox="0 0 80 80" class="w-full h-full absolute inset-0 crest-spin-ring pointer-events-none">
+                  <circle cx="40" cy="40" r="36" fill="none" stroke="${c.accent}" stroke-width="1.2" stroke-dasharray="5 3" opacity="0.75" />
+                  <polygon points="40,2 44,10 36,10" fill="#FDE047" />
+                  <polygon points="40,78 44,70 36,70" fill="#FDE047" />
+                  <polygon points="2,40 10,44 10,36" fill="#FDE047" />
+                  <polygon points="78,40 70,44 70,36" fill="#FDE047" />
+                </svg>
+                <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl border-2 shadow-xl"
+                     style="background: radial-gradient(circle, ${c.accent}44 0%, #050811 90%); border-color:${c.accent}; box-shadow: 0 0 22px ${c.accent}66, inset 0 1px 3px rgba(255,255,255,0.7);">
+                  ${c.icon}
+                </div>
               </div>
-              <h3 class="text-base font-black text-white text-center leading-tight tracking-tight">${c.title}</h3>
-              <p class="text-[11px] text-cyan-300 text-center mt-1 font-mono">${c.subtitle}</p>
+
+              <h3 class="text-sm sm:text-base font-black text-white text-center leading-tight tracking-tight drop-shadow">${c.title}</h3>
+              <p class="text-[10px] text-cyan-300 text-center mt-0.5 font-mono">${c.subtitle}</p>
             </div>
 
-            <div class="space-y-2 mt-2">
-              <div class="p-2 rounded-xl bg-slate-950/85 border border-white/10 text-[11px] text-slate-200 leading-snug">
-                <strong class="text-amber-300">特性：</strong>${c.perk}
+            <div class="relative z-10 space-y-1.5 mt-1">
+              <div class="embossed-well px-2.5 py-1.5 rounded-xl text-[10px] text-amber-200 font-bold text-center truncate">
+                ✦ ${c.perk}
               </div>
-              <div class="text-[10px] italic text-slate-400 text-center truncate px-1">${c.quote}</div>
+              <div class="text-[9px] italic text-slate-300 text-center truncate px-1">${c.quote}</div>
             </div>
           </div>
         </div>
@@ -286,16 +317,17 @@
     requestAnimationFrame(render);
   }
 
-  // 3D 卡牌平滑自動旋轉
+  // 3D 卡牌平滑自動旋轉（滑鼠靠近時變慢轉動，絕不完全卡住停止！）
   function start3DAutoOrbit() {
     if (appState.carouselRafId) return;
     let lastTime = performance.now();
     function orbitStep(time) {
       const delta = Math.min(64, time - lastTime);
       lastTime = time;
-      if (appState.carouselAutoRotate && !appState.carouselPausedByHover) {
-        // 每秒旋轉 ~16 度，平滑優雅
-        appState.carouselAngle -= 0.026 * delta;
+      if (appState.carouselAutoRotate) {
+        // 滑鼠靠近時減速為 1/4 慢速優雅旋轉，移開時恢復正常巡航速度
+        const speed = appState.carouselPausedByHover ? 0.0068 : 0.028;
+        appState.carouselAngle -= speed * delta;
         const ring = document.getElementById('carousel-3d-ring');
         if (ring) {
           ring.style.transform = `rotateY(${appState.carouselAngle}deg)`;
@@ -814,29 +846,58 @@
     }
   }
 
+  // 3D 立體浮雕方糖鑄造機 (Embossed Sugar Mint Press)
+  let mintedSugarCount = 4;
+  function mintEmbossedSugar(icon = '🧊', label = '水晶方糖', cubes = 3) {
+    mintedSugarCount += 1;
+    const counter = document.getElementById('minted-sugar-counter');
+    const showcase = document.getElementById('minted-crystal-showcase');
+    if (counter) counter.textContent = `已鑄造: ${mintedSugarCount} 枚`;
+    if (showcase) {
+      const badge = document.createElement('span');
+      badge.className = 'embossed-badge px-2 py-0.5 rounded-lg text-xs font-bold text-amber-200 inline-flex items-center gap-1 animate-bounce';
+      badge.innerHTML = `<span>${icon}</span><span class="text-[10px]">+${cubes}</span>`;
+      showcase.appendChild(badge);
+      setTimeout(() => badge.classList.remove('animate-bounce'), 900);
+      if (showcase.children.length > 12) {
+        showcase.removeChild(showcase.children[1]);
+      }
+    }
+    window.labAudio.playSugarDrop(Math.min(cubes, 5));
+    setGlobalSugarCubes(appState.globalSugarCubes + cubes, { syncLadder: true });
+    showToast(`⚜️ 壓鑄「${label}」成功`, `已鑄造立體浮雕結晶，天平注入 +${cubes} 顆方糖！`, 'amber');
+  }
+
   function renderBeverageBenchmarkCards() {
     const grid = document.getElementById('beverage-benchmark-grid');
     if (!grid) return;
 
-    grid.innerHTML = DATA.beverageStandards.map(b => `
-      <button onclick="window.LabApp.selectBeverageStandard(${b.level}, ${b.cubes})"
-              class="lab-card rounded-2xl p-4 text-left transition-all relative overflow-hidden group ${
-                b.isCritical ? 'border-red-500/70 bg-red-950/25 shadow-[0_0_25px_rgba(239,68,68,0.2)]' : ''
-              }">
-        <div class="flex items-center justify-between gap-1 mb-2">
-          <span class="font-mono text-[10px] font-bold px-2 py-0.5 rounded" style="background:${b.color}22; color:${b.color}; border:1px solid ${b.color}66">
-            ${b.tag}
-          </span>
-          <span class="font-mono text-xs text-slate-400">${b.bpm} BPM</span>
-        </div>
-        <div class="text-base font-black text-white group-hover:text-amber-300 transition-colors">${b.title}</div>
-        <div class="mt-2 flex items-baseline gap-2 font-mono">
-          <span class="text-2xl font-extrabold text-amber-400">${b.cubes} 顆</span>
-          <span class="text-xs text-slate-400">/ ${b.grams} g</span>
-        </div>
-        <p class="text-xs text-slate-300 mt-2 leading-relaxed">${b.desc}</p>
-      </button>
-    `).join('');
+    grid.innerHTML = DATA.beverageStandards.map((b, idx) => {
+      const fillPct = Math.min(92, 18 + idx * 19);
+      return `
+        <button onclick="window.LabApp.selectBeverageStandard(${b.level}, ${b.cubes})"
+                class="liquid-glass-card rounded-2xl p-3 text-left transition-all relative overflow-hidden group ${
+                  b.isCritical ? 'border-red-400/80 shadow-[0_0_25px_rgba(239,68,68,0.28)]' : ''
+                }">
+          <div class="flex items-center justify-between gap-1 mb-1.5">
+            <span class="embossed-badge font-mono text-[9px] font-bold px-2 py-0.5 rounded" style="color:${b.color}; border-color:${b.color}88">
+              ${b.tag}
+            </span>
+            <!-- 視覺化手搖杯 SVG 圖標 -->
+            <svg viewBox="0 0 32 36" class="w-6 h-7 shrink-0">
+              <path d="M6,6 L26,6 L23,32 Q22.5,34 20,34 L12,34 Q9.5,34 9,32 Z" fill="rgba(15,23,42,0.85)" stroke="${b.color}" stroke-width="1.8" />
+              <rect x="8" y="${34 - (fillPct * 0.24)}" width="16" height="${fillPct * 0.24}" rx="2" fill="${b.color}" opacity="0.65" />
+              <line x1="18" y1="1" x2="14" y2="30" stroke="#FDE047" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </div>
+          <div class="text-xs sm:text-sm font-black text-white group-hover:text-amber-300 transition-colors truncate">${b.title}</div>
+          <div class="mt-1 flex items-baseline gap-1.5 font-mono">
+            <span class="text-lg sm:text-xl font-extrabold text-amber-300">${b.cubes}顆</span>
+            <span class="text-[10px] text-slate-400">/ ${b.grams}g</span>
+          </div>
+        </button>
+      `;
+    }).join('');
   }
 
   function selectBeverageStandard(level, cubes) {
@@ -865,7 +926,6 @@
     renderLadderSection();
   }
 
-  
   // 光學果糖折射儀 (Holographic Optical Brix Refractometer)
   function adjustRefractometer(brixVal) {
     const b = parseFloat(brixVal) || 12;
@@ -882,13 +942,16 @@
       brixDisplay.textContent = `Brix: ${b.toFixed(1)}°Bx (${levelName})`;
     }
     if (disc) {
-      disc.style.left = `${Math.min(88, Math.max(8, (b / 65) * 80 + 10))}%`;
+      const leftPct = Math.min(86, Math.max(14, (b / 65) * 72 + 14));
+      disc.style.left = `${leftPct}%`;
+      disc.style.transform = 'translate(-50%, -50%)';
+      disc.textContent = `${Math.round(b)}°Bx`;
     }
     if (beam) {
       beam.style.filter = `hue-rotate(${b * 5.5}deg)`;
     }
     if (window.labAudio && window.labAudio.playTone) {
-      window.labAudio.playTone(320 + b * 9, 'sine', 0.08, 0.05);
+      window.labAudio.playTone(320 + b * 9, 'sine', 0.08, 0.06);
     }
   }
 
@@ -919,36 +982,36 @@
     const spotlight = document.getElementById('ladder-detail-card');
     if (spotlight) {
       spotlight.innerHTML = `
-        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/15 pb-3">
           <div>
             <div class="flex items-center gap-2">
-              <span class="font-mono text-xs font-extrabold px-2.5 py-1 rounded border ${item.badgeClass}">
-                LEVEL ${item.level} // ${item.zone}
+              <span class="embossed-badge font-mono text-[10px] font-extrabold px-2.5 py-0.5 rounded ${item.badgeClass}">
+                LV.${item.level} // ${item.stamp}
               </span>
-              <span class="font-mono text-xs text-slate-400">黏稠度：${item.viscosity}</span>
+              <span class="font-mono text-[11px] text-slate-400">黏度 ${item.viscosity}</span>
             </div>
-            <h3 class="text-2xl sm:text-3xl font-black text-white mt-2">${item.name}</h3>
+            <h3 class="text-lg sm:text-2xl font-black text-white mt-1">${item.name}</h3>
           </div>
-          <div class="text-right font-mono bg-slate-950/90 px-4 py-2.5 rounded-2xl border border-amber-500/40">
-            <div class="text-2xl sm:text-3xl font-extrabold text-amber-400">
-              ${item.level === 14 ? '1,000+ 顆' : `${item.cubes} 顆方糖`}
+          <div class="embossed-well text-right font-mono px-3.5 py-2 rounded-2xl">
+            <div class="text-xl sm:text-2xl font-extrabold text-amber-400">
+              ${item.level === 14 ? '1,000+ 顆' : `${item.cubes} 顆`}
             </div>
-            <div class="text-xs text-cyan-300">折合含糖量：${item.grams} g</div>
+            <div class="text-[10px] text-cyan-300">含糖 ${item.grams} g</div>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 text-xs">
-          <div class="p-3.5 rounded-xl bg-slate-950/85 border border-slate-800">
-            <div class="font-mono text-amber-400 font-bold mb-1.5">🩺 臨床生理與心理病徵</div>
-            <p class="text-slate-200 leading-relaxed">${item.symptom}</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 mt-3 text-xs">
+          <div class="embossed-well p-2.5 rounded-xl">
+            <div class="font-mono text-amber-300 font-bold mb-0.5 text-[11px]">🩺 生理反應</div>
+            <p class="text-slate-200 leading-snug break-words">${item.symptom}</p>
           </div>
-          <div class="p-3.5 rounded-xl bg-slate-950/85 border border-slate-800">
-            <div class="font-mono text-cyan-400 font-bold mb-1.5">🏫 校園與社交典型案例</div>
-            <p class="text-slate-200 leading-relaxed">${item.example}</p>
+          <div class="embossed-well p-2.5 rounded-xl">
+            <div class="font-mono text-cyan-300 font-bold mb-0.5 text-[11px]">🎬 典型現場</div>
+            <p class="text-slate-200 leading-snug break-words">${item.example}</p>
           </div>
-          <div class="p-3.5 rounded-xl bg-slate-950/85 border border-slate-800">
-            <div class="font-mono text-emerald-400 font-bold mb-1.5">💊 果糖怪建議解毒處方</div>
-            <p class="text-slate-200 leading-relaxed">${item.prescription}</p>
+          <div class="embossed-well p-2.5 rounded-xl">
+            <div class="font-mono text-emerald-300 font-bold mb-0.5 text-[11px]">💊 解毒處方</div>
+            <p class="text-slate-200 leading-snug break-words">${item.prescription}</p>
           </div>
         </div>
       `;
@@ -1559,25 +1622,33 @@
   function updateQuizGaugeAndSummary() {
     const answeredCount = Object.keys(appState.quizAnswers).length;
     const totalCount = appState.activeQuestions ? appState.activeQuestions.length : 20;
-    const isCompleted = answeredCount >= totalCount;
-    const sumCubes = isCompleted ? getQuizSumCubes() : Math.round(getQuizSumCubes() * 0.7);
+    const isCompleted = answeredCount >= totalCount && totalCount > 0;
+    const pct = Math.round((answeredCount / Math.max(1, totalCount)) * 100);
+    const sumCubes = getQuizSumCubes();
     const grams = sumCubes * 5;
     const lvObj = cubesToLevelObj(sumCubes);
 
     const circle = document.getElementById('quiz-gauge-circle');
-    const cubesText = document.getElementById('quiz-gauge-cubes');
-    const gramsText = document.getElementById('quiz-gauge-grams');
-    const lvText = document.getElementById('quiz-gauge-level');
+    const pctEl = document.getElementById('quiz-gauge-pct');
+    const answeredEl = document.getElementById('quiz-gauge-answered');
+    const statusEl = document.getElementById('quiz-gauge-status');
     const pool = document.getElementById('quiz-crystal-pool');
 
-    if (cubesText) {
-      cubesText.textContent = isCompleted ? `${sumCubes} 顆` : `${answeredCount}/${totalCount}`;
+    if (pctEl) {
+      pctEl.textContent = isCompleted ? `${sumCubes} 顆` : `${pct}%`;
+      pctEl.className = isCompleted
+        ? 'font-mono text-2xl font-black text-amber-300 my-0.5'
+        : 'font-mono text-2xl font-black text-cyan-300 my-0.5';
     }
-    if (gramsText) {
-      gramsText.textContent = isCompleted ? `${grams} g` : '作答評估中...';
+    if (answeredEl) {
+      answeredEl.textContent = isCompleted
+        ? `總糖量 ${grams}g`
+        : `${answeredCount} / ${totalCount} 題`;
     }
-    if (lvText) {
-      lvText.textContent = isCompleted ? `Lv.${lvObj.level} ${lvObj.name}` : `已完成 ${Math.round((answeredCount / totalCount) * 100)}%`;
+    if (statusEl) {
+      statusEl.textContent = isCompleted
+        ? `Lv.${lvObj.level} ${lvObj.name}`
+        : answeredCount === 0 ? '等待作答' : '直覺盲測中';
     }
 
     if (circle) {
@@ -1588,12 +1659,14 @@
     }
 
     if (pool) {
-      const iconCount = Math.min(24, Math.max(0, answeredCount));
+      const iconCount = isCompleted
+        ? Math.min(28, Math.max(1, Math.ceil(sumCubes / 4)))
+        : Math.min(24, Math.max(0, answeredCount));
       pool.innerHTML = '';
       for (let i = 0; i < iconCount; i++) {
         const span = document.createElement('span');
-        span.className = 'sugar-cube-item';
-        span.textContent = '🧊';
+        span.className = `sugar-cube-item ${isCompleted && sumCubes >= 50 ? 'syrup-gold' : ''}`;
+        span.textContent = isCompleted && sumCubes >= 50 ? '🍯' : '🧊';
         pool.appendChild(span);
       }
     }
@@ -2147,26 +2220,38 @@
     }
     if (!arena) return;
 
-    arena.innerHTML = '';
     quantumNodes = [
-      { id: 1, x: 20, y: 30, energy: 'F-6-P', color: '#06B6D4' },
-      { id: 2, x: 75, y: 25, energy: 'GLU-1', color: '#F59E0B' },
-      { id: 3, x: 50, y: 55, energy: 'CORE', color: '#A855F7' },
-      { id: 4, x: 25, y: 75, energy: 'ATP-α', color: '#10B981' },
-      { id: 5, x: 78, y: 70, energy: 'BRIX-β', color: '#EC4899' },
-      { id: 6, x: 48, y: 15, energy: 'FROST', color: '#38BDF8' }
+      { id: 1, x: 22, y: 30, energy: 'F-6-P', color: '#06B6D4' },
+      { id: 2, x: 78, y: 30, energy: 'GLU-1', color: '#F59E0B' },
+      { id: 3, x: 50, y: 54, energy: 'CORE', color: '#A855F7' },
+      { id: 4, x: 24, y: 76, energy: 'ATP-α', color: '#10B981' },
+      { id: 5, x: 76, y: 76, energy: 'BRIX-β', color: '#EC4899' },
+      { id: 6, x: 50, y: 22, energy: 'FROST', color: '#38BDF8' }
     ];
+
+    // 繪製分子晶格連線 SVG + 懸浮能量節點
+    arena.innerHTML = `
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" class="absolute inset-0 w-full h-full pointer-events-none opacity-45">
+        <line x1="22" y1="30" x2="50" y2="22" stroke="#06B6D4" stroke-width="0.8" stroke-dasharray="2 2" />
+        <line x1="50" y1="22" x2="78" y2="30" stroke="#F59E0B" stroke-width="0.8" stroke-dasharray="2 2" />
+        <line x1="22" y1="30" x2="50" y2="54" stroke="#A855F7" stroke-width="1" />
+        <line x1="78" y1="30" x2="50" y2="54" stroke="#A855F7" stroke-width="1" />
+        <line x1="24" y1="76" x2="50" y2="54" stroke="#10B981" stroke-width="1" />
+        <line x1="76" y1="76" x2="50" y2="54" stroke="#EC4899" stroke-width="1" />
+        <line x1="24" y1="76" x2="76" y2="76" stroke="#38BDF8" stroke-width="0.8" stroke-dasharray="2 2" />
+      </svg>
+    `;
 
     quantumNodes.forEach(n => {
       const nodeEl = document.createElement('button');
       nodeEl.id = `qnode-${n.id}`;
       nodeEl.onclick = () => stabilizeQuantumNode(n.id);
-      nodeEl.className = 'quantum-energy-node absolute w-10 h-10 rounded-2xl flex flex-col items-center justify-center font-mono text-[9px] font-black border transition-transform hover:scale-125 select-none shadow-lg';
+      nodeEl.className = 'quantum-energy-node absolute w-11 h-11 rounded-2xl flex flex-col items-center justify-center font-mono text-[9px] font-black border transition-transform select-none shadow-lg z-10';
       nodeEl.style.left = `${n.x}%`;
       nodeEl.style.top = `${n.y}%`;
       nodeEl.style.transform = 'translate(-50%, -50%)';
       nodeEl.style.borderColor = n.color;
-      nodeEl.style.backgroundColor = `${n.color}22`;
+      nodeEl.style.backgroundColor = `${n.color}28`;
       nodeEl.style.color = n.color;
       nodeEl.innerHTML = `
         <span class="text-xs leading-none">⚛️</span>
@@ -2362,42 +2447,47 @@
       item => appState.hosFilter === 'ALL' || item.category === appState.hosFilter
     );
 
-    grid.innerHTML = list.map((item, idx) => `
-      <div class="lab-card rounded-2xl p-5 flex flex-col justify-between">
-        <div>
-          <div class="flex items-center justify-between gap-2 flex-wrap mb-2">
-            <div class="flex items-center gap-2">
-              <span class="font-mono text-xs font-black px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">#${idx + 1}</span>
-              <span class="font-mono text-xs text-slate-400">${item.ticket}</span>
-              <span class="text-xs px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">${item.category}</span>
-            </div>
-            <span class="font-mono text-xs text-slate-500">${item.timestamp || '最新'}</span>
-          </div>
-
-          <div class="text-xs text-slate-400 mb-1.5">受測苦主：<strong class="text-white">${item.author}</strong></div>
-          <p class="text-sm text-slate-100 leading-relaxed bg-slate-950/80 p-3.5 rounded-xl border border-slate-800">「${item.story}」</p>
-          <p class="text-xs text-amber-300 mt-2.5 leading-relaxed">💬 <strong>臨床評語：</strong>${item.roast}</p>
-        </div>
-
-        <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between gap-2">
+    grid.innerHTML = list.map((item, idx) => {
+      const lvObj = cubesToLevelObj(item.cubes);
+      const lvNum = item.level !== undefined ? item.level : lvObj.level;
+      const roastText = item.roast || lvObj.symptom || '認證全糖社死案例';
+      const timeStr = item.timestamp || item.date || '最新';
+      return `
+        <div class="liquid-glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between">
           <div>
-            <span class="font-mono text-xs text-slate-400">當前累積：</span>
-            <span class="font-mono text-lg font-extrabold text-amber-400">${item.cubes} 顆</span>
-            <span class="font-mono text-xs text-slate-500">(${item.cubes * 5}g / Lv.${item.level})</span>
+            <div class="flex items-center justify-between gap-2 flex-wrap mb-2">
+              <div class="flex items-center gap-1.5">
+                <span class="embossed-badge font-mono text-xs font-black px-2 py-0.5 rounded text-amber-300">#${idx + 1}</span>
+                <span class="font-mono text-[11px] text-slate-400">${item.ticket}</span>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">${item.category}</span>
+              </div>
+              <span class="font-mono text-[11px] text-slate-400">${timeStr}</span>
+            </div>
+
+            <div class="text-xs text-slate-300 mb-1.5">受測苦主：<strong class="text-white">${item.author}</strong></div>
+            <p class="text-xs sm:text-sm text-slate-100 leading-relaxed embossed-well p-3 rounded-xl break-words">「${item.story}」</p>
+            <p class="text-xs text-amber-300 mt-2 leading-relaxed break-words">💬 <strong>臨床評語：</strong>${roastText}</p>
           </div>
-          <div class="flex items-center gap-1.5">
-            <button onclick="window.LabApp.addSugarToHosItem('${item.id}', 1)"
-                    class="px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/35 border border-amber-400 text-amber-200 font-mono text-xs font-bold transition-all">
-              🧊 +1 顆幫他加糖
-            </button>
-            <button onclick="window.LabApp.addSugarToHosItem('${item.id}', 12)"
-                    class="px-2.5 py-1.5 rounded-xl bg-red-500/20 hover:bg-red-500/35 border border-red-400 text-red-200 font-mono text-xs font-bold transition-all">
-              +12 全糖
-            </button>
+
+          <div class="mt-3 pt-2.5 border-t border-white/15 flex items-center justify-between gap-2">
+            <div>
+              <span class="font-mono text-base sm:text-lg font-extrabold text-amber-400">${item.cubes} 顆</span>
+              <span class="font-mono text-[11px] text-cyan-300">(${item.cubes * 5}g / Lv.${lvNum})</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button onclick="window.LabApp.addSugarToHosItem('${item.id}', 1)"
+                      class="liquid-glass-btn px-2.5 py-1.5 rounded-xl text-amber-200 font-mono text-xs font-bold">
+                🧊 +1顆
+              </button>
+              <button onclick="window.LabApp.addSugarToHosItem('${item.id}', 12)"
+                      class="liquid-glass-amber px-2.5 py-1.5 rounded-xl text-slate-950 font-mono text-xs font-black">
+                +12全糖
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
   function addSugarToHosItem(id, delta = 1) {
@@ -2488,49 +2578,84 @@
   }
 
   // ========================================================================
-  // FLUID DYNAMIC CURSOR & MASCOT EYE TRACKING (自訂流體動態游標與眼睛追蹤)
+  // FLUID DYNAMIC CURSOR & MASCOT EYE TRACKING (100% 精準跟隨鼠標 + 流光粒子尾跡)
   // ========================================================================
   function initCustomFluidCursor() {
     const dot = document.getElementById('custom-cursor-dot');
     const ring = document.getElementById('custom-cursor-ring');
     if (!dot || !ring) return;
 
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let ringX = mouseX;
-    let ringY = mouseY;
+    let mouseX = -100;
+    let mouseY = -100;
+    let ringX = -100;
+    let ringY = -100;
+    let lastSparkTime = 0;
 
-    window.addEventListener('mousemove', (e) => {
+    const onPointerMove = (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
+      // 核心光點 100% 零延遲同步貼合鼠標尖端
       dot.style.left = `${mouseX}px`;
       dot.style.top = `${mouseY}px`;
+      // 若初次移入畫面，立即將外環同步至鼠標位置避免從左上角飛入
+      if (ringX < 0 || Math.hypot(mouseX - ringX, mouseY - ringY) > 180) {
+        ringX = mouseX;
+        ringY = mouseY;
+        ring.style.left = `${ringX}px`;
+        ring.style.top = `${ringY}px`;
+      }
       updateMascotEyes(mouseX, mouseY);
-    });
+
+      // 產生星塵微粒尾跡
+      const now = performance.now();
+      if (now - lastSparkTime > 55) {
+        lastSparkTime = now;
+        const spark = document.createElement('div');
+        spark.className = 'cursor-trail-spark';
+        spark.style.left = `${mouseX}px`;
+        spark.style.top = `${mouseY}px`;
+        spark.style.background = Math.random() > 0.5 ? '#FDE047' : '#38BDF8';
+        spark.style.boxShadow = `0 0 8px ${spark.style.background}`;
+        document.body.appendChild(spark);
+        setTimeout(() => {
+          if (typeof spark.remove === 'function') spark.remove();
+        }, 480);
+      }
+    };
+
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+    window.addEventListener('mousemove', onPointerMove, { passive: true });
 
     function renderCursorRing() {
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
-      ring.style.left = `${ringX}px`;
-      ring.style.top = `${ringY}px`;
+      // 高響應係數 (0.68) 確保外環緊貼鼠標不脫節，同時保有液態微彈感
+      ringX += (mouseX - ringX) * 0.68;
+      ringY += (mouseY - ringY) * 0.68;
+      ring.style.left = `${ringX.toFixed(1)}px`;
+      ring.style.top = `${ringY.toFixed(1)}px`;
       requestAnimationFrame(renderCursorRing);
     }
     requestAnimationFrame(renderCursorRing);
 
     document.addEventListener('mouseover', (e) => {
-      if (e.target.closest('button, a, input, textarea, select, [role="button"], .card-3d-item, .cursor-pointer, .liquid-glass-btn')) {
+      if (e.target && e.target.closest && e.target.closest('button, a, input, textarea, select, [role="button"], .card-3d-item, .cursor-pointer, .liquid-glass-btn')) {
         document.body.classList.add('cursor-is-hovering');
       }
     });
 
     document.addEventListener('mouseout', (e) => {
-      if (e.target.closest('button, a, input, textarea, select, [role="button"], .card-3d-item, .cursor-pointer, .liquid-glass-btn')) {
+      if (e.target && e.target.closest && e.target.closest('button, a, input, textarea, select, [role="button"], .card-3d-item, .cursor-pointer, .liquid-glass-btn')) {
         document.body.classList.remove('cursor-is-hovering');
       }
     });
 
     document.addEventListener('mousedown', () => {
       document.body.classList.add('cursor-is-clicking');
+      // 首次點擊畫面任意處即自動喚醒高音質 BGM
+      if (window.labAudio && !window.labAudio.bgmPlaying && appState.soundEnabled) {
+        window.labAudio.startBGM();
+        const eqBars = document.getElementById('hud-eq-bars');
+        if (eqBars) eqBars.classList.remove('eq-paused');
+      }
     });
 
     document.addEventListener('mouseup', () => {
@@ -2698,6 +2823,7 @@
     emergencyGreenTeaFlush,
     selectBeverageStandard,
     selectLadderLevel,
+    mintEmbossedSugar,
     adjustRefractometer,
     setQuestionCountMode,
     chooseQuizOption,
