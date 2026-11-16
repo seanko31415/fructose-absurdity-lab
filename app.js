@@ -140,7 +140,13 @@
     setTimeout(() => {
       item.style.opacity = '0';
       item.style.transform = 'translateX(20px)';
-      setTimeout(() => item.remove(), 300);
+      setTimeout(() => {
+        if (typeof item.remove === 'function') {
+          item.remove();
+        } else if (item.parentNode) {
+          item.parentNode.removeChild(item);
+        }
+      }, 300);
     }, 3600);
   }
 
@@ -164,30 +170,120 @@
         <div onclick="window.LabApp.select3DCard(${idx})"
              style="transform: rotateY(${angle}deg) translateZ(${radius}px);"
              class="card-3d-item ${isSelected ? 'active-3d-card' : ''}">
-          <div>
-            <div class="flex items-center justify-between font-mono text-[9px] text-slate-400 mb-1.5">
-              <span style="color:${c.accent}" class="font-bold">${c.code}</span>
-              <span class="px-1.5 py-0.5 rounded bg-slate-800 text-amber-300 font-mono">${c.initCubes} 顆</span>
+          <div class="card-3d-inner w-full h-full flex flex-col justify-between select-none">
+            <div>
+              <div class="flex items-center justify-between font-mono text-[9px] text-slate-400 mb-1.5">
+                <span style="color:${c.accent}" class="font-extrabold tracking-wider">${c.code}</span>
+                <span class="px-2 py-0.5 rounded-full bg-slate-900/90 border border-amber-500/40 text-amber-300 font-mono text-[10px] font-bold shadow-sm">${c.initCubes} 顆</span>
+              </div>
+              <div class="w-14 h-14 rounded-2xl mx-auto my-2 flex items-center justify-center text-3xl border shadow-lg"
+                   style="background:${c.accent}25; border-color:${c.accent}; box-shadow: 0 0 22px ${c.accent}45;">
+                ${c.icon}
+              </div>
+              <h3 class="text-base font-black text-white text-center leading-tight tracking-tight">${c.title}</h3>
+              <p class="text-[11px] text-cyan-300 text-center mt-1 font-mono">${c.subtitle}</p>
             </div>
-            <div class="w-12 h-12 rounded-2xl mx-auto my-1.5 flex items-center justify-center text-2xl border"
-                 style="background:${c.accent}22; border-color:${c.accent}">
-              ${c.icon}
-            </div>
-            <h3 class="text-sm sm:text-base font-black text-white text-center leading-tight">${c.title}</h3>
-            <p class="text-[10px] text-slate-400 text-center mt-0.5 font-mono">${c.subtitle}</p>
-          </div>
 
-          <div class="space-y-1.5 mt-2">
-            <div class="p-1.5 rounded-xl bg-slate-950/80 border border-white/10 text-[10px] text-slate-300 leading-snug">
-              <strong class="text-amber-300">特性：</strong>${c.perk}
+            <div class="space-y-2 mt-2">
+              <div class="p-2 rounded-xl bg-slate-950/85 border border-white/10 text-[11px] text-slate-200 leading-snug">
+                <strong class="text-amber-300">特性：</strong>${c.perk}
+              </div>
+              <div class="text-[10px] italic text-slate-400 text-center truncate px-1">${c.quote}</div>
             </div>
-            <div class="text-[9px] italic text-cyan-300 text-center truncate">${c.quote}</div>
           </div>
         </div>
       `;
     }).join('');
 
     updateSelected3DCardSummary();
+  }
+
+  // 登入艙全息星空與動態星雲背景 (Ethereal Cosmic Nebula Canvas)
+  function initLoginCosmicBackground() {
+    const canvas = document.getElementById('login-starfield-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    const colors = ['#F59E0B', '#06B6D4', '#EC4899', '#A855F7', '#FBBF24', '#38BDF8'];
+    for (let i = 0; i < 70; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: Math.random() * 2.2 + 0.8,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4 - 0.15,
+        alpha: Math.random() * 0.7 + 0.3,
+        shape: Math.random() < 0.35 ? 'cube' : 'star'
+      });
+    }
+
+    let nebulaPhase = 0;
+    function render() {
+      if (document.getElementById('login-3d-overlay')?.classList.contains('portal-hidden')) {
+        return; // 若已進入主站，暫停背景運算省電
+      }
+
+      ctx.clearRect(0, 0, width, height);
+      nebulaPhase += 0.008;
+
+      // 1. 動態雙子星雲氣流
+      const blob1X = width * 0.35 + Math.sin(nebulaPhase) * 110;
+      const blob1Y = height * 0.3 + Math.cos(nebulaPhase * 0.8) * 70;
+      const grad1 = ctx.createRadialGradient(blob1X, blob1Y, 10, blob1X, blob1Y, width * 0.45);
+      grad1.addColorStop(0, 'rgba(245, 158, 11, 0.22)');
+      grad1.addColorStop(0.5, 'rgba(245, 158, 11, 0.06)');
+      grad1.addColorStop(1, 'transparent');
+      ctx.fillStyle = grad1;
+      ctx.fillRect(0, 0, width, height);
+
+      const blob2X = width * 0.68 + Math.cos(nebulaPhase * 1.2) * 100;
+      const blob2Y = height * 0.65 + Math.sin(nebulaPhase * 0.9) * 80;
+      const grad2 = ctx.createRadialGradient(blob2X, blob2Y, 10, blob2X, blob2Y, width * 0.42);
+      grad2.addColorStop(0, 'rgba(6, 182, 212, 0.22)');
+      grad2.addColorStop(0.5, 'rgba(168, 85, 247, 0.07)');
+      grad2.addColorStop(1, 'transparent');
+      ctx.fillStyle = grad2;
+      ctx.fillRect(0, 0, width, height);
+
+      // 2. 懸浮方糖微粒與繁星
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        if (p.y > height) p.y = 0;
+
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        ctx.fillStyle = p.color;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 10;
+
+        if (p.shape === 'cube') {
+          ctx.fillRect(p.x - p.r, p.y - p.r, p.r * 2.2, p.r * 2.2);
+        } else {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      });
+
+      requestAnimationFrame(render);
+    }
+    requestAnimationFrame(render);
   }
 
   // 3D 卡牌平滑自動旋轉
@@ -474,7 +570,7 @@
     const stageEl = document.getElementById('prominent-mascot-stage');
     if (quoteEl && customText) {
       quoteEl.textContent = customText;
-      quoteEl.dataset.ready = '1';
+      quoteEl.setAttribute('data-ready', '1');
     }
     if (stageEl) {
       stageEl.classList.remove('jelly-bounce');
@@ -510,10 +606,10 @@
         : `點我餵糖連擊: ${appState.monsterClicks} / 10`;
     }
 
-    if (quote && (newRandomQuote || !quote.dataset.ready)) {
+    if (quote && (newRandomQuote || !quote.getAttribute('data-ready'))) {
       const q = m.quotes[Math.floor(Math.random() * m.quotes.length)];
       quote.textContent = q;
-      quote.dataset.ready = '1';
+      quote.setAttribute('data-ready', '1');
     }
 
     // 動態更新果糖怪表情嘴形
@@ -637,6 +733,7 @@
     setGlobalSugarCubes(appState.globalSugarCubes + added, { syncLadder: true });
     broadcastMascotMessage(`🎲 盲盒抽中：「${pick.text}」➔ 當場暴增 +${added} 顆方糖！`);
   }
+  const randomBlindBoxSugar = randomDormBlindBoxSugar;
 
   function spawnScaleParticles(count, isGolden = false) {
     const stage = document.getElementById('scale-particle-stage');
@@ -1339,6 +1436,38 @@
 
     updateQuizGaugeAndSummary();
     renderReservedExpansionSlots();
+  }
+
+  function renderReservedExpansionSlots() {
+    const qSlotBox = document.getElementById('reserved-question-slots-box');
+    if (qSlotBox && DATA.reservedQuestionSlots) {
+      qSlotBox.innerHTML = DATA.reservedQuestionSlots.map((slot, idx) => `
+        <div class="p-4 rounded-2xl border-2 border-dashed border-amber-500/45 bg-slate-950/65 flex flex-col justify-between gap-3">
+          <div>
+            <div class="flex items-center justify-between font-mono text-xs text-amber-400 mb-1">
+              <span>RESERVED SLOT // \${slot.slotId}</span>
+              <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-200">預留擴充題位</span>
+            </div>
+            <h4 class="font-bold text-sm text-white">\${slot.title}</h4>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">\${slot.placeholderDesc}</p>
+          </div>
+          <button onclick="window.LabApp.toggleModal('add-question-modal', true)"
+                  class="w-full py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/35 border border-amber-400/60 text-amber-200 font-mono text-xs font-bold transition-all">
+            ➕ 點此立即填入您的新題目 (\${slot.slotId})
+          </button>
+        </div>
+      `).join('');
+    }
+
+    const exSlotBox = document.getElementById('reserved-example-slots-box');
+    if (exSlotBox && DATA.reservedExampleSlots) {
+      exSlotBox.innerHTML = DATA.reservedExampleSlots.map((ex, i) => `
+        <button onclick="window.LabApp.useReservedExample(\${i})"
+                class="px-3.5 py-2 rounded-xl border-2 border-dashed border-cyan-400/50 bg-cyan-950/25 hover:bg-cyan-900/40 text-cyan-200 font-mono text-xs font-bold transition-all flex items-center gap-1.5">
+          <span>\${ex.label}</span>
+        </button>
+      `).join('');
+    }
   }
 
   function chooseQuizOption(qId, optIndex) {
@@ -2447,6 +2576,7 @@
     loadPersistedData();
     initCustomFluidCursor();
     render3DCarouselCards();
+    initLoginCosmicBackground();
     start3DAutoOrbit();
 
     // 移入卡牌區暫停自動旋轉，移出繼續旋轉
@@ -2501,6 +2631,56 @@
     window.addEventListener('resize', () => {
       render3DCarouselCards();
     });
+  }
+
+  
+  // 預留擴充與自訂題目功能
+  function useReservedExample(index) {
+    const ex = DATA.reservedExampleSlots && DATA.reservedExampleSlots[index];
+    if (!ex) return;
+    const input = document.getElementById('confession-textarea');
+    if (input) {
+      input.value = ex.text;
+      onConfessionInputChanged();
+    }
+    showToast('📋 已載入範例', `已載入「${ex.label}」！前往第 3 頁可即時進行語意糖度分析。`, 'cyan');
+  }
+
+  function saveCustomQuestionFromModal() {
+    const sceneInput = document.getElementById('new-q-scene');
+    const titleInput = document.getElementById('new-q-title');
+    const optA = document.getElementById('new-q-opt-a');
+    const optB = document.getElementById('new-q-opt-b');
+    const optC = document.getElementById('new-q-opt-c');
+    const optD = document.getElementById('new-q-opt-d');
+
+    const scene = sceneInput?.value.trim() || 'SCENE // 自訂擴充情境';
+    const question = titleInput?.value.trim() || '';
+    if (!question) {
+      showToast('⚠️ 請輸入題目', '題目內容不能為空！', 'amber');
+      return;
+    }
+
+    const newQ = {
+      id: `custom_q_${Date.now()}`,
+      step: (appState.activeQuestions ? appState.activeQuestions.length : 20) + 1,
+      scene,
+      question,
+      options: [
+        { label: 'A', text: optA?.value.trim() || '從容應對，淡定化解', cubes: 2, clinicalNote: '極高心理素質' },
+        { label: 'B', text: optB?.value.trim() || '手忙腳亂，尷尬假笑', cubes: 10, clinicalNote: '日常少糖微死' },
+        { label: 'C', text: optC?.value.trim() || '大聲轉移話題，拉朋友背鍋', cubes: 24, clinicalNote: '全糖爆發現場' },
+        { label: 'D', text: optD?.value.trim() || '當場五體投地，宣布社會性退場', cubes: 55, clinicalNote: '焦糖核爆級毀滅' }
+      ]
+    };
+
+    if (!appState.activeQuestions) appState.activeQuestions = [];
+    appState.activeQuestions.push(newQ);
+    appState.quizIndex = appState.activeQuestions.length - 1;
+    toggleModal('add-question-modal', false);
+    renderCalibrationSection();
+    window.labAudio.playVictoryFanfare();
+    showToast('✅ 新問題已加入題庫', `題庫已擴充至 ${appState.activeQuestions.length} 題！已切換至該題。`, 'emerald');
   }
 
   window.LabApp = {
