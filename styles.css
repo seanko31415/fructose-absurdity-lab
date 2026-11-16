@@ -65,71 +65,11 @@ body {
 
 /* ==========================================================================
    1. CUSTOM DYNAMIC FLUID CURSOR & CLICK SUGAR POP
-   - 簡約乾淨指針：去除常駐刺眼旋轉光芒與強烈光暈
-   - 點擊時彈出可愛方糖與粒子特效
+   - 平時無任何常駐光環或光點，還原最乾淨的系統鼠標
+   - 僅在「按下滑鼠」時瞬間跑出方糖與粒子特效
    ========================================================================== */
-#custom-cursor-dot {
-  position: fixed;
-  top: -100px;
-  left: -100px;
-  width: 10px;
-  height: 10px;
-  background: #FEF08A;
-  border: 1.5px solid #ffffff;
-  border-radius: 3px;
-  pointer-events: none !important;
-  z-index: 99999;
-  transform: translate(-50%, -50%) rotate(45deg);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
-  transition: transform 0.12s ease, background 0.15s ease;
-  will-change: left, top, transform;
-}
-
-#custom-cursor-ring {
-  position: fixed;
-  top: -100px;
-  left: -100px;
-  width: 32px;
-  height: 32px;
-  border: 1.5px solid rgba(251, 191, 36, 0.55);
-  border-radius: 50%;
-  pointer-events: none !important;
-  z-index: 99998;
-  transform: translate(-50%, -50%);
-  background: rgba(251, 191, 36, 0.04);
-  transition: width 0.15s ease, height 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
-  will-change: left, top, width, height;
-}
-
-#custom-cursor-ring::before,
-#custom-cursor-ring::after {
-  display: none !important;
-}
-
-body.cursor-is-hovering #custom-cursor-ring {
-  width: 44px;
-  height: 44px;
-  border-color: #FBBF24;
-  background-color: rgba(245, 158, 11, 0.12);
-}
-
-body.cursor-is-hovering #custom-cursor-dot {
-  transform: translate(-50%, -50%) rotate(225deg) scale(1.25);
-  background: #ffffff;
-}
-
-body.cursor-is-clicking #custom-cursor-ring {
-  width: 22px;
-  height: 22px;
-  border-color: #06B6D4;
-  background-color: rgba(6, 182, 212, 0.25);
-}
-
-body.cursor-is-clicking #custom-cursor-dot {
-  transform: translate(-50%, -50%) rotate(135deg) scale(0.85);
-  background: #38BDF8;
-}
-
+#custom-cursor-dot,
+#custom-cursor-ring,
 .cursor-trail-spark {
   display: none !important;
 }
@@ -1036,18 +976,18 @@ body.sugar-quake-extreme #viewport-simulator-frame {
   animation: artisticPrismGlow 5s ease-in-out infinite;
 }
 
-/* 放大版 1000mL 核心結晶量筒 (第一頁顯眼主視覺) */
+/* 放大版 1000mL 核心結晶量筒 (第一頁顯眼主視覺 - 霸氣加大) */
 .cylinder-large-frame {
-  width: 170px;
-  height: 420px;
+  width: 210px;
+  height: 480px;
   position: relative;
-  border-radius: 12px 12px 36px 36px;
+  border-radius: 16px 16px 44px 44px;
   border: 4px solid rgba(224, 242, 254, 0.45);
   background: radial-gradient(ellipse at 50% 20%, rgba(15, 23, 42, 0.95), rgba(4, 7, 15, 0.98));
   box-shadow:
-    inset 0 0 32px rgba(56, 189, 248, 0.35),
-    0 16px 40px rgba(0, 0, 0, 0.85),
-    0 0 24px rgba(245, 158, 11, 0.2);
+    inset 0 0 36px rgba(56, 189, 248, 0.4),
+    0 20px 48px rgba(0, 0, 0, 0.9),
+    0 0 30px rgba(245, 158, 11, 0.25);
   overflow: hidden;
   cursor: pointer;
   user-select: none;
@@ -1055,8 +995,8 @@ body.sugar-quake-extreme #viewport-simulator-frame {
 
 @media (max-width: 639px) {
   .cylinder-large-frame {
-    width: 140px;
-    height: 360px;
+    width: 165px;
+    height: 400px;
   }
 }
 

@@ -375,7 +375,7 @@
 
             <p id="mascot-quote-text" onclick="window.LabApp.clickFructoseMonster()"
               class="text-xs sm:text-sm font-bold text-white leading-relaxed cursor-pointer bg-slate-950/60 p-2 sm:p-2.5 rounded-xl border border-white/10 hover:border-amber-400/50 transition-colors">
-              「我是掌管全宇宙甜度的糖果魔王！移動鼠標看著我的眼睛～點擊我可以餵我吃方糖喔！」
+              「移動鼠標看我眼睛，點我可以餵我吃糖！」
             </p>
 
             <!-- Quick Mascot Action Pills -->
@@ -422,268 +422,6 @@
         <!-- ==================================================================
              MODULE A: 靈魂人物「全糖創始人」＆「果糖怪」原圖互動設定集 + 三大實驗室美術圖鑑 (#dorm-origin-section)
              ================================================================== -->
-        <section id="dorm-origin-section" class="space-y-6 scroll-mt-20">
-          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-4">
-            <div>
-              <span class="text-xs font-mono uppercase tracking-widest text-amber-400">ORIGIN &amp; MASCOT ARCHIVE //
-                實驗室靈魂人物與專屬吉祥物美術設定</span>
-              <h2 class="text-2xl sm:text-4xl font-black text-white mt-1">「全糖創始人」臨床觀察 ＆ 專屬吉祥物：果糖怪</h2>
-            </div>
-            <div class="flex items-center gap-2 flex-wrap">
-              <span
-                class="px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-300 font-mono text-xs font-bold">
-                ✨ 點擊圖片上的發光熱點可觸發專屬互動！
-              </span>
-              <button type="button" onclick="window.LabApp.openPosterLightbox()"
-                class="liquid-glass-amber px-3.5 py-1.5 rounded-xl font-mono text-xs font-black">
-                🖼️ 查看完整實驗室海報原圖
-              </button>
-            </div>
-          </div>
-
-          <!-- 雙主圖高畫質展示卡 (Soul Character & Mascot Spec - 簡潔圖鑑) -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
-            <!-- Card 1: SOUL CHARACTER // 靈魂人物 (全糖創始人) -->
-            <div
-              class="lab-card liquid-glass-card rounded-3xl p-4 sm:p-5 flex flex-col justify-between space-y-3 border border-amber-500/35">
-              <div class="space-y-2.5">
-                <div class="flex items-center justify-between gap-2">
-                  <span
-                    class="px-3 py-1 rounded-lg bg-amber-400 text-slate-950 font-mono text-xs font-black tracking-wide">
-                    SOUL CHARACTER // 靈魂人物
-                  </span>
-                  <button type="button" onclick="window.LabApp.openPosterLightbox()"
-                    class="text-xs text-amber-300 hover:underline font-mono">
-                    🔍 放大原圖
-                  </button>
-                </div>
-
-                <!-- 靈魂人物高畫質原圖 -->
-                <div id="founder-artwork-container"
-                  class="artwork-showcase-frame relative group bg-slate-950 rounded-2xl overflow-hidden cursor-pointer"
-                  onclick="window.LabApp.triggerFounderBeakerInspect()">
-                  <img src="assets/soul-founder-character.jpg" alt="SOUL CHARACTER // 靈魂人物 全糖創始人"
-                    class="w-full h-64 sm:h-72 object-cover object-center group-hover:scale-105 transition-transform duration-500" />
-                </div>
-              </div>
-
-              <!-- 簡約底欄動作 -->
-              <div class="flex items-center justify-between gap-2 pt-1">
-                <button type="button" onclick="window.LabApp.triggerFounderBeakerInspect()"
-                  class="liquid-glass-amber w-full py-2.5 rounded-xl font-mono text-xs font-black text-slate-950">
-                  🥃 點擊與創始人互動
-                </button>
-              </div>
-            </div>
-
-            <!-- Card 2: MASCOT SPEC // 果糖怪 (Fructose Monster) -->
-            <div
-              class="lab-card liquid-glass-card rounded-3xl p-4 sm:p-5 flex flex-col justify-between space-y-3 border border-amber-500/35">
-              <div class="space-y-2.5">
-                <div class="flex items-center justify-between gap-2">
-                  <span
-                    class="px-3 py-1 rounded-lg bg-slate-950 border border-amber-400/60 text-amber-300 font-mono text-xs font-black tracking-wide">
-                    🧬 MASCOT SPEC // 果糖怪
-                  </span>
-                  <button type="button" onclick="window.LabApp.openPosterLightbox()"
-                    class="text-xs text-amber-300 hover:underline font-mono">
-                    🔍 放大原圖
-                  </button>
-                </div>
-
-                <!-- 果糖怪高畫質原圖 -->
-                <div id="mascot-artwork-container"
-                  class="artwork-showcase-frame relative group bg-slate-950 rounded-2xl overflow-hidden cursor-pointer"
-                  onclick="window.LabApp.pokeMascotArtwork()">
-                  <img src="assets/mascot-fructose-monster.jpg" alt="MASCOT SPEC // 果糖怪 (Fructose Monster)"
-                    class="w-full h-64 sm:h-72 object-cover object-center group-hover:scale-105 transition-transform duration-500" />
-                </div>
-              </div>
-
-              <!-- 簡約底欄動作 -->
-              <div class="flex items-center justify-between gap-2 pt-1">
-                <button type="button" onclick="window.LabApp.pokeMascotArtwork()"
-                  class="liquid-glass-amber w-full py-2.5 rounded-xl font-mono text-xs font-black text-slate-950">
-                  👉 戳一下果糖怪聽吐槽
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- 新增「實驗室核心視覺美術圖鑑」三欄卡片 (ARTWORK #03, #04, #05) -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
-            <!-- ARTWORK #03 -->
-            <div
-              class="lab-card liquid-glass-card rounded-2xl p-4 flex flex-col justify-between space-y-3 border border-amber-500/30 group">
-              <div class="space-y-2.5">
-                <div class="flex items-center justify-between font-mono text-[11px]">
-                  <span
-                    class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40">ARTWORK
-                    #03</span>
-                  <span class="text-cyan-300">15-STAGE CYLINDER</span>
-                </div>
-                <div
-                  class="relative h-44 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 cursor-pointer"
-                  onclick="window.LabApp.openPosterLightbox()">
-                  <img src="assets/lab-blueprint-poster.jpg" alt="ARTWORK #03 高果糖耐受度監測儀與 15 階量筒實景圖"
-                    class="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-500" />
-                  <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
-                  <div
-                    class="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between text-[11px] font-mono">
-                    <span class="text-amber-300 font-bold">🔬 Lv.0 ~ Lv.14 實景圖鑑</span>
-                    <span class="px-2 py-0.5 rounded bg-amber-400 text-slate-950 font-black">🔍 放大海報</span>
-                  </div>
-                </div>
-                <h4 class="text-base font-black text-white">高果糖耐受度監測儀與 15 階量筒實景圖</h4>
-                <p class="text-xs text-slate-400 leading-relaxed">
-                  從 Lv.0 無糖純潔態 (0g) 一路觀測至 Lv.14 終極一公升果糖核爆 (1000+顆)，完整記錄人類理智斷線臨界點。
-                </p>
-              </div>
-              <button type="button" onclick="window.LabApp.jumpToSection('ladder-section')"
-                class="liquid-glass-btn w-full py-2 rounded-xl font-mono text-xs text-amber-300 font-bold">
-                🧪 前往 15 階量筒校準 ➔
-              </button>
-            </div>
-
-            <!-- ARTWORK #04 -->
-            <div
-              class="lab-card liquid-glass-card rounded-2xl p-4 flex flex-col justify-between space-y-3 border border-cyan-500/30 group">
-              <div class="space-y-2.5">
-                <div class="flex items-center justify-between font-mono text-[11px]">
-                  <span
-                    class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/40">ARTWORK
-                    #04</span>
-                  <span class="text-amber-300">BOBA &amp; 6D RADAR</span>
-                </div>
-                <!-- 精緻動態互動 SVG 藝術圖：雪克杯 × 六維全息雷達 -->
-                <div
-                  class="relative h-44 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 flex items-center justify-center p-3 cursor-pointer"
-                  onclick="window.LabApp.jumpToSection('shaker-hub-section')">
-                  <svg viewBox="0 0 320 160" class="w-full h-full">
-                    <defs>
-                      <radialGradient id="art04Glow" cx="50%" cy="50%" r="55%">
-                        <stop offset="0%" stop-color="#06B6D4" stop-opacity="0.35" />
-                        <stop offset="60%" stop-color="#F59E0B" stop-opacity="0.15" />
-                        <stop offset="100%" stop-color="#020617" stop-opacity="0" />
-                      </radialGradient>
-                    </defs>
-                    <rect width="320" height="160" fill="#040814" />
-                    <rect width="320" height="160" fill="url(#art04Glow)" />
-                    <!-- 左側發光雪克杯 -->
-                    <g transform="translate(38, 18)">
-                      <rect x="28" y="-6" width="6" height="28" rx="2" fill="#EC4899" transform="rotate(10 28 0)" />
-                      <rect x="6" y="14" width="52" height="8" rx="4" fill="#E2E8F0" />
-                      <path d="M10,22 L54,22 L48,112 C48,118 42,122 32,122 C22,122 16,118 16,112 Z"
-                        fill="rgba(245,158,11,0.35)" stroke="#FBBF24" stroke-width="2.5" />
-                      <path d="M13,58 L51,58 L48,112 C48,118 42,122 32,122 C22,122 16,118 16,112 Z" fill="#F59E0B"
-                        opacity="0.85" />
-                      <circle cx="24" cy="98" r="4.5" fill="#1E293B" />
-                      <circle cx="35" cy="102" r="4.5" fill="#1E293B" />
-                      <circle cx="41" cy="92" r="4.5" fill="#1E293B" />
-                      <circle cx="27" cy="86" r="4.5" fill="#FEF08A" />
-                    </g>
-                    <!-- 右側動態六角全息雷達 -->
-                    <g transform="translate(215, 80)">
-                      <polygon points="0,-54 47,-27 47,27 0,54 -47,27 -47,-27" fill="none" stroke="#334155"
-                        stroke-width="1.5" />
-                      <polygon points="0,-32 28,-16 28,16 0,32 -28,16 -28,-16" fill="none" stroke="#334155"
-                        stroke-dasharray="3 3" />
-                      <polygon points="0,-46 42,-18 36,24 0,44 -38,20 -32,-22" fill="rgba(6,182,212,0.3)"
-                        stroke="#38BDF8" stroke-width="2">
-                        <animate attributeName="opacity" values="0.7;1;0.7" dur="2.2s" repeatCount="indefinite" />
-                      </polygon>
-                      <circle cx="0" cy="-46" r="3.5" fill="#FBBF24" />
-                      <circle cx="42" cy="-18" r="3.5" fill="#FBBF24" />
-                      <circle cx="36" cy="24" r="3.5" fill="#FBBF24" />
-                      <circle cx="0" cy="44" r="3.5" fill="#FBBF24" />
-                      <circle cx="-38" cy="20" r="3.5" fill="#FBBF24" />
-                      <circle cx="-32" cy="-22" r="3.5" fill="#FBBF24" />
-                    </g>
-                  </svg>
-                  <div
-                    class="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between text-[11px] font-mono">
-                    <span class="text-cyan-300 font-bold">🧋 6種配料 × 6維人格雷達</span>
-                    <span class="px-2 py-0.5 rounded bg-cyan-400 text-slate-950 font-black">⚡ 立即調配</span>
-                  </div>
-                </div>
-                <h4 class="text-base font-black text-white">靈魂手搖雪克杯 ＆ 六角全息雷達分析儀美術圖</h4>
-                <p class="text-xs text-slate-400 leading-relaxed">
-                  自由投入熬夜珍珠、社死布丁與濃縮糖漿，結合 6 大日常行為屬性滑桿，即時演算專屬糖度人格。
-                </p>
-              </div>
-              <button type="button" onclick="window.LabApp.jumpToSection('shaker-hub-section')"
-                class="liquid-glass-cyan w-full py-2 rounded-xl font-mono text-xs text-cyan-200 font-bold">
-                🧋 前往雪克杯＆雷達檢測 ➔
-              </button>
-            </div>
-
-            <!-- ARTWORK #05 -->
-            <div
-              class="lab-card liquid-glass-card rounded-2xl p-4 flex flex-col justify-between space-y-3 border border-emerald-500/30 group">
-              <div class="space-y-2.5">
-                <div class="flex items-center justify-between font-mono text-[11px]">
-                  <span
-                    class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40">ARTWORK
-                    #05</span>
-                  <span class="text-emerald-300">9-HOLE DETOX ARCADE</span>
-                </div>
-                <!-- 精緻動態互動 SVG 藝術圖：九宮格離心艙街機 -->
-                <div
-                  class="relative h-44 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 flex items-center justify-center p-3 cursor-pointer"
-                  onclick="window.LabApp.jumpToArcadeAndStart()">
-                  <svg viewBox="0 0 320 160" class="w-full h-full">
-                    <rect width="320" height="160" fill="#040814" />
-                    <!-- 3x3 離心艙縮圖 -->
-                    <g transform="translate(85, 14)">
-                      <rect x="0" y="0" width="44" height="38" rx="8" fill="#0F172A" stroke="#334155"
-                        stroke-width="1.5" />
-                      <text x="22" y="25" text-anchor="middle" font-size="18">🧊</text>
-                      <rect x="52" y="0" width="44" height="38" rx="8" fill="rgba(245,158,11,0.25)" stroke="#FBBF24"
-                        stroke-width="2" />
-                      <text x="74" y="25" text-anchor="middle" font-size="18">🍯</text>
-                      <rect x="104" y="0" width="44" height="38" rx="8" fill="#0F172A" stroke="#334155"
-                        stroke-width="1.5" />
-                      <text x="126" y="25" text-anchor="middle" font-size="18">🕳️</text>
-
-                      <rect x="0" y="44" width="44" height="38" rx="8" fill="rgba(16,185,129,0.25)" stroke="#10B981"
-                        stroke-width="2" />
-                      <text x="22" y="69" text-anchor="middle" font-size="18">🍵</text>
-                      <rect x="52" y="44" width="44" height="38" rx="8" fill="rgba(239,68,68,0.28)" stroke="#EF4444"
-                        stroke-width="2" />
-                      <text x="74" y="69" text-anchor="middle" font-size="18">💣</text>
-                      <rect x="104" y="44" width="44" height="38" rx="8" fill="#0F172A" stroke="#334155"
-                        stroke-width="1.5" />
-                      <text x="126" y="69" text-anchor="middle" font-size="18">🧊</text>
-
-                      <rect x="0" y="88" width="44" height="38" rx="8" fill="#0F172A" stroke="#334155"
-                        stroke-width="1.5" />
-                      <text x="22" y="113" text-anchor="middle" font-size="18">🕳️</text>
-                      <rect x="52" y="88" width="44" height="38" rx="8" fill="rgba(245,158,11,0.25)" stroke="#FBBF24"
-                        stroke-width="2" />
-                      <text x="74" y="113" text-anchor="middle" font-size="18">🍯</text>
-                      <rect x="104" y="88" width="44" height="38" rx="8" fill="rgba(16,185,129,0.25)" stroke="#10B981"
-                        stroke-width="2" />
-                      <text x="126" y="113" text-anchor="middle" font-size="18">🍵</text>
-                    </g>
-                  </svg>
-                  <div
-                    class="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between text-[11px] font-mono">
-                    <span class="text-emerald-300 font-bold">🕹️ 20.0s 極速減糖保衛戰</span>
-                    <span class="px-2 py-0.5 rounded bg-emerald-400 text-slate-950 font-black">▶ 立即開打</span>
-                  </div>
-                </div>
-                <h4 class="text-base font-black text-white">九宮格離心艙「爆打方糖怪」20 秒減糖挑戰街機</h4>
-                <p class="text-xs text-slate-400 leading-relaxed">
-                  擊碎調皮方糖與果糖怪本尊、搶喝無糖綠茶幫全站緊急降糖，小心避開社死炸彈！
-                </p>
-              </div>
-              <button type="button" onclick="window.LabApp.jumpToArcadeAndStart()"
-                class="liquid-glass-emerald w-full py-2 rounded-xl font-mono text-xs text-slate-950 font-black">
-                🕹️ 啟動 20 秒減糖挑戰 ➔
-              </button>
-            </div>
-          </div>
-        </section>
 
         <!-- ==================================================================
              MODULE B: 一般人類糖分耐受度基準表 (Part A) ＆ 15 階果糖量測階梯 (Part B) (#ladder-section)
@@ -693,11 +431,11 @@
           <div class="lab-card liquid-glass-card rounded-3xl p-6">
             <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
               <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-                <span>🥤 一般人類的糖分耐受度基準表（點擊任意糖度可直接校準量筒）</span>
+                <span>🥤 人類糖分耐受度基準表</span>
               </h3>
               <span class="text-xs font-mono text-red-400 flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
-                <span>--- 正常人類理智臨界點：全糖 60g (12顆方糖) ---</span>
+                <span>臨界點：全糖 60g (12顆)</span>
               </span>
             </div>
 
@@ -841,7 +579,7 @@
               <!-- 0~14 級快速滑動滑桿 -->
               <div class="liquid-glass-card rounded-xl p-3.5 space-y-1.5">
                 <div class="flex justify-between font-mono text-xs text-amber-300 font-bold">
-                  <span>🎚️ 0 到 14 級生活指標即時滑動：</span>
+                  <span>🎚️ 0~14 級即時滑動：</span>
                   <span id="ladder-slider-val-badge" class="text-cyan-300">目前選擇：Lv.0 無糖純潔態</span>
                 </div>
                 <input id="ladder-slider" type="range" min="0" max="14" step="1" value="0"
@@ -853,7 +591,7 @@
               <div class="liquid-glass-card rounded-2xl p-4 space-y-2">
                 <div
                   class="flex items-center justify-between font-mono text-xs text-slate-300 border-b border-white/10 pb-1.5">
-                  <span class="font-bold text-amber-300">📋 0~14 級全指標矩陣 (點選任一等級查看生活症狀)：</span>
+                  <span class="font-bold text-amber-300">📋 0~14 級生活指標矩陣：</span>
                   <span class="text-[10px] text-slate-400">共 15 個等級</span>
                 </div>
                 <div id="ladder-matrix-buttons" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1.5 pt-1">
@@ -1238,6 +976,268 @@
              MODULE E: 啟動 20 秒減糖挑戰街機小遊戲 (#arcade-game-section - 規格書一模一樣)
              ================================================================== -->
 
+        <section id="dorm-origin-section" class="space-y-6 scroll-mt-20">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <span class="text-xs font-mono uppercase tracking-widest text-amber-400">ORIGIN &amp; MASCOT ARCHIVE //
+                實驗室靈魂人物與專屬吉祥物美術設定</span>
+              <h2 class="text-2xl sm:text-4xl font-black text-white mt-1">靈魂人物 ＆ 果糖怪圖鑑</h2>
+            </div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span
+                class="px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-300 font-mono text-xs font-bold">
+                ✨ 點擊圖片上的發光熱點可觸發專屬互動！
+              </span>
+              <button type="button" onclick="window.LabApp.openPosterLightbox()"
+                class="liquid-glass-amber px-3.5 py-1.5 rounded-xl font-mono text-xs font-black">
+                🖼️ 查看完整實驗室海報原圖
+              </button>
+            </div>
+          </div>
+
+          <!-- 雙主圖高畫質展示卡 (Soul Character & Mascot Spec - 簡潔圖鑑) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
+            <!-- Card 1: SOUL CHARACTER // 靈魂人物 (全糖創始人) -->
+            <div
+              class="lab-card liquid-glass-card rounded-3xl p-4 sm:p-5 flex flex-col justify-between space-y-3 border border-amber-500/35">
+              <div class="space-y-2.5">
+                <div class="flex items-center justify-between gap-2">
+                  <span
+                    class="px-3 py-1 rounded-lg bg-amber-400 text-slate-950 font-mono text-xs font-black tracking-wide">
+                    SOUL CHARACTER // 靈魂人物
+                  </span>
+                  <button type="button" onclick="window.LabApp.openPosterLightbox()"
+                    class="text-xs text-amber-300 hover:underline font-mono">
+                    🔍 放大原圖
+                  </button>
+                </div>
+
+                <!-- 靈魂人物高畫質原圖 -->
+                <div id="founder-artwork-container"
+                  class="artwork-showcase-frame relative group bg-slate-950 rounded-2xl overflow-hidden cursor-pointer"
+                  onclick="window.LabApp.triggerFounderBeakerInspect()">
+                  <img src="assets/soul-founder-character.jpg" alt="SOUL CHARACTER // 靈魂人物 全糖創始人"
+                    class="w-full h-64 sm:h-72 object-cover object-center group-hover:scale-105 transition-transform duration-500" />
+                </div>
+              </div>
+
+              <!-- 簡約底欄動作 -->
+              <div class="flex items-center justify-between gap-2 pt-1">
+                <button type="button" onclick="window.LabApp.triggerFounderBeakerInspect()"
+                  class="liquid-glass-amber w-full py-2.5 rounded-xl font-mono text-xs font-black text-slate-950">
+                  🥃 點擊與創始人互動
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 2: MASCOT SPEC // 果糖怪 (Fructose Monster) -->
+            <div
+              class="lab-card liquid-glass-card rounded-3xl p-4 sm:p-5 flex flex-col justify-between space-y-3 border border-amber-500/35">
+              <div class="space-y-2.5">
+                <div class="flex items-center justify-between gap-2">
+                  <span
+                    class="px-3 py-1 rounded-lg bg-slate-950 border border-amber-400/60 text-amber-300 font-mono text-xs font-black tracking-wide">
+                    🧬 MASCOT SPEC // 果糖怪
+                  </span>
+                  <button type="button" onclick="window.LabApp.openPosterLightbox()"
+                    class="text-xs text-amber-300 hover:underline font-mono">
+                    🔍 放大原圖
+                  </button>
+                </div>
+
+                <!-- 果糖怪高畫質原圖 -->
+                <div id="mascot-artwork-container"
+                  class="artwork-showcase-frame relative group bg-slate-950 rounded-2xl overflow-hidden cursor-pointer"
+                  onclick="window.LabApp.pokeMascotArtwork()">
+                  <img src="assets/mascot-fructose-monster.jpg" alt="MASCOT SPEC // 果糖怪 (Fructose Monster)"
+                    class="w-full h-64 sm:h-72 object-cover object-center group-hover:scale-105 transition-transform duration-500" />
+                </div>
+              </div>
+
+              <!-- 簡約底欄動作 -->
+              <div class="flex items-center justify-between gap-2 pt-1">
+                <button type="button" onclick="window.LabApp.pokeMascotArtwork()"
+                  class="liquid-glass-amber w-full py-2.5 rounded-xl font-mono text-xs font-black text-slate-950">
+                  👉 戳一下果糖怪聽吐槽
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 新增「實驗室核心視覺美術圖鑑」三欄卡片 (ARTWORK #03, #04, #05) -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
+            <!-- ARTWORK #03 -->
+            <div
+              class="lab-card liquid-glass-card rounded-2xl p-4 flex flex-col justify-between space-y-3 border border-amber-500/30 group">
+              <div class="space-y-2.5">
+                <div class="flex items-center justify-between font-mono text-[11px]">
+                  <span
+                    class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40">ARTWORK
+                    #03</span>
+                  <span class="text-cyan-300">15-STAGE CYLINDER</span>
+                </div>
+                <div
+                  class="relative h-44 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 cursor-pointer"
+                  onclick="window.LabApp.openPosterLightbox()">
+                  <img src="assets/lab-blueprint-poster.jpg" alt="ARTWORK #03 高果糖耐受度監測儀與 15 階量筒實景圖"
+                    class="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-500" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+                  <div
+                    class="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between text-[11px] font-mono">
+                    <span class="text-amber-300 font-bold">🔬 Lv.0 ~ Lv.14 實景圖鑑</span>
+                    <span class="px-2 py-0.5 rounded bg-amber-400 text-slate-950 font-black">🔍 放大海報</span>
+                  </div>
+                </div>
+                <h4 class="text-base font-black text-white">高果糖耐受度監測儀與 15 階量筒實景圖</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  記錄 Lv.0 至 Lv.14 人類理智斷線臨界指標。
+                </p>
+              </div>
+              <button type="button" onclick="window.LabApp.jumpToSection('ladder-section')"
+                class="liquid-glass-btn w-full py-2 rounded-xl font-mono text-xs text-amber-300 font-bold">
+                🧪 前往 15 階量筒校準 ➔
+              </button>
+            </div>
+
+            <!-- ARTWORK #04 -->
+            <div
+              class="lab-card liquid-glass-card rounded-2xl p-4 flex flex-col justify-between space-y-3 border border-cyan-500/30 group">
+              <div class="space-y-2.5">
+                <div class="flex items-center justify-between font-mono text-[11px]">
+                  <span
+                    class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/40">ARTWORK
+                    #04</span>
+                  <span class="text-amber-300">BOBA &amp; 6D RADAR</span>
+                </div>
+                <!-- 精緻動態互動 SVG 藝術圖：雪克杯 × 六維全息雷達 -->
+                <div
+                  class="relative h-44 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 flex items-center justify-center p-3 cursor-pointer"
+                  onclick="window.LabApp.jumpToSection('shaker-hub-section')">
+                  <svg viewBox="0 0 320 160" class="w-full h-full">
+                    <defs>
+                      <radialGradient id="art04Glow" cx="50%" cy="50%" r="55%">
+                        <stop offset="0%" stop-color="#06B6D4" stop-opacity="0.35" />
+                        <stop offset="60%" stop-color="#F59E0B" stop-opacity="0.15" />
+                        <stop offset="100%" stop-color="#020617" stop-opacity="0" />
+                      </radialGradient>
+                    </defs>
+                    <rect width="320" height="160" fill="#040814" />
+                    <rect width="320" height="160" fill="url(#art04Glow)" />
+                    <!-- 左側發光雪克杯 -->
+                    <g transform="translate(38, 18)">
+                      <rect x="28" y="-6" width="6" height="28" rx="2" fill="#EC4899" transform="rotate(10 28 0)" />
+                      <rect x="6" y="14" width="52" height="8" rx="4" fill="#E2E8F0" />
+                      <path d="M10,22 L54,22 L48,112 C48,118 42,122 32,122 C22,122 16,118 16,112 Z"
+                        fill="rgba(245,158,11,0.35)" stroke="#FBBF24" stroke-width="2.5" />
+                      <path d="M13,58 L51,58 L48,112 C48,118 42,122 32,122 C22,122 16,118 16,112 Z" fill="#F59E0B"
+                        opacity="0.85" />
+                      <circle cx="24" cy="98" r="4.5" fill="#1E293B" />
+                      <circle cx="35" cy="102" r="4.5" fill="#1E293B" />
+                      <circle cx="41" cy="92" r="4.5" fill="#1E293B" />
+                      <circle cx="27" cy="86" r="4.5" fill="#FEF08A" />
+                    </g>
+                    <!-- 右側動態六角全息雷達 -->
+                    <g transform="translate(215, 80)">
+                      <polygon points="0,-54 47,-27 47,27 0,54 -47,27 -47,-27" fill="none" stroke="#334155"
+                        stroke-width="1.5" />
+                      <polygon points="0,-32 28,-16 28,16 0,32 -28,16 -28,-16" fill="none" stroke="#334155"
+                        stroke-dasharray="3 3" />
+                      <polygon points="0,-46 42,-18 36,24 0,44 -38,20 -32,-22" fill="rgba(6,182,212,0.3)"
+                        stroke="#38BDF8" stroke-width="2">
+                        <animate attributeName="opacity" values="0.7;1;0.7" dur="2.2s" repeatCount="indefinite" />
+                      </polygon>
+                      <circle cx="0" cy="-46" r="3.5" fill="#FBBF24" />
+                      <circle cx="42" cy="-18" r="3.5" fill="#FBBF24" />
+                      <circle cx="36" cy="24" r="3.5" fill="#FBBF24" />
+                      <circle cx="0" cy="44" r="3.5" fill="#FBBF24" />
+                      <circle cx="-38" cy="20" r="3.5" fill="#FBBF24" />
+                      <circle cx="-32" cy="-22" r="3.5" fill="#FBBF24" />
+                    </g>
+                  </svg>
+                  <div
+                    class="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between text-[11px] font-mono">
+                    <span class="text-cyan-300 font-bold">🧋 6種配料 × 6維人格雷達</span>
+                    <span class="px-2 py-0.5 rounded bg-cyan-400 text-slate-950 font-black">⚡ 立即調配</span>
+                  </div>
+                </div>
+                <h4 class="text-base font-black text-white">靈魂手搖雪克杯 ＆ 六角全息雷達分析儀美術圖</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  調整 6 大日常屬性滑桿，演算專屬糖度人格。
+                </p>
+              </div>
+              <button type="button" onclick="window.LabApp.jumpToSection('shaker-hub-section')"
+                class="liquid-glass-cyan w-full py-2 rounded-xl font-mono text-xs text-cyan-200 font-bold">
+                🧋 前往雪克杯＆雷達檢測 ➔
+              </button>
+            </div>
+
+            <!-- ARTWORK #05 -->
+            <div
+              class="lab-card liquid-glass-card rounded-2xl p-4 flex flex-col justify-between space-y-3 border border-emerald-500/30 group">
+              <div class="space-y-2.5">
+                <div class="flex items-center justify-between font-mono text-[11px]">
+                  <span
+                    class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40">ARTWORK
+                    #05</span>
+                  <span class="text-emerald-300">9-HOLE DETOX ARCADE</span>
+                </div>
+                <!-- 精緻動態互動 SVG 藝術圖：九宮格離心艙街機 -->
+                <div
+                  class="relative h-44 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 flex items-center justify-center p-3 cursor-pointer"
+                  onclick="window.LabApp.jumpToArcadeAndStart()">
+                  <svg viewBox="0 0 320 160" class="w-full h-full">
+                    <rect width="320" height="160" fill="#040814" />
+                    <!-- 3x3 離心艙縮圖 -->
+                    <g transform="translate(85, 14)">
+                      <rect x="0" y="0" width="44" height="38" rx="8" fill="#0F172A" stroke="#334155"
+                        stroke-width="1.5" />
+                      <text x="22" y="25" text-anchor="middle" font-size="18">🧊</text>
+                      <rect x="52" y="0" width="44" height="38" rx="8" fill="rgba(245,158,11,0.25)" stroke="#FBBF24"
+                        stroke-width="2" />
+                      <text x="74" y="25" text-anchor="middle" font-size="18">🍯</text>
+                      <rect x="104" y="0" width="44" height="38" rx="8" fill="#0F172A" stroke="#334155"
+                        stroke-width="1.5" />
+                      <text x="126" y="25" text-anchor="middle" font-size="18">🕳️</text>
+
+                      <rect x="0" y="44" width="44" height="38" rx="8" fill="rgba(16,185,129,0.25)" stroke="#10B981"
+                        stroke-width="2" />
+                      <text x="22" y="69" text-anchor="middle" font-size="18">🍵</text>
+                      <rect x="52" y="44" width="44" height="38" rx="8" fill="rgba(239,68,68,0.28)" stroke="#EF4444"
+                        stroke-width="2" />
+                      <text x="74" y="69" text-anchor="middle" font-size="18">💣</text>
+                      <rect x="104" y="44" width="44" height="38" rx="8" fill="#0F172A" stroke="#334155"
+                        stroke-width="1.5" />
+                      <text x="126" y="69" text-anchor="middle" font-size="18">🧊</text>
+
+                      <rect x="0" y="88" width="44" height="38" rx="8" fill="#0F172A" stroke="#334155"
+                        stroke-width="1.5" />
+                      <text x="22" y="113" text-anchor="middle" font-size="18">🕳️</text>
+                      <rect x="52" y="88" width="44" height="38" rx="8" fill="rgba(245,158,11,0.25)" stroke="#FBBF24"
+                        stroke-width="2" />
+                      <text x="74" y="113" text-anchor="middle" font-size="18">🍯</text>
+                      <rect x="104" y="88" width="44" height="38" rx="8" fill="rgba(16,185,129,0.25)" stroke="#10B981"
+                        stroke-width="2" />
+                      <text x="126" y="113" text-anchor="middle" font-size="18">🍵</text>
+                    </g>
+                  </svg>
+                  <div
+                    class="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between text-[11px] font-mono">
+                    <span class="text-emerald-300 font-bold">🕹️ 20.0s 極速減糖保衛戰</span>
+                    <span class="px-2 py-0.5 rounded bg-emerald-400 text-slate-950 font-black">▶ 立即開打</span>
+                  </div>
+                </div>
+                <h4 class="text-base font-black text-white">九宮格離心艙「爆打方糖怪」20 秒減糖挑戰街機</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  擊碎方糖與果糖怪減糖，搶喝綠茶加倍解毒！
+                </p>
+              </div>
+              <button type="button" onclick="window.LabApp.jumpToArcadeAndStart()"
+                class="liquid-glass-emerald w-full py-2 rounded-xl font-mono text-xs text-slate-950 font-black">
+                🕹️ 啟動 20 秒減糖挑戰 ➔
+              </button>
+            </div>
+          </div>
+        </section>
       </div>
 
       <!-- ====================================================================
@@ -1251,7 +1251,7 @@
             <span class="font-mono text-xs text-amber-400 font-bold uppercase">PAGE 02 // 核心功能</span>
             <h2 class="text-xl sm:text-3xl font-black text-white mt-0.5">🧪 問問題幫你（或朋友）測出糖度！</h2>
             <p class="text-xs text-slate-300 mt-0.5">
-              請依直覺選擇最真實的反應。**糖度將於全數作答完成後揭曉！**
+              請依直覺作答，完成後揭曉糖度！
             </p>
           </div>
           <!-- Question Quantity Selector: 20題 / 30題 / 50題 / 100題 -->
@@ -1660,7 +1660,7 @@
               <h2 class="text-2xl sm:text-4xl font-black text-white mt-1">核心模組三：爆打方糖怪・無糖綠茶保衛戰 (互動減糖街機)</h2>
             </div>
             <p class="text-slate-400 text-sm max-w-md">
-              剛才測出來的糖度太高了嗎？啟動 20 秒實驗室街機挑戰！點擊擊碎冒出來的「🧊 調皮方糖」與「👾 果糖怪」可扣除體內含糖量，點擊「🍵 無糖綠茶」更能獲得雙倍解毒連擊！
+              20 秒極速挑戰！點擊「🧊 方糖」與「👾 果糖怪」減糖，點擊「🍵 綠茶」雙倍解毒！
             </p>
           </div>
 
@@ -1747,7 +1747,7 @@
             </div>
 
             <div id="arcade-status-banner" class="text-center text-xs sm:text-sm font-mono text-slate-400">
-              💡 規則說明：點擊「🧊 方糖 (+2分)」、「🍯 果糖怪 (+5分)」、「🍵 無糖綠茶 (+8分且直接幫全站減糖)」，小心別點到「💣 社死炸彈 (-5分)」！
+              💡 規則：點擊 🧊 (+2) / 🍯 (+5) / 🍵 (+8 減糖)，避開 💣 (-5)！
             </div>
           </div>
         </section>
@@ -1764,98 +1764,13 @@
           </div>
 
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            <!-- Left 5 Cols: Interactive Boba Shaker Cup & Toppings Mixer -->
+            <!-- 6-Axis Sugar Personality Sliders + Dynamic SVG Hexagon Radar -->
             <div
-              class="lg:col-span-5 lab-card liquid-glass-card rounded-3xl p-6 flex flex-col justify-between space-y-5">
-              <div class="flex items-center justify-between">
-                <div>
-                  <span class="text-xs font-mono text-amber-400">SOUL BOBA SHAKER // 靈魂手搖杯</span>
-                  <h3 class="text-xl font-black text-white">第一關：投入你的調皮配料</h3>
-                </div>
-                <span id="shaker-brix-badge"
-                  class="px-3 py-1 rounded-full bg-amber-500 text-slate-950 font-mono text-xs font-black">
-                  甜度 100% 全糖
-                </span>
-              </div>
-
-              <!-- Visual Boba Cup Simulator -->
-              <div
-                class="relative bg-slate-950/90 rounded-3xl border border-slate-800 p-6 flex flex-col items-center justify-center min-h-[300px] overflow-hidden">
-                <div
-                  class="w-4 h-16 bg-gradient-to-r from-pink-500 to-amber-400 rounded-t-lg -mb-4 z-20 transform rotate-6">
-                </div>
-                <div class="w-44 h-5 bg-slate-200 rounded-full border-2 border-slate-400 z-20 shadow"></div>
-                <div id="boba-cup-vessel"
-                  class="relative w-40 h-56 rounded-b-3xl border-4 border-slate-300/80 bg-slate-900/70 overflow-hidden flex flex-col justify-end shadow-[inset_0_0_25px_rgba(255,255,255,0.15)] transition-transform">
-                  <div
-                    class="absolute inset-y-4 right-2 flex flex-col justify-between text-[9px] font-mono text-white/60 z-20 pointer-events-none">
-                    <span>MAX 1000%</span><span>700%</span><span>500%</span><span>300%</span><span>100%</span>
-                  </div>
-                  <div
-                    class="absolute top-6 left-1/2 -translate-x-1/2 z-20 bg-white/95 text-slate-950 px-2.5 py-1.5 rounded-lg shadow border border-amber-500 text-center w-28">
-                    <div class="text-[8px] font-mono font-bold text-slate-500">全糖量測所特調</div>
-                    <div id="cup-sticker-title" class="text-[11px] font-black truncate">全糖創始人特調</div>
-                    <div id="cup-sticker-cubes" class="text-[9px] font-mono font-bold text-amber-600">12 顆方糖</div>
-                  </div>
-                  <div id="boba-liquid-fill"
-                    class="relative w-full bg-gradient-to-t from-amber-600 via-amber-500 to-yellow-300 transition-all duration-500"
-                    style="height: 55%;">
-                    <div class="absolute -top-2.5 left-0 w-[200%] h-3.5 bg-yellow-200/80 rounded-[40%] syrup-wave">
-                    </div>
-                    <div id="boba-toppings-stage"
-                      class="absolute inset-x-2 bottom-2 flex flex-wrap-reverse justify-center gap-1 z-10 max-h-36 overflow-hidden">
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Toppings Add Buttons -->
-              <div class="space-y-2">
-                <div class="flex justify-between text-xs font-mono text-slate-400">
-                  <span>點擊加料（可複選疊加）：</span>
-                  <button type="button" onclick="clearBobaCup()" class="text-cyan-400 hover:underline">🔄 清空重調</button>
-                </div>
-                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  <button type="button" onclick="toggleTopping('pearl', '⚫ 熬夜黑糖珍珠', 5)" id="top-btn-pearl"
-                    class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-left transition flex items-center justify-between">
-                    <span>⚫ 熬夜珍珠</span><span class="font-mono text-amber-400 text-[10px]">+5顆</span>
-                  </button>
-                  <button type="button" onclick="toggleTopping('pudding', '🍮 社死焦糖布丁', 8)" id="top-btn-pudding"
-                    class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-left transition flex items-center justify-between">
-                    <span>🍮 社死布丁</span><span class="font-mono text-amber-400 text-[10px]">+8顆</span>
-                  </button>
-                  <button type="button" onclick="toggleTopping('foam', '🧀 尬聊厚奶蓋', 6)" id="top-btn-foam"
-                    class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-left transition flex items-center justify-between">
-                    <span>🧀 尬聊奶蓋</span><span class="font-mono text-amber-400 text-[10px]">+6顆</span>
-                  </button>
-                  <button type="button" onclick="toggleTopping('jelly', '🥥 腦洞椰果粒', 4)" id="top-btn-jelly"
-                    class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-left transition flex items-center justify-between">
-                    <span>🥥 腦洞椰果</span><span class="font-mono text-amber-400 text-[10px]">+4顆</span>
-                  </button>
-                  <button type="button" onclick="toggleTopping('popping', '🟠 暴走爆爆珠', 12)" id="top-btn-popping"
-                    class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-left transition flex items-center justify-between">
-                    <span>🟠 暴走爆珠</span><span class="font-mono text-amber-400 text-[10px]">+12顆</span>
-                  </button>
-                  <button type="button" onclick="toggleTopping('syrup', '🍯 純高果糖漿', 25)" id="top-btn-syrup"
-                    class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-left transition flex items-center justify-between">
-                    <span>🍯 濃縮糖漿</span><span class="font-mono text-red-400 text-[10px]">+25顆</span>
-                  </button>
-                </div>
-              </div>
-
-              <button type="button" onclick="shakeBobaCup()"
-                class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-500 text-slate-950 font-black text-sm shadow-[0_0_25px_rgba(245,158,11,0.4)] hover:brightness-110 active:scale-95 transition">
-                🧋 瘋狂搖晃雪克杯・算出我的專屬糖度！
-              </button>
-            </div>
-
-            <!-- Right 7 Cols: 6-Axis Sugar Personality Sliders + Dynamic SVG Hexagon Radar -->
-            <div
-              class="lg:col-span-7 lab-card liquid-glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between space-y-6">
+              class="lg:col-span-12 lab-card liquid-glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between space-y-6">
               <div class="flex flex-wrap items-center justify-between gap-2">
                 <div>
                   <span class="text-xs font-mono text-cyan-400">6-AXIS SUGAR DNA RADAR // 六維度糖度人格分析</span>
-                  <h3 class="text-xl font-black text-white">第二關：拉動滑桿調整你的 6 大日常屬性</h3>
+                  <h3 class="text-xl font-black text-white">拉動滑桿調整你的 6 大日常屬性</h3>
                 </div>
                 <button type="button" onclick="randomizeRadarSliders()"
                   class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-amber-500/40 text-amber-300 font-mono text-xs font-bold transition">
@@ -1986,7 +1901,7 @@
                     class="embossed-badge px-2 py-0.5 rounded text-amber-300 font-black">得分: 0 (x1)</span>
                 </div>
                 <h3 class="text-base font-black text-white">1. 極速磁浮接方糖</h3>
-                <p class="text-[11px] text-slate-400">滑鼠/手指左右滑動接住 🧊🍯🧋，閃避 🍵 苦茶炸彈！</p>
+                <p class="text-[11px] text-slate-400">左右接住 🧊🍯🧋，閃避 🍵 炸彈！</p>
                 <div
                   class="my-2.5 rounded-2xl embossed-well relative overflow-hidden flex items-center justify-center p-1">
                   <canvas id="sugar-catcher-canvas" width="300" height="175"
@@ -2008,7 +1923,7 @@
                     class="embossed-badge px-2 py-0.5 rounded text-emerald-300 font-black">JACKPOT 準備</span>
                 </div>
                 <h3 class="text-base font-black text-white">2. 皇家 777 社死拉霸機</h3>
-                <p class="text-[11px] text-slate-400">拉動轉輪抽大獎！三連線觸發黃金方糖大噴發！</p>
+                <p class="text-[11px] text-slate-400">拉動轉輪，三連線觸發方糖大噴發！</p>
                 <div class="my-2.5 h-44 rounded-2xl embossed-well p-3 flex flex-col justify-between">
                   <div class="grid grid-cols-3 gap-2 my-auto">
                     <div id="slot-reel-1"
@@ -2047,7 +1962,7 @@
                     0 擊</span>
                 </div>
                 <h3 class="text-base font-black text-white">3. 爆走果糖怪極速打擊</h3>
-                <p class="text-[11px] text-slate-400">極速點擊冒出的 🍯👑😈 果糖怪，別點到 🍵 綠茶！</p>
+                <p class="text-[11px] text-slate-400">點擊冒出的 🍯👑😈 果糖怪，避開 🍵 綠茶！</p>
                 <div id="whack-monster-grid"
                   class="my-2.5 h-44 rounded-2xl embossed-well p-2 grid grid-cols-3 grid-rows-3 gap-1.5">
                   <!-- 9 Holes rendered by JS -->
