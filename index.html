@@ -221,13 +221,13 @@
   <!-- Live System Synchronization Banner -->
   <div id="system-version-sync-banner" class="bg-gradient-to-r from-emerald-950/80 via-slate-950/90 to-amber-950/80 border-b border-emerald-500/30 px-3 py-1.5 text-center text-xs font-mono text-emerald-300 flex items-center justify-center gap-2 flex-wrap shadow-inner">
     <span class="inline-flex items-center gap-1 font-bold bg-emerald-500/20 px-2 py-0.5 rounded text-[11px] border border-emerald-500/40 text-emerald-200">
-      ⚡ v5.8.0 系統即時同步
+      ⚡ v5.9.0 系統即時同步
     </span>
-    <span class="text-slate-300">初始狀態：<b class="text-amber-400">0 顆</b> / <b class="text-cyan-300">0.0g</b> (<span class="text-emerald-300 font-bold">Lv.0 無糖純潔態</span>)</span>
+    <span class="text-slate-300">初始糖分：<b class="text-amber-400">0 顆</b> / <b class="text-cyan-300">0.0g</b> (<span class="text-emerald-300 font-bold">Lv.0 無糖純潔態</span>)</span>
     <span class="text-slate-600 hidden sm:inline">|</span>
-    <span class="text-slate-300 hidden sm:inline">✨ 琥珀果糖光學雕塑已載入</span>
+    <span class="text-slate-300 hidden sm:inline">🧪 1000mL 核心量筒與 0~14 級對照已置頂魔王正下方</span>
     <span class="text-slate-600 hidden md:inline">|</span>
-    <span class="text-slate-300 hidden md:inline">🧪 1000mL 巨型量筒 0~14 級全覽指標已啟用</span>
+    <span class="text-slate-300 hidden md:inline">🔮 焦糖分子反應爐 ＆ 🎛️ 糖感波形合成器已載入</span>
   </div>
 
   <!-- ========================================================================
@@ -367,137 +367,331 @@
       </section>
 
       <!-- ====================================================================
-           PAGE 1: 實驗室主頁・藝術結晶雕塑、理智天平 ＆ 0~14級量筒核心主視覺 (#lab-page-1)
+           PAGE 1: 實驗室主頁・1000mL 核心生活指標量筒、0~14 級全覽矩陣、焦糖超導聚變反應爐 ＆ 理智天平
            ==================================================================== -->
       <div id="lab-page-1" class="lab-page-view active-page space-y-6">
-        <!-- 上部：藝術流體動態雕塑 ＆ 排版更正的理智天平 -->
-        <section class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-          <div class="lg:col-span-7 flex flex-col justify-between space-y-3">
-            <!-- 藝術性質動態雕塑 (Kinetic Amber Fructose Light Art Installation) -->
-            <div class="liquid-glass-card rounded-2xl p-4 relative overflow-hidden">
-              <div class="flex items-center justify-between mb-2 px-1">
-                <span class="font-mono text-xs font-bold text-cyan-300 flex items-center gap-1.5">
-                  <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-                  ✨ 琥珀果糖光學動態藝術雕塑 (點擊激發晶格共振)
+
+        <!-- 頂部核心主視覺：1000mL 結晶量筒 ＆ 0 到 14 級生活指標全覽總匯 (緊鄰魔王正下方) -->
+        <section class="space-y-4">
+          <!-- 核心主視覺橫幅提示 -->
+          <div class="liquid-glass-card rounded-2xl p-4 border-amber-400/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-mono text-xs font-black">CORE BENCHMARK</span>
+                <h3 class="text-base sm:text-xl font-black text-white">🎯 全糖量測生活指標：從 0 級到 14 級生活指數全覽</h3>
+              </div>
+              <p class="text-xs text-slate-300 mt-1">
+                第一頁核心指標：觀察左側 1000mL 巨型量筒與右側 0~14 級對應生活症狀，點擊任意等級即刻聯動升降！
+              </p>
+            </div>
+            <span class="embossed-badge px-3 py-1 rounded-lg text-amber-300 font-mono text-xs font-bold shrink-0">
+              Lv.0 ~ Lv.14 共 15 階指標
+            </span>
+          </div>
+
+          <!-- 大量筒 (左) ＆ 0~14 級指標全覽矩陣 (右) -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+            <!-- 左側：放大版 1000mL 核心結晶量筒 (核心主視覺) -->
+            <div class="lg:col-span-5 liquid-glass-card rounded-2xl sm:rounded-3xl p-5 flex flex-col items-center justify-between">
+              <div class="w-full flex items-center justify-between font-mono text-xs mb-3 border-b border-white/10 pb-2">
+                <span class="text-cyan-300 font-black flex items-center gap-1.5">
+                  <span class="text-base">🧪</span> 1000mL 核心生活指標量筒
                 </span>
-                <span id="minted-sugar-counter" class="embossed-badge px-2.5 py-0.5 rounded font-mono text-[10px] text-amber-300 font-bold">
-                  結晶: 4 枚
+                <span class="embossed-badge px-2 py-0.5 rounded text-amber-300 font-bold text-[10px]">
+                  點擊量筒 +5顆
                 </span>
               </div>
 
-              <!-- 幾何流體光學動態藝術 SVG (純粹藝術美感) -->
-              <svg viewBox="0 0 640 195" class="w-full h-auto rounded-xl embossed-well select-none cursor-pointer"
-                   onclick="window.LabApp.pulseArtInstallation()" title="點擊激發藝術雕塑晶格脈衝！">
-                <defs>
-                  <radialGradient id="artAura" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stop-color="#FDE047" stop-opacity="0.35" />
-                    <stop offset="45%" stop-color="#F59E0B" stop-opacity="0.18" />
-                    <stop offset="80%" stop-color="#06B6D4" stop-opacity="0.08" />
-                    <stop offset="100%" stop-color="#030712" stop-opacity="0" />
-                  </radialGradient>
-                  <linearGradient id="crystalGold" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#FFFBEB" />
-                    <stop offset="35%" stop-color="#FDE047" />
-                    <stop offset="70%" stop-color="#F59E0B" />
-                    <stop offset="100%" stop-color="#B45309" />
-                  </linearGradient>
-                  <linearGradient id="crystalCyan" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#E0F2FE" />
-                    <stop offset="50%" stop-color="#38BDF8" />
-                    <stop offset="100%" stop-color="#0284C7" />
-                  </linearGradient>
-                </defs>
+              <!-- 放大版大型量筒柱 (寬 170px，高 420px，清晰刻度) -->
+              <div class="cylinder-large-frame my-1"
+                onclick="window.LabApp.injectSugarToScale(5, 'add')" title="點擊量筒快速注入 5 顆方糖！">
+                <!-- 垂直玻璃高光線 -->
+                <div class="absolute top-0 bottom-0 left-3 w-3 bg-white/20 rounded-full z-20 pointer-events-none"></div>
+                <!-- 動態金黃果糖液體柱 -->
+                <div id="cylinder-liquid" class="w-full absolute bottom-0 left-0 bg-gradient-to-t from-amber-600 via-amber-500 to-yellow-400" style="height: 7%;">
+                  <div class="w-[200%] h-4 -top-2.5 left-0 absolute bg-yellow-200/70 rounded-full liquid-wave-top"></div>
+                  <div class="fructose-bubble w-3 h-3 left-1/4"></div>
+                  <div class="fructose-bubble w-4 h-4 left-1/2"></div>
+                </div>
 
-                <!-- 深邃宇宙夜空底圖 -->
-                <rect width="640" height="195" fill="#040714" />
-                <rect width="640" height="195" fill="url(#artAura)" />
+                <!-- 清楚顯眼的刻度線與生活等級對應 (排版無遮擋) -->
+                <div class="absolute inset-0 flex flex-col justify-between py-3 px-3 font-mono text-[10px] font-black z-10 pointer-events-none select-none">
+                  <div class="flex justify-between text-rose-300 border-b-2 border-red-500/60 pb-0.5">
+                    <span>1000mL</span><span>Lv.14 終極1L純糖漿</span>
+                  </div>
+                  <div class="flex justify-between text-purple-300 border-b border-white/20 pb-0.5">
+                    <span>800mL</span><span>Lv.12 史詩社死</span>
+                  </div>
+                  <div class="flex justify-between text-amber-300 border-b border-white/20 pb-0.5">
+                    <span>600mL</span><span>Lv.10 焦糖核爆</span>
+                  </div>
+                  <div class="flex justify-between text-rose-200 border-b border-white/20 pb-0.5">
+                    <span>400mL</span><span>Lv.8 胰島求饒</span>
+                  </div>
+                  <div class="flex justify-between text-amber-200 border-b border-white/20 pb-0.5">
+                    <span>250mL</span><span>Lv.7 叫阿嬤來</span>
+                  </div>
+                  <div class="flex justify-between text-yellow-300 border-b-2 border-amber-400 pb-0.5 bg-amber-950/30 px-1 rounded">
+                    <span>60mL</span><span>Lv.4 全糖臨界(12顆)</span>
+                  </div>
+                  <div class="flex justify-between text-emerald-300 pt-0.5">
+                    <span>0mL</span><span>Lv.0 無糖純潔態</span>
+                  </div>
+                </div>
+              </div>
 
-                <!-- 藝術同心光學光環 (緩慢旋轉) -->
-                <g class="artistic-sculpture-halo" style="transform-origin: 320px 97px;">
-                  <circle cx="320" cy="97" r="76" fill="none" stroke="rgba(251,191,36,0.3)" stroke-width="1.5" stroke-dasharray="8 6" />
-                  <circle cx="320" cy="97" r="62" fill="none" stroke="rgba(56,189,248,0.25)" stroke-width="1.2" stroke-dasharray="4 8" />
-                  <circle cx="320" cy="97" r="48" fill="none" stroke="rgba(244,63,94,0.2)" stroke-width="1" stroke-dasharray="12 4" />
-                </g>
+              <!-- 量筒下方即時說明 -->
+              <div class="w-full mt-3 p-2.5 rounded-xl bg-slate-950/80 border border-white/10 text-center font-mono text-xs text-slate-300">
+                當前液位高度：<span id="cylinder-ml-val" class="font-bold text-amber-300">0 mL</span> ｜
+                當前等級：<span id="cylinder-level-val" class="font-black text-cyan-300">Lv.0 無糖純潔態</span>
+              </div>
+            </div>
 
-                <!-- 光學幾何射線 -->
-                <line x1="160" y1="97" x2="480" y2="97" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
-                <line x1="320" y1="20" x2="320" y2="175" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
+            <!-- 右側：0 到 14 級生活指標全覽 ＆ 一鍵切換矩陣 -->
+            <div class="lg:col-span-7 space-y-3.5">
+              <!-- 當前選中等級的詳細診斷卡 -->
+              <div id="ladder-detail-card" class="liquid-glass-card rounded-2xl p-4.5 border-amber-400/40"></div>
 
-                <!-- 左側琉璃光翼雕塑 -->
-                <path d="M180,97 C200,60 250,75 280,97 C250,119 200,134 180,97 Z"
-                      fill="url(#crystalCyan)" opacity="0.65" filter="drop-shadow(0 0 10px rgba(56,189,248,0.5))" />
+              <!-- 0~14 級快速滑動滑桿 -->
+              <div class="liquid-glass-card rounded-xl p-3.5 space-y-1.5">
+                <div class="flex justify-between font-mono text-xs text-amber-300 font-bold">
+                  <span>🎚️ 0 到 14 級生活指標即時滑動：</span>
+                  <span id="ladder-slider-val-badge" class="text-cyan-300">目前選擇：Lv.0 無糖純潔態</span>
+                </div>
+                <input id="ladder-slider" type="range" min="0" max="14" step="1" value="0"
+                  oninput="window.LabApp.selectLadderLevel(this.value, true)"
+                  class="w-full accent-amber-400 cursor-pointer h-2 bg-slate-800 rounded-lg" />
+              </div>
 
-                <!-- 右側琥珀琉璃光翼雕塑 -->
-                <path d="M460,97 C440,60 390,75 360,97 C390,119 440,134 460,97 Z"
-                      fill="url(#crystalGold)" opacity="0.75" filter="drop-shadow(0 0 12px rgba(245,158,11,0.6))" />
+              <!-- 0 到 14 級十五個等級直觀按鈕網格 (簡單易懂一目了然) -->
+              <div class="liquid-glass-card rounded-2xl p-4 space-y-2">
+                <div class="flex items-center justify-between font-mono text-xs text-slate-300 border-b border-white/10 pb-1.5">
+                  <span class="font-bold text-amber-300">📋 0~14 級全指標矩陣 (點選任一等級查看生活症狀)：</span>
+                  <span class="text-[10px] text-slate-400">共 15 個等級</span>
+                </div>
+                <div id="ladder-matrix-buttons" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1.5 pt-1"></div>
+              </div>
 
-                <!-- 中央懸浮八面體鑽石巨型方糖 (Artistic Polyhedral Core) -->
-                <g class="artistic-sculpture-prism" style="transform-origin: 320px 97px;">
-                  <polygon points="320,45 352,97 320,150 288,97" fill="url(#crystalGold)" stroke="#FFF" stroke-width="1.8" />
-                  <polygon points="320,45 352,97 320,97" fill="#FEF08A" opacity="0.85" />
-                  <polygon points="320,97 352,97 320,150" fill="#D97706" opacity="0.9" />
-                  <polygon points="320,45 288,97 320,97" fill="#FFFFFF" opacity="0.95" />
-                  <polygon points="320,97 288,97 320,150" fill="#B45309" opacity="0.9" />
-                </g>
+              <!-- 經典生活飲品基準點對照表 -->
+              <div id="beverage-benchmark-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2"></div>
+            </div>
+          </div>
+        </section>
 
-                <!-- 浮動藝術光點 -->
-                <circle cx="230" cy="55" r="3.5" fill="#38BDF8" opacity="0.8" />
-                <circle cx="410" cy="52" r="4" fill="#FDE047" opacity="0.8" />
-                <circle cx="210" cy="140" r="3" fill="#F43F5E" opacity="0.7" />
-                <circle cx="430" cy="142" r="3.5" fill="#38BDF8" opacity="0.8" />
+        <!-- 下部：全新創意互動裝置（焦糖超導聚變反應爐 ＆ 糖感波形合成器）＋ 理智天平 ＆ 快捷導航 -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+          <!-- 左欄 (lg:col-span-7)：創意互動反應爐 ＆ 波形合成器 (填滿空格且豐富互動) -->
+          <div class="lg:col-span-7 flex flex-col justify-between space-y-4">
+            <!-- 裝置 1：全息焦糖分子超導聚變反應爐 (取代原琥珀雕塑) -->
+            <div class="liquid-glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-5 relative overflow-hidden">
+              <div class="flex items-center justify-between mb-3 px-1 border-b border-white/10 pb-2">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
+                  <h3 class="text-sm sm:text-base font-black text-white flex items-center gap-1.5">
+                    🔮 全息焦糖分子超導聚變反應爐
+                  </h3>
+                </div>
+                <div class="flex items-center gap-2 font-mono text-[11px]">
+                  <span class="px-2 py-0.5 rounded bg-amber-950/60 border border-amber-500/40 text-amber-300 font-bold">
+                    溫控: <span id="reactor-temp-display">165.0°C</span>
+                  </span>
+                  <span class="px-2 py-0.5 rounded bg-cyan-950/60 border border-cyan-500/40 text-cyan-300 font-bold hidden sm:inline">
+                    超導壓力: <span id="reactor-psi-display">88.4 kPa</span>
+                  </span>
+                  <span id="minted-sugar-counter" class="embossed-badge px-2 py-0.5 rounded text-amber-300 font-bold">
+                    結晶: 4 枚
+                  </span>
+                </div>
+              </div>
 
-                <!-- 藝術標題銘文 -->
-                <text x="320" y="178" text-anchor="middle" fill="#FEF3C7" font-size="11" font-weight="bold" letter-spacing="3" opacity="0.85">
-                  ✦ HARMONIC CRYSTAL STRUCTURE ✦
-                </text>
-              </svg>
+              <!-- 反應爐動態 SVG 視覺 (分子三環軌道 + 核心焦糖化聚變 + 浮動微粒) -->
+              <div class="relative rounded-2xl embossed-well p-2 overflow-hidden cursor-pointer"
+                   onclick="window.LabApp.pulseReactorFission()" title="點擊反應爐核心激發分子聚變！">
+                <svg viewBox="0 0 600 200" class="w-full h-auto select-none">
+                  <defs>
+                    <radialGradient id="reactorAura" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.45" />
+                      <stop offset="50%" stop-color="#D97706" stop-opacity="0.18" />
+                      <stop offset="85%" stop-color="#06B6D4" stop-opacity="0.08" />
+                      <stop offset="100%" stop-color="#020617" stop-opacity="0" />
+                    </radialGradient>
+                    <linearGradient id="orbitGradCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#38BDF8" />
+                      <stop offset="100%" stop-color="#0284C7" />
+                    </linearGradient>
+                    <linearGradient id="orbitGradGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#FDE047" />
+                      <stop offset="100%" stop-color="#D97706" />
+                    </linearGradient>
+                  </defs>
 
-              <!-- 精簡四鍵壓鑄結晶列 -->
-              <div class="grid grid-cols-4 gap-2 mt-3">
+                  <!-- 深邃暗黑反應爐背景 -->
+                  <rect width="600" height="200" fill="#040816" rx="12" />
+                  <rect width="600" height="200" fill="url(#reactorAura)" />
+
+                  <!-- 外層六角形分子防護罩 -->
+                  <polygon points="300,20 410,50 410,150 300,180 190,150 190,50" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+
+                  <!-- 外軌道分子環 (逆時針旋轉) -->
+                  <g class="reactor-orbit-outer" style="transform-origin: 300px 100px;">
+                    <ellipse cx="300" cy="100" rx="140" ry="50" fill="none" stroke="rgba(251,191,36,0.35)" stroke-width="1.5" stroke-dasharray="12 6" />
+                    <circle cx="160" cy="100" r="5" fill="#38BDF8" filter="drop-shadow(0 0 6px #38bdf8)" />
+                    <circle cx="440" cy="100" r="5" fill="#FBBF24" filter="drop-shadow(0 0 6px #fbbf24)" />
+                  </g>
+
+                  <!-- 中軌道分子環 (傾斜40度順時針旋轉) -->
+                  <g class="reactor-orbit-middle" style="transform-origin: 300px 100px;">
+                    <ellipse cx="300" cy="100" rx="110" ry="42" fill="none" stroke="rgba(6,182,212,0.45)" stroke-width="1.8" stroke-dasharray="8 4" transform="rotate(40 300 100)" />
+                    <circle cx="300" cy="58" r="6" fill="#F43F5E" filter="drop-shadow(0 0 8px #f43f5e)" />
+                    <circle cx="300" cy="142" r="6" fill="#A855F7" filter="drop-shadow(0 0 8px #a855f7)" />
+                  </g>
+
+                  <!-- 內軌道環 (高速旋轉) -->
+                  <g class="reactor-orbit-inner" style="transform-origin: 300px 100px;">
+                    <ellipse cx="300" cy="100" rx="75" ry="32" fill="none" stroke="rgba(244,63,94,0.5)" stroke-width="2" transform="rotate(-35 300 100)" />
+                    <circle cx="230" cy="95" r="4.5" fill="#FEF08A" />
+                    <circle cx="370" cy="105" r="4.5" fill="#38BDF8" />
+                  </g>
+
+                  <!-- 核心焦糖化聚變原子核 (Caramel Fusion Core) -->
+                  <g class="reactor-core-atom" style="transform-origin: 300px 100px;">
+                    <circle cx="300" cy="100" r="26" fill="url(#orbitGradGold)" stroke="#FFFFFF" stroke-width="2.5" />
+                    <circle cx="300" cy="100" r="14" fill="#78350F" opacity="0.6" />
+                    <!-- 果糖五角環微縮標誌 -->
+                    <polygon points="300,88 312,96 308,110 292,110 288,96" fill="#FFFFFF" opacity="0.85" />
+                  </g>
+
+                  <!-- 科技文字抬頭 -->
+                  <text x="300" y="190" text-anchor="middle" fill="#94A3B8" font-family="monospace" font-size="10" font-weight="bold" letter-spacing="2">
+                    ⚛ CARAMEL MOLECULAR CRITICAL REACTOR ⚛
+                  </text>
+                </svg>
+
+                <!-- 浮動提示 -->
+                <div class="absolute bottom-3 right-4 font-mono text-[10px] text-amber-300 font-bold bg-slate-950/70 px-2 py-0.5 rounded border border-amber-500/30">
+                  ⚡ 點擊反應爐激發裂變
+                </div>
+              </div>
+
+              <!-- 反應爐 4 大操控按鈕 (強互動) -->
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">
+                <button onclick="window.LabApp.pulseReactorFission()"
+                  class="liquid-glass-amber py-2 px-2.5 rounded-xl font-mono text-xs font-black flex items-center justify-center gap-1.5">
+                  <span>⚡ 激發裂變</span>
+                </button>
+                <button onclick="window.LabApp.cryoCoolReactor()"
+                  class="liquid-glass-cyan py-2 px-2.5 rounded-xl font-mono text-xs font-bold flex items-center justify-center gap-1.5 text-cyan-200">
+                  <span>❄️ 液氮急速冷萃</span>
+                </button>
+                <button onclick="window.LabApp.injectReactorNucleotide()"
+                  class="liquid-glass-btn py-2 px-2.5 rounded-xl font-mono text-xs font-bold flex items-center justify-center gap-1.5 text-pink-200">
+                  <span>🧬 注入果糖核酸</span>
+                </button>
+                <button onclick="window.LabApp.triggerReactorOverload()"
+                  class="liquid-glass-red py-2 px-2.5 rounded-xl font-mono text-xs font-extrabold flex items-center justify-center gap-1.5 text-white">
+                  <span>💥 臨界超導共振</span>
+                </button>
+              </div>
+
+              <!-- 4 種結晶方糖壓鑄按鈕 -->
+              <div class="grid grid-cols-4 gap-2 mt-2 pt-2 border-t border-white/10">
                 <button onclick="window.LabApp.mintEmbossedSugar('🧊', '水晶糖', 3)"
-                  class="liquid-glass-btn py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 group">
-                  <span class="text-lg group-hover:scale-110 transition-transform">🧊</span>
-                  <span class="font-mono text-xs font-bold text-cyan-200">+3顆</span>
+                  class="liquid-glass-btn py-1.5 px-2 rounded-xl flex items-center justify-center gap-1 group">
+                  <span class="text-base group-hover:scale-110 transition-transform">🧊</span>
+                  <span class="font-mono text-[11px] font-bold text-cyan-200">+3顆</span>
                 </button>
                 <button onclick="window.LabApp.mintEmbossedSugar('🍯', '黃金糖', 12)"
-                  class="liquid-glass-btn py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 group">
-                  <span class="text-lg group-hover:scale-110 transition-transform">🍯</span>
-                  <span class="font-mono text-xs font-bold text-amber-200">+12顆</span>
+                  class="liquid-glass-btn py-1.5 px-2 rounded-xl flex items-center justify-center gap-1 group">
+                  <span class="text-base group-hover:scale-110 transition-transform">🍯</span>
+                  <span class="font-mono text-[11px] font-bold text-amber-200">+12顆</span>
                 </button>
                 <button onclick="window.LabApp.mintEmbossedSugar('💎', '鑽石糖', 30)"
-                  class="liquid-glass-btn py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 group">
-                  <span class="text-lg group-hover:scale-110 transition-transform">💎</span>
-                  <span class="font-mono text-xs font-bold text-sky-200">+30顆</span>
+                  class="liquid-glass-btn py-1.5 px-2 rounded-xl flex items-center justify-center gap-1 group">
+                  <span class="text-base group-hover:scale-110 transition-transform">💎</span>
+                  <span class="font-mono text-[11px] font-bold text-sky-200">+30顆</span>
                 </button>
                 <button onclick="window.LabApp.mintEmbossedSugar('👑', '蜂王漿', 80)"
-                  class="liquid-glass-btn py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 group">
-                  <span class="text-lg group-hover:scale-110 transition-transform">👑</span>
-                  <span class="font-mono text-xs font-bold text-rose-200">+80顆</span>
+                  class="liquid-glass-btn py-1.5 px-2 rounded-xl flex items-center justify-center gap-1 group">
+                  <span class="text-base group-hover:scale-110 transition-transform">👑</span>
+                  <span class="font-mono text-[11px] font-bold text-rose-200">+80顆</span>
                 </button>
               </div>
               <div id="minted-crystal-showcase" class="hidden"></div>
             </div>
 
-            <!-- Page Quick Jumps -->
-            <div class="grid grid-cols-3 gap-2">
-              <button onclick="window.LabApp.switchLabPage(2)"
-                class="liquid-glass-amber py-2.5 px-3 rounded-2xl font-black text-xs sm:text-sm text-center">
-                🧪 2.問問題測糖 ➔
-              </button>
-              <button onclick="window.LabApp.switchLabPage(3)"
-                class="liquid-glass-btn py-2.5 px-3 rounded-2xl font-bold text-xs text-cyan-200 text-center">
-                🖨️ 3.收據＆PK
-              </button>
-              <button onclick="window.LabApp.switchLabPage(4)"
-                class="liquid-glass-btn py-2.5 px-3 rounded-2xl font-bold text-xs text-purple-200 text-center">
-                🎮 4.遊樂場
-              </button>
+            <!-- 裝置 2：糖感神經波形諧振合成器 (補滿空格的創意互動裝置) -->
+            <div class="liquid-glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-5 relative overflow-hidden space-y-3">
+              <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                <div class="flex items-center gap-2">
+                  <span class="embossed-badge px-2 py-0.5 rounded font-mono text-[10px] text-cyan-300 font-bold">SYNTH</span>
+                  <h3 class="text-sm sm:text-base font-black text-white">🎛️ 糖感神經波形諧振合成器</h3>
+                </div>
+                <div class="flex items-center gap-2 font-mono text-xs">
+                  <span class="text-slate-400">目前頻率：</span>
+                  <span id="synth-freq-readout" class="font-bold text-amber-300">440 Hz</span>
+                </div>
+              </div>
+
+              <!-- SVG 即時示波器視窗 (隨滑桿與模式動態流動) -->
+              <div class="embossed-well rounded-xl p-2 relative h-24 flex items-center justify-center overflow-hidden">
+                <svg viewBox="0 0 500 80" class="w-full h-full select-none">
+                  <!-- 示波器網格線 -->
+                  <line x1="0" y1="40" x2="500" y2="40" stroke="rgba(255,255,255,0.12)" stroke-width="1" stroke-dasharray="4 4" />
+                  <line x1="250" y1="0" x2="250" y2="80" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+                  <!-- 動態波形線條 -->
+                  <path id="synth-oscilloscope-path" d="M0,40 Q62.5,10 125,40 T250,40 T375,40 T500,40"
+                    fill="none" stroke="#FBBF24" stroke-width="3" filter="drop-shadow(0 0 8px rgba(251,191,36,0.85))"
+                    class="synth-wave-path" />
+                </svg>
+                <div class="absolute top-2 left-3 font-mono text-[10px] text-slate-400">
+                  OSCILLOSCOPE // <span id="synth-wave-name" class="text-cyan-300 font-bold">SINE WAVE (正弦微糖波)</span>
+                </div>
+              </div>
+
+              <!-- 4 大甜度波形模式按鈕 -->
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <button onclick="window.LabApp.setSynthesizerWaveform('sine', 0)"
+                  id="synth-btn-sine"
+                  class="liquid-glass-btn py-1.5 px-2 rounded-xl font-mono text-xs font-bold text-emerald-300 text-center">
+                  🟢 0Hz 純淨波
+                </button>
+                <button onclick="window.LabApp.setSynthesizerWaveform('triangle', 440)"
+                  id="synth-btn-triangle"
+                  class="liquid-glass-btn py-1.5 px-2 rounded-xl font-mono text-xs font-bold text-cyan-300 text-center active">
+                  🟡 440Hz 奶茶波
+                </button>
+                <button onclick="window.LabApp.setSynthesizerWaveform('sawtooth', 880)"
+                  id="synth-btn-sawtooth"
+                  class="liquid-glass-btn py-1.5 px-2 rounded-xl font-mono text-xs font-bold text-amber-300 text-center">
+                  🟠 880Hz 全糖波
+                </button>
+                <button onclick="window.LabApp.setSynthesizerWaveform('square', 1760)"
+                  id="synth-btn-square"
+                  class="liquid-glass-btn py-1.5 px-2 rounded-xl font-mono text-xs font-bold text-rose-300 text-center">
+                  🔴 1760Hz 爆表波
+                </button>
+              </div>
+
+              <!-- 頻率調諧滑桿 ＆ 試聽按鈕 -->
+              <div class="flex items-center gap-3 pt-1">
+                <div class="flex-1 flex items-center gap-2">
+                  <span class="font-mono text-xs text-slate-400 shrink-0">調諧：</span>
+                  <input id="synth-freq-slider" type="range" min="80" max="2200" step="10" value="440"
+                    oninput="window.LabApp.setSynthesizerFrequency(this.value)"
+                    class="w-full accent-amber-400 cursor-pointer h-2 bg-slate-800 rounded-lg" />
+                </div>
+                <button onclick="window.LabApp.playSynthesizerTone()"
+                  class="liquid-glass-amber py-1.5 px-3 rounded-xl font-mono text-xs font-black shrink-0 flex items-center gap-1.5">
+                  <span>🔊 播放諧振音</span>
+                </button>
+              </div>
             </div>
           </div>
 
-          <!-- Right: 理智腦 vs 方糖天平 (重構排版：字體完全分層分區、零擠壓) -->
-          <div class="lg:col-span-5">
-            <div class="liquid-glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-5 h-full flex flex-col justify-between space-y-3">
+          <!-- 右欄 (lg:col-span-5)：理智天平 ＆ 跨頁傳送門 -->
+          <div class="lg:col-span-5 flex flex-col justify-between space-y-4">
+            <!-- 理智腦 vs 方糖天平 (重構排版：字體完全分層分區、零擠壓) -->
+            <div class="liquid-glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-5 flex flex-col justify-between space-y-3">
               <!-- 頂部標題與歸零按鈕 -->
               <div class="flex items-center justify-between border-b border-white/15 pb-2">
                 <div class="flex items-center gap-2">
@@ -518,7 +712,7 @@
                 </div>
                 <div class="p-2 rounded-xl bg-amber-950/40 border border-amber-500/30 text-center">
                   <div class="font-mono text-[10px] text-amber-300">右端：方糖負荷</div>
-                  <div class="text-xs font-black text-amber-300 mt-0.5 truncate">12顆=全糖臨界</div>
+                  <div id="scale-right-sugar-label" class="text-xs font-black text-amber-300 mt-0.5 truncate">0顆=無糖純潔</div>
                 </div>
               </div>
 
@@ -550,10 +744,10 @@
               <!-- 獨立深色 LED 數值面板 (排在天平下方獨立展示，零擠壓) -->
               <div class="bg-slate-950/95 border border-amber-500/30 rounded-xl px-3.5 py-2 flex items-center justify-between">
                 <div id="scale-led-sub" class="font-mono text-xs text-cyan-300 font-bold truncate">
-                  Lv.4 全糖臨界點
+                  Lv.0 無糖純潔態
                 </div>
                 <div id="scale-led-display" class="font-mono text-lg font-black text-amber-400 tracking-wider shrink-0">
-                  0060.0 g (12顆)
+                  0000.0 g (0顆)
                 </div>
               </div>
 
@@ -577,116 +771,25 @@
                 </button>
               </div>
             </div>
-          </div>
-        </section>
 
-        <!-- 下部顯眼主視覺：放大 1000mL 結晶量筒 ＆ 0 到 14 級生活指標全覽總匯 (取代萃取機) -->
-        <section class="space-y-4 pt-1">
-          <!-- 核心主視覺橫幅提示 -->
-          <div class="liquid-glass-card rounded-2xl p-4 border-amber-400/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="px-2 py-0.5 rounded bg-amber-400 text-slate-950 font-mono text-xs font-black">CORE BENCHMARK</span>
-                <h3 class="text-base sm:text-xl font-black text-white">🎯 全糖量測生活指標：從 0 級到 14 級生活指數一覽</h3>
-              </div>
-              <p class="text-xs text-slate-300 mt-1">
-                第一頁核心指標：觀察左側 1000mL 巨型量筒與右側 0~14 級對應生活症狀，點擊任意等級即刻聯動升降！
-              </p>
-            </div>
-            <span class="embossed-badge px-3 py-1 rounded-lg text-amber-300 font-mono text-xs font-bold shrink-0">
-              Lv.0 ~ Lv.14 共 15 階指標
-            </span>
-          </div>
-
-          <!-- 大量筒 (左) ＆ 0~14 級指標全覽矩陣 (右) -->
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-            <!-- 左側：放大版 1000mL 核心結晶量筒 (第一頁顯眼主視覺) -->
-            <div class="lg:col-span-5 liquid-glass-card rounded-2xl sm:rounded-3xl p-5 flex flex-col items-center justify-between">
-              <div class="w-full flex items-center justify-between font-mono text-xs mb-3 border-b border-white/10 pb-2">
-                <span class="text-cyan-300 font-black flex items-center gap-1.5">
-                  <span class="text-base">🧪</span> 1000mL 核心生活指標量筒
-                </span>
-                <span class="embossed-badge px-2 py-0.5 rounded text-amber-300 font-bold text-[10px]">
-                  點擊量筒 +5顆
-                </span>
-              </div>
-
-              <!-- 放大版大型量筒柱 (寬 170px，高 420px，清晰刻度) -->
-              <div class="cylinder-large-frame my-1"
-                onclick="window.LabApp.injectSugarToScale(5, 'add')" title="點擊量筒快速注入 5 顆方糖！">
-                <!-- 垂直玻璃高光線 -->
-                <div class="absolute top-0 bottom-0 left-3 w-3 bg-white/20 rounded-full z-20 pointer-events-none"></div>
-                <!-- 動態金黃果糖液體柱 -->
-                <div id="cylinder-liquid" class="w-full absolute bottom-0 left-0 bg-gradient-to-t from-amber-600 via-amber-500 to-yellow-400" style="height: 35%;">
-                  <div class="w-[200%] h-4 -top-2.5 left-0 absolute bg-yellow-200/70 rounded-full liquid-wave-top"></div>
-                  <div class="fructose-bubble w-3 h-3 left-1/4"></div>
-                  <div class="fructose-bubble w-4 h-4 left-1/2"></div>
-                </div>
-
-                <!-- 清楚顯眼的刻度線與生活等級對應 -->
-                <div class="absolute inset-0 flex flex-col justify-between py-3 px-3 font-mono text-[10px] font-black z-10 pointer-events-none select-none">
-                  <div class="flex justify-between text-rose-300 border-b-2 border-red-500/60 pb-0.5">
-                    <span>1000mL</span><span>Lv.14 終極1L純糖漿</span>
-                  </div>
-                  <div class="flex justify-between text-purple-300 border-b border-white/20 pb-0.5">
-                    <span>800mL</span><span>Lv.12 史詩社死</span>
-                  </div>
-                  <div class="flex justify-between text-amber-300 border-b border-white/20 pb-0.5">
-                    <span>600mL</span><span>Lv.10 焦糖核爆</span>
-                  </div>
-                  <div class="flex justify-between text-rose-200 border-b border-white/20 pb-0.5">
-                    <span>400mL</span><span>Lv.8 胰島求饒</span>
-                  </div>
-                  <div class="flex justify-between text-amber-200 border-b border-white/20 pb-0.5">
-                    <span>250mL</span><span>Lv.7 叫阿嬤來</span>
-                  </div>
-                  <div class="flex justify-between text-yellow-300 border-b-2 border-amber-400 pb-0.5 bg-amber-950/30 px-1 rounded">
-                    <span>60mL</span><span>Lv.4 全糖臨界(12顆)</span>
-                  </div>
-                  <div class="flex justify-between text-emerald-300 pt-0.5">
-                    <span>0mL</span><span>Lv.0 無糖純潔態</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- 量筒下方即時說明 -->
-              <div class="w-full mt-3 p-2.5 rounded-xl bg-slate-950/80 border border-white/10 text-center font-mono text-xs text-slate-300">
-                當前液位高度：<span id="cylinder-ml-val" class="font-bold text-amber-300">60 mL</span> ｜
-                當前等級：<span id="cylinder-level-val" class="font-black text-cyan-300">Lv.4 全糖臨界點</span>
-              </div>
-            </div>
-
-            <!-- 右側：0 到 14 級生活指標全覽 ＆ 一鍵切換矩陣 -->
-            <div class="lg:col-span-7 space-y-3.5">
-              <!-- 當前選中等級的詳細診斷卡 -->
-              <div id="ladder-detail-card" class="liquid-glass-card rounded-2xl p-4.5 border-amber-400/40"></div>
-
-              <!-- 0~14 級快速滑動滑桿 -->
-              <div class="liquid-glass-card rounded-xl p-3.5 space-y-1.5">
-                <div class="flex justify-between font-mono text-xs text-amber-300 font-bold">
-                  <span>🎚️ 0 到 14 級生活指標即時滑動：</span>
-                  <span id="ladder-slider-val-badge" class="text-cyan-300">目前選擇：Lv.4</span>
-                </div>
-                <input id="ladder-slider" type="range" min="0" max="14" step="1" value="4"
-                  oninput="window.LabApp.selectLadderLevel(this.value, true)"
-                  class="w-full accent-amber-400 cursor-pointer h-2 bg-slate-800 rounded-lg" />
-              </div>
-
-              <!-- 0 到 14 級十五個等級直觀按鈕網格 (簡單易懂一目了然) -->
-              <div class="liquid-glass-card rounded-2xl p-4 space-y-2">
-                <div class="flex items-center justify-between font-mono text-xs text-slate-300 border-b border-white/10 pb-1.5">
-                  <span class="font-bold text-amber-300">📋 0~14 級全指標矩陣 (點選任一等級查看生活症狀)：</span>
-                  <span class="text-[10px] text-slate-400">共 15 個等級</span>
-                </div>
-                <div id="ladder-matrix-buttons" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1.5 pt-1"></div>
-              </div>
-
-              <!-- 經典生活飲品基準點對照表 -->
-              <div id="beverage-benchmark-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2"></div>
+            <!-- 跨頁快速實驗傳送門 -->
+            <div class="grid grid-cols-3 gap-2">
+              <button onclick="window.LabApp.switchLabPage(2)"
+                class="liquid-glass-amber py-3 px-2 rounded-2xl font-black text-xs text-center">
+                🧪 2.問問題測糖 ➔
+              </button>
+              <button onclick="window.LabApp.switchLabPage(3)"
+                class="liquid-glass-btn py-3 px-2 rounded-2xl font-bold text-xs text-cyan-200 text-center">
+                🖨️ 3.收據＆PK
+              </button>
+              <button onclick="window.LabApp.switchLabPage(4)"
+                class="liquid-glass-btn py-3 px-2 rounded-2xl font-bold text-xs text-purple-200 text-center">
+                🎮 4.遊樂場
+              </button>
             </div>
           </div>
         </section>
-      </div>
+
       </div>
 
       <!-- ====================================================================
@@ -1119,9 +1222,9 @@
   </nav>
 
   <!-- Scripts with cache busters -->
-  <script src="data.js?v=5.8.0"></script>
-  <script src="audio.js?v=5.8.0"></script>
-  <script src="app.js?v=5.8.0"></script>
+  <script src="data.js?v=5.9.0"></script>
+  <script src="audio.js?v=5.9.0"></script>
+  <script src="app.js?v=5.9.0"></script>
 </body>
 
 </html>

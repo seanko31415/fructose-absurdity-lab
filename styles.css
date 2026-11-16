@@ -223,18 +223,20 @@ body.cursor-is-clicking #custom-cursor-ring {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* 動態通透液態玻璃 (Dynamic Liquid Glass) */
+  /* 頂級通透結晶液態玻璃 (Crystal Clear Liquid Glass) */
   background:
-    radial-gradient(120% 70% at 50% 0%, rgba(255, 255, 255, 0.14) 0%, transparent 60%),
-    linear-gradient(160deg, rgba(20, 32, 56, 0.72) 0%, rgba(8, 14, 28, 0.84) 55%, rgba(4, 7, 16, 0.94) 100%);
-  backdrop-filter: blur(18px) saturate(150%);
-  -webkit-backdrop-filter: blur(18px) saturate(150%);
-  border: 1.5px solid rgba(251, 191, 36, 0.45);
-  border-top-color: rgba(255, 255, 255, 0.65);
+    radial-gradient(120% 70% at 50% 0%, rgba(255, 255, 255, 0.22) 0%, transparent 60%),
+    linear-gradient(160deg, rgba(30, 48, 80, 0.68) 0%, rgba(14, 22, 42, 0.82) 55%, rgba(6, 11, 24, 0.94) 100%);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-top: 2px solid rgba(255, 255, 255, 0.85);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.50);
   box-shadow:
-    0 20px 44px rgba(0, 0, 0, 0.8),
-    inset 0 1.5px 2px rgba(255, 255, 255, 0.28),
-    inset 0 -4px 10px rgba(0, 0, 0, 0.65);
+    0 24px 50px rgba(0, 0, 0, 0.85),
+    inset 0 2px 3px rgba(255, 255, 255, 0.45),
+    inset 0 -4px 10px rgba(0, 0, 0, 0.65),
+    0 0 20px rgba(56, 189, 248, 0.25);
   animation: cardIndividualFloat 4s ease-in-out infinite;
   transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
 }
@@ -247,7 +249,7 @@ body.cursor-is-clicking #custom-cursor-ring {
   left: 6%;
   right: 6%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.85), rgba(56, 189, 248, 0.75), rgba(251, 191, 36, 0.65), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), rgba(56, 189, 248, 0.85), rgba(251, 191, 36, 0.75), transparent);
   pointer-events: none;
   z-index: 5;
 }
@@ -261,23 +263,23 @@ body.cursor-is-clicking #custom-cursor-ring {
   height: 220%;
   background: linear-gradient(
     108deg,
-    transparent 32%,
-    rgba(255, 255, 255, 0.04) 40%,
-    rgba(56, 189, 248, 0.22) 48%,
-    rgba(251, 191, 36, 0.18) 52%,
-    rgba(255, 255, 255, 0.08) 58%,
-    transparent 66%
+    transparent 30%,
+    rgba(255, 255, 255, 0.08) 38%,
+    rgba(56, 189, 248, 0.28) 48%,
+    rgba(251, 191, 36, 0.22) 52%,
+    rgba(255, 255, 255, 0.12) 58%,
+    transparent 68%
   );
   pointer-events: none;
   z-index: 1;
-  animation: dynamicLiquidGleam 7s ease-in-out infinite;
+  animation: dynamicLiquidGleam 6s ease-in-out infinite;
 }
 
 /* 3D 卡牌高級浮雕邊角花紋 (Royal Filigree Corners) */
 .card-filigree-frame {
   position: absolute;
   inset: 5px;
-  border: 1px dashed rgba(251, 191, 36, 0.35);
+  border: 1px dashed rgba(251, 191, 36, 0.45);
   border-radius: 18px;
   pointer-events: none;
   z-index: 2;
@@ -288,7 +290,7 @@ body.cursor-is-clicking #custom-cursor-ring {
   width: 18px;
   height: 18px;
   pointer-events: none;
-  opacity: 0.85;
+  opacity: 0.95;
 }
 .card-filigree-tl { top: 3px; left: 3px; }
 .card-filigree-tr { top: 3px; right: 3px; transform: scaleX(-1); }
@@ -304,13 +306,13 @@ body.cursor-is-clicking #custom-cursor-ring {
 
 .card-3d-item.active-3d-card .card-3d-inner {
   transform: scale(1.10) translateY(-4px);
-  border-color: rgba(251, 191, 36, 0.85) !important;
-  border-top-color: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(251, 191, 36, 0.95) !important;
+  border-top-color: #ffffff !important;
   box-shadow:
-    0 24px 60px rgba(0, 0, 0, 0.9),
-    0 0 28px rgba(251, 191, 36, 0.45),
-    0 0 16px rgba(56, 189, 248, 0.35),
-    inset 0 1.5px 3px rgba(255, 255, 255, 0.5),
+    0 28px 65px rgba(0, 0, 0, 0.9),
+    0 0 35px rgba(251, 191, 36, 0.55),
+    0 0 20px rgba(56, 189, 248, 0.45),
+    inset 0 2px 4px rgba(255, 255, 255, 0.75),
     inset 0 -4px 12px rgba(0, 0, 0, 0.7) !important;
 }
 
@@ -344,17 +346,17 @@ body.cursor-is-clicking #custom-cursor-ring {
 .liquid-glass-card,
 .lab-card {
   background:
-    radial-gradient(100% 60% at 50% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 70%),
-    linear-gradient(150deg, rgba(16, 24, 42, 0.65) 0%, rgba(9, 14, 26, 0.78) 55%, rgba(5, 8, 16, 0.88) 100%);
-  backdrop-filter: blur(16px) saturate(145%);
-  -webkit-backdrop-filter: blur(16px) saturate(145%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-top-color: rgba(255, 255, 255, 0.26);
-  border-left-color: rgba(255, 255, 255, 0.18);
+    radial-gradient(100% 60% at 50% 0%, rgba(255, 255, 255, 0.14) 0%, transparent 65%),
+    linear-gradient(150deg, rgba(18, 28, 50, 0.72) 0%, rgba(10, 17, 32, 0.82) 55%, rgba(6, 10, 20, 0.92) 100%);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-top-color: rgba(255, 255, 255, 0.50);
+  border-left-color: rgba(255, 255, 255, 0.32);
   box-shadow:
-    0 14px 34px rgba(0, 0, 0, 0.62),
-    inset 0 1px 1.5px rgba(255, 255, 255, 0.22),
-    inset 0 -3px 8px rgba(0, 0, 0, 0.5);
+    0 16px 36px rgba(0, 0, 0, 0.65),
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.32),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.45);
   position: relative;
   overflow: hidden;
   transition: border-color 0.16s ease, box-shadow 0.16s ease;
@@ -367,13 +369,13 @@ body.cursor-is-clicking #custom-cursor-ring {
     opacity: 0;
   }
   15% {
-    opacity: 0.18;
+    opacity: 0.22;
   }
   45% {
-    opacity: 0.32;
+    opacity: 0.38;
   }
   75% {
-    opacity: 0.18;
+    opacity: 0.22;
   }
   100% {
     transform: translateX(240%) skewX(-22deg);
@@ -391,36 +393,36 @@ body.cursor-is-clicking #custom-cursor-ring {
   height: 220%;
   background: linear-gradient(
     108deg,
-    transparent 36%,
-    rgba(255, 255, 255, 0.03) 42%,
-    rgba(56, 189, 248, 0.14) 48%,
-    rgba(251, 191, 36, 0.12) 52%,
-    rgba(255, 255, 255, 0.05) 57%,
-    transparent 64%
+    transparent 34%,
+    rgba(255, 255, 255, 0.05) 40%,
+    rgba(56, 189, 248, 0.18) 48%,
+    rgba(251, 191, 36, 0.16) 52%,
+    rgba(255, 255, 255, 0.08) 58%,
+    transparent 66%
   );
   pointer-events: none;
   z-index: 1;
-  animation: dynamicLiquidGleam 10s ease-in-out infinite;
+  animation: dynamicLiquidGleam 9s ease-in-out infinite;
 }
 
-/* 液態玻璃頂部柔和折射水光線 (低調不刺眼) */
+/* 液態玻璃頂部柔和折射水光線 (清楚通透) */
 .liquid-glass-card::before,
 .lab-card::before {
   content: '';
   position: absolute;
   top: 0;
-  left: 10%;
-  right: 10%;
-  height: 1.5px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.38), rgba(56, 189, 248, 0.32), transparent);
+  left: 8%;
+  right: 8%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.65), rgba(56, 189, 248, 0.50), transparent);
   pointer-events: none;
   z-index: 2;
 }
 
 .liquid-glass-card:hover,
 .lab-card:hover {
-  border-color: rgba(56, 189, 248, 0.38);
-  border-top-color: rgba(255, 255, 255, 0.45);
+  border-color: rgba(56, 189, 248, 0.48);
+  border-top-color: rgba(255, 255, 255, 0.65);
 }
 
 /* 3D 暗黑內嵌凹槽面盤 (Smoked Recessed Well) */
@@ -443,18 +445,18 @@ body.cursor-is-clicking #custom-cursor-ring {
     inset 0 1px 1px rgba(255, 255, 255, 0.22);
 }
 
-/* 液態玻璃按鈕系統 (0.1s 零延遲瞬發反饋，暗黑通透不死亮) */
+/* 液態玻璃按鈕系統 (0.1s 零延遲瞬發反饋，清澈液態玻璃質感) */
 .liquid-glass-btn {
   background:
-    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.12) 0%, transparent 70%),
-    linear-gradient(145deg, rgba(30, 41, 59, 0.58) 0%, rgba(15, 23, 42, 0.78) 100%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-top-color: rgba(255, 255, 255, 0.32);
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.16) 0%, transparent 70%),
+    linear-gradient(145deg, rgba(30, 48, 75, 0.65) 0%, rgba(15, 23, 42, 0.82) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-top-color: rgba(255, 255, 255, 0.55);
   box-shadow:
-    0 6px 16px rgba(0, 0, 0, 0.42),
-    inset 0 1px 1.5px rgba(255, 255, 255, 0.24),
+    0 6px 18px rgba(0, 0, 0, 0.45),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.35),
     inset 0 -2px 4px rgba(0, 0, 0, 0.4);
   position: relative;
   overflow: hidden;
@@ -465,29 +467,29 @@ body.cursor-is-clicking #custom-cursor-ring {
 
 .liquid-glass-btn:hover {
   transform: translateY(-1.5px);
-  border-color: rgba(56, 189, 248, 0.48);
-  border-top-color: rgba(255, 255, 255, 0.52);
+  border-color: rgba(56, 189, 248, 0.65);
+  border-top-color: #ffffff;
 }
 
 .liquid-glass-btn:active {
   transform: translateY(1px) scale(0.97);
 }
 
-/* 主行動按鈕：煙燻琥珀液態玻璃 (取代刺眼亮黃色，改為高級深琥珀流光玻璃) */
+/* 主行動按鈕：煙燻琥珀液態玻璃 (清楚通透深琥珀流光玻璃) */
 .liquid-glass-amber {
   background:
-    radial-gradient(circle at 50% 0%, rgba(251, 191, 36, 0.25) 0%, transparent 70%),
-    linear-gradient(145deg, rgba(217, 119, 6, 0.38) 0%, rgba(146, 64, 14, 0.52) 55%, rgba(15, 23, 42, 0.85) 100%) !important;
+    radial-gradient(circle at 50% 0%, rgba(251, 191, 36, 0.35) 0%, transparent 70%),
+    linear-gradient(145deg, rgba(217, 119, 6, 0.50) 0%, rgba(146, 64, 14, 0.60) 55%, rgba(15, 23, 42, 0.85) 100%) !important;
   color: #FEF3C7 !important;
   font-weight: 900 !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(251, 191, 36, 0.42) !important;
-  border-top-color: rgba(254, 243, 199, 0.62) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(251, 191, 36, 0.65) !important;
+  border-top-color: rgba(255, 255, 255, 0.85) !important;
   box-shadow:
-    0 8px 22px rgba(0, 0, 0, 0.52),
-    0 0 18px rgba(245, 158, 11, 0.18),
-    inset 0 1px 2px rgba(255, 255, 255, 0.35),
+    0 8px 24px rgba(0, 0, 0, 0.55),
+    0 0 20px rgba(245, 158, 11, 0.28),
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.55),
     inset 0 -2px 5px rgba(0, 0, 0, 0.5) !important;
   cursor: pointer;
   transition: transform 0.09s ease, border-color 0.12s ease, box-shadow 0.12s ease;
@@ -495,11 +497,11 @@ body.cursor-is-clicking #custom-cursor-ring {
 
 .liquid-glass-amber:hover {
   transform: translateY(-1.5px);
-  border-color: rgba(253, 224, 71, 0.72) !important;
+  border-color: #FDE047 !important;
   box-shadow:
-    0 10px 26px rgba(0, 0, 0, 0.65),
-    0 0 24px rgba(245, 158, 11, 0.32),
-    inset 0 1.5px 2.5px rgba(255, 255, 255, 0.5) !important;
+    0 10px 28px rgba(0, 0, 0, 0.65),
+    0 0 28px rgba(245, 158, 11, 0.45),
+    inset 0 1.5px 2.5px rgba(255, 255, 255, 0.75) !important;
 }
 
 .liquid-glass-amber:active {
@@ -508,9 +510,16 @@ body.cursor-is-clicking #custom-cursor-ring {
 
 .liquid-glass-cyan {
   background:
-    radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.22) 0%, transparent 70%),
-    linear-gradient(145deg, rgba(14, 116, 144, 0.38) 0%, rgba(15, 23, 42, 0.82) 100%);
-  backdrop-filter: blur(12px);
+    radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.32) 0%, transparent 70%),
+    linear-gradient(145deg, rgba(14, 116, 144, 0.48) 0%, rgba(15, 23, 42, 0.85) 100%);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(56, 189, 248, 0.55);
+  border-top-color: rgba(255, 255, 255, 0.80);
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.45),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition: transform 0.09s ease, border-color 0.12s ease;
   border: 1px solid rgba(56, 189, 248, 0.38);
   border-top-color: rgba(186, 230, 253, 0.55);
   box-shadow:
@@ -929,10 +938,63 @@ body.sugar-quake-extreme #viewport-simulator-frame {
 }
 
 /* ==========================================================================
-   5. ARTISTIC SCULPTURE & 1000mL BENCHMARK CYLINDER (藝術雕塑與放大量筒主視覺)
+   5. CARAMEL FUSION REACTOR, SYNTHESIZER & 1000mL CYLINDER
    ========================================================================== */
 
-/* 藝術性質全糖流體動態雕塑光芒與旋轉 */
+/* 全息焦糖分子超導聚變反應爐動態 (Caramel Fusion Reactor Animations) */
+@keyframes reactorSpinClockwise {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes reactorSpinCounter {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes reactorCorePulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 16px rgba(251, 191, 36, 0.75)) drop-shadow(0 0 32px rgba(245, 158, 11, 0.45));
+  }
+  50% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 28px rgba(6, 182, 212, 0.95)) drop-shadow(0 0 44px rgba(239, 68, 68, 0.65));
+  }
+}
+
+.reactor-orbit-outer {
+  animation: reactorSpinClockwise 20s linear infinite;
+  transform-origin: center center;
+}
+
+.reactor-orbit-middle {
+  animation: reactorSpinCounter 14s linear infinite;
+  transform-origin: center center;
+}
+
+.reactor-orbit-inner {
+  animation: reactorSpinClockwise 8s linear infinite;
+  transform-origin: center center;
+}
+
+.reactor-core-atom {
+  animation: reactorCorePulse 3.5s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+/* 糖感神經波形示波器動態 (Synthesizer Oscilloscope Wave) */
+@keyframes synthWaveFlow {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -120; }
+}
+
+.synth-wave-path {
+  stroke-dasharray: 8 4;
+  animation: synthWaveFlow 2s linear infinite;
+}
+
+/* 兼容保留 */
 @keyframes artisticHaloRotate {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }

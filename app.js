@@ -35,6 +35,11 @@
     absurdityMultiplier: 1.0,
     monsterClicks: 0,
     easterEggUnlocked: false,
+    // 全息焦糖分子反應爐 ＆ 糖感波形合成器
+    reactorTemp: 165.0,
+    reactorPsi: 88.4,
+    synthWaveform: 'triangle',
+    synthFrequency: 440,
     // 高級遊樂場模組
     quantumStability: 100,
     distillerDrips: 12,
@@ -884,6 +889,19 @@
       }
     }
 
+    const sugarRightLabel = document.getElementById('scale-right-sugar-label');
+    if (sugarRightLabel) {
+      if (cubes === 0) {
+        sugarRightLabel.textContent = '0顆=無糖純潔';
+      } else if (cubes < 12) {
+        sugarRightLabel.textContent = `${cubes}顆=微糖負荷`;
+      } else if (cubes < 100) {
+        sugarRightLabel.textContent = `${cubes}顆=全糖臨界`;
+      } else {
+        sugarRightLabel.textContent = `${cubes}顆=超載爆表`;
+      }
+    }
+
     if (cubeTray) {
       const visibleCount = cubes === 0 ? 0 : Math.min(28, Math.max(1, Math.ceil(cubes / (cubes > 100 ? 35 : 2))));
       cubeTray.innerHTML = '';
@@ -1074,13 +1092,122 @@
     adjustCentrifugeRpm(Math.round(b * 180));
   }
 
-  // 點擊藝術雕塑晶格激發光學脈衝
-  function pulseArtInstallation() {
+  // 🔮 全息焦糖分子超導聚變反應爐互動邏輯
+  function pulseReactorFission() {
     if (window.labAudio && window.labAudio.playSugarDrop) {
-      window.labAudio.playSugarDrop(3);
+      window.labAudio.playSugarDrop(4);
     }
-    setGlobalSugarCubes(appState.globalSugarCubes + 1, { syncLadder: false });
-    showToast('✨ 藝術晶格激發', '光學雕塑共振！琥珀光環流轉，凝聚 1 枚純淨水晶方糖！', 'amber');
+    appState.reactorTemp = (parseFloat(appState.reactorTemp) || 165) + 3.5;
+    appState.reactorPsi = (parseFloat(appState.reactorPsi) || 88.4) + 1.2;
+    updateReactorDisplays();
+    setGlobalSugarCubes(appState.globalSugarCubes + 6, { syncLadder: false });
+    showToast('⚡ 分子裂變激發', `焦糖超導核裂變！溫度升至 ${appState.reactorTemp.toFixed(1)}°C，凝聚 6 顆高能量方糖！`, 'amber');
+  }
+
+  function cryoCoolReactor() {
+    if (window.labAudio && window.labAudio.playCryoFreeze) {
+      window.labAudio.playCryoFreeze();
+    }
+    appState.reactorTemp = Math.max(80, (parseFloat(appState.reactorTemp) || 165) - 25);
+    appState.reactorPsi = Math.max(30, (parseFloat(appState.reactorPsi) || 88.4) - 15);
+    updateReactorDisplays();
+    showToast('❄️ 液氮急速冷萃', `零下196°C注入！反應爐溫度冷卻至 ${appState.reactorTemp.toFixed(1)}°C，表面凝結高透琉璃脆糖！`, 'cyan');
+  }
+
+  function injectReactorNucleotide() {
+    if (window.labAudio && window.labAudio.playBubble) {
+      window.labAudio.playBubble();
+    }
+    setGlobalSugarCubes(appState.globalSugarCubes + 10, { syncLadder: false });
+    showToast('🧬 果糖核酸注入', '分子鏈劇烈增長！全息焦糖聚合物擴展，獲得 +10 顆方糖！', 'pink');
+  }
+
+  function triggerReactorOverload() {
+    triggerCreativeOverloadMode('wobble');
+    showToast('💥 臨界超導共振', '反應爐超導全頻共振！引發高糖空間漣漪！', 'red');
+  }
+
+  function updateReactorDisplays() {
+    const tempEl = document.getElementById('reactor-temp-display');
+    const psiEl = document.getElementById('reactor-psi-display');
+    if (tempEl) tempEl.textContent = `${(parseFloat(appState.reactorTemp) || 165).toFixed(1)}°C`;
+    if (psiEl) psiEl.textContent = `${(parseFloat(appState.reactorPsi) || 88.4).toFixed(1)} kPa`;
+  }
+
+  // 向下相容
+  function pulseArtInstallation() {
+    pulseReactorFission();
+  }
+
+  // 🎛️ 糖感神經波形諧振合成器互動邏輯
+  function setSynthesizerWaveform(type, freq) {
+    appState.synthWaveform = type;
+    if (freq !== undefined && freq > 0) {
+      appState.synthFrequency = freq;
+      const slider = document.getElementById('synth-freq-slider');
+      if (slider) slider.value = String(freq);
+    }
+    const btns = ['sine', 'triangle', 'sawtooth', 'square'];
+    btns.forEach(b => {
+      const el = document.getElementById(`synth-btn-${b}`);
+      if (el) {
+        if (b === type) el.classList.add('active', 'border-amber-400');
+        else el.classList.remove('active', 'border-amber-400');
+      }
+    });
+    const nameMap = {
+      sine: 'SINE WAVE (0Hz 純淨平靜波)',
+      triangle: 'TRIANGLE WAVE (440Hz 奶茶微糖諧波)',
+      sawtooth: 'SAWTOOTH WAVE (880Hz 全糖亢奮鋸齒波)',
+      square: 'SQUARE WAVE (1760Hz 爆表神經痙攣波)'
+    };
+    const nameEl = document.getElementById('synth-wave-name');
+    if (nameEl) nameEl.textContent = nameMap[type] || type.toUpperCase();
+
+    renderSynthesizerWave();
+    playSynthesizerTone();
+  }
+
+  function setSynthesizerFrequency(freq) {
+    appState.synthFrequency = Number(freq) || 440;
+    const readout = document.getElementById('synth-freq-readout');
+    if (readout) readout.textContent = `${appState.synthFrequency} Hz`;
+    renderSynthesizerWave();
+    if (window.labAudio && window.labAudio.playFrequencyTone) {
+      window.labAudio.playFrequencyTone(appState.synthFrequency, appState.synthWaveform || 'triangle', 0.12);
+    }
+  }
+
+  function playSynthesizerTone() {
+    if (window.labAudio && window.labAudio.playFrequencyTone) {
+      window.labAudio.playFrequencyTone(appState.synthFrequency || 440, appState.synthWaveform || 'triangle', 0.35);
+    }
+    showToast('🔊 諧振音激發', `發射 ${appState.synthFrequency || 440}Hz ${appState.synthWaveform || 'triangle'} 神經甜度共振波！`, 'cyan');
+  }
+
+  function renderSynthesizerWave() {
+    const pathEl = document.getElementById('synth-oscilloscope-path');
+    if (!pathEl) return;
+    const freq = appState.synthFrequency || 440;
+    const type = appState.synthWaveform || 'triangle';
+    const cycles = Math.max(2, Math.min(16, Math.round(freq / 120)));
+    const w = 500;
+    const midY = 40;
+    const amp = type === 'sine' && freq === 0 ? 0 : 28;
+
+    let d = `M 0,${midY}`;
+    for (let i = 0; i < cycles; i++) {
+      const baseX = i * (w / cycles);
+      const segW = w / cycles;
+      if (type === 'square') {
+        d += ` L ${baseX},${midY - amp} L ${baseX + segW / 2},${midY - amp} L ${baseX + segW / 2},${midY + amp} L ${baseX + segW},${midY + amp} L ${baseX + segW},${midY}`;
+      } else if (type === 'sawtooth') {
+        d += ` L ${baseX},${midY - amp} L ${baseX + segW},${midY + amp} L ${baseX + segW},${midY}`;
+      } else {
+        d += ` Q ${baseX + segW / 4},${midY - amp} ${baseX + segW / 2},${midY} Q ${baseX + segW * 0.75},${midY + amp} ${baseX + segW},${midY}`;
+      }
+    }
+    pathEl.setAttribute('d', d);
   }
 
   function renderLadderSection() {
@@ -3321,6 +3448,13 @@
     emergencyGreenTeaFlush,
     selectBeverageStandard,
     selectLadderLevel,
+    pulseReactorFission,
+    cryoCoolReactor,
+    injectReactorNucleotide,
+    triggerReactorOverload,
+    setSynthesizerWaveform,
+    setSynthesizerFrequency,
+    playSynthesizerTone,
     pulseArtInstallation,
     mintEmbossedSugar,
     adjustRefractometer,
