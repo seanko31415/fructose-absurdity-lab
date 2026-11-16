@@ -19,8 +19,8 @@
     carouselPausedByHover: false,
     playerName: '全糖受測員 #128',
     playerCard: DATA.loginIdentityCards[0],
-    globalSugarCubes: 12,
-    activeLadderLevel: 4,
+    globalSugarCubes: 0, // 初始糖分完全歸零
+    activeLadderLevel: 0, // 初始為 Lv.0 無糖純潔態
     scaleOverload: false,
     overloadShakeMode: 'auto', // 'auto' | 'wobble' | 'quake' | 'off'
     // 題數模式：20題 / 30題 / 50題 / 100題
@@ -229,7 +229,7 @@
 
             <div class="flex items-center justify-between font-mono text-[10px] px-1 relative z-10">
               <span style="color:${c.accent}" class="font-bold tracking-wider">${c.code}</span>
-              <span class="embossed-badge px-2 py-0.5 rounded-full text-amber-200 font-mono text-[10px] font-bold">${c.initCubes}顆</span>
+              <span class="embossed-badge px-2 py-0.5 rounded-full text-cyan-200 font-mono text-[10px] font-bold">糖分歸零 0顆</span>
             </div>
 
             <!-- 中央大畫圖角色插畫 (Big Hero Vector Illustration) -->
@@ -423,7 +423,7 @@
     const titleEl = document.getElementById('login-selected-card-title');
     const perkEl = document.getElementById('login-selected-card-perk');
     if (titleEl) titleEl.textContent = `${card.icon} ${card.title}`;
-    if (perkEl) perkEl.textContent = `初始 ${card.initCubes} 顆 (${card.perk})`;
+    if (perkEl) perkEl.textContent = `糖分歸零 0顆・${card.perk}`;
   }
 
   function enterLabFrom3DLogin(targetPage = 1) {
@@ -455,9 +455,14 @@
     }
 
     window.labAudio.playVictoryFanfare();
-    setGlobalSugarCubes(appState.playerCard.initCubes, { syncLadder: true });
+
+    // 依使用者指示：登進去的時候糖分完全歸零 (0 顆 / 0g / Lv.0 無糖純潔態)！
+    setGlobalSugarCubes(0, { syncLadder: true });
+    selectLadderLevel(0, false);
+    injectSugarToScale(0, 'reset');
+
     switchLabPage(targetPage);
-    broadcastMascotMessage(`歡迎【${appState.playerName}】！去第 2 頁問問題測糖度，或去第 4 頁玩街機遊戲！`);
+    broadcastMascotMessage(`歡迎【${appState.playerName}】！初始糖分已安全歸零 (0 顆 / 0g)！請前往第 2 頁測驗或第 4 頁玩遊戲！`);
   }
 
   function reopen3DLoginPortal() {

@@ -47,6 +47,9 @@
       <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
         全糖測量所登錄
       </h1>
+      <div class="mt-1 text-[11px] font-mono text-emerald-300 font-bold bg-emerald-950/50 px-3 py-0.5 rounded-full inline-block border border-emerald-500/40">
+        ✓ 初始狀態：糖分完全歸零 (0 顆 / 0g / Lv.0 無糖)
+      </div>
     </div>
 
     <!-- Center 3D Floating Stage -->
@@ -60,7 +63,7 @@
     <div class="relative z-10 liquid-glass-card rounded-2xl px-3.5 py-2.5 max-w-md w-full mx-auto mb-2">
       <div class="flex items-center justify-between gap-2 mb-2 px-1">
         <div id="login-selected-card-title" class="text-xs sm:text-sm font-black text-amber-300 truncate">🥤 全糖真傳弟子</div>
-        <div id="login-selected-card-perk" class="text-[11px] text-cyan-300 font-mono shrink-0">12顆・臨界</div>
+        <div id="login-selected-card-perk" class="text-[11px] text-emerald-300 font-mono shrink-0 font-bold">糖分歸零 0顆</div>
       </div>
 
       <div class="flex items-center gap-1.5">
@@ -152,9 +155,9 @@
         <!-- Live Sugar Counter -->
         <div
           class="px-2.5 py-1 rounded-xl bg-slate-900/90 border border-amber-500/35 flex items-center gap-1.5 font-mono text-xs">
-          <span id="hud-sugar-cubes" class="font-extrabold text-amber-400">12 顆</span>
+          <span id="hud-sugar-cubes" class="font-extrabold text-amber-400">0 顆</span>
           <span class="text-slate-600">/</span>
-          <span id="hud-sugar-grams" class="text-cyan-300">60g</span>
+          <span id="hud-sugar-grams" class="text-cyan-300">0.0g</span>
         </div>
 
         <!-- BGM Switcher with Equalizer Bars -->
@@ -214,6 +217,18 @@
       </div>
     </div>
   </header>
+
+  <!-- Live System Synchronization Banner -->
+  <div id="system-version-sync-banner" class="bg-gradient-to-r from-emerald-950/80 via-slate-950/90 to-amber-950/80 border-b border-emerald-500/30 px-3 py-1.5 text-center text-xs font-mono text-emerald-300 flex items-center justify-center gap-2 flex-wrap shadow-inner">
+    <span class="inline-flex items-center gap-1 font-bold bg-emerald-500/20 px-2 py-0.5 rounded text-[11px] border border-emerald-500/40 text-emerald-200">
+      ⚡ v5.8.0 系統即時同步
+    </span>
+    <span class="text-slate-300">初始狀態：<b class="text-amber-400">0 顆</b> / <b class="text-cyan-300">0.0g</b> (<span class="text-emerald-300 font-bold">Lv.0 無糖純潔態</span>)</span>
+    <span class="text-slate-600 hidden sm:inline">|</span>
+    <span class="text-slate-300 hidden sm:inline">✨ 琥珀果糖光學雕塑已載入</span>
+    <span class="text-slate-600 hidden md:inline">|</span>
+    <span class="text-slate-300 hidden md:inline">🧪 1000mL 巨型量筒 0~14 級全覽指標已啟用</span>
+  </div>
 
   <!-- ========================================================================
        VIEWPORT SIMULATOR FRAME
@@ -1104,9 +1119,9 @@
   </nav>
 
   <!-- Scripts with cache busters -->
-  <script src="data.js?v=5.7.0"></script>
-  <script src="audio.js?v=5.7.0"></script>
-  <script src="app.js?v=5.7.0"></script>
+  <script src="data.js?v=5.8.0"></script>
+  <script src="audio.js?v=5.8.0"></script>
+  <script src="app.js?v=5.8.0"></script>
 </body>
 
 </html>
