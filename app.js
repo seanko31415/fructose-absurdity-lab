@@ -257,7 +257,7 @@
   // 登入艙全息星空與動態星雲背景 (Ethereal Cosmic Nebula Canvas)
   function initLoginCosmicBackground() {
     const canvas = document.getElementById('login-starfield-canvas');
-    if (!canvas) return;
+    if (!canvas || typeof canvas.getContext !== 'function') return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
@@ -508,13 +508,15 @@
     }
 
     window.labAudio.playBubble();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof window.scrollTo === 'function') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     const pageTitles = {
-      1: '目前位於【第 1 頁：實驗室主頁・天平與 15 階果糖量筒】！想幫朋友測糖度請點「第 2 頁：問問題測糖度」！',
-      2: '目前位於【第 2 頁：問問題測出你的糖度】！可答題校準、輸入經歷，下方還為您預留了專屬擴充卡槽！',
-      3: '目前位於【第 3 頁：臨床診斷收據機 ＆ 室友雙人 PK 擂台】！可列印收據、下載 IG 限動卡或跟室友對決！',
-      4: '目前位於【第 4 頁：高果糖互動遊樂場 ＆ 社死榮譽榜】！快來搖珍奶、打飛天蟑螂或幫別人的蠢事加糖！'
+      1: '目前位於【實驗室主頁・天平與 15 階果糖量筒】！想幫朋友測糖度請點「糖度測驗」！',
+      2: '目前位於【糖度測驗】！可答題校準、輸入經歷，下方還為您預留了專屬擴充卡槽！',
+      3: '目前位於【診斷與對決】！可列印收據、下載 IG 限動卡或跟室友對決！',
+      4: '目前位於【街機遊樂場・社死榮譽榜】！快來搖珍奶、打飛天蟑螂或幫別人的蠢事加糖！'
     };
     broadcastMascotMessage(pageTitles[p]);
   }
@@ -765,11 +767,12 @@
 
   function launchFullScreenSugarRain() {
     const canvas = document.getElementById('sugar-rain-canvas');
-    if (!canvas) return;
+    if (!canvas || typeof canvas.getContext !== 'function') return;
     canvas.classList.remove('hidden');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
     const drops = Array.from({ length: 85 }, () => ({
       x: Math.random() * canvas.width,
@@ -851,7 +854,11 @@
       p.className = `falling-particle sugar-cube-item ${isGolden ? 'syrup-gold' : ''}`;
       p.style.left = `${58 + Math.random() * 24}%`;
       p.style.top = '0px';
-      p.style.setProperty('--tx', `${(Math.random() - 0.5) * 44}px`);
+      if (p.style.setProperty) {
+        p.style.setProperty('--tx', `${(Math.random() - 0.5) * 44}px`);
+      } else {
+        p.style['--tx'] = `${(Math.random() - 0.5) * 44}px`;
+      }
       p.style.animationDelay = `${i * 0.045}s`;
       p.textContent = isGolden ? '糖' : '🧊';
       stage.appendChild(p);
@@ -948,8 +955,8 @@
       badge.innerHTML = `<span>${icon}</span><span class="text-[10px]">+${cubes}</span>`;
       showcase.appendChild(badge);
       setTimeout(() => badge.classList.remove('animate-bounce'), 900);
-      if (showcase.children.length > 12) {
-        showcase.removeChild(showcase.children[1]);
+      if (showcase.children && showcase.children.length > 12) {
+        if (showcase.children[1]) showcase.removeChild(showcase.children[1]);
       }
     }
     window.labAudio.playSugarDrop(Math.min(cubes, 5));
@@ -1802,15 +1809,15 @@
         <div class="p-4 rounded-2xl border-2 border-dashed border-amber-500/45 bg-slate-950/65 flex flex-col justify-between gap-3">
           <div>
             <div class="flex items-center justify-between font-mono text-xs text-amber-400 mb-1">
-              <span>RESERVED SLOT // \${slot.slotId}</span>
+              <span>RESERVED SLOT // ${slot.slotId}</span>
               <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-200">預留擴充題位</span>
             </div>
-            <h4 class="font-bold text-sm text-white">\${slot.title}</h4>
-            <p class="text-xs text-slate-400 mt-1 leading-relaxed">\${slot.placeholderDesc}</p>
+            <h4 class="font-bold text-sm text-white">${slot.title}</h4>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">${slot.placeholderDesc}</p>
           </div>
           <button onclick="window.LabApp.toggleModal('add-question-modal', true)"
                   class="w-full py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/35 border border-amber-400/60 text-amber-200 font-mono text-xs font-bold transition-all">
-            ➕ 點此立即填入您的新題目 (\${slot.slotId})
+            ➕ 點此立即填入您的新題目 (${slot.slotId})
           </button>
         </div>
       `).join('');
@@ -1819,9 +1826,9 @@
     const exSlotBox = document.getElementById('reserved-example-slots-box');
     if (exSlotBox && DATA.reservedExampleSlots) {
       exSlotBox.innerHTML = DATA.reservedExampleSlots.map((ex, i) => `
-        <button onclick="window.LabApp.useReservedExample(\${i})"
+        <button onclick="window.LabApp.useReservedExample(${i})"
                 class="px-3.5 py-2 rounded-xl border-2 border-dashed border-cyan-400/50 bg-cyan-950/25 hover:bg-cyan-900/40 text-cyan-200 font-mono text-xs font-bold transition-all flex items-center gap-1.5">
-          <span>\${ex.label}</span>
+          <span>${ex.label}</span>
         </button>
       `).join('');
     }
@@ -2725,7 +2732,7 @@
 
   function drawCatcherIdleFrame() {
     const canvas = document.getElementById('sugar-catcher-canvas');
-    if (!canvas) return;
+    if (!canvas || typeof canvas.getContext !== 'function') return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
@@ -2765,7 +2772,7 @@
     }
 
     const canvas = document.getElementById('sugar-catcher-canvas');
-    if (!canvas) return;
+    if (!canvas || typeof canvas.getContext !== 'function') return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
@@ -3906,41 +3913,109 @@
   }
 
   // --- 美術圖鑑互動熱點與 Lightbox 燈箱 ---
+  function updateFounderDialogue(msg) {
+    const el = document.getElementById('founder-dialogue-text');
+    if (el) {
+      el.textContent = msg;
+      const box = document.getElementById('founder-dialogue-box');
+      if (box) {
+        box.classList.remove('jelly-bounce');
+        void box.offsetWidth;
+        box.classList.add('jelly-bounce');
+      }
+    }
+    broadcastMascotMessage(`👨‍🔬 創始人：${msg}`);
+  }
+
+  function updateMascotDialogue(msg) {
+    const el = document.getElementById('mascot-dialogue-text');
+    if (el) {
+      el.textContent = msg;
+      const box = document.getElementById('mascot-dialogue-box');
+      if (box) {
+        box.classList.remove('jelly-bounce');
+        void box.offsetWidth;
+        box.classList.add('jelly-bounce');
+      }
+    }
+    broadcastMascotMessage(`👾 果糖怪：${msg}`);
+  }
+
+  const founderQuotesList = [
+    '「糖分不是罪過，是靈魂在虛無宇宙中燃燒的火花。」',
+    '「根據全糖熱力學第二定律，人生的尷尬只能靠高果糖來撫平。」',
+    '「如果全糖大冰奶拯救不了你今天的社死，那就再來一杯！」',
+    '「我的燒杯裡裝的不只是焦糖，更是社畜無處安放的焦慮。」',
+    '「只要血糖上升得夠快，生活的苦難就追不上你的步伐！」',
+    '「微糖只是自欺欺人，唯有全糖方能照見靈魂的純真。」'
+  ];
+  let founderQuoteIndex = 0;
+
+  function triggerFounderQuote() {
+    window.labAudio && window.labAudio.playChime();
+    const q = founderQuotesList[founderQuoteIndex % founderQuotesList.length];
+    founderQuoteIndex++;
+    updateFounderDialogue(q);
+    showToast('👨‍🔬 創始人金句', q, 'amber');
+  }
+
+  function triggerFounderBalanceWeigh() {
+    window.labAudio && window.labAudio.playBubble();
+    const tare = (Math.random() * 20 + 30).toFixed(4);
+    const msg = `「微量天平已校準歸零，測得你方才流失的心理甜度淨重約 ${tare}g。」`;
+    updateFounderDialogue(msg);
+    showToast('⚖️ 0.0001g 分析天平', `校準完畢：心理甜度淨重 ${tare}g`, 'emerald');
+  }
+
+  function pokeMascotEyes() {
+    window.labAudio && window.labAudio.playBoing();
+    const eyeQuotes = [
+      '「不要戳我大眼睛啦！眼冒金星看到一堆跳舞的方糖了！」',
+      '「哇！好癢好癢！眼珠子要骨碌碌掉進珍奶杯裡了！」',
+      '「眨眨眼～我的大眼睛正在全光譜掃描你偷偷喝了幾杯手搖飲！」'
+    ];
+    const pick = eyeQuotes[Math.floor(Math.random() * eyeQuotes.length)];
+    updateMascotDialogue(pick);
+    showToast('👀 戳中果糖怪大眼', pick, 'cyan');
+  }
+
   function triggerFounderBeakerInspect() {
     window.labAudio && window.labAudio.playBubble();
     showToast('🔬 巨型燒杯光學偵測', '創始人特調「全糖濃縮液」密度已達 1.42 g/cm³，內含 12 塊懸浮高純度方糖！', 'amber');
-    broadcastMascotMessage('👨‍🔬 創始人：這杯全糖濃縮液，是為那些在深夜依然堅持燃燒靈魂的社畜量身訂製的。');
+    updateFounderDialogue('「這杯全糖濃縮液，是為那些在深夜依然堅持燃燒靈魂的社畜量身訂製的。」');
   }
 
   function triggerFounderGlassesScan() {
     window.labAudio && window.labAudio.playChime();
     showToast('🕶️ 霓虹全息眼鏡掃描', '光譜掃描完成：偵測到使用者眼球有輕微熬夜血絲，建議補充半糖微量元素！', 'cyan');
-    broadcastMascotMessage('👨‍🔬 創始人：透過我的全息偏光鏡，所有社交尷尬都只不過是一串果糖分子震盪！');
+    updateFounderDialogue('「透過我的全息偏光鏡，所有社交尷尬都只不過是一串果糖分子震盪！」');
   }
 
   function triggerFounderOscilloscopeSync() {
     window.labAudio && window.labAudio.playLaser();
     setSynthesizerWaveform('sawtooth', 880);
     showToast('📈 示波器神經同步', '雙通道示波器已將你的大腦抗糖波形與創始人實驗室完成同頻鎖定！', 'purple');
+    updateFounderDialogue('「示波器頻率鎖定 880 Hz！現在你的腦電波跟整個全糖實驗室完美共鳴！」');
   }
 
   function pokeMascotArtwork() {
     window.labAudio && window.labAudio.playBoing();
     showToast('👾 戳戳果糖怪本尊', '果糖怪晃了兩下，身體泛起晶瑩剔透的蜜糖波浪～發出咕嚕嚕的滿足叫聲！', 'amber');
-    broadcastMascotMessage('👾 果糖怪：咕嚕嚕～不要戳我的果凍肚皮啦！等等蜜糖噴你一臉喔！');
+    updateMascotDialogue('「咕嚕嚕～不要戳我的果凍肚皮啦！等等蜜糖噴你一臉喔！」');
   }
 
   function stealMascotSugarCube() {
     window.labAudio && window.labAudio.playWhackHit();
     injectSugarToScale(1, 'add');
     showToast('🧊 奪取方糖成功', '你從果糖怪懷裡搶走了一顆方糖放入自己的量筒！(+1 顆方糖)', 'cyan');
-    broadcastMascotMessage('👾 果糖怪：欸！我的下午茶方糖！快還我啦可惡的人類！');
+    updateMascotDialogue('「欸！我的下午茶方糖！快還我啦可惡的人類！」');
   }
 
   function boostMascotCoilTube() {
     window.labAudio && window.labAudio.playLaser();
     pulseReactorFission();
     showToast('🌀 螺旋冷凝管增壓', '純金冷凝管加速抽吸高果糖漿，實驗室反應爐進入高活性狀態！', 'emerald');
+    updateMascotDialogue('「呼哇！冷凝管抽吸加速！整座實驗室的焦糖能量都在沸騰啦！」');
   }
 
   function openPosterLightbox() {
@@ -3997,9 +4072,12 @@
   window.triggerFounderBeakerInspect = triggerFounderBeakerInspect;
   window.triggerFounderGlassesScan = triggerFounderGlassesScan;
   window.triggerFounderOscilloscopeSync = triggerFounderOscilloscopeSync;
+  window.triggerFounderQuote = triggerFounderQuote;
+  window.triggerFounderBalanceWeigh = triggerFounderBalanceWeigh;
   window.pokeMascotArtwork = pokeMascotArtwork;
   window.stealMascotSugarCube = stealMascotSugarCube;
   window.boostMascotCoilTube = boostMascotCoilTube;
+  window.pokeMascotEyes = pokeMascotEyes;
   window.openPosterLightbox = openPosterLightbox;
   window.closePosterLightbox = closePosterLightbox;
   window.jumpToSection = jumpToSection;
@@ -4114,9 +4192,12 @@
     triggerFounderBeakerInspect,
     triggerFounderGlassesScan,
     triggerFounderOscilloscopeSync,
+    triggerFounderQuote,
+    triggerFounderBalanceWeigh,
     pokeMascotArtwork,
     stealMascotSugarCube,
     boostMascotCoilTube,
+    pokeMascotEyes,
     openPosterLightbox,
     closePosterLightbox,
     jumpToSection,
@@ -4148,6 +4229,9 @@
       if (btn) btn.textContent = enabled ? '🔊' : '🔇';
     }
   };
+
+  // 雙向綁定至 window，確保 index.html 中的所有 inline onclick / onchange 隨時可呼叫
+  Object.assign(window, window.LabApp);
 
   document.addEventListener('DOMContentLoaded', init);
 })();
