@@ -41,7 +41,8 @@ class FructoseAudioEngine {
   }
 
   // ========================================================================
-  // PROCEDURAL SCI-FI LAB AMBIENT BGM (高音質立體聲科幻實驗室背景音樂)
+  // PLAYFUL & MISCHIEVOUS CARTOON LAB BGM (調皮搞怪風格背景音樂合成器)
+  // 靈感：搞怪實驗室 × 俏皮撥弦低音 × 滑音木琴與 Q 彈音效節奏 (125 BPM)
   // ========================================================================
   startBGM() {
     if (this.bgmPlaying) return;
@@ -52,89 +53,108 @@ class FructoseAudioEngine {
       const now = this.ctx.currentTime;
       const masterBgmGain = this.ctx.createGain();
       masterBgmGain.gain.setValueAtTime(0.01, now);
-      // 大幅提升背景音樂音量，清晰溫暖不刺耳
-      masterBgmGain.gain.exponentialRampToValueAtTime(0.32, now + 1.2);
+      masterBgmGain.gain.linearRampToValueAtTime(0.32, now + 0.3);
       masterBgmGain.connect(this.ctx.destination);
 
-      // 溫暖立體聲濾波器 (緩慢呼吸掃頻)
-      const filter = this.ctx.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(520, now);
-      filter.Q.setValueAtTime(2.4, now);
-      filter.connect(masterBgmGain);
-
-      // 濾波調製 LFO
-      const lfo = this.ctx.createOscillator();
-      const lfoGain = this.ctx.createGain();
-      lfo.frequency.setValueAtTime(0.18, now);
-      lfoGain.gain.setValueAtTime(220, now);
-      lfo.connect(lfoGain);
-      lfoGain.connect(filter.frequency);
-      lfo.start(now);
-
-      // 豐滿三和弦 Pad 振盪器 (C3: 130.81Hz, G3: 196.00Hz, E4: 329.63Hz)
-      const osc1 = this.ctx.createOscillator();
-      osc1.type = 'sine';
-      osc1.frequency.setValueAtTime(130.81, now);
-
-      const osc2 = this.ctx.createOscillator();
-      osc2.type = 'triangle';
-      osc2.frequency.setValueAtTime(196.00 + 0.4, now);
-
-      const osc3 = this.ctx.createOscillator();
-      osc3.type = 'sine';
-      osc3.frequency.setValueAtTime(246.94, now);
-
-      const droneGain = this.ctx.createGain();
-      droneGain.gain.setValueAtTime(0.38, now);
-
-      osc1.connect(droneGain);
-      osc2.connect(droneGain);
-      osc3.connect(droneGain);
-      droneGain.connect(filter);
-
-      osc1.start(now);
-      osc2.start(now);
-      osc3.start(now);
-
-      this.bgmNodes = { masterBgmGain, filter, lfo, osc1, osc2, osc3 };
+      this.bgmNodes = { masterBgmGain };
       this.bgmPlaying = true;
 
-      // 科幻水晶五聲音階旋律琶音 (每 0.9 ~ 1.6 秒清脆響起)
-      const pentatonic = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25, 783.99];
-      let noteStep = 0;
-      const scheduleAmbientSparkle = () => {
+      // 調皮搞怪低音 Riff (C小調混合藍調半音階俏皮步伐)
+      const bassPattern = [
+        130.81, 0, 196.00, 0, 155.56, 164.81, 196.00, 0,
+        174.61, 0, 164.81, 0, 146.83, 185.00, 196.00, 98.00
+      ];
+
+      // 俏皮搞怪主旋律 (含滑音與跳音)
+      const melodyPattern = [
+        { f: 523.25, slide: 0, type: 'triangle' },     // C5
+        { f: 0 },
+        { f: 622.25, slide: 659.25, type: 'sine' },    // D#5 -> E5 滑音
+        { f: 587.33, slide: 0, type: 'triangle' },     // D5
+        { f: 523.25, slide: 0, type: 'triangle' },     // C5
+        { f: 392.00, slide: 0, type: 'sine' },         // G4
+        { f: 466.16, slide: 523.25, type: 'triangle' },// A#4 -> C5 Boing!
+        { f: 0 },
+        { f: 698.46, slide: 0, type: 'sine' },         // F5
+        { f: 659.25, slide: 0, type: 'triangle' },     // E5
+        { f: 622.25, slide: 0, type: 'sine' },         // D#5
+        { f: 523.25, slide: 0, type: 'triangle' },     // C5
+        { f: 587.33, slide: 783.99, type: 'sine' },    // 搞笑上滑音!
+        { f: 0 },
+        { f: 523.25, slide: 261.63, type: 'triangle' },// 搞笑下滑收尾!
+        { f: 0 }
+      ];
+
+      let step = 0;
+      const stepMs = 230; // ~130 BPM 輕快調皮節拍
+
+      const playMischiefStep = () => {
         if (!this.bgmPlaying || !this.ctx) return;
-        const curTime = this.ctx.currentTime;
-        const freq = pentatonic[(noteStep + Math.floor(Math.random() * 3)) % pentatonic.length];
-        noteStep = (noteStep + 1) % pentatonic.length;
+        const t = this.ctx.currentTime;
+        const idx = step % 16;
 
-        const bellOsc = this.ctx.createOscillator();
-        const subOsc = this.ctx.createOscillator();
-        const bellGain = this.ctx.createGain();
+        // 1. 俏皮彈跳低音 (Pizzicato Bounce Bass)
+        const bFreq = bassPattern[idx];
+        if (bFreq > 0) {
+          const bOsc = this.ctx.createOscillator();
+          const bGain = this.ctx.createGain();
+          bOsc.type = 'triangle';
+          bOsc.frequency.setValueAtTime(bFreq, t);
+          bOsc.frequency.exponentialRampToValueAtTime(bFreq * 0.96, t + 0.14);
 
-        bellOsc.type = 'sine';
-        bellOsc.frequency.setValueAtTime(freq, curTime);
-        subOsc.type = 'triangle';
-        subOsc.frequency.setValueAtTime(freq * 0.5, curTime);
+          bGain.gain.setValueAtTime(0.36, t);
+          bGain.gain.exponentialRampToValueAtTime(0.001, t + 0.16);
 
-        bellGain.gain.setValueAtTime(0.28, curTime);
-        bellGain.gain.exponentialRampToValueAtTime(0.001, curTime + 1.4);
+          bOsc.connect(bGain);
+          bGain.connect(masterBgmGain);
+          bOsc.start(t);
+          bOsc.stop(t + 0.17);
+        }
 
-        bellOsc.connect(bellGain);
-        subOsc.connect(bellGain);
-        bellGain.connect(masterBgmGain);
+        // 2. 調皮木琴與搞笑滑音主旋律 (Quirky Xylophone & Boing Lead)
+        const mNote = melodyPattern[idx];
+        if (mNote && mNote.f > 0) {
+          const mOsc = this.ctx.createOscillator();
+          const mGain = this.ctx.createGain();
+          mOsc.type = mNote.type || 'sine';
+          mOsc.frequency.setValueAtTime(mNote.f, t);
+          if (mNote.slide > 0) {
+            mOsc.frequency.exponentialRampToValueAtTime(mNote.slide, t + 0.15);
+          }
 
-        bellOsc.start(curTime);
-        subOsc.start(curTime);
-        bellOsc.stop(curTime + 1.45);
-        subOsc.stop(curTime + 1.45);
+          mGain.gain.setValueAtTime(0.28, t);
+          mGain.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
 
-        const nextDelay = 850 + Math.random() * 750;
-        this.bgmTimer = setTimeout(scheduleAmbientSparkle, nextDelay);
+          mOsc.connect(mGain);
+          mGain.connect(masterBgmGain);
+          mOsc.start(t);
+          mOsc.stop(t + 0.19);
+        }
+
+        // 3. 偶爾穿插搞怪氣泡彈簧音 (Cheeky Bubble Boing on step 7 or 15)
+        if ((idx === 7 || idx === 15) && Math.random() < 0.75) {
+          const qOsc = this.ctx.createOscillator();
+          const qGain = this.ctx.createGain();
+          qOsc.type = 'sine';
+          const startF = idx === 7 ? 280 : 680;
+          const endF = idx === 7 ? 720 : 240;
+          qOsc.frequency.setValueAtTime(startF, t);
+          qOsc.frequency.exponentialRampToValueAtTime(endF, t + 0.14);
+
+          qGain.gain.setValueAtTime(0.22, t);
+          qGain.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
+
+          qOsc.connect(qGain);
+          qGain.connect(masterBgmGain);
+          qOsc.start(t);
+          qOsc.stop(t + 0.16);
+        }
+
+        step++;
+        this.bgmTimer = setTimeout(playMischiefStep, stepMs);
       };
 
-      this.bgmTimer = setTimeout(scheduleAmbientSparkle, 300);
+      playMischiefStep();
     } catch (e) {
       console.warn('BGM initialization deferred until user interaction', e);
     }
@@ -147,22 +167,12 @@ class FructoseAudioEngine {
       this.bgmTimer = null;
     }
     if (this.bgmNodes && this.ctx) {
-      const now = this.ctx.currentTime;
       try {
+        const now = this.ctx.currentTime;
         this.bgmNodes.masterBgmGain.gain.setValueAtTime(this.bgmNodes.masterBgmGain.gain.value, now);
-        this.bgmNodes.masterBgmGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
-        setTimeout(() => {
-          try {
-            this.bgmNodes.osc1.stop();
-            this.bgmNodes.osc2.stop();
-            if (this.bgmNodes.osc3) this.bgmNodes.osc3.stop();
-            this.bgmNodes.lfo.stop();
-          } catch (e) {}
-          this.bgmNodes = null;
-        }, 600);
-      } catch (e) {
-        this.bgmNodes = null;
-      }
+        this.bgmNodes.masterBgmGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
+      } catch (e) {}
+      this.bgmNodes = null;
     }
     this.bgmPlaying = false;
   }

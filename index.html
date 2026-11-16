@@ -16,7 +16,7 @@
     rel="stylesheet">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="styles.css?v=5.4.0" />
+  <link rel="stylesheet" href="styles.css?v=5.5.0" />
 </head>
 
 <body class="min-h-screen text-slate-100 selection:bg-amber-400 selection:text-slate-950">
@@ -39,49 +39,40 @@
     <!-- Ethereal Cosmic Canvas Background (Living Starfield & Nebula Aurora) -->
     <canvas id="login-starfield-canvas" class="absolute inset-0 pointer-events-none z-0 w-full h-full"></canvas>
 
-    <!-- Top Holographic Title -->
-    <div class="relative z-10 text-center max-w-xl mx-auto pt-2 sm:pt-4">
-      <div
-        class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-300 font-mono text-[11px] mb-2 shadow-[0_0_20px_rgba(245,158,11,0.35)] backdrop-blur-md">
-        <span>✨ 3D 全息浮動登入艙</span>
-        <span>//</span>
-        <span>點選正前方卡牌</span>
+    <!-- Top Minimal Holographic Title (極簡標題) -->
+    <div class="relative z-10 text-center max-w-lg mx-auto pt-2">
+      <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full embossed-badge text-cyan-300 font-mono text-[10px] mb-1">
+        <span>✨ 點選卡牌切換・靠近減速</span>
       </div>
-      <h1 class="text-2xl sm:text-4xl font-black text-white tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)]">
-        全糖量測所：<span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-cyan-400">3D 懸浮卡牌艙</span>
+      <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+        全糖量測所 <span class="text-cyan-300 font-light">//</span> <span class="text-amber-300">3D 登入艙</span>
       </h1>
-      <p class="text-xs text-slate-300 mt-1 font-mono tracking-wide">
-        卡牌自動巡航浮動中・移入暫停・點選正中卡牌進入
-      </p>
     </div>
 
-    <!-- Center 3D Floating Stage (No bottom buttons at all!) -->
+    <!-- Center 3D Floating Stage -->
     <div class="relative z-10 w-full max-w-3xl mx-auto my-auto flex flex-col items-center">
       <div class="carousel-3d-scene" id="carousel-scene-container">
         <div id="carousel-3d-ring" class="carousel-3d-ring"></div>
       </div>
     </div>
 
-    <!-- Bottom Selected Identity & Compact Confirmation Dock (精緻緊湊浮雕膠囊艙) -->
-    <div class="relative z-10 liquid-glass-card rounded-2xl px-3.5 py-2.5 max-w-md w-full mx-auto mb-2 border-amber-400/60 shadow-[0_14px_38px_rgba(0,0,0,0.88)]">
+    <!-- Bottom Compact Smoked Liquid Glass Dock -->
+    <div class="relative z-10 liquid-glass-card rounded-2xl px-3.5 py-2.5 max-w-md w-full mx-auto mb-2">
       <div class="flex items-center justify-between gap-2 mb-2 px-1">
-        <div class="flex items-center gap-2 min-w-0">
-          <span class="embossed-badge px-2 py-0.5 rounded-md font-mono text-[10px] text-amber-200 font-bold shrink-0">ROYAL CARD</span>
-          <div id="login-selected-card-title" class="text-xs sm:text-sm font-black text-amber-300 truncate">🥤 全糖真傳弟子</div>
-        </div>
-        <div id="login-selected-card-perk" class="text-[11px] text-cyan-300 font-mono shrink-0">12顆 (臨界)</div>
+        <div id="login-selected-card-title" class="text-xs sm:text-sm font-black text-amber-300 truncate">🥤 全糖真傳弟子</div>
+        <div id="login-selected-card-perk" class="text-[11px] text-cyan-300 font-mono shrink-0">12顆・臨界</div>
       </div>
 
       <div class="flex items-center gap-1.5">
-        <input id="login-player-name" type="text" placeholder="暱稱" value="全糖受測員 #128"
-          class="embossed-well w-28 sm:w-36 px-2.5 py-1.5 rounded-xl text-xs font-bold text-white outline-none focus:border-amber-400 shrink-0" />
+        <input id="login-player-name" type="text" placeholder="暱稱" value="受測員 #128"
+          class="embossed-well w-28 sm:w-32 px-2.5 py-1.5 rounded-xl text-xs font-bold text-white outline-none focus:border-cyan-400 shrink-0" />
         <button onclick="window.LabApp.enterLabFrom3DLogin(1)"
-          class="liquid-glass-btn flex-1 py-1.5 px-2.5 rounded-xl font-bold text-xs text-amber-200 whitespace-nowrap">
-          🏠 主頁
+          class="liquid-glass-btn flex-1 py-1.5 px-2.5 rounded-xl font-bold text-xs text-slate-200 whitespace-nowrap">
+          🏠 進主頁
         </button>
         <button onclick="window.LabApp.enterLabFrom3DLogin(2)"
-          class="liquid-glass-amber flex-1 py-1.5 px-3 rounded-xl text-slate-950 font-black text-xs shadow-lg whitespace-nowrap">
-          🧪 開始測糖 ➔
+          class="liquid-glass-amber flex-1 py-1.5 px-3 rounded-xl font-black text-xs whitespace-nowrap">
+          🧪 測糖度 ➔
         </button>
       </div>
     </div>
@@ -305,63 +296,119 @@
       </section>
 
       <!-- ====================================================================
-           PAGE 1: 實驗室主頁・理智天平與折射儀 (#lab-page-1)
+           PAGE 1: 實驗室主頁・巨幅全息實驗室大畫圖 ＆ 理智天平 (#lab-page-1)
            ==================================================================== -->
       <div id="lab-page-1" class="lab-page-view active-page space-y-5">
         <section class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-          <div class="lg:col-span-7 flex flex-col justify-between space-y-3.5">
-            <div>
-              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full embossed-badge text-amber-200 font-mono text-[11px] mb-2">
-                <span>👑 ROYAL LAB 01 // 皇家全糖量測艙</span>
+          <div class="lg:col-span-7 flex flex-col justify-between space-y-3">
+            <!-- 巨幅全息互動大畫圖 (Giant Interactive Lab SVG Illustration) -->
+            <div class="liquid-glass-card rounded-2xl p-3 relative overflow-hidden">
+              <div class="flex items-center justify-between mb-1.5 px-1">
+                <span class="font-mono text-[11px] font-bold text-cyan-300">🎨 全糖鍊金實驗室全景圖 (點擊圖中設備互動)</span>
+                <span id="minted-sugar-counter" class="embossed-badge px-2 py-0.5 rounded font-mono text-[10px] text-amber-300">結晶: 4 枚</span>
               </div>
 
-              <h2 class="text-2xl sm:text-4xl font-black tracking-tight text-white leading-tight drop-shadow">
-                全糖量測所：<span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-orange-500">測出你的調皮糖度</span>
-              </h2>
-            </div>
+              <!-- 互動式寬銀幕大插畫 SVG -->
+              <svg viewBox="0 0 640 195" class="w-full h-auto rounded-xl embossed-well select-none">
+                <defs>
+                  <linearGradient id="heroSky" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#040814" />
+                    <stop offset="50%" stop-color="#0b152c" />
+                    <stop offset="100%" stop-color="#060a17" />
+                  </linearGradient>
+                  <linearGradient id="goldPool" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#FBBF24" />
+                    <stop offset="100%" stop-color="#B45309" />
+                  </linearGradient>
+                  <linearGradient id="cyanTank" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#22D3EE" stop-opacity="0.55" />
+                    <stop offset="100%" stop-color="#0891B2" stop-opacity="0.85" />
+                  </linearGradient>
+                </defs>
 
-            <!-- 新增高級互動裝置：3D 立體浮雕方糖鑄造機 (Embossed Sugar Mint Press) -->
-            <div class="liquid-glass-card rounded-2xl p-3.5 space-y-2.5">
-              <div class="flex items-center justify-between">
-                <span class="font-mono text-xs text-amber-300 font-bold">⚜️ 皇家浮雕方糖鑄造機 (點擊壓鑄結晶)</span>
-                <span id="minted-sugar-counter" class="embossed-badge px-2 py-0.5 rounded font-mono text-[10px] text-cyan-200">已鑄造: 4 枚</span>
+                <!-- 背景星空與實驗室光網 -->
+                <rect width="640" height="195" fill="url(#heroSky)" />
+                <line x1="0" y1="168" x2="640" y2="168" stroke="rgba(56,189,248,0.25)" stroke-width="2" />
+                <circle cx="320" cy="95" r="78" fill="rgba(245,158,11,0.08)" stroke="rgba(251,191,36,0.22)" stroke-width="1" stroke-dasharray="4 4" />
+
+                <!-- 導流霓虹管線 -->
+                <path d="M145,95 L235,95" stroke="#22D3EE" stroke-width="5" stroke-linecap="round" opacity="0.55" />
+                <path d="M405,95 L495,95" stroke="#F59E0B" stroke-width="5" stroke-linecap="round" opacity="0.65" />
+
+                <!-- 左艙：點擊冰鎮綠茶洗胃艙 -->
+                <g onclick="window.LabApp.emergencyGreenTeaFlush()" class="cursor-pointer group">
+                  <rect x="42" y="34" width="102" height="130" rx="18" fill="rgba(8,25,45,0.85)" stroke="#38BDF8" stroke-width="2.2" />
+                  <rect x="50" y="72" width="86" height="84" rx="12" fill="url(#cyanTank)" />
+                  <circle cx="72" cy="135" r="5" fill="#A5F3FC" opacity="0.8" />
+                  <circle cx="112" cy="115" r="7" fill="#A5F3FC" opacity="0.6" />
+                  <text x="93" y="108" text-anchor="middle" font-size="34">🧠</text>
+                  <text x="93" y="56" text-anchor="middle" fill="#67E8F9" font-size="11" font-weight="900">冰鎮理智艙</text>
+                  <text x="93" y="150" text-anchor="middle" fill="#E0F2FE" font-size="10" font-weight="bold">點擊解毒 0g</text>
+                </g>
+
+                <!-- 中央大主視覺：果糖大魔王煉金釜 (點擊餵糖) -->
+                <g onclick="window.LabApp.clickFructoseMonster()" class="cursor-pointer">
+                  <!-- 黃金煉金釜 -->
+                  <path d="M235,112 C235,165 405,165 405,112 Z" fill="#1E293B" stroke="#FBBF24" stroke-width="3" />
+                  <ellipse cx="320" cy="112" rx="85" ry="14" fill="url(#goldPool)" stroke="#FEF08A" stroke-width="2" />
+                  <!-- 巨型果糖怪角色 -->
+                  <path d="M320,24 C362,24 382,52 382,88 C382,108 360,115 320,115 C280,115 258,108 258,88 C258,52 278,24 320,24 Z" fill="url(#goldPool)" stroke="#FEF08A" stroke-width="2.5" />
+                  <!-- 皇冠 -->
+                  <polygon points="298,26 308,8 320,20 332,8 342,26" fill="#FDE047" stroke="#FFF" stroke-width="1.5" />
+                  <!-- 大眼睛與壞笑 -->
+                  <circle cx="298" cy="66" r="11" fill="#FFF" stroke="#451A03" stroke-width="2" />
+                  <circle cx="300" cy="66" r="5" fill="#090D16" />
+                  <circle cx="302" cy="64" r="2" fill="#FFF" />
+                  <circle cx="342" cy="66" r="11" fill="#FFF" stroke="#451A03" stroke-width="2" />
+                  <circle cx="340" cy="66" r="5" fill="#090D16" />
+                  <circle cx="342" cy="64" r="2" fill="#FFF" />
+                  <path d="M300,88 Q320,106 340,88 Z" fill="#7F1D1D" stroke="#451A03" stroke-width="2" />
+                  <!-- 漂浮方糖粒子 -->
+                  <text x="248" y="54" font-size="20">🧊</text>
+                  <text x="378" y="52" font-size="20">🍯</text>
+                  <text x="320" y="148" text-anchor="middle" fill="#FDE68A" font-size="12" font-weight="900">👑 點擊果糖魔王餵糖</text>
+                </g>
+
+                <!-- 右艙：1L 焦糖高壓反應塔 (點擊加糖) -->
+                <g onclick="window.LabApp.injectSugarToScale(12, 'add')" class="cursor-pointer">
+                  <rect x="495" y="34" width="102" height="130" rx="18" fill="rgba(35,14,18,0.85)" stroke="#F59E0B" stroke-width="2.2" />
+                  <rect x="503" y="64" width="86" height="92" rx="12" fill="url(#goldPool)" opacity="0.82" />
+                  <text x="546" y="106" text-anchor="middle" font-size="34">🧋</text>
+                  <text x="546" y="54" text-anchor="middle" fill="#FDE047" font-size="11" font-weight="900">全糖高壓塔</text>
+                  <text x="546" y="148" text-anchor="middle" fill="#FEF3C7" font-size="10" font-weight="bold">點擊 +12顆</text>
+                </g>
+              </svg>
+
+              <!-- 精簡四鍵壓鑄結晶列 -->
+              <div class="grid grid-cols-4 gap-2 mt-2.5">
+                <button onclick="window.LabApp.mintEmbossedSugar('🧊', '水晶糖', 3)"
+                  class="liquid-glass-btn py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 group">
+                  <span class="text-lg group-hover:scale-110 transition-transform">🧊</span>
+                  <span class="font-mono text-xs font-bold text-cyan-200">+3顆</span>
+                </button>
+                <button onclick="window.LabApp.mintEmbossedSugar('🍯', '黃金糖', 12)"
+                  class="liquid-glass-btn py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 group">
+                  <span class="text-lg group-hover:scale-110 transition-transform">🍯</span>
+                  <span class="font-mono text-xs font-bold text-amber-200">+12顆</span>
+                </button>
+                <button onclick="window.LabApp.mintEmbossedSugar('💎', '鑽石糖', 30)"
+                  class="liquid-glass-btn py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 group">
+                  <span class="text-lg group-hover:scale-110 transition-transform">💎</span>
+                  <span class="font-mono text-xs font-bold text-sky-200">+30顆</span>
+                </button>
+                <button onclick="window.LabApp.mintEmbossedSugar('👑', '蜂王漿', 80)"
+                  class="liquid-glass-btn py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 group">
+                  <span class="text-lg group-hover:scale-110 transition-transform">👑</span>
+                  <span class="font-mono text-xs font-bold text-rose-200">+80顆</span>
+                </button>
               </div>
-              <div class="grid grid-cols-4 gap-2">
-                <button onclick="window.LabApp.mintEmbossedSugar('🧊', '水晶方糖', 3)"
-                  class="liquid-glass-btn p-2 rounded-xl flex flex-col items-center gap-0.5 group">
-                  <span class="text-2xl group-hover:scale-125 transition-transform">🧊</span>
-                  <span class="text-[11px] font-black text-white">水晶糖</span>
-                  <span class="font-mono text-[9px] text-cyan-300">+3顆</span>
-                </button>
-                <button onclick="window.LabApp.mintEmbossedSugar('🍯', '黃金焦糖', 12)"
-                  class="liquid-glass-btn p-2 rounded-xl flex flex-col items-center gap-0.5 group">
-                  <span class="text-2xl group-hover:scale-125 transition-transform">🍯</span>
-                  <span class="text-[11px] font-black text-amber-300">黃金糖</span>
-                  <span class="font-mono text-[9px] text-amber-200">+12顆</span>
-                </button>
-                <button onclick="window.LabApp.mintEmbossedSugar('💎', '鑽石冰糖', 30)"
-                  class="liquid-glass-btn p-2 rounded-xl flex flex-col items-center gap-0.5 group">
-                  <span class="text-2xl group-hover:scale-125 transition-transform">💎</span>
-                  <span class="text-[11px] font-black text-cyan-200">鑽石糖</span>
-                  <span class="font-mono text-[9px] text-cyan-300">+30顆</span>
-                </button>
-                <button onclick="window.LabApp.mintEmbossedSugar('👑', '皇家蜂王漿', 80)"
-                  class="liquid-glass-btn p-2 rounded-xl flex flex-col items-center gap-0.5 group">
-                  <span class="text-2xl group-hover:scale-125 transition-transform">👑</span>
-                  <span class="text-[11px] font-black text-rose-300">蜂王漿</span>
-                  <span class="font-mono text-[9px] text-rose-200">+80顆</span>
-                </button>
-              </div>
-              <div id="minted-crystal-showcase" class="embossed-well rounded-xl px-3 py-1.5 min-h-[34px] flex items-center gap-1.5 flex-wrap">
-                <span class="font-mono text-[10px] text-slate-400 mr-1">典藏槽：</span>
-                <span class="text-base">🧊</span><span class="text-base">🍯</span><span class="text-base">💎</span><span class="text-base">👑</span>
-              </div>
+              <div id="minted-crystal-showcase" class="hidden"></div>
             </div>
 
             <!-- Page Quick Jumps -->
             <div class="grid grid-cols-3 gap-2">
               <button onclick="window.LabApp.switchLabPage(2)"
-                class="liquid-glass-amber py-2.5 px-3 rounded-2xl font-black text-xs sm:text-sm shadow-xl text-center">
+                class="liquid-glass-amber py-2.5 px-3 rounded-2xl font-black text-xs sm:text-sm text-center">
                 🧪 2.問問題測糖 ➔
               </button>
               <button onclick="window.LabApp.switchLabPage(3)"
@@ -771,85 +818,87 @@
       </div>
 
       <!-- ====================================================================
-           PAGE 4: 全新高級遊樂場（量子裂變 × 超低溫提煉 × 神經元調諧）(#lab-page-4)
+           PAGE 4: 全新升級街機遊樂場（磁浮接方糖 × 皇家777拉霸 × 極速打果糖怪）(#lab-page-4)
            ==================================================================== -->
       <div id="lab-page-4" class="lab-page-view space-y-6">
-        <div class="space-y-4">
-          <div>
-            <span class="font-mono text-xs text-emerald-400 font-bold">PAGE 04-A // ADVANCED LAB APPARATUS</span>
-            <h2 class="text-xl sm:text-2xl font-black text-white">🎮 高級實驗儀器遊樂場：量子裂變 × 超低溫提煉 × 神經元調諧</h2>
+        <div class="space-y-3.5">
+          <div class="flex items-center justify-between">
+            <h2 class="text-xl sm:text-2xl font-black text-white">🎮 全糖皇家街機遊樂場</h2>
+            <span class="embossed-badge px-2.5 py-0.5 rounded-full font-mono text-[11px] text-cyan-300">3 款高質感實時互動街機</span>
           </div>
 
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <!-- 遊戲 1: 量子果糖裂變反應爐 -->
+            <!-- 遊戲 1: 極速磁浮接方糖街機 (Cyber Sugar Catcher) -->
             <div class="liquid-glass-card rounded-2xl p-4 flex flex-col justify-between space-y-3">
               <div>
-                <div class="flex items-center justify-between font-mono text-xs text-cyan-400 mb-1">
-                  <span>QUANTUM REACTOR</span>
-                  <span id="quantum-stability" class="font-black text-emerald-300">穩定度: 100%</span>
+                <div class="flex items-center justify-between font-mono text-xs text-cyan-300 mb-1">
+                  <span>🎯 CYBER CATCHER</span>
+                  <span id="catcher-score-display" class="embossed-badge px-2 py-0.5 rounded text-amber-300 font-black">得分: 0 (x1)</span>
                 </div>
-                <h3 class="text-base font-black text-white">1. 量子果糖裂變反應爐</h3>
-                <p class="text-xs text-slate-400 mt-0.5">點選發光的能量節點穩定晶格，防止融毀！</p>
-                <div class="my-3 h-44 rounded-2xl bg-slate-950/90 border border-cyan-500/30 relative overflow-hidden flex items-center justify-center" id="quantum-reactor-arena">
-                  <!-- Nodes generated by JS -->
+                <h3 class="text-base font-black text-white">1. 極速磁浮接方糖</h3>
+                <p class="text-[11px] text-slate-400">滑鼠/手指左右滑動接住 🧊🍯🧋，閃避 🍵 苦茶炸彈！</p>
+                <div class="my-2.5 rounded-2xl embossed-well relative overflow-hidden flex items-center justify-center p-1">
+                  <canvas id="sugar-catcher-canvas" width="300" height="175"
+                    class="w-full h-44 rounded-xl cursor-ew-resize touch-none block"></canvas>
                 </div>
               </div>
-              <button onclick="window.LabApp.resetQuantumReactor()"
+              <button id="catcher-start-btn" onclick="window.LabApp.toggleSugarCatcherGame()"
                 class="liquid-glass-cyan w-full py-2.5 rounded-xl text-cyan-200 font-mono text-xs font-black">
-                ⚛️ 重啟量子反應爐節點
+                🚀 啟動磁浮接糖狂潮 (30秒)
               </button>
             </div>
 
-            <!-- 遊戲 2: 全息超低溫焦糖提煉儀 -->
+            <!-- 遊戲 2: 皇家 777 社死拉霸機 (Royal Jackpot Slot Machine) -->
             <div class="liquid-glass-card rounded-2xl p-4 flex flex-col justify-between space-y-3">
               <div>
-                <div class="flex items-center justify-between font-mono text-xs text-amber-400 mb-1">
-                  <span>CRYOGENIC DISTILLER</span>
-                  <span id="distiller-purity" class="font-black text-amber-300">純度: 99.8%</span>
+                <div class="flex items-center justify-between font-mono text-xs text-amber-300 mb-1">
+                  <span>🎰 ROYAL 777 SLOT</span>
+                  <span id="slot-status-badge" class="embossed-badge px-2 py-0.5 rounded text-emerald-300 font-black">JACKPOT 準備</span>
                 </div>
-                <h3 class="text-base font-black text-white">2. 全息超低溫焦糖提煉儀</h3>
-                <p class="text-xs text-slate-400 mt-0.5">調節雷射冷卻溫度，萃取超純高結晶琥珀糖！</p>
-                <div class="my-3 h-44 rounded-2xl bg-slate-950/90 border border-amber-500/30 relative overflow-hidden flex flex-col items-center justify-between p-3">
-                  <div class="w-16 h-16 rounded-full border-2 border-amber-400/80 bg-amber-500/20 flex items-center justify-center font-mono text-xs font-black text-amber-200 shadow-[0_0_20px_#f59e0b]">
-                    <span id="distiller-temp-display">-196°C</span>
-                  </div>
-                  <div class="amber-drip-drop w-3 h-3 rounded-full bg-amber-400 shadow-[0_0_10px_#f59e0b]"></div>
-                  <div class="w-full flex items-center justify-between text-[11px] font-mono text-amber-300">
-                    <span>萃取滴數：</span>
-                    <span id="distiller-drips-count" class="font-extrabold text-white">12 滴</span>
-                  </div>
-                </div>
-              </div>
-              <button onclick="window.LabApp.distillCaramelDrop()"
-                class="liquid-glass-amber w-full py-2.5 rounded-xl text-slate-950 font-mono text-xs font-black">
-                ✨ 萃取一滴高純結晶
-              </button>
-            </div>
-
-            <!-- 遊戲 3: 神經元腦波音頻調諧儀 -->
-            <div class="liquid-glass-card rounded-2xl p-4 flex flex-col justify-between space-y-3">
-              <div>
-                <div class="flex items-center justify-between font-mono text-xs text-purple-400 mb-1">
-                  <span>NEURAL RESONATOR</span>
-                  <span id="neural-freq-readout" class="font-black text-purple-300">432 Hz</span>
-                </div>
-                <h3 class="text-base font-black text-white">3. 神經元音頻調諧儀</h3>
-                <p class="text-xs text-slate-400 mt-0.5">實時音頻示波器，重構心靈頻率！</p>
-                <div class="my-3 h-44 rounded-2xl bg-slate-950/90 border border-purple-500/30 relative overflow-hidden flex flex-col justify-between p-2.5">
-                  <canvas id="neural-oscilloscope-canvas" width="280" height="90" class="w-full h-24 rounded-lg bg-black/80 border border-purple-500/20"></canvas>
-                  <div class="space-y-1">
-                    <div class="flex justify-between font-mono text-[10px] text-purple-300">
-                      <span>調諧頻率：</span>
-                      <span id="neural-slider-text">432 Hz (Alpha 舒緩)</span>
+                <h3 class="text-base font-black text-white">2. 皇家 777 社死拉霸機</h3>
+                <p class="text-[11px] text-slate-400">拉動轉輪抽大獎！三連線觸發黃金方糖大噴發！</p>
+                <div class="my-2.5 h-44 rounded-2xl embossed-well p-3 flex flex-col justify-between">
+                  <div class="grid grid-cols-3 gap-2 my-auto">
+                    <div id="slot-reel-1" class="liquid-glass-card h-24 rounded-xl flex flex-col items-center justify-center">
+                      <span class="text-3xl leading-none">👑</span>
+                      <span class="font-mono text-[10px] text-amber-200 mt-1 font-bold">蜂王漿</span>
                     </div>
-                    <input id="neural-freq-slider" type="range" min="110" max="880" value="432" step="1"
-                      oninput="window.LabApp.adjustNeuralFrequency(this.value)" class="w-full accent-purple-400 cursor-pointer" />
+                    <div id="slot-reel-2" class="liquid-glass-card h-24 rounded-xl flex flex-col items-center justify-center">
+                      <span class="text-3xl leading-none">🍯</span>
+                      <span class="font-mono text-[10px] text-amber-200 mt-1 font-bold">黃金糖</span>
+                    </div>
+                    <div id="slot-reel-3" class="liquid-glass-card h-24 rounded-xl flex flex-col items-center justify-center">
+                      <span class="text-3xl leading-none">🧋</span>
+                      <span class="font-mono text-[10px] text-amber-200 mt-1 font-bold">全糖珍奶</span>
+                    </div>
+                  </div>
+                  <div id="slot-result-text" class="text-center font-mono text-[11px] text-cyan-300 font-bold truncate">
+                    三同號 +150顆 ｜ 雙同號 +35顆
                   </div>
                 </div>
               </div>
-              <button onclick="window.LabApp.playNeuralResonanceChime()"
-                class="liquid-glass-btn w-full py-2.5 rounded-xl font-mono text-xs text-purple-200 font-bold">
-                🔮 觸發神經元諧振波
+              <button id="slot-spin-btn" onclick="window.LabApp.spinFructoseSlotMachine()"
+                class="liquid-glass-amber w-full py-2.5 rounded-xl font-mono text-xs font-black">
+                🎰 拉下搖桿！啟動皇家拉霸
+              </button>
+            </div>
+
+            <!-- 遊戲 3: 爆走果糖怪極速打擊戰 (Hyper-Reflex Monster Whack) -->
+            <div class="liquid-glass-card rounded-2xl p-4 flex flex-col justify-between space-y-3">
+              <div>
+                <div class="flex items-center justify-between font-mono text-xs text-purple-300 mb-1">
+                  <span>🔨 MONSTER WHACK</span>
+                  <span id="whack-hud-text" class="embossed-badge px-2 py-0.5 rounded text-purple-200 font-black">20s ｜ 0 擊</span>
+                </div>
+                <h3 class="text-base font-black text-white">3. 爆走果糖怪極速打擊</h3>
+                <p class="text-[11px] text-slate-400">極速點擊冒出的 🍯👑😈 果糖怪，別點到 🍵 綠茶！</p>
+                <div id="whack-monster-grid" class="my-2.5 h-44 rounded-2xl embossed-well p-2 grid grid-cols-3 grid-rows-3 gap-1.5">
+                  <!-- 9 Holes rendered by JS -->
+                </div>
+              </div>
+              <button id="whack-start-btn" onclick="window.LabApp.startMonsterWhackGame()"
+                class="liquid-glass-btn w-full py-2.5 rounded-xl font-mono text-xs text-purple-200 font-black">
+                ⚡ 啟動 20 秒極速連擊挑戰
               </button>
             </div>
           </div>
@@ -905,9 +954,9 @@
   </nav>
 
   <!-- Scripts with cache busters -->
-  <script src="data.js?v=5.4.0"></script>
-  <script src="audio.js?v=5.4.0"></script>
-  <script src="app.js?v=5.4.0"></script>
+  <script src="data.js?v=5.5.0"></script>
+  <script src="audio.js?v=5.5.0"></script>
+  <script src="app.js?v=5.5.0"></script>
 </body>
 
 </html>

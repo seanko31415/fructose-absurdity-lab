@@ -153,8 +153,51 @@
   }
 
   // ========================================================================
-  // 2. 3D 皇家浮雕標紋卡牌登入介面 (Royal Filigree 3D Orbiting Card Portal)
+  // 2. 清爽高質感 3D 煙燻液態玻璃卡牌登入艙 (Clean Smoked-Glass 3D Cards + Big SVG Art)
   // ========================================================================
+  function getCardHeroSvgIllustration(card, idx) {
+    const c = card.accent || '#38BDF8';
+    const svgs = [
+      // 0: 全糖真傳弟子 (巨型发光波霸珍奶杯插畫)
+      `<svg viewBox="0 0 110 100" class="w-24 h-24 mx-auto drop-shadow">
+        <circle cx="55" cy="52" r="40" fill="${c}18" stroke="${c}55" stroke-width="1.2" />
+        <path d="M35,30 L75,30 L69,84 Q68,88 63,88 L47,88 Q42,88 41,84 Z" fill="#0B1325" stroke="${c}" stroke-width="2.2" />
+        <path d="M39,50 Q55,55 71,50 L68,83 L42,83 Z" fill="${c}" opacity="0.65" />
+        <line x1="62" y1="12" x2="50" y2="76" stroke="#FDE047" stroke-width="4.5" stroke-linecap="round" />
+        <circle cx="48" cy="76" r="4" fill="#1E1B4B" /><circle cx="57" cy="78" r="4" fill="#1E1B4B" /><circle cx="63" cy="74" r="4" fill="#1E1B4B" />
+      </svg>`,
+      // 1: 社恐隱身特務 (全息雷達潛行護目鏡插畫)
+      `<svg viewBox="0 0 110 100" class="w-24 h-24 mx-auto drop-shadow">
+        <circle cx="55" cy="52" r="40" fill="${c}18" stroke="${c}55" stroke-width="1.2" />
+        <path d="M28,58 C28,32 82,32 82,58 L76,78 L34,78 Z" fill="#0F172A" stroke="${c}" stroke-width="2" />
+        <rect x="33" y="46" width="44" height="15" rx="7" fill="${c}" opacity="0.85" />
+        <line x1="38" y1="53" x2="72" y2="53" stroke="#FFF" stroke-width="2" stroke-linecap="round" />
+      </svg>`,
+      // 2: 孝孫爆糖宗師 (皇家金冠與閃電茶杯插畫)
+      `<svg viewBox="0 0 110 100" class="w-24 h-24 mx-auto drop-shadow">
+        <circle cx="55" cy="52" r="40" fill="${c}18" stroke="${c}55" stroke-width="1.2" />
+        <polygon points="28,68 34,34 48,48 55,26 62,48 76,34 82,68" fill="${c}" stroke="#FEF08A" stroke-width="2" stroke-linejoin="round" />
+        <rect x="30" y="72" width="50" height="8" rx="4" fill="#FDE047" />
+        <circle cx="55" cy="22" r="4" fill="#FFF" />
+      </svg>`,
+      // 3: 數位自爆狂人 (高能訊號衛星核爆插畫)
+      `<svg viewBox="0 0 110 100" class="w-24 h-24 mx-auto drop-shadow">
+        <circle cx="55" cy="52" r="40" fill="${c}18" stroke="${c}55" stroke-width="1.2" />
+        <circle cx="55" cy="52" r="26" fill="none" stroke="${c}" stroke-width="1.5" stroke-dasharray="5 4" />
+        <polygon points="58,20 38,54 54,54 48,84 72,48 56,48" fill="${c}" stroke="#FFF" stroke-width="1.5" />
+      </svg>`,
+      // 4: 果糖怪掌門人 (皇冠果糖大魔王插畫)
+      `<svg viewBox="0 0 110 100" class="w-24 h-24 mx-auto drop-shadow">
+        <circle cx="55" cy="52" r="40" fill="${c}18" stroke="${c}55" stroke-width="1.2" />
+        <path d="M55,24 C78,24 86,44 86,66 C86,80 74,84 55,84 C36,84 24,80 24,66 C24,44 32,24 55,24 Z" fill="${c}" stroke="#FDE047" stroke-width="2" />
+        <circle cx="44" cy="52" r="6.5" fill="#FFF" /><circle cx="45" cy="52" r="3" fill="#090D16" />
+        <circle cx="66" cy="52" r="6.5" fill="#FFF" /><circle cx="65" cy="52" r="3" fill="#090D16" />
+        <path d="M44,67 Q55,78 66,67 Z" fill="#450A0A" />
+      </svg>`
+    ];
+    return svgs[idx % svgs.length];
+  }
+
   function render3DCarouselCards() {
     const ring = document.getElementById('carousel-3d-ring');
     if (!ring) return;
@@ -163,7 +206,8 @@
     const count = cards.length;
     const stepDeg = 360 / count;
     const isMobile = window.innerWidth < 640;
-    const radius = isMobile ? 205 : 265;
+    // 加大旋轉半徑讓 5 張卡牌彼此分明、絕不擁擠雜亂
+    const radius = isMobile ? 210 : 285;
 
     ring.innerHTML = cards.map((c, idx) => {
       const isSelected = idx === appState.carouselIndex;
@@ -176,50 +220,19 @@
           <div class="card-3d-inner w-full h-full flex flex-col justify-between select-none"
                style="animation-delay: ${floatDelay}s;">
 
-            <!-- 四角皇家燙金浮雕紋飾 (Royal Gold Corner Filigree SVG) -->
-            <svg viewBox="0 0 100 100" class="absolute inset-1.5 w-[calc(100%-12px)] h-[calc(100%-12px)] pointer-events-none z-0 opacity-75">
-              <!-- 左上雕花 -->
-              <path d="M2,22 L2,6 Q2,2 6,2 L22,2 M6,14 L14,6 M2,10 Q10,10 10,2" fill="none" stroke="${c.accent}" stroke-width="1.5" />
-              <!-- 右上雕花 -->
-              <path d="M98,22 L98,6 Q98,2 94,2 L78,2 M94,14 L86,6 M98,10 Q90,10 90,2" fill="none" stroke="${c.accent}" stroke-width="1.5" />
-              <!-- 左下雕花 -->
-              <path d="M2,78 L2,94 Q2,98 6,98 L22,98 M6,86 L14,94 M2,90 Q10,90 10,98" fill="none" stroke="${c.accent}" stroke-width="1.5" />
-              <!-- 右下雕花 -->
-              <path d="M98,78 L98,94 Q98,98 94,98 L78,98 M94,86 L86,94 M98,90 Q90,90 90,98" fill="none" stroke="${c.accent}" stroke-width="1.5" />
-              <!-- 中央神聖幾何菱紋標紋 -->
-              <polygon points="50,6 92,50 50,94 8,50" fill="none" stroke="rgba(253,224,71,0.16)" stroke-width="0.8" stroke-dasharray="2 2" />
-            </svg>
-
-            <div class="relative z-10">
-              <div class="flex items-center justify-between font-mono text-[9px] mb-1 px-1">
-                <span style="color:${c.accent}" class="font-extrabold tracking-widest uppercase">⚜ ${c.code}</span>
-                <span class="embossed-badge px-2 py-0.5 rounded-full text-amber-200 font-mono text-[10px] font-black">${c.initCubes}顆</span>
-              </div>
-
-              <!-- 皇家星盤浮雕徽章座 (Spinning Astral Crest Medallion) -->
-              <div class="relative w-16 h-16 mx-auto my-1.5 flex items-center justify-center">
-                <svg viewBox="0 0 80 80" class="w-full h-full absolute inset-0 crest-spin-ring pointer-events-none">
-                  <circle cx="40" cy="40" r="36" fill="none" stroke="${c.accent}" stroke-width="1.2" stroke-dasharray="5 3" opacity="0.75" />
-                  <polygon points="40,2 44,10 36,10" fill="#FDE047" />
-                  <polygon points="40,78 44,70 36,70" fill="#FDE047" />
-                  <polygon points="2,40 10,44 10,36" fill="#FDE047" />
-                  <polygon points="78,40 70,44 70,36" fill="#FDE047" />
-                </svg>
-                <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl border-2 shadow-xl"
-                     style="background: radial-gradient(circle, ${c.accent}44 0%, #050811 90%); border-color:${c.accent}; box-shadow: 0 0 22px ${c.accent}66, inset 0 1px 3px rgba(255,255,255,0.7);">
-                  ${c.icon}
-                </div>
-              </div>
-
-              <h3 class="text-sm sm:text-base font-black text-white text-center leading-tight tracking-tight drop-shadow">${c.title}</h3>
-              <p class="text-[10px] text-cyan-300 text-center mt-0.5 font-mono">${c.subtitle}</p>
+            <div class="flex items-center justify-between font-mono text-[10px] px-0.5">
+              <span style="color:${c.accent}" class="font-bold tracking-wider">${c.code}</span>
+              <span class="embossed-badge px-2 py-0.5 rounded-full text-amber-200 font-mono text-[10px] font-bold">${c.initCubes}顆</span>
             </div>
 
-            <div class="relative z-10 space-y-1.5 mt-1">
-              <div class="embossed-well px-2.5 py-1.5 rounded-xl text-[10px] text-amber-200 font-bold text-center truncate">
-                ✦ ${c.perk}
-              </div>
-              <div class="text-[9px] italic text-slate-300 text-center truncate px-1">${c.quote}</div>
+            <!-- 中央大畫圖角色插畫 (Big Hero Vector Illustration) -->
+            <div class="my-auto py-1">
+              ${getCardHeroSvgIllustration(c, idx)}
+              <h3 class="text-base font-black text-white text-center leading-tight mt-1.5">${c.title}</h3>
+            </div>
+
+            <div class="embossed-well px-2.5 py-1.5 rounded-xl text-[10px] text-cyan-200 font-bold text-center truncate">
+              ${c.perk}
             </div>
           </div>
         </div>
@@ -415,6 +428,8 @@
     if (overlay) {
       overlay.classList.add('portal-hidden');
     }
+    // 進入主站後暫停 3D 卡牌背景循環，確保主站按鈕與捲動 120fps 極速順暢
+    stop3DAutoOrbit();
 
     const hudUser = document.getElementById('hud-user-identity');
     if (hudUser) {
@@ -425,7 +440,7 @@
       toggleRootMode();
     }
 
-    // 自動啟動環境背景音 (若尚未播放)
+    // 自動啟動調皮搞怪風背景音樂 (若尚未播放)
     if (window.labAudio && !window.labAudio.bgmPlaying && appState.soundEnabled) {
       window.labAudio.startBGM();
       const eqBars = document.getElementById('hud-eq-bars');
@@ -435,13 +450,15 @@
     window.labAudio.playVictoryFanfare();
     setGlobalSugarCubes(appState.playerCard.initCubes, { syncLadder: true });
     switchLabPage(targetPage);
-    broadcastMascotMessage(`歡迎【${appState.playerName}】！點上方切換頁面，或去第 2 頁問問題測糖度！`);
+    broadcastMascotMessage(`歡迎【${appState.playerName}】！去第 2 頁問問題測糖度，或去第 4 頁玩街機遊戲！`);
   }
 
   function reopen3DLoginPortal() {
     const overlay = document.getElementById('login-3d-overlay');
     if (overlay) {
       overlay.classList.remove('portal-hidden');
+      start3DAutoOrbit();
+      initLoginCosmicBackground();
       window.labAudio.playBubble();
     }
   }
@@ -2204,206 +2221,456 @@
 
   
   // ========================================================================
-  // 10. 第 4 頁：全新升級高級實驗儀器遊樂場 (Quantum + Cryogenic + Neural)
-  // 全面替換舊版打蟑螂與治癒草，提升為高質感黑科技互動設備！
+  // 10. 第 4 頁：全糖皇家街機遊樂場 (3 款真正好玩、高質感實時互動遊戲)
+  // 遊戲 1: 極速磁浮接方糖 (Cyber Sugar Catcher)
+  // 遊戲 2: 皇家 777 社死拉霸機 (Royal Jackpot Slot Machine)
+  // 遊戲 3: 爆走果糖怪極速打擊戰 (Hyper-Reflex Monster Whack)
   // ========================================================================
 
-  // --- 設備 1: 量子果糖裂變反應爐 (Quantum Fructose Molecular Reactor) ---
-  let quantumNodes = [];
-  function initQuantumReactor() {
-    appState.quantumStability = 100;
-    const arena = document.getElementById('quantum-reactor-arena');
-    const stabilityText = document.getElementById('quantum-stability');
-    if (stabilityText) {
-      stabilityText.textContent = '穩定度: 100%';
-      stabilityText.className = 'font-black text-emerald-300';
-    }
-    if (!arena) return;
+  // --- 遊戲 1: 極速磁浮接方糖街機 (Cyber Sugar Catcher) ---
+  const catcherGame = {
+    running: false,
+    score: 0,
+    combo: 1,
+    timeLeft: 30,
+    paddleX: 150,
+    paddleW: 66,
+    items: [],
+    popups: [],
+    rafId: null,
+    timerId: null
+  };
 
-    quantumNodes = [
-      { id: 1, x: 22, y: 30, energy: 'F-6-P', color: '#06B6D4' },
-      { id: 2, x: 78, y: 30, energy: 'GLU-1', color: '#F59E0B' },
-      { id: 3, x: 50, y: 54, energy: 'CORE', color: '#A855F7' },
-      { id: 4, x: 24, y: 76, energy: 'ATP-α', color: '#10B981' },
-      { id: 5, x: 76, y: 76, energy: 'BRIX-β', color: '#EC4899' },
-      { id: 6, x: 50, y: 22, energy: 'FROST', color: '#38BDF8' }
-    ];
+  function initSugarCatcherArena() {
+    const canvas = document.getElementById('sugar-catcher-canvas');
+    if (!canvas) return;
 
-    // 繪製分子晶格連線 SVG + 懸浮能量節點
-    arena.innerHTML = `
-      <svg viewBox="0 0 100 100" preserveAspectRatio="none" class="absolute inset-0 w-full h-full pointer-events-none opacity-45">
-        <line x1="22" y1="30" x2="50" y2="22" stroke="#06B6D4" stroke-width="0.8" stroke-dasharray="2 2" />
-        <line x1="50" y1="22" x2="78" y2="30" stroke="#F59E0B" stroke-width="0.8" stroke-dasharray="2 2" />
-        <line x1="22" y1="30" x2="50" y2="54" stroke="#A855F7" stroke-width="1" />
-        <line x1="78" y1="30" x2="50" y2="54" stroke="#A855F7" stroke-width="1" />
-        <line x1="24" y1="76" x2="50" y2="54" stroke="#10B981" stroke-width="1" />
-        <line x1="76" y1="76" x2="50" y2="54" stroke="#EC4899" stroke-width="1" />
-        <line x1="24" y1="76" x2="76" y2="76" stroke="#38BDF8" stroke-width="0.8" stroke-dasharray="2 2" />
-      </svg>
-    `;
+    const updatePaddleFromEvent = (clientX) => {
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width <= 0) return;
+      const relX = ((clientX - rect.left) / rect.width) * canvas.width;
+      catcherGame.paddleX = Math.max(catcherGame.paddleW / 2, Math.min(canvas.width - catcherGame.paddleW / 2, relX));
+      if (!catcherGame.running) drawCatcherIdleFrame();
+    };
 
-    quantumNodes.forEach(n => {
-      const nodeEl = document.createElement('button');
-      nodeEl.id = `qnode-${n.id}`;
-      nodeEl.onclick = () => stabilizeQuantumNode(n.id);
-      nodeEl.className = 'quantum-energy-node absolute w-11 h-11 rounded-2xl flex flex-col items-center justify-center font-mono text-[9px] font-black border transition-transform select-none shadow-lg z-10';
-      nodeEl.style.left = `${n.x}%`;
-      nodeEl.style.top = `${n.y}%`;
-      nodeEl.style.transform = 'translate(-50%, -50%)';
-      nodeEl.style.borderColor = n.color;
-      nodeEl.style.backgroundColor = `${n.color}28`;
-      nodeEl.style.color = n.color;
-      nodeEl.innerHTML = `
-        <span class="text-xs leading-none">⚛️</span>
-        <span class="leading-none mt-0.5">${n.energy}</span>
-      `;
-      arena.appendChild(nodeEl);
-    });
+    canvas.addEventListener('mousemove', (e) => updatePaddleFromEvent(e.clientX), { passive: true });
+    canvas.addEventListener('touchmove', (e) => {
+      if (e.touches && e.touches[0]) {
+        updatePaddleFromEvent(e.touches[0].clientX);
+      }
+    }, { passive: true });
+
+    drawCatcherIdleFrame();
   }
 
-  function stabilizeQuantumNode(nodeId) {
-    const nodeEl = document.getElementById(`qnode-${nodeId}`);
-    if (nodeEl) {
-      nodeEl.style.transform = 'translate(-50%, -50%) scale(1.4) rotate(15deg)';
-      setTimeout(() => {
-        if (nodeEl) nodeEl.style.transform = 'translate(-50%, -50%) scale(1)';
-      }, 250);
-    }
-    appState.quantumStability = Math.min(100, (appState.quantumStability || 90) + 5);
-    const stabilityText = document.getElementById('quantum-stability');
-    if (stabilityText) {
-      stabilityText.textContent = `穩定度: ${appState.quantumStability}%`;
-      stabilityText.className = appState.quantumStability >= 70 ? 'font-black text-emerald-300' : 'font-black text-amber-300';
-    }
-    if (window.labAudio && window.labAudio.playTone) {
-      window.labAudio.playTone(480 + nodeId * 60, 'sine', 0.12, 0.08);
-    }
-    showToast('⚛️ 量子節點調諧', `節點 #${nodeId} 分子晶格已加固！反應爐穩定度: ${appState.quantumStability}%`, 'cyan');
-  }
-
-  function resetQuantumReactor() {
-    initQuantumReactor();
-    window.labAudio.playBubble();
-    showToast('⚛️ 反應爐重啟', '量子果糖裂變晶格已重設為 100% 絕對穩定！', 'emerald');
-  }
-
-  // --- 設備 2: 全息超低溫焦糖提煉儀 (Cryogenic Caramel Distiller) ---
-  function distillCaramelDrop() {
-    appState.distillerDrips = (appState.distillerDrips || 12) + 1;
-    const purity = (99.75 + (Math.random() * 0.22)).toFixed(2);
-    const temp = -196 + (appState.distillerDrips % 6);
-
-    const purityEl = document.getElementById('distiller-purity');
-    const dripsEl = document.getElementById('distiller-drips-count');
-    const tempEl = document.getElementById('distiller-temp-display');
-
-    if (purityEl) purityEl.textContent = `純度: ${purity}%`;
-    if (dripsEl) dripsEl.textContent = `${appState.distillerDrips} 滴`;
-    if (tempEl) tempEl.textContent = `${temp}°C`;
-
-    const drop = document.querySelector('.amber-drip-drop');
-    if (drop) {
-      drop.classList.remove('drop-animate');
-      void drop.offsetWidth;
-      drop.classList.add('drop-animate');
-    }
-
-    window.labAudio.playSugarDrop(1);
-    setGlobalSugarCubes(appState.globalSugarCubes + 2, { syncLadder: true });
-    showToast('✨ 萃取琥珀結晶', `超低溫蒸餾成功！滴入第 ${appState.distillerDrips} 滴，純度 ${purity}%！`, 'amber');
-  }
-
-  // --- 設備 3: 神經元腦波音頻調諧儀 (Neural Resonance Synthesizer) ---
-  let neuralOscilloscopeAnimId = null;
-  let neuralWavePhase = 0;
-
-  function initNeuralOscilloscope() {
-    const canvas = document.getElementById('neural-oscilloscope-canvas');
+  function drawCatcherIdleFrame() {
+    const canvas = document.getElementById('sugar-catcher-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    function renderWave() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // 繪製暗黑科技網格
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < canvas.width; x += 30) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+    }
+    for (let y = 0; y < canvas.height; y += 30) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+    }
+
+    // 預覽圖示與提示
+    ctx.font = '22px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('🧊   🍯   🧋   👑', canvas.width / 2, 62);
+    ctx.font = 'bold 12px monospace';
+    ctx.fillStyle = '#67E8F9';
+    ctx.fillText('點擊下方按鈕啟動・滑動接糖！', canvas.width / 2, 95);
+
+    // 磁浮接盤
+    const px = catcherGame.paddleX - catcherGame.paddleW / 2;
+    const py = canvas.height - 22;
+    ctx.fillStyle = '#06B6D4';
+    ctx.fillRect(px, py, catcherGame.paddleW, 10);
+    ctx.strokeStyle = '#E0F2FE';
+    ctx.strokeRect(px, py, catcherGame.paddleW, 10);
+  }
+
+  function toggleSugarCatcherGame() {
+    if (catcherGame.running) {
+      endSugarCatcherGame();
+      return;
+    }
+
+    const canvas = document.getElementById('sugar-catcher-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    catcherGame.running = true;
+    catcherGame.score = 0;
+    catcherGame.combo = 1;
+    catcherGame.timeLeft = 30;
+    catcherGame.items = [];
+    catcherGame.popups = [];
+
+    const startBtn = document.getElementById('catcher-start-btn');
+    if (startBtn) startBtn.textContent = '⏹️ 遊戲進行中 (滑動上方接盤！)';
+    updateCatcherHud();
+    window.labAudio.playBubble();
+
+    catcherGame.timerId = setInterval(() => {
+      catcherGame.timeLeft -= 1;
+      updateCatcherHud();
+      if (catcherGame.timeLeft <= 0) {
+        endSugarCatcherGame();
+      }
+    }, 1000);
+
+    const catalog = [
+      { icon: '🧊', pts: 10, speed: 2.3, isBomb: false, color: '#38BDF8' },
+      { icon: '🍯', pts: 25, speed: 2.8, isBomb: false, color: '#FBBF24' },
+      { icon: '🧋', pts: 45, speed: 3.3, isBomb: false, color: '#C084FC' },
+      { icon: '👑', pts: 70, speed: 3.9, isBomb: false, color: '#F43F5E' },
+      { icon: '🍵', pts: -20, speed: 2.9, isBomb: true, color: '#10B981' }
+    ];
+
+    let lastSpawn = 0;
+    function stepFrame(ts) {
+      if (!catcherGame.running) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // 繪製背景網格
-      ctx.strokeStyle = 'rgba(168, 85, 247, 0.15)';
-      ctx.lineWidth = 1;
-      for (let x = 0; x < canvas.width; x += 28) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
-        ctx.stroke();
-      }
-      for (let y = 0; y < canvas.height; y += 22) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
-        ctx.stroke();
+      // 產生掉落物
+      if (ts - lastSpawn > 420) {
+        lastSpawn = ts;
+        const pick = catalog[Math.floor(Math.random() * catalog.length)];
+        catcherGame.items.push({
+          x: 20 + Math.random() * (canvas.width - 40),
+          y: -15,
+          ...pick
+        });
       }
 
-      // 繪製正弦諧波
-      const freq = appState.neuralFreq || 432;
-      const waveLength = Math.max(12, 4000 / freq);
-      neuralWavePhase += 0.04;
+      // 繪製磁浮接盤
+      const px = catcherGame.paddleX - catcherGame.paddleW / 2;
+      const py = canvas.height - 22;
+      ctx.fillStyle = '#06B6D4';
+      ctx.fillRect(px, py, catcherGame.paddleW, 10);
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(px, py, catcherGame.paddleW, 10);
 
-      ctx.beginPath();
-      ctx.strokeStyle = '#C084FC';
-      ctx.lineWidth = 2.5;
-      ctx.shadowColor = '#A855F7';
-      ctx.shadowBlur = 8;
+      // 更新掉落物
+      ctx.font = '20px sans-serif';
+      ctx.textAlign = 'center';
+      for (let i = catcherGame.items.length - 1; i >= 0; i--) {
+        const it = catcherGame.items[i];
+        it.y += it.speed;
+        ctx.fillText(it.icon, it.x, it.y);
 
-      for (let x = 0; x < canvas.width; x++) {
-        const y = canvas.height / 2 + Math.sin(x / waveLength + neuralWavePhase) * (canvas.height * 0.32)
-          + Math.sin(x / (waveLength * 0.5) - neuralWavePhase) * 6;
-        if (x === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
+        // 碰撞判定
+        if (it.y >= py - 4 && it.y <= py + 16 && Math.abs(it.x - catcherGame.paddleX) <= catcherGame.paddleW / 2 + 12) {
+          if (it.isBomb) {
+            catcherGame.combo = 1;
+            catcherGame.score = Math.max(0, catcherGame.score + it.pts);
+            catcherGame.popups.push({ x: it.x, y: py - 8, text: '苦茶 -20!', color: '#EF4444', life: 24 });
+            if (window.labAudio.playTone) window.labAudio.playTone(150, 'sawtooth', 0.14, 0.15);
+          } else {
+            const gain = it.pts * catcherGame.combo;
+            catcherGame.score += gain;
+            catcherGame.combo = Math.min(8, catcherGame.combo + 1);
+            catcherGame.popups.push({ x: it.x, y: py - 8, text: `+${gain} (x${catcherGame.combo})`, color: it.color, life: 24 });
+            if (window.labAudio.playTone) window.labAudio.playTone(480 + catcherGame.combo * 55, 'sine', 0.09, 0.12);
+          }
+          updateCatcherHud();
+          catcherGame.items.splice(i, 1);
+        } else if (it.y > canvas.height + 20) {
+          if (!it.isBomb) catcherGame.combo = 1;
+          catcherGame.items.splice(i, 1);
+        }
       }
-      ctx.stroke();
-      ctx.shadowBlur = 0;
 
-      neuralOscilloscopeAnimId = requestAnimationFrame(renderWave);
+      // 繪製漂浮得分特效字
+      ctx.font = 'bold 11px monospace';
+      for (let i = catcherGame.popups.length - 1; i >= 0; i--) {
+        const pop = catcherGame.popups[i];
+        ctx.fillStyle = pop.color;
+        ctx.fillText(pop.text, pop.x, pop.y);
+        pop.y -= 1.2;
+        pop.life -= 1;
+        if (pop.life <= 0) catcherGame.popups.splice(i, 1);
+      }
+
+      catcherGame.rafId = requestAnimationFrame(stepFrame);
     }
 
-    if (neuralOscilloscopeAnimId) cancelAnimationFrame(neuralOscilloscopeAnimId);
-    renderWave();
+    catcherGame.rafId = requestAnimationFrame(stepFrame);
   }
 
-  function adjustNeuralFrequency(freqVal) {
-    const f = parseInt(freqVal, 10) || 432;
-    appState.neuralFreq = f;
-
-    const readout = document.getElementById('neural-freq-readout');
-    const textEl = document.getElementById('neural-slider-text');
-
-    let waveType = 'Alpha 舒緩';
-    if (f < 160) waveType = 'Delta 深度睡眠';
-    else if (f < 280) waveType = 'Theta 沉思冥想';
-    else if (f < 500) waveType = 'Alpha 心靈平靜';
-    else if (f < 700) waveType = 'Beta 專注警覺';
-    else waveType = 'Gamma 超凡共振';
-
-    if (readout) readout.textContent = `${f} Hz`;
-    if (textEl) textEl.textContent = `${f} Hz (${waveType})`;
-
-    if (window.labAudio && window.labAudio.playTone) {
-      window.labAudio.playTone(f, 'sine', 0.08, 0.04);
+  function updateCatcherHud() {
+    const el = document.getElementById('catcher-score-display');
+    if (el) {
+      el.textContent = `${catcherGame.timeLeft}s ｜ ${catcherGame.score}分 (x${catcherGame.combo})`;
     }
   }
 
-  function playNeuralResonanceChime() {
-    const f = appState.neuralFreq || 432;
-    if (window.labAudio && window.labAudio.playTone) {
-      window.labAudio.playTone(f, 'sine', 0.6, 0.15);
-      setTimeout(() => window.labAudio.playTone(f * 1.5, 'sine', 0.5, 0.1), 100);
-      setTimeout(() => window.labAudio.playTone(f * 2, 'sine', 0.8, 0.08), 200);
-    }
-    showToast('🔮 神經元諧振波', `已激發 ${f} Hz 諧振脈衝！社交尷尬腦波調諧重構中...`, 'fuchsia');
+  function endSugarCatcherGame() {
+    catcherGame.running = false;
+    if (catcherGame.timerId) clearInterval(catcherGame.timerId);
+    if (catcherGame.rafId) cancelAnimationFrame(catcherGame.rafId);
+
+    const startBtn = document.getElementById('catcher-start-btn');
+    if (startBtn) startBtn.textContent = '🚀 再玩一局！啟動磁浮接糖 (30秒)';
+
+    const earnedCubes = Math.max(5, Math.round(catcherGame.score / 15));
+    setGlobalSugarCubes(appState.globalSugarCubes + earnedCubes, { syncLadder: true });
+    window.labAudio.playVictoryFanfare();
+    showToast('🎯 磁浮接糖結算！', `總分 ${catcherGame.score} 分！成功兌換 +${earnedCubes} 顆方糖注入天平！`, 'cyan');
+    drawCatcherIdleFrame();
   }
+
+  // --- 遊戲 2: 皇家 777 社死拉霸機 (Royal Jackpot Slot Machine) ---
+  let slotSpinning = false;
+  const slotSymbols = [
+    { icon: '👑', name: '蜂王漿777', cubes: 150 },
+    { icon: '🍯', name: '黃金焦糖', cubes: 80 },
+    { icon: '🧋', name: '全糖珍奶', cubes: 50 },
+    { icon: '🦖', name: '恐龍卡門', cubes: 40 },
+    { icon: '💘', name: '暗戀社死', cubes: 60 },
+    { icon: '💎', name: '鑽石冰糖', cubes: 100 }
+  ];
+
+  function spinFructoseSlotMachine() {
+    if (slotSpinning) return;
+    slotSpinning = true;
+
+    const r1 = document.getElementById('slot-reel-1');
+    const r2 = document.getElementById('slot-reel-2');
+    const r3 = document.getElementById('slot-reel-3');
+    const badge = document.getElementById('slot-status-badge');
+    const resText = document.getElementById('slot-result-text');
+    const spinBtn = document.getElementById('slot-spin-btn');
+
+    if (badge) badge.textContent = '高速旋轉中...';
+    if (spinBtn) spinBtn.textContent = '🎰 轉輪減速鎖定中...';
+
+    // 提高中獎樂趣機率：30% 三連線 JACKPOT，45% 雙連線
+    const roll = Math.random();
+    let finalIdx1 = Math.floor(Math.random() * slotSymbols.length);
+    let finalIdx2 = Math.floor(Math.random() * slotSymbols.length);
+    let finalIdx3 = Math.floor(Math.random() * slotSymbols.length);
+
+    if (roll < 0.30) {
+      finalIdx2 = finalIdx1;
+      finalIdx3 = finalIdx1;
+    } else if (roll < 0.78) {
+      finalIdx2 = finalIdx1;
+    }
+
+    const renderReel = (el, sym, highlight = false) => {
+      if (!el) return;
+      el.style.borderColor = highlight ? '#FBBF24' : 'rgba(255,255,255,0.14)';
+      el.innerHTML = `
+        <span class="text-3xl leading-none select-none">${sym.icon}</span>
+        <span class="font-mono text-[10px] text-amber-200 mt-1 font-bold">${sym.name}</span>
+      `;
+    };
+
+    let ticks = 0;
+    const spinTimer = setInterval(() => {
+      ticks++;
+      if (ticks < 8) {
+        renderReel(r1, slotSymbols[ticks % slotSymbols.length]);
+      } else if (ticks === 8) {
+        renderReel(r1, slotSymbols[finalIdx1], true);
+        if (window.labAudio.playTone) window.labAudio.playTone(520, 'triangle', 0.08, 0.14);
+      }
+
+      if (ticks < 14) {
+        renderReel(r2, slotSymbols[(ticks + 2) % slotSymbols.length]);
+      } else if (ticks === 14) {
+        renderReel(r2, slotSymbols[finalIdx2], true);
+        if (window.labAudio.playTone) window.labAudio.playTone(660, 'triangle', 0.08, 0.14);
+      }
+
+      if (ticks < 20) {
+        renderReel(r3, slotSymbols[(ticks + 4) % slotSymbols.length]);
+        if (ticks % 2 === 0 && window.labAudio.playTone) {
+          window.labAudio.playTone(300 + (ticks * 18), 'sine', 0.05, 0.08);
+        }
+      } else {
+        clearInterval(spinTimer);
+        renderReel(r3, slotSymbols[finalIdx3], true);
+        slotSpinning = false;
+        if (spinBtn) spinBtn.textContent = '🎰 再拉一次！啟動皇家拉霸';
+
+        const s1 = slotSymbols[finalIdx1];
+        const s2 = slotSymbols[finalIdx2];
+        const s3 = slotSymbols[finalIdx3];
+
+        if (finalIdx1 === finalIdx2 && finalIdx2 === finalIdx3) {
+          const prize = s1.cubes;
+          if (badge) badge.textContent = `🎉 JACKPOT +${prize}顆!`;
+          if (resText) resText.textContent = `👑 恭喜三連線【${s1.name}】大滿貫！暴增 +${prize} 顆！`;
+          window.labAudio.playVictoryFanfare();
+          triggerLabShake();
+          setGlobalSugarCubes(appState.globalSugarCubes + prize, { syncLadder: true });
+          showToast('🎰 皇家 777 大滿貫！', `三顆【${s1.icon} ${s1.name}】連線！暴得 +${prize} 顆方糖！`, 'amber');
+        } else if (finalIdx1 === finalIdx2 || finalIdx2 === finalIdx3 || finalIdx1 === finalIdx3) {
+          const matchSym = finalIdx1 === finalIdx2 ? s1 : s3;
+          const prize = 35;
+          if (badge) badge.textContent = `✨ 雙連線 +${prize}顆`;
+          if (resText) resText.textContent = `✨ 雙重【${matchSym.name}】連線！獲得 +${prize} 顆方糖！`;
+          window.labAudio.playSugarDrop(4);
+          setGlobalSugarCubes(appState.globalSugarCubes + prize, { syncLadder: true });
+          showToast('🎰 雙連線中獎！', `抽中雙重【${matchSym.icon} ${matchSym.name}】，獲得 +${prize} 顆方糖！`, 'cyan');
+        } else {
+          const prize = 8;
+          if (badge) badge.textContent = `🧊 安慰獎 +${prize}顆`;
+          if (resText) resText.textContent = `差一點連線！果糖怪賞你 +${prize} 顆安慰方糖！`;
+          window.labAudio.playSugarDrop(1);
+          setGlobalSugarCubes(appState.globalSugarCubes + prize, { syncLadder: true });
+        }
+      }
+    }, 65);
+  }
+
+  // --- 遊戲 3: 爆走果糖怪極速打擊戰 (Hyper-Reflex Monster Whack) ---
+  const whackGame = {
+    running: false,
+    hits: 0,
+    timeLeft: 20,
+    activeHole: -1,
+    activeType: null,
+    timerId: null,
+    popId: null
+  };
+
+  const whackTargets = [
+    { icon: '🍯', name: '貪吃果糖怪', cubes: 15, isTrap: false },
+    { icon: '👑', name: '黃金果糖王', cubes: 30, isTrap: false },
+    { icon: '😈', name: '調皮爆糖怪', cubes: 20, isTrap: false },
+    { icon: '🍵', name: '無糖綠茶刺客', cubes: -15, isTrap: true }
+  ];
+
+  function initMonsterWhackGrid() {
+    const grid = document.getElementById('whack-monster-grid');
+    if (!grid) return;
+    grid.innerHTML = Array.from({ length: 9 }, (_, idx) => `
+      <button id="whack-hole-${idx}" onclick="window.LabApp.whackMonsterHole(${idx})"
+        class="liquid-glass-btn rounded-xl flex items-center justify-center text-2xl h-full w-full select-none transition-transform active:scale-90">
+        <span class="opacity-20 text-sm">🕳️</span>
+      </button>
+    `).join('');
+  }
+
+  function startMonsterWhackGame() {
+    if (whackGame.running) return;
+    whackGame.running = true;
+    whackGame.hits = 0;
+    whackGame.timeLeft = 20;
+
+    const btn = document.getElementById('whack-start-btn');
+    if (btn) btn.textContent = '⚡ 狂擊進行中！快點冒出的果糖怪！';
+    updateWhackHud();
+    window.labAudio.playBubble();
+
+    whackGame.timerId = setInterval(() => {
+      whackGame.timeLeft -= 1;
+      updateWhackHud();
+      if (whackGame.timeLeft <= 0) {
+        endMonsterWhackGame();
+      }
+    }, 1000);
+
+    const spawnNextMonster = () => {
+      if (!whackGame.running) return;
+      clearWhackHoles();
+      const holeIdx = Math.floor(Math.random() * 9);
+      const t = whackTargets[Math.floor(Math.random() * whackTargets.length)];
+      whackGame.activeHole = holeIdx;
+      whackGame.activeType = t;
+
+      const holeEl = document.getElementById(`whack-hole-${holeIdx}`);
+      if (holeEl) {
+        holeEl.innerHTML = `<span class="text-2xl sm:text-3xl animate-bounce inline-block">${t.icon}</span>`;
+        holeEl.style.borderColor = t.isTrap ? '#10B981' : '#F59E0B';
+      }
+
+      whackGame.popId = setTimeout(spawnNextMonster, 620);
+    };
+
+    spawnNextMonster();
+  }
+
+  function clearWhackHoles() {
+    for (let i = 0; i < 9; i++) {
+      const el = document.getElementById(`whack-hole-${i}`);
+      if (el) {
+        el.innerHTML = `<span class="opacity-20 text-sm">🕳️</span>`;
+        el.style.borderColor = 'rgba(255,255,255,0.14)';
+      }
+    }
+    whackGame.activeHole = -1;
+    whackGame.activeType = null;
+  }
+
+  function whackMonsterHole(idx) {
+    if (!whackGame.running) {
+      startMonsterWhackGame();
+      return;
+    }
+    if (idx !== whackGame.activeHole || !whackGame.activeType) return;
+
+    const target = whackGame.activeType;
+    const holeEl = document.getElementById(`whack-hole-${idx}`);
+    if (target.isTrap) {
+      whackGame.hits = Math.max(0, whackGame.hits - 1);
+      if (holeEl) holeEl.innerHTML = `<span class="text-xs font-bold text-emerald-300">-15!</span>`;
+      if (window.labAudio.playTone) window.labAudio.playTone(160, 'sawtooth', 0.14, 0.14);
+    } else {
+      whackGame.hits += 1;
+      if (holeEl) holeEl.innerHTML = `<span class="text-xs font-black text-amber-300">+${target.cubes}!</span>`;
+      window.labAudio.playJellySquish();
+      setGlobalSugarCubes(appState.globalSugarCubes + target.cubes, { syncLadder: false });
+    }
+
+    whackGame.activeHole = -1;
+    whackGame.activeType = null;
+    updateWhackHud();
+  }
+
+  function updateWhackHud() {
+    const hud = document.getElementById('whack-hud-text');
+    if (hud) {
+      hud.textContent = `${whackGame.timeLeft}s ｜ 擊中 ${whackGame.hits} 次`;
+    }
+  }
+
+  function endMonsterWhackGame() {
+    whackGame.running = false;
+    if (whackGame.timerId) clearInterval(whackGame.timerId);
+    if (whackGame.popId) clearTimeout(whackGame.popId);
+    clearWhackHoles();
+
+    const btn = document.getElementById('whack-start-btn');
+    if (btn) btn.textContent = '⚡ 再戰一局！啟動 20 秒極速連擊';
+    window.labAudio.playVictoryFanfare();
+    showToast('🔨 極速打擊結束！', `共成功擊中 ${whackGame.hits} 隻調皮果糖怪！`, 'fuchsia');
+  }
+
+  // 向下相容舊介面別名
+  const resetQuantumReactor = toggleSugarCatcherGame;
+  const stabilizeQuantumNode = whackMonsterHole;
+  const distillCaramelDrop = spinFructoseSlotMachine;
+  const adjustNeuralFrequency = () => {};
+  const playNeuralResonanceChime = startMonsterWhackGame;
 
   function initPlaygroundApparatus() {
-    initQuantumReactor();
-    initNeuralOscilloscope();
+    initSugarCatcherArena();
+    initMonsterWhackGrid();
   }
 
   async function toggleMicSensor() {
@@ -2578,7 +2845,7 @@
   }
 
   // ========================================================================
-  // FLUID DYNAMIC CURSOR & MASCOT EYE TRACKING (100% 精準跟隨鼠標 + 流光粒子尾跡)
+  // FLUID DYNAMIC CURSOR & MASCOT EYE TRACKING (120fps 極速無延遲游標・零 DOM 負擔)
   // ========================================================================
   function initCustomFluidCursor() {
     const dot = document.getElementById('custom-cursor-dot');
@@ -2589,52 +2856,25 @@
     let mouseY = -100;
     let ringX = -100;
     let ringY = -100;
-    let lastSparkTime = 0;
 
     const onPointerMove = (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      // 核心光點 100% 零延遲同步貼合鼠標尖端
+      // 核心光點與外環直接鎖定座標，完全不建立額外 DOM 節點，確保按鈕與捲動 120fps 絲滑順暢
       dot.style.left = `${mouseX}px`;
       dot.style.top = `${mouseY}px`;
-      // 若初次移入畫面，立即將外環同步至鼠標位置避免從左上角飛入
-      if (ringX < 0 || Math.hypot(mouseX - ringX, mouseY - ringY) > 180) {
+      if (ringX < 0 || Math.hypot(mouseX - ringX, mouseY - ringY) > 160) {
         ringX = mouseX;
         ringY = mouseY;
-        ring.style.left = `${ringX}px`;
-        ring.style.top = `${ringY}px`;
       }
+      ringX += (mouseX - ringX) * 0.78;
+      ringY += (mouseY - ringY) * 0.78;
+      ring.style.left = `${ringX.toFixed(1)}px`;
+      ring.style.top = `${ringY.toFixed(1)}px`;
       updateMascotEyes(mouseX, mouseY);
-
-      // 產生星塵微粒尾跡
-      const now = performance.now();
-      if (now - lastSparkTime > 55) {
-        lastSparkTime = now;
-        const spark = document.createElement('div');
-        spark.className = 'cursor-trail-spark';
-        spark.style.left = `${mouseX}px`;
-        spark.style.top = `${mouseY}px`;
-        spark.style.background = Math.random() > 0.5 ? '#FDE047' : '#38BDF8';
-        spark.style.boxShadow = `0 0 8px ${spark.style.background}`;
-        document.body.appendChild(spark);
-        setTimeout(() => {
-          if (typeof spark.remove === 'function') spark.remove();
-        }, 480);
-      }
     };
 
     window.addEventListener('pointermove', onPointerMove, { passive: true });
-    window.addEventListener('mousemove', onPointerMove, { passive: true });
-
-    function renderCursorRing() {
-      // 高響應係數 (0.68) 確保外環緊貼鼠標不脫節，同時保有液態微彈感
-      ringX += (mouseX - ringX) * 0.68;
-      ringY += (mouseY - ringY) * 0.68;
-      ring.style.left = `${ringX.toFixed(1)}px`;
-      ring.style.top = `${ringY.toFixed(1)}px`;
-      requestAnimationFrame(renderCursorRing);
-    }
-    requestAnimationFrame(renderCursorRing);
 
     document.addEventListener('mouseover', (e) => {
       if (e.target && e.target.closest && e.target.closest('button, a, input, textarea, select, [role="button"], .card-3d-item, .cursor-pointer, .liquid-glass-btn')) {
@@ -2650,7 +2890,7 @@
 
     document.addEventListener('mousedown', () => {
       document.body.classList.add('cursor-is-clicking');
-      // 首次點擊畫面任意處即自動喚醒高音質 BGM
+      // 首次點擊畫面任意處即自動喚醒調皮搞笑 BGM
       if (window.labAudio && !window.labAudio.bgmPlaying && appState.soundEnabled) {
         window.labAudio.startBGM();
         const eqBars = document.getElementById('hud-eq-bars');
@@ -2843,6 +3083,10 @@
     sendPkWinnerToPrinter,
     toggleBobaTopping,
     shakeBobaCupAndDrink,
+    toggleSugarCatcherGame,
+    spinFructoseSlotMachine,
+    startMonsterWhackGame,
+    whackMonsterHole,
     resetQuantumReactor,
     stabilizeQuantumNode,
     distillCaramelDrop,
