@@ -3494,6 +3494,9 @@
     renderHallOfShame();
     setGlobalSugarCubes(0, { syncLadder: true });
     updateMascotUI(true);
+    initBobaRadarSystem();
+    initSugarDetoxArcade();
+    initGlobalSugarPopFx();
 
     const input = document.getElementById('confession-textarea');
     if (input) {
@@ -3522,6 +3525,486 @@
   }
 
   
+  // ========================================================================
+  // V3.0 SPEC EXTENSION: 靈魂手搖雪克杯、六角雷達、街機減糖挑戰、藝術圖鑑互動
+  // ========================================================================
+  const bobaRadarState = {
+    selectedToppings: ['pearl', 'syrup'],
+    sliders: {
+      screenTime: 65,
+      otHours: 50,
+      awkwardCount: 30,
+      bobaCups: 45,
+      sleepDeficit: 60,
+      walletLoss: 25
+    },
+    shaking: false
+  };
+
+  function initBobaRadarSystem() {
+    renderBobaCupAndRadar();
+  }
+
+  function toggleTopping(id, label, cubes) {
+    const idx = bobaRadarState.selectedToppings.indexOf(id);
+    if (idx >= 0) {
+      bobaRadarState.selectedToppings.splice(idx, 1);
+    } else {
+      bobaRadarState.selectedToppings.push(id);
+    }
+    window.labAudio && window.labAudio.playBubble();
+    renderBobaCupAndRadar();
+  }
+
+  function clearBobaCup() {
+    bobaRadarState.selectedToppings = [];
+    window.labAudio && window.labAudio.playBubble();
+    renderBobaCupAndRadar();
+    showToast('手搖雪克杯', '已清空杯內配料！可重新挑選添加', 'cyan');
+  }
+
+  function shakeBobaCup() {
+    if (bobaRadarState.shaking) return;
+    bobaRadarState.shaking = true;
+    window.labAudio && window.labAudio.playShakerSound();
+
+    const cup = document.getElementById('boba-cup-shaker-body');
+    if (cup) {
+      cup.classList.remove('cup-shaking');
+      void cup.offsetWidth;
+      cup.classList.add('cup-shaking');
+    }
+
+    // 計算配料總糖分
+    const toppingData = {
+      pearl: { name: '黑糖珍珠', cubes: 5 },
+      pudding: { name: '焦糖布丁', cubes: 8 },
+      foam: { name: '厚奶蓋', cubes: 6 },
+      jelly: { name: '椰果粒', cubes: 4 },
+      popping: { name: '爆爆珠', cubes: 12 },
+      syrup: { name: '高果糖漿', cubes: 25 }
+    };
+    let addedCubes = 0;
+    bobaRadarState.selectedToppings.forEach(t => {
+      if (toppingData[t]) addedCubes += toppingData[t].cubes;
+    });
+
+    setTimeout(() => {
+      bobaRadarState.shaking = false;
+      const totalInject = Math.max(10, addedCubes + Math.floor(Math.random() * 8) + 5);
+      injectSugarToScale(totalInject, 'add');
+      broadcastMascotMessage(`🥤 嘩啦嘩啦！猛烈搖晃雪克杯，調出了一杯爆糖神仙手搖！注入 +${totalInject} 顆方糖！`);
+      showToast('🥤 猛烈雪克搖晃！', `調飲完成！已注入 +${totalInject} 顆日常方糖`, 'amber');
+    }, 700);
+  }
+
+  function randomizeRadarSliders() {
+    const keys = Object.keys(bobaRadarState.sliders);
+    keys.forEach(k => {
+      bobaRadarState.sliders[k] = Math.floor(Math.random() * 85) + 15;
+      const el = document.getElementById(`radar-slider-${k}`);
+      if (el) el.value = bobaRadarState.sliders[k];
+    });
+    window.labAudio && window.labAudio.playChime();
+    renderBobaCupAndRadar();
+    showToast('隨機混沌參數', '日常 6 大受難因子已隨機重新分配！', 'purple');
+  }
+
+  function updateSugarRadar(axisKey, val) {
+    if (axisKey && bobaRadarState.sliders[axisKey] !== undefined) {
+      bobaRadarState.sliders[axisKey] = parseInt(val, 10) || 0;
+    }
+    renderBobaCupAndRadar();
+  }
+
+  function renderBobaCupAndRadar() {
+    // 1. 更新 6 個配料按鈕高亮
+    const allToppings = ['pearl', 'pudding', 'foam', 'jelly', 'popping', 'syrup'];
+    let toppingCubes = 0;
+    const toppingData = {
+      pearl: 5, pudding: 8, foam: 6, jelly: 4, popping: 12, syrup: 25
+    };
+    allToppings.forEach(id => {
+      const btn = document.getElementById(`top-btn-${id}`);
+      const isSel = bobaRadarState.selectedToppings.includes(id);
+      if (btn) {
+        if (isSel) {
+          btn.classList.add('border-amber-400', 'bg-amber-950/40', 'text-amber-300');
+          btn.classList.remove('border-slate-700', 'bg-slate-900', 'text-slate-300');
+        } else {
+          btn.classList.remove('border-amber-400', 'bg-amber-950/40', 'text-amber-300');
+          btn.classList.add('border-slate-700', 'bg-slate-900', 'text-slate-300');
+        }
+      }
+      if (isSel) toppingCubes += toppingData[id] || 0;
+    });
+
+    // 2. 更新雪克杯視覺層
+    const liquidLayer = document.getElementById('boba-cup-liquid-layer');
+    if (liquidLayer) {
+      const fillPct = Math.min(95, 25 + bobaRadarState.selectedToppings.length * 12);
+      liquidLayer.style.height = `${fillPct}%`;
+    }
+
+    const toppingVisual = document.getElementById('boba-cup-toppings-visual');
+    if (toppingVisual) {
+      toppingVisual.innerHTML = bobaRadarState.selectedToppings.map(t => {
+        const iconMap = { pearl: '⚫', pudding: '🍮', foam: '🧀', jelly: '🥥', popping: '🟠', syrup: '🍯' };
+        return `<span class="inline-block animate-bounce text-sm">${iconMap[t] || '🍬'}</span>`;
+      }).join(' ');
+    }
+
+    // 3. 計算雷達 6 軸分數
+    const vals = [
+      bobaRadarState.sliders.screenTime || 50,
+      bobaRadarState.sliders.otHours || 50,
+      bobaRadarState.sliders.awkwardCount || 50,
+      bobaRadarState.sliders.bobaCups || 50,
+      bobaRadarState.sliders.sleepDeficit || 50,
+      bobaRadarState.sliders.walletLoss || 50
+    ];
+
+    const radarLabels = [
+      'radar-val-screen', 'radar-val-ot', 'radar-val-awkward',
+      'radar-val-boba', 'radar-val-sleep', 'radar-val-wallet'
+    ];
+    radarLabels.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = `${vals[i]}%`;
+    });
+
+    // 4. 計算 SVG 6 邊形座標 (中心 100, 100, 半徑 80)
+    const cx = 100, cy = 100, maxR = 80;
+    const points = vals.map((v, i) => {
+      const angle = (Math.PI / 3) * i - Math.PI / 2;
+      const r = (v / 100) * maxR;
+      const x = cx + r * Math.cos(angle);
+      const y = cy + r * Math.sin(angle);
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    }).join(' ');
+
+    const polygon = document.getElementById('sugar-dna-polygon');
+    if (polygon) {
+      polygon.setAttribute('points', points);
+    }
+
+    // 5. 換算綜合人格糖度
+    const avgScore = vals.reduce((a, b) => a + b, 0) / vals.length;
+    const calculatedCubes = Math.round((avgScore / 100) * 80 + toppingCubes);
+    bobaRadarState.calculatedCubes = calculatedCubes;
+
+    const resCubesEl = document.getElementById('radar-calc-cubes');
+    if (resCubesEl) resCubesEl.textContent = `${calculatedCubes} 顆`;
+
+    const resPersonaEl = document.getElementById('radar-calc-persona');
+    if (resPersonaEl) {
+      if (calculatedCubes < 20) resPersonaEl.textContent = '微甜養生社畜 (微糖人)';
+      else if (calculatedCubes < 45) resPersonaEl.textContent = '半糖社死預備役 (半糖人)';
+      else if (calculatedCubes < 75) resPersonaEl.textContent = '全糖暴走熬夜狂人 (全糖暴徒)';
+      else resPersonaEl.textContent = '焦糖超載神仙體 (多重器官浸糖)';
+    }
+  }
+
+  function applyRadarToGlobal() {
+    const cubes = bobaRadarState.calculatedCubes || 35;
+    injectSugarToScale(cubes, 'set');
+    broadcastMascotMessage(`🧬 屬性雷達分析完成！將你的全身含糖量校準為 ${cubes} 顆方糖！`);
+    showToast('DNA 屬性同步', `已將雷達計算結果 (${cubes} 顆方糖) 同步至核心量筒！`, 'emerald');
+  }
+
+  // --- 20 秒減糖街機小遊戲 ---
+  const arcadeState = {
+    running: false,
+    timeLeft: 20.0,
+    score: 0,
+    combo: 1,
+    timerInterval: null,
+    spawnInterval: null,
+    holes: Array(9).fill(null)
+  };
+
+  function initSugarDetoxArcade() {
+    renderArcadeGrid();
+  }
+
+  function startArcadeGame() {
+    if (arcadeState.running) return;
+    arcadeState.running = true;
+    arcadeState.timeLeft = 20.0;
+    arcadeState.score = 0;
+    arcadeState.combo = 1;
+    arcadeState.holes = Array(9).fill(null);
+
+    const btn = document.getElementById('btn-start-arcade');
+    if (btn) {
+      btn.textContent = '⚡ 街機挑戰激戰中...';
+      btn.classList.add('opacity-75', 'cursor-not-allowed');
+    }
+
+    updateArcadeHUD();
+    renderArcadeGrid();
+    window.labAudio && window.labAudio.playChime();
+    broadcastMascotMessage('🕹️ 20 秒減糖保衛戰開始！快敲打冒出來的方糖怪減糖！');
+
+    // 倒數計時器 (每 100ms 更新)
+    const startTime = Date.now();
+    const duration = 20000;
+    arcadeState.timerInterval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const rem = Math.max(0, duration - elapsed);
+      arcadeState.timeLeft = (rem / 1000);
+      updateArcadeHUD();
+
+      if (rem <= 0) {
+        endArcadeGame();
+      }
+    }, 100);
+
+    // 方糖隨機冒出
+    spawnArcadeTarget();
+    arcadeState.spawnInterval = setInterval(() => {
+      if (arcadeState.running) spawnArcadeTarget();
+    }, 650);
+  }
+
+  function spawnArcadeTarget() {
+    const emptyIndices = [];
+    arcadeState.holes.forEach((h, idx) => {
+      if (!h) emptyIndices.push(idx);
+    });
+    if (emptyIndices.length === 0) return;
+
+    const targetHole = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+    const rand = Math.random();
+    let type = 'cube'; // 70% 方糖, 20% 綠茶, 10% 暴走怪
+    if (rand > 0.85) type = 'monster';
+    else if (rand > 0.65) type = 'tea';
+
+    arcadeState.holes[targetHole] = {
+      type,
+      expire: Date.now() + 1100
+    };
+    renderArcadeGrid();
+
+    // 超時自動消失
+    setTimeout(() => {
+      if (arcadeState.holes[targetHole] && Date.now() >= arcadeState.holes[targetHole].expire) {
+        arcadeState.holes[targetHole] = null;
+        arcadeState.combo = 1; // 錯過中斷 combo
+        updateArcadeHUD();
+        renderArcadeGrid();
+      }
+    }, 1150);
+  }
+
+  function whackArcadeHole(index) {
+    if (!arcadeState.running) {
+      startArcadeGame();
+      return;
+    }
+    const item = arcadeState.holes[index];
+    if (!item) return;
+
+    window.labAudio && window.labAudio.playWhackHit();
+
+    let points = 1;
+    if (item.type === 'tea') {
+      points = 3;
+      arcadeState.combo = Math.min(5, arcadeState.combo + 1);
+      showToast('🍵 無糖綠茶加倍！', `連擊提升至 x${arcadeState.combo}！`, 'emerald');
+    } else if (item.type === 'monster') {
+      points = 5;
+      arcadeState.combo = Math.min(5, arcadeState.combo + 2);
+      showToast('👾 重擊果糖怪！', `大爆擊！連擊突破至 x${arcadeState.combo}！`, 'amber');
+    } else {
+      arcadeState.combo = Math.min(5, arcadeState.combo + 1);
+    }
+
+    const earned = points * arcadeState.combo;
+    arcadeState.score += earned;
+    arcadeState.holes[index] = null;
+
+    // 即時扣除全站糖度 (減糖體驗)
+    if (appState.globalSugarCubes > 0) {
+      const deduction = Math.min(appState.globalSugarCubes, earned);
+      setGlobalSugarCubes(Math.max(0, appState.globalSugarCubes - deduction), { syncLadder: true });
+    }
+
+    updateArcadeHUD();
+    renderArcadeGrid();
+  }
+
+  function updateArcadeHUD() {
+    const timerEl = document.getElementById('arcade-timer');
+    if (timerEl) timerEl.textContent = `${arcadeState.timeLeft.toFixed(1)}s`;
+
+    const scoreEl = document.getElementById('arcade-score');
+    if (scoreEl) scoreEl.textContent = `${arcadeState.score} 顆`;
+
+    const comboEl = document.getElementById('arcade-combo');
+    if (comboEl) comboEl.textContent = `x${arcadeState.combo}`;
+  }
+
+  function renderArcadeGrid() {
+    for (let i = 0; i < 9; i++) {
+      const btn = document.getElementById(`arcade-hole-${i}`);
+      const targetSpan = document.getElementById(`arcade-target-${i}`);
+      if (!btn || !targetSpan) continue;
+
+      const item = arcadeState.holes[i];
+      if (item) {
+        if (item.type === 'tea') {
+          targetSpan.textContent = '🍵';
+          btn.className = 'whack-hole-btn h-24 sm:h-28 rounded-2xl bg-emerald-950/80 border-2 border-emerald-400 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95 shadow-[0_0_20px_rgba(16,185,129,0.5)]';
+        } else if (item.type === 'monster') {
+          targetSpan.textContent = '👾';
+          btn.className = 'whack-hole-btn h-24 sm:h-28 rounded-2xl bg-amber-950/80 border-2 border-amber-400 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95 shadow-[0_0_20px_rgba(245,158,11,0.5)]';
+        } else {
+          targetSpan.textContent = '🧊';
+          btn.className = 'whack-hole-btn h-24 sm:h-28 rounded-2xl bg-cyan-950/80 border-2 border-cyan-400 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95 shadow-[0_0_20px_rgba(6,182,212,0.5)]';
+        }
+      } else {
+        targetSpan.textContent = '🕳️';
+        btn.className = 'whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95';
+      }
+    }
+  }
+
+  function endArcadeGame() {
+    arcadeState.running = false;
+    clearInterval(arcadeState.timerInterval);
+    clearInterval(arcadeState.spawnInterval);
+    arcadeState.holes = Array(9).fill(null);
+    renderArcadeGrid();
+    updateArcadeHUD();
+
+    const btn = document.getElementById('btn-start-arcade');
+    if (btn) {
+      btn.textContent = '🕹️ 再次挑戰 20 秒減糖';
+      btn.classList.remove('opacity-75', 'cursor-not-allowed');
+    }
+
+    window.labAudio && window.labAudio.playVictoryFanfare();
+    showToast('🏆 減糖街機結算', `太神啦！20秒內成功擊碎 ${arcadeState.score} 顆方糖！體內毒素大幅下降！`, 'emerald');
+    broadcastMascotMessage(`🎉 減糖大獲全勝！總共擊碎了 ${arcadeState.score} 顆方糖！你的意志力令果糖怪瑟瑟發抖！`);
+  }
+
+  // --- 鼠標點擊飄浮糖花粒子特效 ---
+  function initGlobalSugarPopFx() {
+    window.addEventListener('click', (e) => {
+      // 避免在點擊 modal 或 input 時過度干擾，在 body 注入可愛糖花浮水印
+      const icons = ['🧊', '✨', '🍯', '🧋', '🍬'];
+      const icon = icons[Math.floor(Math.random() * icons.length)];
+      const pop = document.createElement('div');
+      pop.className = 'cursor-sugar-pop pointer-events-none select-none';
+      pop.textContent = icon;
+      pop.style.left = `${e.clientX - 12}px`;
+      pop.style.top = `${e.clientY - 24}px`;
+      document.body.appendChild(pop);
+      setTimeout(() => pop.remove(), 750);
+    });
+  }
+
+  // --- 美術圖鑑互動熱點與 Lightbox 燈箱 ---
+  function triggerFounderBeakerInspect() {
+    window.labAudio && window.labAudio.playBubble();
+    showToast('🔬 巨型燒杯光學偵測', '創始人特調「全糖濃縮液」密度已達 1.42 g/cm³，內含 12 塊懸浮高純度方糖！', 'amber');
+    broadcastMascotMessage('👨‍🔬 創始人：這杯全糖濃縮液，是為那些在深夜依然堅持燃燒靈魂的社畜量身訂製的。');
+  }
+
+  function triggerFounderGlassesScan() {
+    window.labAudio && window.labAudio.playChime();
+    showToast('🕶️ 霓虹全息眼鏡掃描', '光譜掃描完成：偵測到使用者眼球有輕微熬夜血絲，建議補充半糖微量元素！', 'cyan');
+    broadcastMascotMessage('👨‍🔬 創始人：透過我的全息偏光鏡，所有社交尷尬都只不過是一串果糖分子震盪！');
+  }
+
+  function triggerFounderOscilloscopeSync() {
+    window.labAudio && window.labAudio.playLaser();
+    setSynthesizerWaveform('sawtooth', 880);
+    showToast('📈 示波器神經同步', '雙通道示波器已將你的大腦抗糖波形與創始人實驗室完成同頻鎖定！', 'purple');
+  }
+
+  function pokeMascotArtwork() {
+    window.labAudio && window.labAudio.playBoing();
+    showToast('👾 戳戳果糖怪本尊', '果糖怪晃了兩下，身體泛起晶瑩剔透的蜜糖波浪～發出咕嚕嚕的滿足叫聲！', 'amber');
+    broadcastMascotMessage('👾 果糖怪：咕嚕嚕～不要戳我的果凍肚皮啦！等等蜜糖噴你一臉喔！');
+  }
+
+  function stealMascotSugarCube() {
+    window.labAudio && window.labAudio.playWhackHit();
+    injectSugarToScale(1, 'add');
+    showToast('🧊 奪取方糖成功', '你從果糖怪懷裡搶走了一顆方糖放入自己的量筒！(+1 顆方糖)', 'cyan');
+    broadcastMascotMessage('👾 果糖怪：欸！我的下午茶方糖！快還我啦可惡的人類！');
+  }
+
+  function boostMascotCoilTube() {
+    window.labAudio && window.labAudio.playLaser();
+    pulseReactorFission();
+    showToast('🌀 螺旋冷凝管增壓', '純金冷凝管加速抽吸高果糖漿，實驗室反應爐進入高活性狀態！', 'emerald');
+  }
+
+  function openPosterLightbox() {
+    window.labAudio && window.labAudio.playChime();
+    const modal = document.getElementById('poster-lightbox-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+  }
+
+  function closePosterLightbox() {
+    const modal = document.getElementById('poster-lightbox-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  }
+
+  function jumpToSection(sectionId) {
+    // 確保回到第 1 頁主畫面並捲動至目標錨點
+    switchLabPage(1);
+    setTimeout(() => {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  }
+
+  function jumpToArcadeAndStart() {
+    jumpToSection('arcade-game-section');
+    setTimeout(() => {
+      startArcadeGame();
+    }, 500);
+  }
+
+  function resetLabOverload() {
+    emergencyGreenTeaFlush();
+    const banner = document.getElementById('syrup-overload-banner');
+    if (banner) banner.classList.add('hidden');
+  }
+
+  // 將新函數註冊至 window 供 index.html 呼叫
+  window.toggleTopping = toggleTopping;
+  window.clearBobaCup = clearBobaCup;
+  window.shakeBobaCup = shakeBobaCup;
+  window.randomizeRadarSliders = randomizeRadarSliders;
+  window.updateSugarRadar = updateSugarRadar;
+  window.applyRadarToGlobal = applyRadarToGlobal;
+  window.startArcadeGame = startArcadeGame;
+  window.whackArcadeHole = whackArcadeHole;
+  window.resetLabOverload = resetLabOverload;
+  window.triggerFounderBeakerInspect = triggerFounderBeakerInspect;
+  window.triggerFounderGlassesScan = triggerFounderGlassesScan;
+  window.triggerFounderOscilloscopeSync = triggerFounderOscilloscopeSync;
+  window.pokeMascotArtwork = pokeMascotArtwork;
+  window.stealMascotSugarCube = stealMascotSugarCube;
+  window.boostMascotCoilTube = boostMascotCoilTube;
+  window.openPosterLightbox = openPosterLightbox;
+  window.closePosterLightbox = closePosterLightbox;
+  window.jumpToSection = jumpToSection;
+  window.jumpToArcadeAndStart = jumpToArcadeAndStart;
+
   // 預留擴充與自訂題目功能
   function useReservedExample(index) {
     const ex = DATA.reservedExampleSlots && DATA.reservedExampleSlots[index];
@@ -3619,6 +4102,25 @@
     sendPkWinnerToPrinter,
     toggleBobaTopping,
     shakeBobaCupAndDrink,
+    toggleTopping,
+    clearBobaCup,
+    shakeBobaCup,
+    randomizeRadarSliders,
+    updateSugarRadar,
+    applyRadarToGlobal,
+    startArcadeGame,
+    whackArcadeHole,
+    resetLabOverload,
+    triggerFounderBeakerInspect,
+    triggerFounderGlassesScan,
+    triggerFounderOscilloscopeSync,
+    pokeMascotArtwork,
+    stealMascotSugarCube,
+    boostMascotCoilTube,
+    openPosterLightbox,
+    closePosterLightbox,
+    jumpToSection,
+    jumpToArcadeAndStart,
     toggleSugarCatcherGame,
     spinFructoseSlotMachine,
     startMonsterWhackGame,

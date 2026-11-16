@@ -64,20 +64,30 @@ body {
 }
 
 /* ==========================================================================
-   1. CUSTOM DYNAMIC FLUID CURSOR (100% 零延遲貼合鼠標 + 流體波紋光環)
+   1. CUSTOM DYNAMIC FLUID CURSOR & CLICK SUGAR POP (升級版立體方糖準星游標 + 點擊粒子爆發)
    ========================================================================== */
+@keyframes cursorReticleSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 #custom-cursor-dot {
   position: fixed;
   top: -100px;
   left: -100px;
-  width: 10px;
-  height: 10px;
-  background: radial-gradient(circle, #ffffff 35%, #FBBF24 70%, #F59E0B 100%);
-  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(135deg, #ffffff 0%, #FEF08A 50%, #F59E0B 100%);
+  border: 1.5px solid #ffffff;
+  border-radius: 3.5px;
   pointer-events: none !important;
   z-index: 99999;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 12px #FBBF24, 0 0 24px rgba(245, 158, 11, 0.85);
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow:
+    0 0 14px #FBBF24,
+    0 0 28px rgba(245, 158, 11, 0.9),
+    inset 0 0 4px #ffffff;
+  transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.15s ease;
   will-change: left, top, transform;
 }
 
@@ -85,62 +95,117 @@ body {
   position: fixed;
   top: -100px;
   left: -100px;
-  width: 38px;
-  height: 38px;
-  border: 2px solid rgba(251, 191, 36, 0.78);
-  border-top-color: rgba(255, 255, 255, 0.95);
-  border-bottom-color: rgba(6, 182, 212, 0.75);
+  width: 42px;
+  height: 42px;
+  border: 2px solid rgba(251, 191, 36, 0.82);
+  border-top-color: #ffffff;
+  border-bottom-color: rgba(6, 182, 212, 0.9);
   border-radius: 50%;
   pointer-events: none !important;
   z-index: 99998;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, rgba(6, 182, 212, 0.08) 65%, transparent 100%);
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.15) 0%, rgba(6, 182, 212, 0.10) 60%, transparent 100%);
   box-shadow:
-    0 0 18px rgba(245, 158, 11, 0.4),
-    inset 0 1px 3px rgba(255, 255, 255, 0.65);
-  transition: width 0.18s ease, height 0.18s ease, border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+    0 0 22px rgba(245, 158, 11, 0.45),
+    inset 0 1px 4px rgba(255, 255, 255, 0.7);
+  transition: width 0.18s cubic-bezier(0.16, 1, 0.3, 1), height 0.18s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
   will-change: left, top, width, height;
 }
 
+#custom-cursor-ring::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 1px dashed rgba(56, 189, 248, 0.65);
+  animation: cursorReticleSpin 8s linear infinite;
+}
+
+#custom-cursor-ring::after {
+  content: '✦';
+  position: absolute;
+  top: -7px;
+  right: -5px;
+  font-size: 9px;
+  color: #FDE047;
+  text-shadow: 0 0 6px #F59E0B;
+}
+
 body.cursor-is-hovering #custom-cursor-ring {
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   border-color: #FDE047;
-  background-color: rgba(245, 158, 11, 0.22);
+  background-color: rgba(245, 158, 11, 0.24);
   box-shadow:
-    0 0 32px rgba(245, 158, 11, 0.75),
-    0 0 16px rgba(6, 182, 212, 0.5),
-    inset 0 0 16px rgba(255, 255, 255, 0.45);
+    0 0 36px rgba(245, 158, 11, 0.85),
+    0 0 18px rgba(6, 182, 212, 0.65),
+    inset 0 0 18px rgba(255, 255, 255, 0.5);
 }
 
 body.cursor-is-hovering #custom-cursor-dot {
-  transform: translate(-50%, -50%) scale(1.45);
+  transform: translate(-50%, -50%) rotate(225deg) scale(1.4);
   background: #ffffff;
-  box-shadow: 0 0 16px #ffffff, 0 0 30px #F59E0B;
+  border-color: #38BDF8;
+  box-shadow: 0 0 18px #ffffff, 0 0 32px #06B6D4;
 }
 
 body.cursor-is-clicking #custom-cursor-ring {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-color: #06B6D4;
-  background-color: rgba(6, 182, 212, 0.35);
-  box-shadow: 0 0 30px #06B6D4, inset 0 0 12px #ffffff;
+  background-color: rgba(6, 182, 212, 0.42);
+  box-shadow: 0 0 34px #06B6D4, inset 0 0 14px #ffffff;
+}
+
+body.cursor-is-clicking #custom-cursor-dot {
+  transform: translate(-50%, -50%) rotate(135deg) scale(0.8);
 }
 
 .cursor-trail-spark {
   position: fixed;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
   pointer-events: none !important;
   z-index: 99997;
-  transform: translate(-50%, -50%);
-  animation: cursorSparkFade 0.5s ease-out forwards;
+  transform: translate(-50%, -50%) rotate(45deg);
+  animation: cursorSparkFade 0.55s ease-out forwards;
 }
 
 @keyframes cursorSparkFade {
-  0% { opacity: 0.9; transform: translate(-50%, -50%) scale(1); }
-  100% { opacity: 0; transform: translate(-50%, -140%) scale(0.15); }
+  0% { opacity: 0.95; transform: translate(-50%, -50%) rotate(45deg) scale(1.1); }
+  100% { opacity: 0; transform: translate(-50%, -150%) rotate(180deg) scale(0.15); }
+}
+
+/* Floating Cursor Particle (滑鼠點擊特效 - 規格書一模一樣動畫) */
+@keyframes floatUpFade {
+  0% { transform: translateY(0) scale(0.8) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(-55px) scale(1.35) rotate(25deg); opacity: 0; }
+}
+
+.cursor-sugar-pop {
+  position: fixed;
+  pointer-events: none !important;
+  z-index: 99999;
+  animation: floatUpFade 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  filter: drop-shadow(0 4px 10px rgba(245, 158, 11, 0.65));
+}
+
+@keyframes clickRippleExpand {
+  0% { transform: translate(-50%, -50%) scale(0.25); opacity: 0.95; border-width: 3px; }
+  100% { transform: translate(-50%, -50%) scale(2.8); opacity: 0; border-width: 0.5px; }
+}
+
+.cursor-click-ripple {
+  position: fixed;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid #FBBF24;
+  box-shadow: 0 0 18px rgba(245, 158, 11, 0.75), inset 0 0 10px rgba(6, 182, 212, 0.5);
+  pointer-events: none !important;
+  z-index: 99996;
+  animation: clickRippleExpand 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @media (hover: none) and (pointer: coarse) {
@@ -1120,4 +1185,132 @@ body.preview-mode-tablet #viewport-simulator-frame .lg\:col-span-8 {
     padding: 1rem !important;
     border-radius: 1.25rem !important;
   }
+}
+
+/* ==========================================================================
+   6. V3.0 MASTER SPECIFICATION EXACT ANIMATIONS & MODULES
+   ========================================================================== */
+
+/* Syrup Liquid Wave Animation (規格書一模一樣波浪) */
+@keyframes waveMoveSpec {
+  0% { transform: translateX(0) translateZ(0) scaleY(1); }
+  50% { transform: translateX(-25%) translateZ(0) scaleY(0.82); }
+  100% { transform: translateX(-50%) translateZ(0) scaleY(1); }
+}
+
+.syrup-wave {
+  animation: waveMoveSpec 4.2s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+}
+
+/* Rising Bubbles inside Cylinder & Shaker */
+.syrup-bubble {
+  position: absolute;
+  bottom: 0;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 30% 30%, #FEF3C7, #F59E0B);
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.85);
+  animation: bubbleRise 3.2s infinite ease-in;
+  pointer-events: none;
+}
+
+/* ECG Heartbeat Pulse Line */
+@keyframes ecgDashSpec {
+  0% { stroke-dashoffset: 600; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.ecg-path {
+  stroke-dasharray: 600;
+  animation: ecgDashSpec 3.2s linear infinite;
+}
+
+/* Cup Shake Vigorous Animation */
+@keyframes cupShake {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  20% { transform: translate(-10px, -14px) rotate(-8deg) scale(1.04); }
+  40% { transform: translate(10px, 8px) rotate(8deg) scale(1.04); }
+  60% { transform: translate(-12px, 6px) rotate(-6deg) scale(1.03); }
+  80% { transform: translate(8px, -10px) rotate(6deg) scale(1.02); }
+}
+
+.cup-shaking {
+  animation: cupShake 0.42s ease-in-out infinite !important;
+}
+
+/* Sticky Top Syrup Drip when Overload is triggered */
+.syrup-drip-bar {
+  transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#syrup-overload-banner.active {
+  transform: translateY(0%) !important;
+}
+
+/* Ticker Tape Marquee (最上方動態跑馬燈橫標) */
+@keyframes tickerMove {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: tickerMove 32s linear infinite;
+}
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* Full Overview Mode (預設全頁完整展開，亦可切換分頁) */
+body.all-pages-mode .lab-page-view {
+  display: block !important;
+}
+
+/* Interactive Artwork Showcase Frames */
+.artwork-showcase-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  border: 1.5px solid rgba(251, 191, 36, 0.4);
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.8),
+    0 0 25px rgba(245, 158, 11, 0.18),
+    inset 0 1px 2px rgba(255, 255, 255, 0.35);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.artwork-showcase-frame:hover {
+  transform: translateY(-4px) scale(1.01);
+  border-color: rgba(253, 224, 71, 0.85);
+  box-shadow:
+    0 25px 55px rgba(0, 0, 0, 0.9),
+    0 0 38px rgba(245, 158, 11, 0.35),
+    0 0 20px rgba(6, 182, 212, 0.25);
+}
+
+.artwork-hotspot {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  background: rgba(245, 158, 11, 0.85);
+  border: 2px solid #ffffff;
+  color: #060911;
+  font-size: 12px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 25;
+  box-shadow: 0 0 16px #F59E0B, 0 0 28px rgba(251, 191, 36, 0.9);
+  animation: nodePulse 2s ease-in-out infinite;
+  transition: transform 0.18s ease, background-color 0.18s ease;
+}
+
+.artwork-hotspot:hover {
+  transform: scale(1.35) !important;
+  background: #38BDF8;
+  box-shadow: 0 0 20px #38BDF8;
 }
