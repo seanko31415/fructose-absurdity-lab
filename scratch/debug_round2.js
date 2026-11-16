@@ -170,7 +170,20 @@ try {
   process.exit(1);
 }
 
-// 6. Test Monster Whack Game Sensitivity
+// 6. Test PK Duel Seesaw, Criteria Mode, and Penalty Dice
+console.log('[TEST] Testing PK Duel Seesaw, 5-D Criteria Mode, and Penalty Dice...');
+try {
+  LabApp.setPkRuleMode('saner');
+  LabApp.setPkRuleMode('sweeter');
+  LabApp.rollPkPenaltyDice();
+  LabApp.startRoommatePkBattle();
+  console.log('[PASS] PK duel seesaw, criteria mode, and penalty dice pass.');
+} catch (e) {
+  console.error('[FAIL] Error in PK Duel:', e);
+  process.exit(1);
+}
+
+// 7. Test Monster Whack Game Sensitivity
 console.log('[TEST] Testing Monster Whack arcade game...');
 try {
   LabApp.startMonsterWhackGame();

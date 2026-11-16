@@ -678,15 +678,19 @@
       quote.setAttribute('data-ready', '1');
     }
 
-    // 動態更新果糖怪表情嘴形
+    // 動態更新果糖怪表情嘴形（始終精準貼合於雙眼 Y=64 下方，牙齒與舌頭完美內嵌，絕不跑位遮眼）
     const mouth = document.getElementById('mascot-mouth-path');
+    const tongue = document.getElementById('mascot-tongue');
     if (mouth) {
       if (appState.easterEggUnlocked || appState.globalSugarCubes >= 100) {
-        mouth.setAttribute('d', 'M40,70 Q60,102 80,70 Z'); // 大笑驚呼
+        mouth.setAttribute('d', 'M44,83 Q65,110 86,83 Z'); // 興奮大笑張嘴
+        if (tongue) tongue.setAttribute('d', 'M52,98 Q65,108 78,98 Z');
       } else if (appState.globalSugarCubes >= 12) {
-        mouth.setAttribute('d', 'M42,72 Q60,92 78,72 Z'); // 興奮張嘴
+        mouth.setAttribute('d', 'M46,84 Q65,104 84,84 Z'); // 全糖壞笑
+        if (tongue) tongue.setAttribute('d', 'M54,95 Q65,103 76,95 Z');
       } else {
-        mouth.setAttribute('d', 'M44,74 Q60,86 76,74 Z'); // 正常微甜微笑
+        mouth.setAttribute('d', 'M48,85 Q65,99 82,85 Z'); // 正常微甜微笑
+        if (tongue) tongue.setAttribute('d', 'M55,92 Q65,98 75,92 Z');
       }
     }
   }
@@ -1185,29 +1189,50 @@
     showToast('🔊 諧振音激發', `發射 ${appState.synthFrequency || 440}Hz ${appState.synthWaveform || 'triangle'} 神經甜度共振波！`, 'cyan');
   }
 
-  function renderSynthesizerWave() {
-    const pathEl = document.getElementById('synth-oscilloscope-path');
-    if (!pathEl) return;
-    const freq = appState.synthFrequency || 440;
-    const type = appState.synthWaveform || 'triangle';
-    const cycles = Math.max(2, Math.min(16, Math.round(freq / 120)));
-    const w = 500;
-    const midY = 40;
-    const amp = type === 'sine' && freq === 0 ? 0 : 28;
+  let synthPhase = 0;
+  let synthLoopActive = false;
 
-    let d = `M 0,${midY}`;
-    for (let i = 0; i < cycles; i++) {
-      const baseX = i * (w / cycles);
-      const segW = w / cycles;
-      if (type === 'square') {
-        d += ` L ${baseX},${midY - amp} L ${baseX + segW / 2},${midY - amp} L ${baseX + segW / 2},${midY + amp} L ${baseX + segW},${midY + amp} L ${baseX + segW},${midY}`;
-      } else if (type === 'sawtooth') {
-        d += ` L ${baseX},${midY - amp} L ${baseX + segW},${midY + amp} L ${baseX + segW},${midY}`;
-      } else {
-        d += ` Q ${baseX + segW / 4},${midY - amp} ${baseX + segW / 2},${midY} Q ${baseX + segW * 0.75},${midY + amp} ${baseX + segW},${midY}`;
+  function startSynthesizerOscilloscope() {
+    if (synthLoopActive) return;
+    synthLoopActive = true;
+
+    function loop() {
+      const pathEl = document.getElementById('synth-oscilloscope-path');
+      if (pathEl) {
+        const freq = appState.synthFrequency !== undefined ? appState.synthFrequency : 440;
+        const type = appState.synthWaveform || 'triangle';
+        const w = 500;
+        const midY = 40;
+        const isMuted = (type === 'sine' && freq === 0);
+        const baseAmp = isMuted ? 0 : 22;
+        const amp = baseAmp + (isMuted ? 0 : Math.sin(synthPhase * 2.2) * 4);
+        const speed = isMuted ? 0 : Math.max(0.04, Math.min(0.25, (freq / 440) * 0.08));
+        synthPhase += speed;
+
+        const cycles = Math.max(2, Math.min(18, Math.round(freq / 110)));
+        const segW = w / cycles;
+        const offset = isMuted ? 0 : ((synthPhase * 32) % segW);
+
+        let d = `M 0,${midY}`;
+        for (let x = -segW; x <= w + segW * 2; x += segW) {
+          const drawX = x - offset;
+          if (type === 'square') {
+            d += ` L ${drawX},${midY - amp} L ${drawX + segW / 2},${midY - amp} L ${drawX + segW / 2},${midY + amp} L ${drawX + segW},${midY + amp} L ${drawX + segW},${midY}`;
+          } else if (type === 'sawtooth') {
+            d += ` L ${drawX},${midY - amp} L ${drawX + segW},${midY + amp} L ${drawX + segW},${midY}`;
+          } else {
+            d += ` Q ${drawX + segW / 4},${midY - amp} ${drawX + segW / 2},${midY} Q ${drawX + segW * 0.75},${midY + amp} ${drawX + segW},${midY}`;
+          }
+        }
+        pathEl.setAttribute('d', d);
       }
+      requestAnimationFrame(loop);
     }
-    pathEl.setAttribute('d', d);
+    requestAnimationFrame(loop);
+  }
+
+  function renderSynthesizerWave() {
+    startSynthesizerOscilloscope();
   }
 
   function renderLadderSection() {
@@ -1259,7 +1284,7 @@
               </span>
               <span class="font-mono text-[11px] text-slate-400">黏度 ${item.viscosity}</span>
             </div>
-            <h3 class="text-lg sm:text-2xl font-black text-white mt-1">${item.name}</h3>
+            <h3 class="text-lg sm:text-2xl font-black text-white mt-1 pl-1.5">${item.name}</h3>
           </div>
           <div class="embossed-well text-right font-mono px-3.5 py-2 rounded-2xl">
             <div class="text-xl sm:text-2xl font-extrabold text-amber-400">
@@ -2418,54 +2443,167 @@
     window.labAudio.playSugarDrop(2);
   }
 
+  const PK_PENALTIES = [
+    { title: '🧋 氣泡音點全糖珍奶', desc: '限時 24 小時內，去手搖飲店用深情氣泡音向店員點「一杯全糖熱珍奶加布丁」！' },
+    { title: '👵 空氣鞠躬大喊阿嬤', desc: '走到寢室門口或公共走廊，向空氣 90 度鞠躬並大聲喊「阿嬤我吃飽了！」' },
+    { title: '📸 IG限動公開處刑', desc: '把剛才印出的「全糖臨床診斷收據」截圖拍照，發到 IG 限動並公開保留滿 24 小時！' },
+    { title: '🍵 綠茶贖罪洗胃杯', desc: '敗方自掏腰包買兩杯無糖綠茶外送給對方賠罪，並親眼看著對方喝完！' },
+    { title: '🤖 機器人社死廣播', desc: '用冰冷機器人語音向班群或好人群組發送「本機台因社死過載已自動重啟」！' },
+    { title: '🦖 暴走糖果怪熱舞', desc: '在對方面前模仿暴走糖果怪原地彈跳並揮舞雙臂 10 秒鐘！' }
+  ];
+
+  function setPkRuleMode(mode = 'sweeter') {
+    appState.pkRuleMode = mode;
+    const btnSweeter = document.getElementById('pk-mode-sweeter');
+    const btnSaner = document.getElementById('pk-mode-saner');
+    if (btnSweeter && btnSaner) {
+      if (mode === 'sweeter') {
+        btnSweeter.className = 'px-2.5 py-1 rounded-lg bg-amber-400 text-slate-950 font-black text-xs shadow';
+        btnSaner.className = 'px-2.5 py-1 rounded-lg text-slate-400 hover:text-white text-xs';
+      } else {
+        btnSweeter.className = 'px-2.5 py-1 rounded-lg text-slate-400 hover:text-white text-xs';
+        btnSaner.className = 'px-2.5 py-1 rounded-lg bg-cyan-400 text-slate-950 font-black text-xs shadow';
+      }
+    }
+    const hint = document.getElementById('pk-rule-mode-desc');
+    if (hint) {
+      hint.textContent = mode === 'sweeter'
+        ? '【🔥 越甜越勝・社死王爭霸】：事蹟越荒謬社死、假想方糖克數最高者奪得今日冠軍，敗方依約受罰！'
+        : '【🛡️ 理智防線・純潔者勝出】：方糖克數較低、理智防線堅固者奪冠，失控社死者需認罰贖罪！';
+    }
+    showToast('⚖️ 判準模式切換', mode === 'sweeter' ? '已切換為【🔥 越甜越勝 (社死王)】' : '已切換為【🛡️ 理智防線 (純潔者勝)】', 'cyan');
+  }
+
+  function rollPkPenaltyDice() {
+    if (window.labAudio && window.labAudio.playSugarDrop) {
+      window.labAudio.playSugarDrop(3);
+    }
+    const pick = PK_PENALTIES[Math.floor(Math.random() * PK_PENALTIES.length)];
+    const penaltyCard = document.getElementById('pk-penalty-roulette-card');
+    const titleEl = document.getElementById('pk-penalty-title');
+    const descEl = document.getElementById('pk-penalty-desc');
+    if (penaltyCard) {
+      penaltyCard.classList.remove('jelly-squish');
+      void penaltyCard.offsetWidth;
+      penaltyCard.classList.add('jelly-squish');
+    }
+    if (titleEl) titleEl.textContent = pick.title;
+    if (descEl) descEl.textContent = pick.desc;
+    showToast('🎲 懲罰輪盤擲出！', pick.title, 'amber');
+  }
+
   function startRoommatePkBattle() {
-    const nameA = document.getElementById('pk-name-a')?.value.trim() || '室友 Player A';
-    const nameB = document.getElementById('pk-name-b')?.value.trim() || '室友 Player B';
+    const nameA = document.getElementById('pk-name-a')?.value.trim() || '選手 A';
+    const nameB = document.getElementById('pk-name-b')?.value.trim() || '選手 B';
     const textA = document.getElementById('pk-input-a')?.value.trim() || '';
     const textB = document.getElementById('pk-input-b')?.value.trim() || '';
 
     if (!textA || !textB) {
-      showToast('⚔️ 請填寫雙方事蹟', '請輸入兩位選手的事蹟，或點擊「🎲 隨機抽社死蠢事」！', 'amber');
+      showToast('⚔️ 請填寫雙方事蹟', '請輸入兩位選手的事蹟，或點擊「🎲 抽題」！', 'amber');
       return;
     }
 
     const vA = computeLocalSemanticVerdict(textA);
     const vB = computeLocalSemanticVerdict(textB);
-    if (vA.cubes === vB.cubes) vB.cubes += 5;
+    if (vA.cubes === vB.cubes) vB.cubes += 4;
+
+    // 5 大評判維度評分
+    const cringeA = Math.min(10, Math.max(1, Math.round((vA.cubes / 45) * 10)));
+    const cringeB = Math.min(10, Math.max(1, Math.round((vB.cubes / 45) * 10)));
+    const hrA = 75 + Math.min(105, Math.round(vA.cubes * 2.1));
+    const hrB = 75 + Math.min(105, Math.round(vB.cubes * 2.1));
+    const sanityA = Math.max(5, Math.min(100, Math.round(100 - (vA.cubes / 60) * 80)));
+    const sanityB = Math.max(5, Math.min(100, Math.round(100 - (vB.cubes / 60) * 80)));
 
     const beam = document.getElementById('pk-scale-beam');
     const resultBox = document.getElementById('pk-battle-result');
     const scoreAEl = document.getElementById('pk-score-a');
     const scoreBEl = document.getElementById('pk-score-b');
+    const hintEl = document.getElementById('pk-beam-status-hint');
 
     if (scoreAEl) scoreAEl.textContent = `${vA.cubes} 顆 (${vA.grams}g)`;
     if (scoreBEl) scoreBEl.textContent = `${vB.cubes} 顆 (${vB.grams}g)`;
 
+    // 蹺蹺板平穩旋轉（最大限制在 ±16deg，上下舞台預留 40px，絕不卡到框框）
     if (beam) {
       const diff = vB.cubes - vA.cubes;
-      const angle = Math.max(-22, Math.min(22, Math.round((diff / Math.max(vA.cubes, vB.cubes, 1)) * 22)));
+      const angle = Math.max(-16, Math.min(16, Math.round((diff / Math.max(vA.cubes, vB.cubes, 1)) * 16)));
       beam.style.transform = `rotate(${angle}deg)`;
     }
 
-    const winnerName = vA.cubes > vB.cubes ? nameA : nameB;
-    const loserName = vA.cubes > vB.cubes ? nameB : nameA;
-    const winVerdict = vA.cubes > vB.cubes ? vA : vB;
+    const isSweeterWin = (appState.pkRuleMode !== 'saner');
+    const aWins = isSweeterWin ? (vA.cubes > vB.cubes) : (vA.cubes < vB.cubes);
+    const winnerName = aWins ? nameA : nameB;
+    const loserName = aWins ? nameB : nameA;
+    const winVerdict = aWins ? vA : vB;
+    const loseVerdict = aWins ? vB : vA;
+
+    if (hintEl) {
+      hintEl.textContent = `⚖️ 審判天平判定：${nameA} (${vA.cubes}顆) vs ${nameB} (${vB.cubes}顆) ｜ ${winnerName} 獲得勝訴！`;
+    }
+
+    // 自動隨機抽出敗方懲罰
+    const penaltyPick = PK_PENALTIES[Math.floor(Math.random() * PK_PENALTIES.length)];
 
     if (resultBox) {
       resultBox.classList.remove('hidden');
       resultBox.innerHTML = `
-        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>
-            <div class="font-mono text-xs text-amber-400 font-bold">👑 雙人果糖對決最終宣判 // DUEL PK WINNER</div>
-            <h4 class="text-xl font-black text-white mt-1">
-              恭喜 <span class="text-amber-300 underline">${winnerName}</span> 以 <span class="font-mono text-red-400">${winVerdict.cubes} 顆方糖</span> 奪得今日「全場高果糖社死王」！
-            </h4>
-            <p class="text-xs text-slate-300 mt-1">${winVerdict.roast}（敗方 ${loserName} 負責請喝無糖綠茶！）</p>
+        <div class="space-y-4">
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 border-b border-white/10 pb-3">
+            <div>
+              <div class="font-mono text-xs text-amber-400 font-bold">👑 全糖仲裁法庭宣判結果 // VERDICT</div>
+              <h4 class="text-xl sm:text-2xl font-black text-white mt-1">
+                恭喜 <span class="text-amber-300 underline">${winnerName}</span> 贏得本場對決！
+              </h4>
+              <p class="text-xs text-slate-300 mt-1">${winVerdict.roast}</p>
+            </div>
+            <button onclick="window.LabApp.sendPkWinnerToPrinter()"
+              class="liquid-glass-amber px-4 py-2 rounded-xl text-slate-950 font-black text-xs shrink-0 shadow-lg">
+              🧾 將勝方印成收據 ➔
+            </button>
           </div>
-          <button onclick="window.LabApp.sendPkWinnerToPrinter()"
-                  class="px-4 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-mono text-xs font-black shrink-0">
-            🧾 將勝方印成上方收據
-          </button>
+
+          <!-- 5 大評判維度對決數據表 -->
+          <div class="space-y-2">
+            <div class="font-mono text-[11px] text-cyan-300 font-bold">📊 雙人 5 大維度官方裁判數據對比：</div>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs font-mono">
+              <div class="embossed-well p-2 rounded-xl">
+                <div class="text-[10px] text-slate-400">🍬 糖度總克數</div>
+                <div class="font-bold text-amber-300 mt-0.5">${vA.grams}g vs ${vB.grams}g</div>
+              </div>
+              <div class="embossed-well p-2 rounded-xl">
+                <div class="text-[10px] text-slate-400">🫣 社交社死星級</div>
+                <div class="font-bold text-rose-300 mt-0.5">${cringeA}★ vs ${cringeB}★</div>
+              </div>
+              <div class="embossed-well p-2 rounded-xl">
+                <div class="text-[10px] text-slate-400">💓 心率衝擊增幅</div>
+                <div class="font-bold text-fuchsia-300 mt-0.5">${hrA} vs ${hrB} BPM</div>
+              </div>
+              <div class="embossed-well p-2 rounded-xl">
+                <div class="text-[10px] text-slate-400">🧠 額葉理智殘存</div>
+                <div class="font-bold text-cyan-300 mt-0.5">${sanityA}% vs ${sanityB}%</div>
+              </div>
+              <div class="embossed-well p-2 rounded-xl col-span-2 sm:col-span-1">
+                <div class="text-[10px] text-slate-400">💸 贖罪請客等級</div>
+                <div class="font-bold text-emerald-300 mt-0.5">${Math.abs(vA.cubes - vB.cubes) > 20 ? '🧋 全糖波霸' : '🍵 無糖清茶'}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 敗方社死懲罰卡 -->
+          <div class="p-3.5 rounded-xl bg-red-950/40 border border-red-500/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div>
+              <div class="font-mono text-[11px] text-rose-300 font-bold flex items-center gap-1.5">
+                <span>🚨 敗方【${loserName}】必須立即執行之社死懲罰：</span>
+              </div>
+              <div class="text-sm font-black text-white mt-1">${penaltyPick.title}</div>
+              <div class="text-xs text-slate-300 mt-0.5">${penaltyPick.desc}</div>
+            </div>
+            <button onclick="window.LabApp.rollPkPenaltyDice()"
+              class="liquid-glass-btn px-3 py-1.5 rounded-lg font-mono text-xs text-amber-200 font-bold shrink-0">
+              🎲 重抽懲罰
+            </button>
+          </div>
         </div>
       `;
     }
@@ -2476,7 +2614,6 @@
     };
 
     window.labAudio.playVictoryFanfare();
-    triggerLabShake();
     setGlobalSugarCubes(Math.max(appState.globalSugarCubes, winVerdict.cubes), { syncLadder: true });
   }
 
@@ -3349,12 +3486,13 @@
     renderBeverageBenchmarkCards();
     renderLadderSection();
     renderCalibrationSection();
+    startSynthesizerOscilloscope();
     renderDeepDivePresetsAndMultipliers();
     renderBobaShakerToppings();
     initPlaygroundApparatus();
     setQuestionCountMode(20);
     renderHallOfShame();
-    setGlobalSugarCubes(12, { syncLadder: true });
+    setGlobalSugarCubes(0, { syncLadder: true });
     updateMascotUI(true);
 
     const input = document.getElementById('confession-textarea');
@@ -3476,6 +3614,8 @@
     exportIgStoryCard,
     drawRandomPkAct,
     startRoommatePkBattle,
+    setPkRuleMode,
+    rollPkPenaltyDice,
     sendPkWinnerToPrinter,
     toggleBobaTopping,
     shakeBobaCupAndDrink,

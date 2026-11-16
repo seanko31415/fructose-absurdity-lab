@@ -221,13 +221,9 @@
   <!-- Live System Synchronization Banner -->
   <div id="system-version-sync-banner" class="bg-gradient-to-r from-emerald-950/80 via-slate-950/90 to-amber-950/80 border-b border-emerald-500/30 px-3 py-1.5 text-center text-xs font-mono text-emerald-300 flex items-center justify-center gap-2 flex-wrap shadow-inner">
     <span class="inline-flex items-center gap-1 font-bold bg-emerald-500/20 px-2 py-0.5 rounded text-[11px] border border-emerald-500/40 text-emerald-200">
-      ⚡ v5.9.0 系統即時同步
+      ⚡ v6.0.0 系統即時同步
     </span>
-    <span class="text-slate-300">初始糖分：<b class="text-amber-400">0 顆</b> / <b class="text-cyan-300">0.0g</b> (<span class="text-emerald-300 font-bold">Lv.0 無糖純潔態</span>)</span>
-    <span class="text-slate-600 hidden sm:inline">|</span>
-    <span class="text-slate-300 hidden sm:inline">🧪 1000mL 核心量筒與 0~14 級對照已置頂魔王正下方</span>
-    <span class="text-slate-600 hidden md:inline">|</span>
-    <span class="text-slate-300 hidden md:inline">🔮 焦糖分子反應爐 ＆ 🎛️ 糖感波形合成器已載入</span>
+    <span class="text-slate-300">👑 魔王嘴部對齊修正 ｜ 🔮 焦糖反應爐動態運轉 ｜ 🎛️ 示波器實時波動 ｜ ⚖️ PK蹺蹺板下移與 5 大審判判準已啟用</span>
   </div>
 
   <!-- ========================================================================
@@ -302,11 +298,13 @@
                   <circle cx="79" cy="66" r="1.1" fill="#38BDF8" />
                 </g>
 
-                <!-- 魔王壞笑嘴巴與可愛尖牙 -->
-                <path id="mascot-mouth-path" d="M46,86 Q65,105 84,86 Z" fill="#7F1D1D" stroke="#451A03" stroke-width="2.5" />
-                <polygon points="54,86 58,92 62,86" fill="#FFFFFF" />
-                <polygon points="68,86 72,92 76,86" fill="#FFFFFF" />
-                <path d="M52,93 Q65,101 78,93" fill="#FB7185" />
+                <!-- 魔王壞笑嘴巴與可愛尖牙 (始終在眼下 Y=85~105 範圍，絕不遮眼) -->
+                <g id="mascot-mouth-group">
+                  <path id="mascot-mouth-path" d="M48,85 Q65,99 82,85 Z" fill="#7F1D1D" stroke="#451A03" stroke-width="2.5" />
+                  <polygon points="53,85 57,91 61,85" fill="#FFFFFF" />
+                  <polygon points="69,85 73,91 77,85" fill="#FFFFFF" />
+                  <path id="mascot-tongue" d="M55,92 Q65,98 75,92 Z" fill="#FB7185" />
+                </g>
               </svg>
             </button>
             <span class="font-mono text-[10px] text-amber-300 font-extrabold mt-1">👑 糖果魔王本尊</span>
@@ -434,8 +432,9 @@
                   <div class="flex justify-between text-yellow-300 border-b-2 border-amber-400 pb-0.5 bg-amber-950/30 px-1 rounded">
                     <span>60mL</span><span>Lv.4 全糖臨界(12顆)</span>
                   </div>
-                  <div class="flex justify-between text-emerald-300 pt-0.5">
-                    <span>0mL</span><span>Lv.0 無糖純潔態</span>
+                  <div class="flex justify-between items-center text-emerald-300 pt-1 bg-emerald-950/70 border border-emerald-500/40 px-2.5 py-1 rounded-lg">
+                    <span class="font-extrabold text-emerald-400">0mL</span>
+                    <span class="font-black text-emerald-200 tracking-wider">Lv.0 無糖純潔態</span>
                   </div>
                 </div>
               </div>
@@ -504,15 +503,15 @@
                 </div>
               </div>
 
-              <!-- 反應爐動態 SVG 視覺 (分子三環軌道 + 核心焦糖化聚變 + 浮動微粒) -->
+              <!-- 反應爐動態 SVG 視覺 (超導分子多軌自旋 + 脈衝能量波 + 聚變原子核) -->
               <div class="relative rounded-2xl embossed-well p-2 overflow-hidden cursor-pointer"
                    onclick="window.LabApp.pulseReactorFission()" title="點擊反應爐核心激發分子聚變！">
                 <svg viewBox="0 0 600 200" class="w-full h-auto select-none">
                   <defs>
                     <radialGradient id="reactorAura" cx="50%" cy="50%" r="50%">
-                      <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.45" />
-                      <stop offset="50%" stop-color="#D97706" stop-opacity="0.18" />
-                      <stop offset="85%" stop-color="#06B6D4" stop-opacity="0.08" />
+                      <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.55" />
+                      <stop offset="40%" stop-color="#D97706" stop-opacity="0.25" />
+                      <stop offset="75%" stop-color="#06B6D4" stop-opacity="0.12" />
                       <stop offset="100%" stop-color="#020617" stop-opacity="0" />
                     </radialGradient>
                     <linearGradient id="orbitGradCyan" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -520,45 +519,78 @@
                       <stop offset="100%" stop-color="#0284C7" />
                     </linearGradient>
                     <linearGradient id="orbitGradGold" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stop-color="#FDE047" />
-                      <stop offset="100%" stop-color="#D97706" />
+                      <stop offset="0%" stop-color="#FEF08A" />
+                      <stop offset="40%" stop-color="#FDE047" />
+                      <stop offset="80%" stop-color="#F59E0B" />
+                      <stop offset="100%" stop-color="#92400E" />
                     </linearGradient>
+                    <filter id="reactorGlow" x="-30%" y="-30%" width="160%" height="160%">
+                      <feGaussianBlur stdDeviation="3.5" result="blur" />
+                      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
                   </defs>
 
                   <!-- 深邃暗黑反應爐背景 -->
                   <rect width="600" height="200" fill="#040816" rx="12" />
                   <rect width="600" height="200" fill="url(#reactorAura)" />
 
-                  <!-- 外層六角形分子防護罩 -->
-                  <polygon points="300,20 410,50 410,150 300,180 190,150 190,50" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+                  <!-- 外層六角形分子防護罩 (微弱呼吸) -->
+                  <polygon points="300,18 420,52 420,148 300,182 180,148 180,52" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5">
+                    <animate attributeName="stroke-opacity" values="0.12;0.35;0.12" dur="4s" repeatCount="indefinite" />
+                  </polygon>
 
-                  <!-- 外軌道分子環 (逆時針旋轉) -->
-                  <g class="reactor-orbit-outer" style="transform-origin: 300px 100px;">
-                    <ellipse cx="300" cy="100" rx="140" ry="50" fill="none" stroke="rgba(251,191,36,0.35)" stroke-width="1.5" stroke-dasharray="12 6" />
-                    <circle cx="160" cy="100" r="5" fill="#38BDF8" filter="drop-shadow(0 0 6px #38bdf8)" />
-                    <circle cx="440" cy="100" r="5" fill="#FBBF24" filter="drop-shadow(0 0 6px #fbbf24)" />
+                  <!-- 放射狀微光射線 -->
+                  <line x1="160" y1="100" x2="440" y2="100" stroke="rgba(56,189,248,0.18)" stroke-width="1" stroke-dasharray="6 6" />
+                  <line x1="300" y1="20" x2="300" y2="180" stroke="rgba(251,191,36,0.18)" stroke-width="1" stroke-dasharray="6 6" />
+
+                  <!-- 超導同心擴散能量波 (真實動態波紋) -->
+                  <circle cx="300" cy="100" r="30" fill="none" stroke="rgba(245,158,11,0.7)" stroke-width="1.8">
+                    <animate attributeName="r" from="25" to="135" dur="3.2s" repeatCount="indefinite" />
+                    <animate attributeName="stroke-opacity" from="0.8" to="0" dur="3.2s" repeatCount="indefinite" />
+                  </circle>
+                  <circle cx="300" cy="100" r="30" fill="none" stroke="rgba(6,182,212,0.6)" stroke-width="1.5">
+                    <animate attributeName="r" from="25" to="135" dur="3.2s" begin="1.6s" repeatCount="indefinite" />
+                    <animate attributeName="stroke-opacity" from="0.7" to="0" dur="3.2s" begin="1.6s" repeatCount="indefinite" />
+                  </circle>
+
+                  <!-- 外軌道分子環 (真實 60fps 平穩順時針 18s 旋轉) -->
+                  <g>
+                    <animateTransform attributeName="transform" type="rotate" from="0 300 100" to="360 300 100" dur="18s" repeatCount="indefinite" />
+                    <ellipse cx="300" cy="100" rx="145" ry="52" fill="none" stroke="rgba(251,191,36,0.45)" stroke-width="1.8" stroke-dasharray="14 7" />
+                    <circle cx="155" cy="100" r="6" fill="#38BDF8" filter="url(#reactorGlow)" />
+                    <circle cx="445" cy="100" r="6" fill="#FBBF24" filter="url(#reactorGlow)" />
+                    <!-- 軌道微粒 -->
+                    <circle cx="300" cy="48" r="3" fill="#FFF" opacity="0.8" />
+                    <circle cx="300" cy="152" r="3" fill="#FFF" opacity="0.8" />
                   </g>
 
-                  <!-- 中軌道分子環 (傾斜40度順時針旋轉) -->
-                  <g class="reactor-orbit-middle" style="transform-origin: 300px 100px;">
-                    <ellipse cx="300" cy="100" rx="110" ry="42" fill="none" stroke="rgba(6,182,212,0.45)" stroke-width="1.8" stroke-dasharray="8 4" transform="rotate(40 300 100)" />
-                    <circle cx="300" cy="58" r="6" fill="#F43F5E" filter="drop-shadow(0 0 8px #f43f5e)" />
-                    <circle cx="300" cy="142" r="6" fill="#A855F7" filter="drop-shadow(0 0 8px #a855f7)" />
+                  <!-- 中軌道分子環 (傾斜45度真實 60fps 逆時針 12s 旋轉) -->
+                  <g>
+                    <animateTransform attributeName="transform" type="rotate" from="360 300 100" to="0 300 100" dur="12s" repeatCount="indefinite" />
+                    <ellipse cx="300" cy="100" rx="112" ry="44" fill="none" stroke="rgba(6,182,212,0.55)" stroke-width="2" stroke-dasharray="10 5" transform="rotate(45 300 100)" />
+                    <circle cx="221" cy="40" r="6.5" fill="#F43F5E" filter="url(#reactorGlow)" />
+                    <circle cx="379" cy="160" r="6.5" fill="#A855F7" filter="url(#reactorGlow)" />
                   </g>
 
-                  <!-- 內軌道環 (高速旋轉) -->
-                  <g class="reactor-orbit-inner" style="transform-origin: 300px 100px;">
-                    <ellipse cx="300" cy="100" rx="75" ry="32" fill="none" stroke="rgba(244,63,94,0.5)" stroke-width="2" transform="rotate(-35 300 100)" />
-                    <circle cx="230" cy="95" r="4.5" fill="#FEF08A" />
-                    <circle cx="370" cy="105" r="4.5" fill="#38BDF8" />
+                  <!-- 內軌道分子環 (傾斜-40度高速順時針 7s 旋轉) -->
+                  <g>
+                    <animateTransform attributeName="transform" type="rotate" from="0 300 100" to="360 300 100" dur="7s" repeatCount="indefinite" />
+                    <ellipse cx="300" cy="100" rx="76" ry="34" fill="none" stroke="rgba(244,63,94,0.6)" stroke-width="2.2" stroke-dasharray="6 4" transform="rotate(-40 300 100)" />
+                    <circle cx="242" cy="72" r="5" fill="#FEF08A" filter="url(#reactorGlow)" />
+                    <circle cx="358" cy="128" r="5" fill="#38BDF8" filter="url(#reactorGlow)" />
                   </g>
 
-                  <!-- 核心焦糖化聚變原子核 (Caramel Fusion Core) -->
-                  <g class="reactor-core-atom" style="transform-origin: 300px 100px;">
-                    <circle cx="300" cy="100" r="26" fill="url(#orbitGradGold)" stroke="#FFFFFF" stroke-width="2.5" />
-                    <circle cx="300" cy="100" r="14" fill="#78350F" opacity="0.6" />
-                    <!-- 果糖五角環微縮標誌 -->
-                    <polygon points="300,88 312,96 308,110 292,110 288,96" fill="#FFFFFF" opacity="0.85" />
+                  <!-- 核心焦糖化聚變原子核 (脈衝呼吸 + 光斑折射) -->
+                  <g filter="url(#reactorGlow)">
+                    <circle cx="300" cy="100" r="26" fill="url(#orbitGradGold)" stroke="#FFFFFF" stroke-width="2.8">
+                      <animate attributeName="r" values="24;27;24" dur="2s" repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="300" cy="100" r="14" fill="#78350F" opacity="0.75" />
+                    <!-- 果糖五角環微縮標誌 (同心自轉) -->
+                    <g>
+                      <animateTransform attributeName="transform" type="rotate" from="0 300 100" to="360 300 100" dur="10s" repeatCount="indefinite" />
+                      <polygon points="300,88 312,96 308,110 292,110 288,96" fill="#FFFFFF" opacity="0.95" />
+                    </g>
                   </g>
 
                   <!-- 科技文字抬頭 -->
@@ -743,7 +775,7 @@
 
               <!-- 獨立深色 LED 數值面板 (排在天平下方獨立展示，零擠壓) -->
               <div class="bg-slate-950/95 border border-amber-500/30 rounded-xl px-3.5 py-2 flex items-center justify-between">
-                <div id="scale-led-sub" class="font-mono text-xs text-cyan-300 font-bold truncate">
+                <div id="scale-led-sub" class="font-mono text-xs text-cyan-300 font-bold truncate pl-2">
                   Lv.0 無糖純潔態
                 </div>
                 <div id="scale-led-display" class="font-mono text-lg font-black text-amber-400 tracking-wider shrink-0">
@@ -1065,22 +1097,113 @@
               </div>
             </div>
 
-            <div class="liquid-glass-card rounded-2xl p-4 text-center space-y-3">
-              <div class="py-3 relative">
-                <div id="pk-scale-beam"
-                  class="w-3/4 mx-auto h-2.5 bg-gradient-to-r from-cyan-400 via-white to-amber-500 rounded-full transition-transform duration-500 relative">
-                  <div class="absolute -left-2 -top-7 px-2 py-0.5 rounded bg-cyan-500 text-slate-950 font-mono text-[10px] font-black">A</div>
-                  <div class="absolute -right-2 -top-7 px-2 py-0.5 rounded bg-amber-400 text-slate-950 font-mono text-[10px] font-black">B</div>
+            <!-- 雙人對決天平蹺蹺板 (舒適下移・垂直預留充足空間・絕不卡到框框) -->
+            <div class="liquid-glass-card rounded-2xl sm:rounded-3xl p-5 text-center space-y-4">
+              <!-- 對決模式切換列 -->
+              <div class="flex items-center justify-between border-b border-white/10 pb-2.5 font-mono text-xs flex-wrap gap-2">
+                <span class="text-amber-300 font-bold flex items-center gap-1.5">
+                  <span>⚖️ 審判天平蹺蹺板</span>
+                </span>
+                <div class="flex items-center gap-1 bg-slate-950/80 p-0.5 rounded-lg border border-white/10 text-[10px]">
+                  <button id="pk-mode-sweeter" onclick="window.LabApp.setPkRuleMode('sweeter')"
+                    class="px-2.5 py-1 rounded-lg bg-amber-400 text-slate-950 font-black text-xs shadow">
+                    🔥 越甜越勝
+                  </button>
+                  <button id="pk-mode-saner" onclick="window.LabApp.setPkRuleMode('saner')"
+                    class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white text-xs">
+                    🛡️ 理智勝出
+                  </button>
                 </div>
-                <div class="w-6 h-8 mx-auto bg-slate-700 border-t-2 border-amber-400 rounded-b"></div>
               </div>
+
+              <!-- 規則說明橫條 -->
+              <div id="pk-rule-mode-desc" class="p-2 rounded-xl bg-slate-950/60 border border-white/10 text-[11px] font-mono text-amber-200">
+                【🔥 越甜越勝・社死王爭霸】：事蹟越荒謬社死、假想方糖克數最高者奪得今日冠軍，敗方依約受罰！
+              </div>
+
+              <!-- 蹺蹺板舞台（充足垂直留白 pt-10 pb-8，徹底遠離頂部框框，平穩旋轉） -->
+              <div class="embossed-well rounded-2xl pt-12 pb-8 px-4 relative min-h-[150px] flex flex-col justify-center items-center overflow-hidden">
+                <div class="relative w-4/5 max-w-md mx-auto my-3">
+                  <!-- 蹺蹺板橫樑 (位於舞台舒適垂直正中心) -->
+                  <div id="pk-scale-beam"
+                    class="w-full h-3 bg-gradient-to-r from-cyan-400 via-white to-amber-500 rounded-full transition-transform duration-700 ease-out relative shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
+                    <!-- 左端 A 托盤與選手標籤 -->
+                    <div class="absolute -left-3 -top-9 flex flex-col items-center pointer-events-none">
+                      <div id="pk-beam-badge-a" class="px-2.5 py-0.5 rounded-full bg-cyan-500 text-slate-950 font-mono text-[11px] font-black shadow-md">
+                        A 選手
+                      </div>
+                      <div class="w-10 h-1.5 bg-cyan-400/60 rounded-b mt-1"></div>
+                    </div>
+                    <!-- 右端 B 托盤與選手標籤 -->
+                    <div class="absolute -right-3 -top-9 flex flex-col items-center pointer-events-none">
+                      <div id="pk-beam-badge-b" class="px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 font-mono text-[11px] font-black shadow-md">
+                        B 選手
+                      </div>
+                      <div class="w-10 h-1.5 bg-amber-400/60 rounded-b mt-1"></div>
+                    </div>
+                  </div>
+                  <!-- 中央支點立柱 -->
+                  <div class="w-8 h-10 mx-auto bg-gradient-to-b from-slate-600 to-slate-900 border-t-2 border-amber-400 rounded-b-lg shadow-lg"></div>
+                </div>
+                <div id="pk-beam-status-hint" class="font-mono text-[10px] text-slate-400 mt-2">
+                  蹺蹺板水平對決中 ｜ 傾斜度反映雙方荒謬糖度落差
+                </div>
+              </div>
+
               <button onclick="window.LabApp.startRoommatePkBattle()"
-                class="liquid-glass-amber w-full py-3 rounded-xl text-slate-950 font-black text-xs sm:text-sm shadow-lg">
+                class="liquid-glass-amber w-full py-3.5 rounded-xl text-slate-950 font-black text-sm shadow-xl hover:scale-[1.01] transition-transform">
                 ⚔️ 啟動雙人果糖對決！
               </button>
             </div>
 
-            <div id="pk-battle-result" class="hidden liquid-glass-card rounded-xl p-4 border-amber-400 bg-amber-950/30 text-xs"></div>
+            <!-- 對決結果與 5 大維度評判展示盒 -->
+            <div id="pk-battle-result" class="hidden liquid-glass-card rounded-2xl p-4.5 border-amber-400 bg-amber-950/25 text-xs"></div>
+
+            <!-- 補滿下方空格：敗方社死懲罰骰子輪盤 (Penalty Roulette) -->
+            <div id="pk-penalty-roulette-card" class="liquid-glass-card rounded-2xl p-4 space-y-3 border-fuchsia-500/30">
+              <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                <div class="flex items-center gap-1.5 font-mono text-xs text-fuchsia-300 font-bold">
+                  <span>🎲 敗方社死懲罰大冒險輪盤</span>
+                </div>
+                <button onclick="window.LabApp.rollPkPenaltyDice()"
+                  class="liquid-glass-btn px-2.5 py-1 rounded-lg font-mono text-[11px] text-amber-200 font-bold hover:text-white">
+                  🎲 一鍵擲骰
+                </button>
+              </div>
+              <div class="embossed-well p-3 rounded-xl flex items-center justify-between gap-3">
+                <div>
+                  <div id="pk-penalty-title" class="text-sm font-black text-white">🧋 氣泡音點全糖珍奶</div>
+                  <div id="pk-penalty-desc" class="text-xs text-slate-300 mt-0.5">限時 24 小時內，去手搖飲店用深情氣泡音向店員點「一杯全糖熱珍奶加布丁」！</div>
+                </div>
+                <span class="text-2xl shrink-0 animate-bounce">🎯</span>
+              </div>
+            </div>
+
+            <!-- 補滿下方空格：全糖仲裁所・官方 4 大判準守則 (Official Duel Codex) -->
+            <div class="liquid-glass-card rounded-2xl p-4 space-y-2.5">
+              <div class="font-mono text-xs text-cyan-300 font-bold flex items-center justify-between border-b border-white/10 pb-1.5">
+                <span>📜 全糖仲裁所 // 官方 4 大審判準則</span>
+                <span class="text-[10px] text-slate-400">CODEX V5.9</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                <div class="embossed-well p-2.5 rounded-xl">
+                  <div class="font-mono text-amber-300 font-bold text-[11px] mb-0.5">1. 糖度不可逆定律</div>
+                  <p class="text-slate-300 leading-snug">越尷尬的蠢事分泌越多假想焦糖，經語意分析克數最高者承擔「全場甜度王」。</p>
+                </div>
+                <div class="embossed-well p-2.5 rounded-xl">
+                  <div class="font-mono text-emerald-300 font-bold text-[11px] mb-0.5">2. 綠茶贖罪義務</div>
+                  <p class="text-slate-300 leading-snug">糖度較低者享有理智免責權，享有要求敗者請喝無糖綠茶外送之仲裁權利。</p>
+                </div>
+                <div class="embossed-well p-2.5 rounded-xl">
+                  <div class="font-mono text-cyan-300 font-bold text-[11px] mb-0.5">3. 平局雙重焦糖化</div>
+                  <p class="text-slate-300 leading-snug">若兩位選手社死指數完全平手，啟動「雙重核爆」，雙方共同請全寢室喝飲料。</p>
+                </div>
+                <div class="embossed-well p-2.5 rounded-xl">
+                  <div class="font-mono text-rose-300 font-bold text-[11px] mb-0.5">4. 收據公審存證</div>
+                  <p class="text-slate-300 leading-snug">勝出者可一鍵將診斷印成熱感收據，並公開登錄榮譽榜或匯出 IG 限動永久存證。</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1222,9 +1345,9 @@
   </nav>
 
   <!-- Scripts with cache busters -->
-  <script src="data.js?v=5.9.0"></script>
-  <script src="audio.js?v=5.9.0"></script>
-  <script src="app.js?v=5.9.0"></script>
+  <script src="data.js?v=6.0.0"></script>
+  <script src="audio.js?v=6.0.0"></script>
+  <script src="app.js?v=6.0.0"></script>
 </body>
 
 </html>
