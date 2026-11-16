@@ -869,224 +869,6 @@
         <!-- ==================================================================
              MODULE C: 拉動拉桿調整日常六大屬性 ＆ 靈魂手搖雪克杯 (#shaker-hub-section - 規格書一模一樣)
              ================================================================== -->
-        <section id="shaker-hub-section" class="space-y-8 scroll-mt-20">
-          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-5">
-            <div>
-              <span class="text-xs font-mono uppercase tracking-widest text-amber-400">INTERACTIVE SUGAR LAB //
-                靈魂手搖飲調配與六維糖度雷達</span>
-              <h2 class="text-2xl sm:text-4xl font-black text-white mt-1">特調你的靈魂手搖杯 ＆ 6 大維度糖度雷達檢測</h2>
-            </div>
-            <p class="text-slate-400 text-sm max-w-md">
-              點擊投入你的「日常荒謬配料」並拉動下方 6 大日常行為滑桿，搖一搖杯身，即時運算出你的<span class="text-amber-300 font-bold">專屬糖度百分比與六角雷達圖</span>！
-            </p>
-          </div>
-
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            <!-- Left 5 Cols: Interactive Boba Shaker Cup & Toppings Mixer -->
-            <div
-              class="lg:col-span-5 lab-card liquid-glass-card rounded-3xl p-6 flex flex-col justify-between space-y-5">
-              <div class="flex items-center justify-between">
-                <div>
-                  <span class="text-xs font-mono text-amber-400">SOUL BOBA SHAKER // 靈魂手搖杯</span>
-                  <h3 class="text-xl font-black text-white">第一關：投入你的調皮配料</h3>
-                </div>
-                <span id="shaker-brix-badge"
-                  class="px-3 py-1 rounded-full bg-amber-500 text-slate-950 font-mono text-xs font-black">
-                  甜度 100% 全糖
-                </span>
-              </div>
-
-              <!-- Visual Boba Cup Simulator -->
-              <div
-                class="relative bg-slate-950/90 rounded-3xl border border-slate-800 p-6 flex flex-col items-center justify-center min-h-[300px] overflow-hidden">
-                <div
-                  class="w-4 h-16 bg-gradient-to-r from-pink-500 to-amber-400 rounded-t-lg -mb-4 z-20 transform rotate-6">
-                </div>
-                <div class="w-44 h-5 bg-slate-200 rounded-full border-2 border-slate-400 z-20 shadow"></div>
-                <div id="boba-cup-vessel"
-                  class="relative w-40 h-56 rounded-b-3xl border-4 border-slate-300/80 bg-slate-900/70 overflow-hidden flex flex-col justify-end shadow-[inset_0_0_25px_rgba(255,255,255,0.15)] transition-transform">
-                  <div
-                    class="absolute inset-y-4 right-2 flex flex-col justify-between text-[9px] font-mono text-white/60 z-20 pointer-events-none">
-                    <span>MAX 1000%</span><span>700%</span><span>500%</span><span>300%</span><span>100%</span>
-                  </div>
-                  <div
-                    class="absolute top-6 left-1/2 -translate-x-1/2 z-20 bg-white/95 text-slate-950 px-2.5 py-1.5 rounded-lg shadow border border-amber-500 text-center w-28">
-                    <div class="text-[8px] font-mono font-bold text-slate-500">全糖量測所特調</div>
-                    <div id="cup-sticker-title" class="text-[11px] font-black truncate">全糖創始人特調</div>
-                    <div id="cup-sticker-cubes" class="text-[9px] font-mono font-bold text-amber-600">12 顆方糖</div>
-                  </div>
-                  <div id="boba-liquid-fill"
-                    class="relative w-full bg-gradient-to-t from-amber-600 via-amber-500 to-yellow-300 transition-all duration-500"
-                    style="height: 55%;">
-                    <div class="absolute -top-2.5 left-0 w-[200%] h-3.5 bg-yellow-200/80 rounded-[40%] syrup-wave">
-                    </div>
-                    <div id="boba-toppings-stage"
-                      class="absolute inset-x-2 bottom-2 flex flex-wrap-reverse justify-center gap-1 z-10 max-h-36 overflow-hidden">
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Toppings Add Buttons -->
-              <div class="space-y-2">
-                <div class="flex justify-between text-xs font-mono text-slate-400">
-                  <span>點擊加料（可複選疊加）：</span>
-                  <button type="button" onclick="clearBobaCup()" class="text-cyan-400 hover:underline">🔄 清空重調</button>
-                </div>
-                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  <button type="button" onclick="toggleTopping('pearl', '⚫ 熬夜黑糖珍珠', 5)" id="top-btn-pearl"
-                    class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-left transition flex items-center justify-between">
-                    <span>⚫ 熬夜珍珠</span><span class="font-mono text-amber-400 text-[10px]">+5顆</span>
-                  </button>
-                  <button type="button" onclick="toggleTopping('pudding', '🍮 社死焦糖布丁', 8)" id="top-btn-pudding"
-                    class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-left transition flex items-center justify-between">
-                    <span>🍮 社死布丁</span><span class="font-mono text-amber-400 text-[10px]">+8顆</span>
-                  </button>
-                  <button type="button" onclick="toggleTopping('foam', '🧀 尬聊厚奶蓋', 6)" id="top-btn-foam"
-                    class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-left transition flex items-center justify-between">
-                    <span>🧀 尬聊奶蓋</span><span class="font-mono text-amber-400 text-[10px]">+6顆</span>
-                  </button>
-                  <button type="button" onclick="toggleTopping('jelly', '🥥 腦洞椰果粒', 4)" id="top-btn-jelly"
-                    class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-left transition flex items-center justify-between">
-                    <span>🥥 腦洞椰果</span><span class="font-mono text-amber-400 text-[10px]">+4顆</span>
-                  </button>
-                  <button type="button" onclick="toggleTopping('popping', '🟠 暴走爆爆珠', 12)" id="top-btn-popping"
-                    class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-left transition flex items-center justify-between">
-                    <span>🟠 暴走爆珠</span><span class="font-mono text-amber-400 text-[10px]">+12顆</span>
-                  </button>
-                  <button type="button" onclick="toggleTopping('syrup', '🍯 純高果糖漿', 25)" id="top-btn-syrup"
-                    class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-left transition flex items-center justify-between">
-                    <span>🍯 濃縮糖漿</span><span class="font-mono text-red-400 text-[10px]">+25顆</span>
-                  </button>
-                </div>
-              </div>
-
-              <button type="button" onclick="shakeBobaCup()"
-                class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-500 text-slate-950 font-black text-sm shadow-[0_0_25px_rgba(245,158,11,0.4)] hover:brightness-110 active:scale-95 transition">
-                🧋 瘋狂搖晃雪克杯・算出我的專屬糖度！
-              </button>
-            </div>
-
-            <!-- Right 7 Cols: 6-Axis Sugar Personality Sliders + Dynamic SVG Hexagon Radar -->
-            <div
-              class="lg:col-span-7 lab-card liquid-glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between space-y-6">
-              <div class="flex flex-wrap items-center justify-between gap-2">
-                <div>
-                  <span class="text-xs font-mono text-cyan-400">6-AXIS SUGAR DNA RADAR // 六維度糖度人格分析</span>
-                  <h3 class="text-xl font-black text-white">第二關：拉動滑桿調整你的 6 大日常屬性</h3>
-                </div>
-                <button type="button" onclick="randomizeRadarSliders()"
-                  class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-amber-500/40 text-amber-300 font-mono text-xs font-bold transition">
-                  🎲 隨機抽籤體質
-                </button>
-              </div>
-
-              <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-                <!-- 6 Sliders -->
-                <div class="md:col-span-7 space-y-3.5">
-                  <div>
-                    <div class="flex justify-between text-xs font-bold mb-1">
-                      <span class="text-slate-200">1. 🥤 手搖飲成癮度 (飲料甜度基準)</span>
-                      <span id="radar-val-0" class="font-mono text-amber-400">75%</span>
-                    </div>
-                    <input id="radar-slider-0" type="range" min="0" max="100" value="75" oninput="updateSugarRadar()"
-                      class="w-full accent-amber-400 h-2 bg-slate-800 rounded-lg cursor-pointer" />
-                  </div>
-                  <div>
-                    <div class="flex justify-between text-xs font-bold mb-1">
-                      <span class="text-slate-200">2. 😳 校園社死頻率 (口誤/滑倒/出糗)</span>
-                      <span id="radar-val-1" class="font-mono text-amber-400">60%</span>
-                    </div>
-                    <input id="radar-slider-1" type="range" min="0" max="100" value="60" oninput="updateSugarRadar()"
-                      class="w-full accent-amber-400 h-2 bg-slate-800 rounded-lg cursor-pointer" />
-                  </div>
-                  <div>
-                    <div class="flex justify-between text-xs font-bold mb-1">
-                      <span class="text-slate-200">3. 🦖 男宿發瘋指數 (半夜嗨歌/怪異行為)</span>
-                      <span id="radar-val-2" class="font-mono text-amber-400">85%</span>
-                    </div>
-                    <input id="radar-slider-2" type="range" min="0" max="100" value="85" oninput="updateSugarRadar()"
-                      class="w-full accent-amber-400 h-2 bg-slate-800 rounded-lg cursor-pointer" />
-                  </div>
-                  <div>
-                    <div class="flex justify-between text-xs font-bold mb-1">
-                      <span class="text-slate-200">4. 📱 群組錯頻手滑力 (傳錯迷因/收回失敗)</span>
-                      <span id="radar-val-3" class="font-mono text-amber-400">50%</span>
-                    </div>
-                    <input id="radar-slider-3" type="range" min="0" max="100" value="50" oninput="updateSugarRadar()"
-                      class="w-full accent-amber-400 h-2 bg-slate-800 rounded-lg cursor-pointer" />
-                  </div>
-                  <div>
-                    <div class="flex justify-between text-xs font-bold mb-1">
-                      <span class="text-slate-200">5. 😜 調皮嘴砲攻擊力 (愛開玩笑/鬧室友)</span>
-                      <span id="radar-val-4" class="font-mono text-amber-400">80%</span>
-                    </div>
-                    <input id="radar-slider-4" type="range" min="0" max="100" value="80" oninput="updateSugarRadar()"
-                      class="w-full accent-amber-400 h-2 bg-slate-800 rounded-lg cursor-pointer" />
-                  </div>
-                  <div>
-                    <div class="flex justify-between text-xs font-bold mb-1">
-                      <span class="text-slate-200">6. 🛡️ 尷尬強心臟耐受 (出糗後裝沒事能力)</span>
-                      <span id="radar-val-5" class="font-mono text-amber-400">70%</span>
-                    </div>
-                    <input id="radar-slider-5" type="range" min="0" max="100" value="70" oninput="updateSugarRadar()"
-                      class="w-full accent-amber-400 h-2 bg-slate-800 rounded-lg cursor-pointer" />
-                  </div>
-                </div>
-
-                <!-- Live SVG Hexagon Radar Chart -->
-                <div
-                  class="md:col-span-5 flex flex-col items-center justify-center bg-slate-950/90 rounded-2xl border border-slate-800 p-4">
-                  <div class="relative w-56 h-56 flex items-center justify-center">
-                    <svg viewBox="0 0 240 240" class="w-full h-full overflow-visible">
-                      <polygon points="120,25 202,72 202,168 120,215 38,168 38,72" fill="none" stroke="#1E293B"
-                        stroke-width="1.5" />
-                      <polygon points="120,57 175,88 175,152 120,183 65,152 65,88" fill="none" stroke="#1E293B"
-                        stroke-width="1" stroke-dasharray="3 3" />
-                      <polygon points="120,88 147,104 147,136 120,152 93,136 93,104" fill="none" stroke="#1E293B"
-                        stroke-width="1" />
-                      <line x1="120" y1="25" x2="120" y2="215" stroke="#1E293B" stroke-width="1" />
-                      <line x1="202" y1="72" x2="38" y2="168" stroke="#1E293B" stroke-width="1" />
-                      <line x1="202" y1="168" x2="38" y2="72" stroke="#1E293B" stroke-width="1" />
-                      <polygon id="radar-data-polygon" points="120,48 172,90 190,160 120,168 54,158 62,86"
-                        fill="rgba(245, 158, 11, 0.32)" stroke="#FBBF24" stroke-width="2.5"
-                        class="transition-all duration-300" />
-                      <text x="120" y="14" text-anchor="middle" fill="#FBBF24" font-size="10"
-                        font-weight="bold">手搖成癮</text>
-                      <text x="216" y="72" text-anchor="start" fill="#94A3B8" font-size="10">社死頻率</text>
-                      <text x="216" y="174" text-anchor="start" fill="#94A3B8" font-size="10">男宿發瘋</text>
-                      <text x="120" y="232" text-anchor="middle" fill="#94A3B8" font-size="10">群組手滑</text>
-                      <text x="24" y="174" text-anchor="end" fill="#94A3B8" font-size="10">調皮嘴砲</text>
-                      <text x="24" y="72" text-anchor="end" fill="#06B6D4" font-size="10" font-weight="bold">強心臟</text>
-                    </svg>
-                  </div>
-                  <div class="text-center mt-2">
-                    <div class="text-[11px] font-mono text-slate-400">綜合靈魂含糖認證</div>
-                    <div id="radar-persona-title" class="text-base font-black text-amber-300 mt-0.5">【全糖創始人直系傳人】</div>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="bg-slate-950/90 rounded-2xl p-4 border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div class="space-y-1">
-                  <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-mono text-[11px] font-black"
-                      id="radar-total-score-badge">綜合糖度：700% 爆糖</span>
-                    <span class="text-xs font-mono text-cyan-300" id="radar-cubes-equivalent">折合 46 顆方糖 (230g)</span>
-                  </div>
-                  <p id="radar-persona-desc" class="text-xs sm:text-sm text-slate-300">
-                    你的體內流淌著高純度的琥珀色果糖！平時看似正常，但只要一進男宿或打開群組就會瞬間釋放調皮不舒服能量！
-                  </p>
-                </div>
-                <button type="button" onclick="applyRadarToGlobal()"
-                  class="shrink-0 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs font-mono transition">
-                  ⚡ 注入全站量筒＆印出證書
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
 
         <!-- 下部：全新創意互動裝置（焦糖超導聚變反應爐 ＆ 糖感波形合成器）＋ 理智天平 ＆ 快捷導航 -->
         <section class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
@@ -1455,105 +1237,6 @@
         <!-- ==================================================================
              MODULE E: 啟動 20 秒減糖挑戰街機小遊戲 (#arcade-game-section - 規格書一模一樣)
              ================================================================== -->
-        <section id="arcade-game-section" class="space-y-8 scroll-mt-20">
-          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-5">
-            <div>
-              <span class="text-xs font-mono uppercase tracking-widest text-cyan-400">CORE MODULE 03 // SUGAR DETOX
-                ARCADE GAME</span>
-              <h2 class="text-2xl sm:text-4xl font-black text-white mt-1">核心模組三：爆打方糖怪・無糖綠茶保衛戰 (互動減糖街機)</h2>
-            </div>
-            <p class="text-slate-400 text-sm max-w-md">
-              剛才測出來的糖度太高了嗎？啟動 20 秒實驗室街機挑戰！點擊擊碎冒出來的「🧊 調皮方糖」與「👾 果糖怪」可扣除體內含糖量，點擊「🍵 無糖綠茶」更能獲得雙倍解毒連擊！
-            </p>
-          </div>
-
-          <div class="lab-card liquid-glass-card rounded-3xl p-6 sm:p-8 space-y-6 border-2 border-cyan-500/30">
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div class="bg-slate-950/90 p-3.5 rounded-2xl border border-slate-800 text-center">
-                <div class="text-[11px] font-mono text-slate-400">COUNTDOWN TIMER</div>
-                <div id="arcade-timer" class="text-2xl sm:text-3xl font-mono font-black text-cyan-400 mt-0.5">20.0s
-                </div>
-              </div>
-              <div class="bg-slate-950/90 p-3.5 rounded-2xl border border-slate-800 text-center">
-                <div class="text-[11px] font-mono text-slate-400">擊碎方糖總數</div>
-                <div id="arcade-score" class="text-2xl sm:text-3xl font-mono font-black text-amber-400 mt-0.5">0 顆</div>
-              </div>
-              <div class="bg-slate-950/90 p-3.5 rounded-2xl border border-slate-800 text-center">
-                <div class="text-[11px] font-mono text-slate-400">COMBO 連擊倍率</div>
-                <div id="arcade-combo" class="text-2xl sm:text-3xl font-mono font-black text-emerald-400 mt-0.5">x1
-                </div>
-              </div>
-              <div class="bg-slate-950/90 p-3.5 rounded-2xl border border-slate-800 flex items-center justify-center">
-                <button id="btn-start-arcade" onclick="startArcadeGame()"
-                  class="w-full h-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-400 to-emerald-400 text-slate-950 font-black text-sm font-mono shadow-[0_0_25px_rgba(6,182,212,0.4)] hover:brightness-110 active:scale-95 transition">
-                  🕹️ 啟動 20 秒減糖挑戰
-                </button>
-              </div>
-            </div>
-
-            <!-- 9-Hole Lab Centrifuge Whack-a-Sugar Grid -->
-            <div class="grid grid-cols-3 gap-3 sm:gap-4 max-w-2xl mx-auto">
-              <button type="button" onclick="whackArcadeHole(0)" id="arcade-hole-0"
-                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
-                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
-                  id="arcade-target-0">🕳️</span>
-                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-0">離心艙 #01</span>
-              </button>
-              <button type="button" onclick="whackArcadeHole(1)" id="arcade-hole-1"
-                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
-                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
-                  id="arcade-target-1">🕳️</span>
-                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-1">離心艙 #02</span>
-              </button>
-              <button type="button" onclick="whackArcadeHole(2)" id="arcade-hole-2"
-                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
-                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
-                  id="arcade-target-2">🕳️</span>
-                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-2">離心艙 #03</span>
-              </button>
-              <button type="button" onclick="whackArcadeHole(3)" id="arcade-hole-3"
-                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
-                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
-                  id="arcade-target-3">🕳️</span>
-                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-3">離心艙 #04</span>
-              </button>
-              <button type="button" onclick="whackArcadeHole(4)" id="arcade-hole-4"
-                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
-                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
-                  id="arcade-target-4">🕳️</span>
-                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-4">離心艙 #05</span>
-              </button>
-              <button type="button" onclick="whackArcadeHole(5)" id="arcade-hole-5"
-                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
-                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
-                  id="arcade-target-5">🕳️</span>
-                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-5">離心艙 #06</span>
-              </button>
-              <button type="button" onclick="whackArcadeHole(6)" id="arcade-hole-6"
-                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
-                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
-                  id="arcade-target-6">🕳️</span>
-                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-6">離心艙 #07</span>
-              </button>
-              <button type="button" onclick="whackArcadeHole(7)" id="arcade-hole-7"
-                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
-                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
-                  id="arcade-target-7">🕳️</span>
-                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-7">離心艙 #08</span>
-              </button>
-              <button type="button" onclick="whackArcadeHole(8)" id="arcade-hole-8"
-                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
-                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
-                  id="arcade-target-8">🕳️</span>
-                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-8">離心艙 #09</span>
-              </button>
-            </div>
-
-            <div id="arcade-status-banner" class="text-center text-xs sm:text-sm font-mono text-slate-400">
-              💡 規則說明：點擊「🧊 方糖 (+2分)」、「🍯 果糖怪 (+5分)」、「🍵 無糖綠茶 (+8分且直接幫全站減糖)」，小心別點到「💣 社死炸彈 (-5分)」！
-            </div>
-          </div>
-        </section>
 
       </div>
 
@@ -1969,6 +1652,323 @@
            PAGE 4: 全新升級街機遊樂場（磁浮接方糖 × 皇家777拉霸 × 極速打果糖怪）(#lab-page-4)
            ==================================================================== -->
       <div id="lab-page-4" class="lab-page-view space-y-6">
+        <section id="arcade-game-section" class="space-y-8 scroll-mt-20">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-5">
+            <div>
+              <span class="text-xs font-mono uppercase tracking-widest text-cyan-400">CORE MODULE 03 // SUGAR DETOX
+                ARCADE GAME</span>
+              <h2 class="text-2xl sm:text-4xl font-black text-white mt-1">核心模組三：爆打方糖怪・無糖綠茶保衛戰 (互動減糖街機)</h2>
+            </div>
+            <p class="text-slate-400 text-sm max-w-md">
+              剛才測出來的糖度太高了嗎？啟動 20 秒實驗室街機挑戰！點擊擊碎冒出來的「🧊 調皮方糖」與「👾 果糖怪」可扣除體內含糖量，點擊「🍵 無糖綠茶」更能獲得雙倍解毒連擊！
+            </p>
+          </div>
+
+          <div class="lab-card liquid-glass-card rounded-3xl p-6 sm:p-8 space-y-6 border-2 border-cyan-500/30">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div class="bg-slate-950/90 p-3.5 rounded-2xl border border-slate-800 text-center">
+                <div class="text-[11px] font-mono text-slate-400">COUNTDOWN TIMER</div>
+                <div id="arcade-timer" class="text-2xl sm:text-3xl font-mono font-black text-cyan-400 mt-0.5">20.0s
+                </div>
+              </div>
+              <div class="bg-slate-950/90 p-3.5 rounded-2xl border border-slate-800 text-center">
+                <div class="text-[11px] font-mono text-slate-400">擊碎方糖總數</div>
+                <div id="arcade-score" class="text-2xl sm:text-3xl font-mono font-black text-amber-400 mt-0.5">0 顆</div>
+              </div>
+              <div class="bg-slate-950/90 p-3.5 rounded-2xl border border-slate-800 text-center">
+                <div class="text-[11px] font-mono text-slate-400">COMBO 連擊倍率</div>
+                <div id="arcade-combo" class="text-2xl sm:text-3xl font-mono font-black text-emerald-400 mt-0.5">x1
+                </div>
+              </div>
+              <div class="bg-slate-950/90 p-3.5 rounded-2xl border border-slate-800 flex items-center justify-center">
+                <button id="btn-start-arcade" onclick="startArcadeGame()"
+                  class="w-full h-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-400 to-emerald-400 text-slate-950 font-black text-sm font-mono shadow-[0_0_25px_rgba(6,182,212,0.4)] hover:brightness-110 active:scale-95 transition">
+                  🕹️ 啟動 20 秒減糖挑戰
+                </button>
+              </div>
+            </div>
+
+            <!-- 9-Hole Lab Centrifuge Whack-a-Sugar Grid -->
+            <div class="grid grid-cols-3 gap-3 sm:gap-4 max-w-2xl mx-auto">
+              <button type="button" onclick="whackArcadeHole(0)" id="arcade-hole-0"
+                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
+                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
+                  id="arcade-target-0">🕳️</span>
+                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-0">離心艙 #01</span>
+              </button>
+              <button type="button" onclick="whackArcadeHole(1)" id="arcade-hole-1"
+                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
+                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
+                  id="arcade-target-1">🕳️</span>
+                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-1">離心艙 #02</span>
+              </button>
+              <button type="button" onclick="whackArcadeHole(2)" id="arcade-hole-2"
+                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
+                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
+                  id="arcade-target-2">🕳️</span>
+                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-2">離心艙 #03</span>
+              </button>
+              <button type="button" onclick="whackArcadeHole(3)" id="arcade-hole-3"
+                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
+                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
+                  id="arcade-target-3">🕳️</span>
+                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-3">離心艙 #04</span>
+              </button>
+              <button type="button" onclick="whackArcadeHole(4)" id="arcade-hole-4"
+                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
+                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
+                  id="arcade-target-4">🕳️</span>
+                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-4">離心艙 #05</span>
+              </button>
+              <button type="button" onclick="whackArcadeHole(5)" id="arcade-hole-5"
+                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
+                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
+                  id="arcade-target-5">🕳️</span>
+                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-5">離心艙 #06</span>
+              </button>
+              <button type="button" onclick="whackArcadeHole(6)" id="arcade-hole-6"
+                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
+                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
+                  id="arcade-target-6">🕳️</span>
+                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-6">離心艙 #07</span>
+              </button>
+              <button type="button" onclick="whackArcadeHole(7)" id="arcade-hole-7"
+                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
+                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
+                  id="arcade-target-7">🕳️</span>
+                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-7">離心艙 #08</span>
+              </button>
+              <button type="button" onclick="whackArcadeHole(8)" id="arcade-hole-8"
+                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
+                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
+                  id="arcade-target-8">🕳️</span>
+                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-8">離心艙 #09</span>
+              </button>
+            </div>
+
+            <div id="arcade-status-banner" class="text-center text-xs sm:text-sm font-mono text-slate-400">
+              💡 規則說明：點擊「🧊 方糖 (+2分)」、「🍯 果糖怪 (+5分)」、「🍵 無糖綠茶 (+8分且直接幫全站減糖)」，小心別點到「💣 社死炸彈 (-5分)」！
+            </div>
+          </div>
+        </section>
+        <section id="shaker-hub-section" class="space-y-8 scroll-mt-20">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-5">
+            <div>
+              <span class="text-xs font-mono uppercase tracking-widest text-amber-400">INTERACTIVE SUGAR LAB //
+                靈魂手搖飲調配與六維糖度雷達</span>
+              <h2 class="text-2xl sm:text-4xl font-black text-white mt-1">特調你的靈魂手搖杯 ＆ 6 大維度糖度雷達檢測</h2>
+            </div>
+            <p class="text-slate-400 text-sm max-w-md">
+              點擊投入你的「日常荒謬配料」並拉動下方 6 大日常行為滑桿，搖一搖杯身，即時運算出你的<span class="text-amber-300 font-bold">專屬糖度百分比與六角雷達圖</span>！
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            <!-- Left 5 Cols: Interactive Boba Shaker Cup & Toppings Mixer -->
+            <div
+              class="lg:col-span-5 lab-card liquid-glass-card rounded-3xl p-6 flex flex-col justify-between space-y-5">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-xs font-mono text-amber-400">SOUL BOBA SHAKER // 靈魂手搖杯</span>
+                  <h3 class="text-xl font-black text-white">第一關：投入你的調皮配料</h3>
+                </div>
+                <span id="shaker-brix-badge"
+                  class="px-3 py-1 rounded-full bg-amber-500 text-slate-950 font-mono text-xs font-black">
+                  甜度 100% 全糖
+                </span>
+              </div>
+
+              <!-- Visual Boba Cup Simulator -->
+              <div
+                class="relative bg-slate-950/90 rounded-3xl border border-slate-800 p-6 flex flex-col items-center justify-center min-h-[300px] overflow-hidden">
+                <div
+                  class="w-4 h-16 bg-gradient-to-r from-pink-500 to-amber-400 rounded-t-lg -mb-4 z-20 transform rotate-6">
+                </div>
+                <div class="w-44 h-5 bg-slate-200 rounded-full border-2 border-slate-400 z-20 shadow"></div>
+                <div id="boba-cup-vessel"
+                  class="relative w-40 h-56 rounded-b-3xl border-4 border-slate-300/80 bg-slate-900/70 overflow-hidden flex flex-col justify-end shadow-[inset_0_0_25px_rgba(255,255,255,0.15)] transition-transform">
+                  <div
+                    class="absolute inset-y-4 right-2 flex flex-col justify-between text-[9px] font-mono text-white/60 z-20 pointer-events-none">
+                    <span>MAX 1000%</span><span>700%</span><span>500%</span><span>300%</span><span>100%</span>
+                  </div>
+                  <div
+                    class="absolute top-6 left-1/2 -translate-x-1/2 z-20 bg-white/95 text-slate-950 px-2.5 py-1.5 rounded-lg shadow border border-amber-500 text-center w-28">
+                    <div class="text-[8px] font-mono font-bold text-slate-500">全糖量測所特調</div>
+                    <div id="cup-sticker-title" class="text-[11px] font-black truncate">全糖創始人特調</div>
+                    <div id="cup-sticker-cubes" class="text-[9px] font-mono font-bold text-amber-600">12 顆方糖</div>
+                  </div>
+                  <div id="boba-liquid-fill"
+                    class="relative w-full bg-gradient-to-t from-amber-600 via-amber-500 to-yellow-300 transition-all duration-500"
+                    style="height: 55%;">
+                    <div class="absolute -top-2.5 left-0 w-[200%] h-3.5 bg-yellow-200/80 rounded-[40%] syrup-wave">
+                    </div>
+                    <div id="boba-toppings-stage"
+                      class="absolute inset-x-2 bottom-2 flex flex-wrap-reverse justify-center gap-1 z-10 max-h-36 overflow-hidden">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Toppings Add Buttons -->
+              <div class="space-y-2">
+                <div class="flex justify-between text-xs font-mono text-slate-400">
+                  <span>點擊加料（可複選疊加）：</span>
+                  <button type="button" onclick="clearBobaCup()" class="text-cyan-400 hover:underline">🔄 清空重調</button>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  <button type="button" onclick="toggleTopping('pearl', '⚫ 熬夜黑糖珍珠', 5)" id="top-btn-pearl"
+                    class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-left transition flex items-center justify-between">
+                    <span>⚫ 熬夜珍珠</span><span class="font-mono text-amber-400 text-[10px]">+5顆</span>
+                  </button>
+                  <button type="button" onclick="toggleTopping('pudding', '🍮 社死焦糖布丁', 8)" id="top-btn-pudding"
+                    class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-left transition flex items-center justify-between">
+                    <span>🍮 社死布丁</span><span class="font-mono text-amber-400 text-[10px]">+8顆</span>
+                  </button>
+                  <button type="button" onclick="toggleTopping('foam', '🧀 尬聊厚奶蓋', 6)" id="top-btn-foam"
+                    class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-left transition flex items-center justify-between">
+                    <span>🧀 尬聊奶蓋</span><span class="font-mono text-amber-400 text-[10px]">+6顆</span>
+                  </button>
+                  <button type="button" onclick="toggleTopping('jelly', '🥥 腦洞椰果粒', 4)" id="top-btn-jelly"
+                    class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-left transition flex items-center justify-between">
+                    <span>🥥 腦洞椰果</span><span class="font-mono text-amber-400 text-[10px]">+4顆</span>
+                  </button>
+                  <button type="button" onclick="toggleTopping('popping', '🟠 暴走爆爆珠', 12)" id="top-btn-popping"
+                    class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-left transition flex items-center justify-between">
+                    <span>🟠 暴走爆珠</span><span class="font-mono text-amber-400 text-[10px]">+12顆</span>
+                  </button>
+                  <button type="button" onclick="toggleTopping('syrup', '🍯 純高果糖漿', 25)" id="top-btn-syrup"
+                    class="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-left transition flex items-center justify-between">
+                    <span>🍯 濃縮糖漿</span><span class="font-mono text-red-400 text-[10px]">+25顆</span>
+                  </button>
+                </div>
+              </div>
+
+              <button type="button" onclick="shakeBobaCup()"
+                class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-500 text-slate-950 font-black text-sm shadow-[0_0_25px_rgba(245,158,11,0.4)] hover:brightness-110 active:scale-95 transition">
+                🧋 瘋狂搖晃雪克杯・算出我的專屬糖度！
+              </button>
+            </div>
+
+            <!-- Right 7 Cols: 6-Axis Sugar Personality Sliders + Dynamic SVG Hexagon Radar -->
+            <div
+              class="lg:col-span-7 lab-card liquid-glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between space-y-6">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <span class="text-xs font-mono text-cyan-400">6-AXIS SUGAR DNA RADAR // 六維度糖度人格分析</span>
+                  <h3 class="text-xl font-black text-white">第二關：拉動滑桿調整你的 6 大日常屬性</h3>
+                </div>
+                <button type="button" onclick="randomizeRadarSliders()"
+                  class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-amber-500/40 text-amber-300 font-mono text-xs font-bold transition">
+                  🎲 隨機抽籤體質
+                </button>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                <!-- 6 Sliders -->
+                <div class="md:col-span-7 space-y-3.5">
+                  <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                      <span class="text-slate-200">1. 🥤 手搖飲成癮度 (飲料甜度基準)</span>
+                      <span id="radar-val-0" class="font-mono text-amber-400">75%</span>
+                    </div>
+                    <input id="radar-slider-0" type="range" min="0" max="100" value="75" oninput="updateSugarRadar()"
+                      class="w-full accent-amber-400 h-2 bg-slate-800 rounded-lg cursor-pointer" />
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                      <span class="text-slate-200">2. 😳 校園社死頻率 (口誤/滑倒/出糗)</span>
+                      <span id="radar-val-1" class="font-mono text-amber-400">60%</span>
+                    </div>
+                    <input id="radar-slider-1" type="range" min="0" max="100" value="60" oninput="updateSugarRadar()"
+                      class="w-full accent-amber-400 h-2 bg-slate-800 rounded-lg cursor-pointer" />
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                      <span class="text-slate-200">3. 🦖 男宿發瘋指數 (半夜嗨歌/怪異行為)</span>
+                      <span id="radar-val-2" class="font-mono text-amber-400">85%</span>
+                    </div>
+                    <input id="radar-slider-2" type="range" min="0" max="100" value="85" oninput="updateSugarRadar()"
+                      class="w-full accent-amber-400 h-2 bg-slate-800 rounded-lg cursor-pointer" />
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                      <span class="text-slate-200">4. 📱 群組錯頻手滑力 (傳錯迷因/收回失敗)</span>
+                      <span id="radar-val-3" class="font-mono text-amber-400">50%</span>
+                    </div>
+                    <input id="radar-slider-3" type="range" min="0" max="100" value="50" oninput="updateSugarRadar()"
+                      class="w-full accent-amber-400 h-2 bg-slate-800 rounded-lg cursor-pointer" />
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                      <span class="text-slate-200">5. 😜 調皮嘴砲攻擊力 (愛開玩笑/鬧室友)</span>
+                      <span id="radar-val-4" class="font-mono text-amber-400">80%</span>
+                    </div>
+                    <input id="radar-slider-4" type="range" min="0" max="100" value="80" oninput="updateSugarRadar()"
+                      class="w-full accent-amber-400 h-2 bg-slate-800 rounded-lg cursor-pointer" />
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                      <span class="text-slate-200">6. 🛡️ 尷尬強心臟耐受 (出糗後裝沒事能力)</span>
+                      <span id="radar-val-5" class="font-mono text-amber-400">70%</span>
+                    </div>
+                    <input id="radar-slider-5" type="range" min="0" max="100" value="70" oninput="updateSugarRadar()"
+                      class="w-full accent-amber-400 h-2 bg-slate-800 rounded-lg cursor-pointer" />
+                  </div>
+                </div>
+
+                <!-- Live SVG Hexagon Radar Chart -->
+                <div
+                  class="md:col-span-5 flex flex-col items-center justify-center bg-slate-950/90 rounded-2xl border border-slate-800 p-4">
+                  <div class="relative w-56 h-56 flex items-center justify-center">
+                    <svg viewBox="0 0 240 240" class="w-full h-full overflow-visible">
+                      <polygon points="120,25 202,72 202,168 120,215 38,168 38,72" fill="none" stroke="#1E293B"
+                        stroke-width="1.5" />
+                      <polygon points="120,57 175,88 175,152 120,183 65,152 65,88" fill="none" stroke="#1E293B"
+                        stroke-width="1" stroke-dasharray="3 3" />
+                      <polygon points="120,88 147,104 147,136 120,152 93,136 93,104" fill="none" stroke="#1E293B"
+                        stroke-width="1" />
+                      <line x1="120" y1="25" x2="120" y2="215" stroke="#1E293B" stroke-width="1" />
+                      <line x1="202" y1="72" x2="38" y2="168" stroke="#1E293B" stroke-width="1" />
+                      <line x1="202" y1="168" x2="38" y2="72" stroke="#1E293B" stroke-width="1" />
+                      <polygon id="radar-data-polygon" points="120,48 172,90 190,160 120,168 54,158 62,86"
+                        fill="rgba(245, 158, 11, 0.32)" stroke="#FBBF24" stroke-width="2.5"
+                        class="transition-all duration-300" />
+                      <text x="120" y="14" text-anchor="middle" fill="#FBBF24" font-size="10"
+                        font-weight="bold">手搖成癮</text>
+                      <text x="216" y="72" text-anchor="start" fill="#94A3B8" font-size="10">社死頻率</text>
+                      <text x="216" y="174" text-anchor="start" fill="#94A3B8" font-size="10">男宿發瘋</text>
+                      <text x="120" y="232" text-anchor="middle" fill="#94A3B8" font-size="10">群組手滑</text>
+                      <text x="24" y="174" text-anchor="end" fill="#94A3B8" font-size="10">調皮嘴砲</text>
+                      <text x="24" y="72" text-anchor="end" fill="#06B6D4" font-size="10" font-weight="bold">強心臟</text>
+                    </svg>
+                  </div>
+                  <div class="text-center mt-2">
+                    <div class="text-[11px] font-mono text-slate-400">綜合靈魂含糖認證</div>
+                    <div id="radar-persona-title" class="text-base font-black text-amber-300 mt-0.5">【全糖創始人直系傳人】</div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="bg-slate-950/90 rounded-2xl p-4 border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-mono text-[11px] font-black"
+                      id="radar-total-score-badge">綜合糖度：700% 爆糖</span>
+                    <span class="text-xs font-mono text-cyan-300" id="radar-cubes-equivalent">折合 46 顆方糖 (230g)</span>
+                  </div>
+                  <p id="radar-persona-desc" class="text-xs sm:text-sm text-slate-300">
+                    你的體內流淌著高純度的琥珀色果糖！平時看似正常，但只要一進男宿或打開群組就會瞬間釋放調皮不舒服能量！
+                  </p>
+                </div>
+                <button type="button" onclick="applyRadarToGlobal()"
+                  class="shrink-0 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs font-mono transition">
+                  ⚡ 注入全站量筒＆印出證書
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
         <div class="space-y-3.5">
           <div class="flex items-center justify-between">
             <h2 class="text-xl sm:text-2xl font-black text-white">🎮 全糖皇家街機遊樂場</h2>
