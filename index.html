@@ -7,7 +7,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <title>全糖量測所：測測你的調皮不舒服程度 | Fructose Lab v5.1</title>
+  <title>全糖量測所：測測你的調皮不舒服程度 | Fructose Lab v5.2</title>
   <!-- Google Fonts: Noto Sans TC & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +16,7 @@
     rel="stylesheet">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="styles.css?v=5.1.3" />
+  <link rel="stylesheet" href="styles.css?v=5.2.0" />
 </head>
 
 <body class="min-h-screen text-slate-100 selection:bg-amber-400 selection:text-slate-950">
@@ -25,78 +25,62 @@
   <div id="custom-cursor-dot"></div>
   <div id="custom-cursor-ring"></div>
 
-  <!-- Full-Screen Sugar Rain Canvas for Easter Egg -->
+  <!-- Full-Screen Sugar Rain Canvas -->
   <canvas id="sugar-rain-canvas" class="hidden fixed inset-0 pointer-events-none z-[130]"></canvas>
 
   <!-- Toast Stack -->
   <div id="toast-stack" class="fixed top-20 right-4 z-[125] flex flex-col gap-2 pointer-events-none"></div>
 
   <!-- ========================================================================
-       1. 3D ORBITING CARD CAROUSEL LOGIN PORTAL (3D 卡牌環繞登入介面)
+       1. 3D FLOATING ORBIT CAROUSEL LOGIN PORTAL (無下方按鈕、自動浮動懸浮聚焦)
        ======================================================================== -->
   <div id="login-3d-overlay"
-    class="fixed inset-0 z-[110] flex flex-col items-center justify-between p-3 sm:p-5 overflow-y-auto">
-    <!-- Top Portal Header (文字精簡) -->
-    <div class="text-center max-w-xl mx-auto pt-1 sm:pt-2">
+    class="fixed inset-0 z-[110] flex flex-col items-center justify-between p-3 sm:p-6 overflow-y-auto">
+    <!-- Top Holographic Title -->
+    <div class="text-center max-w-xl mx-auto pt-2 sm:pt-4">
       <div
-        class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-300 font-mono text-[11px] mb-1.5">
-        <span>🌌 3D 環繞登入艙</span>
+        class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-300 font-mono text-[11px] mb-2 shadow-[0_0_15px_rgba(245,158,11,0.25)]">
+        <span>✨ 3D 全息浮動登入艙</span>
         <span>//</span>
-        <span>點選或轉動卡牌</span>
+        <span>點選正前方卡牌</span>
       </div>
-      <h1 class="text-xl sm:text-3xl font-black text-white tracking-tight">
-        全糖量測所：<span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-cyan-400">3D 立體卡牌艙</span>
+      <h1 class="text-2xl sm:text-4xl font-black text-white tracking-tight">
+        全糖量測所：<span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-cyan-400">3D 懸浮卡牌艙</span>
       </h1>
-      <p class="text-xs text-slate-300 mt-0.5">
-        卡牌自動旋轉中，移入暫停，選擇身份開啟測糖！
+      <p class="text-xs text-slate-300 mt-1">
+        卡牌自動巡航浮動中・移入暫停・點選正中卡牌進入
       </p>
     </div>
 
-    <!-- Center 3D Orbiting Stage with Auto-Rotation Controls -->
-    <div class="w-full max-w-3xl mx-auto my-1 flex flex-col items-center">
+    <!-- Center 3D Floating Stage (No bottom buttons at all!) -->
+    <div class="w-full max-w-3xl mx-auto my-auto flex flex-col items-center">
       <div class="carousel-3d-scene" id="carousel-scene-container">
         <div id="carousel-3d-ring" class="carousel-3d-ring"></div>
-      </div>
-
-      <!-- 3D Rotation & Auto-Orbit Controls -->
-      <div class="flex items-center gap-2 sm:gap-3 mt-3 z-10 flex-wrap justify-center">
-        <button onclick="window.LabApp.rotate3DCarousel(-1)"
-          class="liquid-glass-btn px-3 py-1.5 rounded-xl font-mono text-xs text-amber-300 font-bold">
-          ◀ 上一張
-        </button>
-        <button id="carousel-auto-toggle-btn" onclick="window.LabApp.toggle3DAutoRotate()"
-          class="liquid-glass-btn px-3.5 py-1.5 rounded-xl font-mono text-xs text-cyan-300 font-extrabold flex items-center gap-1.5">
-          <span>⏸️ 自動旋轉: 開</span>
-        </button>
-        <button onclick="window.LabApp.rotate3DCarousel(1)"
-          class="liquid-glass-btn px-3 py-1.5 rounded-xl font-mono text-xs text-amber-300 font-bold">
-          下一張 ▶
-        </button>
       </div>
     </div>
 
     <!-- Bottom Selected Identity & Confirmation Pod (Liquid Glass) -->
-    <div class="liquid-glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-5 max-w-lg w-full mx-auto space-y-3 mb-2 border-amber-400/40">
+    <div class="liquid-glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-5 max-w-lg w-full mx-auto space-y-3 mb-3 border-amber-400/40">
       <div class="flex items-center justify-between gap-2 border-b border-white/10 pb-2">
         <div>
-          <div class="font-mono text-[10px] text-cyan-400">當前選中卡牌</div>
+          <div class="font-mono text-[10px] text-cyan-400">當前鎖定身份</div>
           <div id="login-selected-card-title" class="text-sm sm:text-base font-black text-amber-300">🥤 全糖真傳弟子</div>
         </div>
         <div id="login-selected-card-perk" class="text-xs text-slate-300 font-mono">初始 12 顆 (臨界點)</div>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center">
+      <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-center">
         <div class="sm:col-span-5">
           <input id="login-player-name" type="text" placeholder="受測者暱稱" value="全糖受測員 #128"
-            class="w-full px-3 py-2 rounded-xl bg-slate-950/80 border border-slate-700 focus:border-amber-400 text-xs sm:text-sm font-bold text-white outline-none" />
+            class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 focus:border-amber-400 text-xs sm:text-sm font-bold text-white outline-none" />
         </div>
         <div class="sm:col-span-7 grid grid-cols-2 gap-2">
           <button onclick="window.LabApp.enterLabFrom3DLogin(1)"
-            class="liquid-glass-btn py-2 px-2.5 rounded-xl font-bold text-xs text-amber-200">
+            class="liquid-glass-btn py-2.5 px-3 rounded-xl font-bold text-xs text-amber-200">
             🏠 進入主頁
           </button>
           <button onclick="window.LabApp.enterLabFrom3DLogin(2)"
-            class="liquid-glass-amber py-2 px-2.5 rounded-xl text-slate-950 font-black text-xs shadow-lg">
+            class="liquid-glass-amber py-2.5 px-3 rounded-xl text-slate-950 font-black text-xs shadow-lg">
             🧪 直達第2頁測糖！
           </button>
         </div>
@@ -105,7 +89,7 @@
   </div>
 
   <!-- ========================================================================
-       2. TOP SYRUP OVERLOAD BANNER (糖分過高搖晃警報)
+       2. TOP SYRUP OVERLOAD BANNER
        ======================================================================== -->
   <div id="syrup-overload-banner" class="fixed top-0 left-0 right-0 z-[90] pointer-events-auto">
     <div
@@ -117,7 +101,7 @@
         </span>
       </div>
       <button onclick="window.LabApp.emergencyGreenTeaFlush()"
-        class="liquid-glass-emerald px-3 py-1 rounded-xl text-slate-950 font-mono text-xs font-black shadow transition-all">
+        class="liquid-glass-emerald px-3.5 py-1 rounded-xl text-slate-950 font-mono text-xs font-black shadow transition-all">
         💉 注射無糖綠茶 (停止晃動)
       </button>
     </div>
@@ -130,11 +114,11 @@
   </div>
 
   <!-- ========================================================================
-       3. STICKY LAB HUD HEADER & 4-PAGE SWITCHER TABS (頂部極簡導覽列)
+       3. STICKY LAB HUD HEADER
        ======================================================================== -->
-  <header class="sticky top-0 z-50 border-b border-amber-500/25 bg-[#060911]/90 backdrop-blur-xl">
+  <header class="sticky top-0 z-50 border-b border-amber-500/25 bg-[#050811]/90 backdrop-blur-xl">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2 flex items-center justify-between gap-2 flex-wrap">
-      <!-- Brand + 3D Card Portal Button -->
+      <!-- Brand + 3D Portal Reopen -->
       <div class="flex items-center gap-2">
         <button onclick="window.LabApp.switchLabPage(1)" class="flex items-center gap-2 text-left group">
           <div
@@ -153,7 +137,7 @@
         </button>
       </div>
 
-      <!-- Center 4-Page Switcher Tabs (文字精簡) -->
+      <!-- Center 4-Page Switcher Tabs -->
       <nav class="hidden lg:flex items-center gap-1 bg-slate-950/80 p-1 rounded-2xl border border-slate-800">
         <button id="top-page-tab-1" onclick="window.LabApp.switchLabPage(1)"
           class="liquid-glass-amber px-3 py-1.5 rounded-xl font-bold text-xs shadow transition-all">
@@ -173,7 +157,7 @@
         </button>
       </nav>
 
-      <!-- Right Sugar Counter + BGM Music Switch + Audio -->
+      <!-- Right Counters & Controls -->
       <div class="flex items-center gap-1.5 flex-wrap">
         <!-- Live Sugar Counter -->
         <div
@@ -183,7 +167,7 @@
           <span id="hud-sugar-grams" class="text-cyan-300">60g</span>
         </div>
 
-        <!-- BGM Background Music Controller (帶音波指示燈) -->
+        <!-- BGM Switcher with Equalizer Bars -->
         <button id="hud-bgm-btn" onclick="window.LabApp.toggleBgmMusic()"
           title="切換實驗室科幻背景環境音"
           class="liquid-glass-btn px-2.5 py-1 rounded-xl font-mono text-xs text-amber-300 font-bold flex items-center gap-1.5">
@@ -206,7 +190,7 @@
             class="px-2 py-0.5 rounded text-slate-300 font-mono text-[10px]">📱手機</button>
         </div>
 
-        <!-- SFX Sound -->
+        <!-- SFX -->
         <button id="hud-sound-btn" onclick="window.LabApp.toggleSound()"
           class="liquid-glass-btn px-2 py-1 rounded-xl font-mono text-xs text-amber-300">
           🔊
@@ -231,9 +215,9 @@
         </div>
         <div class="flex items-center gap-1.5">
           <button onclick="window.LabApp.triggerCreativeOverloadMode('wobble')"
-            class="liquid-glass-btn px-2 py-0.5 rounded text-amber-200">🥴 果凍晃動</button>
+            class="liquid-glass-btn px-2 py-0.5 rounded text-amber-200">🥴 晃動模式</button>
           <button onclick="window.LabApp.triggerCreativeOverloadMode('quake')"
-            class="liquid-glass-red px-2 py-0.5 rounded text-white font-bold">🚨 1L大地震</button>
+            class="liquid-glass-red px-2 py-0.5 rounded text-white font-bold">🚨 1L地震</button>
           <button onclick="window.LabApp.emergencyGreenTeaFlush()"
             class="liquid-glass-emerald px-2 py-0.5 rounded text-slate-950 font-bold">💉 無糖洗胃</button>
         </div>
@@ -242,18 +226,18 @@
   </header>
 
   <!-- ========================================================================
-       VIEWPORT SIMULATOR FRAME (Desktop, Tablet 820px, Mobile 412px)
+       VIEWPORT SIMULATOR FRAME
        ======================================================================== -->
   <div id="viewport-simulator-frame">
     <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-6">
 
       <!-- ====================================================================
-           PROMINENT MASCOT BROADCAST STAGE (立體升級版果糖怪，帶眼球追蹤)
+           PROMINENT MASCOT BROADCAST STAGE (果糖怪眼球動態追蹤)
            ==================================================================== -->
       <section id="prominent-mascot-stage"
         class="liquid-glass-card rounded-2xl sm:rounded-3xl p-3.5 sm:p-4.5 flex flex-col md:flex-row items-center justify-between gap-3 border-amber-400/40">
         <div class="flex items-center gap-3.5 w-full md:w-auto">
-          <!-- Interactive Upgraded Fructose Monster Avatar (Eyes track cursor!) -->
+          <!-- Interactive Upgraded Fructose Monster Avatar -->
           <button id="mascot-avatar-btn" onclick="window.LabApp.clickFructoseMonster()"
             title="點擊果糖怪餵糖！連擊10下解鎖隱藏 Level 15 彩蛋"
             class="w-14 h-14 sm:w-16 sm:h-16 shrink-0 focus:outline-none relative group cursor-pointer">
@@ -270,35 +254,27 @@
                   <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.1" />
                 </linearGradient>
               </defs>
-              <!-- Monster Crown -->
               <polygon points="50,12 60,2 70,12 65,18 55,18" fill="#FBBF24" stroke="#FFF" stroke-width="1.5" />
-              <!-- Jelly Body -->
               <path id="mascot-svg-body"
                 d="M60,16 C88,16 102,38 102,66 C102,88 110,104 95,108 C82,111 76,102 60,102 C44,102 38,111 25,108 C10,104 18,88 18,66 C18,38 32,16 60,16 Z"
                 fill="url(#monsterSyrupGrad)" stroke="#FEF08A" stroke-width="2.5" />
-              <!-- Body Highlight -->
               <ellipse cx="44" cy="38" rx="14" ry="7" fill="url(#monsterGlow)" transform="rotate(-20 44 38)" />
-              <!-- Left Eye White -->
               <circle cx="45" cy="54" r="10.5" fill="#FFFFFF" stroke="#78350F" stroke-width="2" />
-              <!-- Left Eye Pupil (Dynamic Tracking) -->
               <g id="mascot-pupil-left" class="mascot-pupil">
                 <circle cx="46" cy="54" r="4.8" fill="#0F172A" />
                 <circle cx="48" cy="52" r="1.6" fill="#FFFFFF" />
               </g>
-              <!-- Right Eye White -->
               <circle cx="75" cy="54" r="9.5" fill="#FFFFFF" stroke="#78350F" stroke-width="2" />
-              <!-- Right Eye Pupil (Dynamic Tracking) -->
               <g id="mascot-pupil-right" class="mascot-pupil">
                 <circle cx="74" cy="54" r="4.4" fill="#0F172A" />
                 <circle cx="76" cy="52" r="1.5" fill="#FFFFFF" />
               </g>
-              <!-- Mouth (Changes with sugar state) -->
               <path id="mascot-mouth-path" d="M44,73 Q60,88 76,73 Z" fill="#7F1D1D" stroke="#78350F" stroke-width="2" />
               <path d="M50,79 Q60,85 70,79" fill="#FB7185" />
             </svg>
           </button>
 
-          <!-- Speech Broadcast (文字精簡) -->
+          <!-- Speech Broadcast -->
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-1.5 flex-wrap mb-0.5">
               <span class="px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black text-[11px]">🍯 果糖怪廣播</span>
@@ -312,7 +288,7 @@
           </div>
         </div>
 
-        <!-- Overload Quick Buttons -->
+        <!-- Overload Buttons -->
         <div class="flex items-center gap-1.5 shrink-0 w-full md:w-auto justify-end border-t md:border-t-0 border-white/10 pt-2 md:pt-0">
           <button onclick="window.LabApp.triggerCreativeOverloadMode('wobble')"
             class="liquid-glass-btn px-2.5 py-1.5 rounded-xl font-mono text-xs text-amber-200 font-bold">
@@ -330,12 +306,11 @@
       </section>
 
       <!-- ====================================================================
-           PAGE 1: 實驗室主頁・理智天平與 15 階量筒 (#lab-page-1)
+           PAGE 1: 實驗室主頁・理智天平與折射儀 (#lab-page-1)
            ==================================================================== -->
-      <div id="lab-page-1" class="lab-page-view active-page space-y-8">
-        <!-- Hero & Scale -->
-        <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-          <div class="lg:col-span-7 space-y-4">
+      <div id="lab-page-1" class="lab-page-view active-page space-y-6">
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
+          <div class="lg:col-span-7 space-y-3.5">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-300 font-mono text-xs">
               <span>PAGE 01 // 實驗室主頁</span>
             </div>
@@ -349,7 +324,7 @@
             </p>
 
             <!-- 3-Step Formula Minimalist Capsules -->
-            <div class="liquid-glass-card rounded-2xl p-3.5">
+            <div class="liquid-glass-card rounded-2xl p-3">
               <div class="grid grid-cols-3 gap-2 text-center text-xs">
                 <div class="p-2 rounded-xl bg-slate-950/70 border border-cyan-500/30">
                   <div class="font-mono text-[9px] text-cyan-400">1. 問問題</div>
@@ -367,17 +342,17 @@
             </div>
 
             <!-- Page Quick Jumps -->
-            <div class="flex flex-wrap items-center gap-2 pt-1">
+            <div class="flex flex-wrap items-center gap-2 pt-0.5">
               <button onclick="window.LabApp.switchLabPage(2)"
-                class="liquid-glass-amber px-5 py-3 rounded-2xl font-black text-xs sm:text-sm shadow-xl transition-all">
+                class="liquid-glass-amber px-5 py-2.5 rounded-2xl font-black text-xs sm:text-sm shadow-xl transition-all">
                 🧪 前往第 2 頁：問問題測糖度 ➔
               </button>
               <button onclick="window.LabApp.switchLabPage(3)"
-                class="liquid-glass-btn px-3.5 py-3 rounded-2xl font-bold text-xs text-cyan-300">
+                class="liquid-glass-btn px-3.5 py-2.5 rounded-2xl font-bold text-xs text-cyan-300">
                 🖨️ 第3頁：收據＆PK
               </button>
               <button onclick="window.LabApp.switchLabPage(4)"
-                class="liquid-glass-btn px-3.5 py-3 rounded-2xl font-bold text-xs text-purple-300">
+                class="liquid-glass-btn px-3.5 py-2.5 rounded-2xl font-bold text-xs text-purple-300">
                 🎮 第4頁：遊樂場
               </button>
             </div>
@@ -386,7 +361,7 @@
           <!-- Right: Interactive Sugar Balance Scale -->
           <div class="lg:col-span-5">
             <div class="liquid-glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-5">
-              <div class="flex items-center justify-between border-b border-white/10 pb-2.5 mb-3">
+              <div class="flex items-center justify-between border-b border-white/10 pb-2.5 mb-2.5">
                 <div>
                   <span class="font-mono text-[10px] text-amber-400 font-bold block">SUGAR SCALE</span>
                   <h3 class="text-base font-black text-white">理智腦 🧠 vs. 方糖電子天平</h3>
@@ -404,7 +379,7 @@
                   <span class="text-amber-300">加糖測試晃動</span>
                 </div>
 
-                <div class="my-auto pt-4 relative">
+                <div class="my-auto pt-3 relative">
                   <div id="scale-beam"
                     class="w-4/5 mx-auto h-2 bg-gradient-to-r from-cyan-400 via-slate-300 to-amber-500 rounded-full transition-transform duration-500 relative">
                     <div class="absolute -left-3 -top-14 w-20 flex flex-col items-center">
@@ -426,7 +401,7 @@
                     0060.0 g (12顆)
                   </div>
                   <div id="scale-led-sub" class="font-mono text-[9px] text-slate-400">
-                    Lv.4 全糖創始人臨界點 (1顆=5g)
+                    Lv.4 全糖臨界點 (1顆=5g)
                   </div>
                 </div>
               </div>
@@ -453,31 +428,16 @@
           </div>
         </section>
 
-        <!-- Benchmark & Cylinder -->
-        <section class="space-y-4 pt-2">
+        <!-- Benchmark & Cylinder + Optical Refractometer -->
+        <section class="space-y-4 pt-1">
           <div class="flex items-center justify-between border-b border-white/10 pb-2">
-            <h3 class="text-lg sm:text-xl font-black text-white">手搖基準 ＆ 15 階果糖量筒</h3>
+            <h3 class="text-base sm:text-lg font-black text-white">手搖基準 ＆ 15 階量筒 ＆ 光學折射儀</h3>
           </div>
 
           <div id="beverage-benchmark-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5"></div>
 
-          <!-- ECG Monitor -->
-          <div class="liquid-glass-card rounded-2xl px-4 py-2.5 border-red-500/40 flex flex-col sm:flex-row items-center justify-between gap-2">
-            <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
-              <div class="font-mono text-xs text-red-300 font-bold">ECG 理智心電監視器 (12顆臨界)</div>
-            </div>
-            <div class="flex items-center gap-3">
-              <svg width="180" height="28" viewBox="0 0 400 50">
-                <path id="ecg-monitor-path" class="ecg-line-anim" fill="none" stroke="#EF4444" stroke-width="3"
-                  d="M0,25 L50,25 L65,12 L80,38 L95,4 L110,46 L125,18 L140,25 L210,25 L225,10 L240,40 L255,2 L270,48 L285,16 L300,25 L400,25" />
-              </svg>
-              <span id="ecg-bpm-readout" class="font-mono text-xs font-bold text-red-300">110 BPM</span>
-            </div>
-          </div>
-
-          <!-- Cylinder + Matrix -->
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <!-- Cylinder & Holographic Refractometer -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
             <div class="lg:col-span-4 liquid-glass-card rounded-2xl sm:rounded-3xl p-4 flex flex-col items-center">
               <div class="w-full flex items-center justify-between font-mono text-[11px] mb-2">
                 <span class="text-cyan-400 font-bold">1000mL 玻璃量筒</span>
@@ -485,7 +445,7 @@
               </div>
 
               <div
-                class="relative w-40 h-[380px] rounded-b-3xl rounded-t-lg border-4 border-sky-200/40 bg-slate-950/90 shadow-[inset_0_0_30px_rgba(56,189,248,0.2)] overflow-hidden cursor-pointer"
+                class="relative w-40 h-[360px] rounded-b-3xl rounded-t-lg border-4 border-sky-200/40 bg-slate-950/90 shadow-[inset_0_0_30px_rgba(56,189,248,0.2)] overflow-hidden cursor-pointer"
                 onclick="window.LabApp.injectSugarToScale(5, 'add')" title="點擊量筒快速注入果糖">
                 <div class="absolute top-0 bottom-0 left-2.5 w-2 bg-white/10 rounded-full z-20 pointer-events-none"></div>
                 <div id="cylinder-liquid" class="w-full absolute bottom-0 left-0 bg-gradient-to-t from-amber-500 to-orange-500" style="height: 35%;">
@@ -504,8 +464,28 @@
               </div>
             </div>
 
+            <!-- Interactive Optical Refractometer & Ladder Matrix -->
             <div class="lg:col-span-8 space-y-4">
-              <div id="ladder-detail-card" class="liquid-glass-card rounded-2xl sm:rounded-3xl p-5 border-amber-400/40"></div>
+              <!-- Holographic Optical Refractometer (全新高科技互動儀器) -->
+              <div class="liquid-glass-card rounded-2xl p-4 border-cyan-400/40 space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <span class="font-mono text-xs text-cyan-300 font-bold">🔬 光學果糖折射儀 (Holographic Brix Refractometer)</span>
+                  <span id="refractometer-brix-val" class="font-mono text-xs font-black text-amber-300">Brix: 12.0°Bx (臨界全糖)</span>
+                </div>
+                <div class="relative h-16 rounded-xl bg-slate-950/90 border border-white/10 overflow-hidden flex items-center justify-center p-2">
+                  <div id="refractometer-laser-beam" class="w-full h-1 bg-gradient-to-r from-cyan-400 via-amber-400 to-red-500 shadow-[0_0_12px_#06B6D4]"></div>
+                  <div id="refractometer-spectrum-disc" class="absolute w-12 h-12 rounded-full border-2 border-cyan-300 bg-cyan-500/20 flex items-center justify-center font-mono text-[10px] text-white">
+                    折射光
+                  </div>
+                </div>
+                <div class="flex items-center justify-between text-[11px] font-mono text-slate-400">
+                  <span>拖曳調校折射光譜：</span>
+                  <input type="range" min="0" max="65" value="12" step="1"
+                    oninput="window.LabApp.adjustRefractometer(this.value)" class="w-48 accent-cyan-400 cursor-pointer" />
+                </div>
+              </div>
+
+              <div id="ladder-detail-card" class="liquid-glass-card rounded-2xl sm:rounded-3xl p-4 border-amber-400/40"></div>
               <div class="liquid-glass-card rounded-xl p-3">
                 <div class="flex justify-between font-mono text-[11px] text-amber-300 mb-1.5">
                   <span>🎚️ 拖曳滑桿選擇果糖階梯 (Lv.0 ~ 14)：</span>
@@ -514,7 +494,7 @@
                   oninput="window.LabApp.selectLadderLevel(this.value, true)"
                   class="w-full accent-amber-400 cursor-pointer" />
               </div>
-              <div class="liquid-glass-card rounded-xl p-3.5">
+              <div class="liquid-glass-card rounded-xl p-3">
                 <div id="ladder-matrix-buttons" class="grid grid-cols-3 sm:grid-cols-5 gap-2"></div>
               </div>
             </div>
@@ -523,50 +503,66 @@
       </div>
 
       <!-- ====================================================================
-           PAGE 2: 核心問問題測糖度中心 ＋ 預留卡槽 (#lab-page-2)
+           PAGE 2: 核心問問題測糖度中心 (支援20/30/50/100題，選項不提前洩露糖度)
            ==================================================================== -->
-      <div id="lab-page-2" class="lab-page-view space-y-8">
-        <!-- Page 2 Header (極簡) -->
+      <div id="lab-page-2" class="lab-page-view space-y-6">
+        <!-- Header with Question Quantity Mode Switcher -->
         <div class="liquid-glass-card rounded-2xl sm:rounded-3xl p-5 border-amber-400/50 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
           <div>
             <span class="font-mono text-xs text-amber-400 font-bold uppercase">PAGE 02 // 核心功能</span>
             <h2 class="text-xl sm:text-3xl font-black text-white mt-0.5">🧪 問問題幫你（或朋友）測出糖度！</h2>
             <p class="text-xs text-slate-300 mt-0.5">
-              回答情境題或自由輸入經歷，立即測出方糖數量！
+              請依直覺選擇最真實的反應。**糖度將於全數作答完成後揭曉！**
             </p>
           </div>
-          <div class="flex items-center gap-2 shrink-0">
-            <button onclick="window.LabApp.toggleModal('add-question-modal', true)"
-              class="liquid-glass-emerald px-3.5 py-2 rounded-xl text-slate-950 font-mono text-xs font-black shadow">
-              ➕ 新增問題
-            </button>
+          <!-- Question Quantity Selector: 20題 / 30題 / 50題 / 100題 -->
+          <div class="flex flex-col sm:flex-row items-center gap-2 shrink-0">
+            <div class="flex items-center gap-1 p-1 rounded-xl bg-slate-950/80 border border-white/10 font-mono text-xs">
+              <span class="text-slate-400 px-1 text-[11px]">題數：</span>
+              <button id="q-mode-20" onclick="window.LabApp.setQuestionCountMode(20)"
+                class="quiz-mode-pill px-2.5 py-1 rounded-lg text-slate-300 active transition-all">20題</button>
+              <button id="q-mode-30" onclick="window.LabApp.setQuestionCountMode(30)"
+                class="quiz-mode-pill px-2.5 py-1 rounded-lg text-slate-300 transition-all">30題</button>
+              <button id="q-mode-50" onclick="window.LabApp.setQuestionCountMode(50)"
+                class="quiz-mode-pill px-2.5 py-1 rounded-lg text-slate-300 transition-all">50題</button>
+              <button id="q-mode-100" onclick="window.LabApp.setQuestionCountMode(100)"
+                class="quiz-mode-pill px-2.5 py-1 rounded-lg text-slate-300 transition-all">100題</button>
+            </div>
             <button onclick="window.LabApp.resetCalibrationQuiz()"
-              class="liquid-glass-btn px-3 py-2 rounded-xl font-mono text-xs text-slate-300">
-              🔄 重測
+              class="liquid-glass-btn px-3 py-1.5 rounded-xl font-mono text-xs text-slate-300">
+              🔄 重新作答
             </button>
           </div>
         </div>
 
         <!-- Part A: Quiz & Gauge -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
           <div class="lg:col-span-7 space-y-3.5">
             <div class="flex items-center justify-between flex-wrap gap-2">
-              <span class="font-mono text-xs text-cyan-300 font-bold">情境問答題（點選即測）</span>
-              <div id="calibration-step-dots" class="flex items-center gap-1"></div>
+              <span id="quiz-progress-text" class="font-mono text-xs text-cyan-300 font-bold">第 1 題 // 共 20 題</span>
+              <div id="calibration-step-dots" class="flex items-center gap-1 flex-wrap"></div>
             </div>
 
+            <!-- Quiz Box (Question & Options without visible cubes) -->
             <div id="calibration-quiz-box" class="space-y-3"></div>
 
-            <!-- Reserved Question Expansion Slots (預留擴充位) -->
-            <div class="space-y-2 pt-1">
-              <div class="flex items-center justify-between">
-                <span class="font-mono text-xs text-amber-400 font-bold">📌 預留問題擴充專區（可隨時補上）：</span>
-                <button onclick="window.LabApp.toggleModal('add-question-modal', true)"
-                  class="font-mono text-xs text-emerald-300 hover:underline">
-                  + 填寫新題目
+            <!-- Final Diagnosis Reveal Pod -->
+            <div id="quiz-final-reveal-box" class="hidden liquid-glass-card rounded-2xl p-4 border-amber-400 bg-amber-950/25 space-y-3">
+              <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                <span class="font-mono text-xs text-amber-300 font-bold">🎉 測驗完成！最終糖度診斷結果：</span>
+                <span id="final-sugar-verdict-tag" class="px-2 py-0.5 rounded bg-amber-400 text-slate-950 font-black text-xs">核定中</span>
+              </div>
+              <div class="text-sm text-white font-bold" id="final-sugar-verdict-desc"></div>
+              <div class="flex gap-2">
+                <button onclick="window.LabApp.switchLabPage(3)"
+                  class="liquid-glass-amber flex-1 py-2 rounded-xl text-slate-950 font-black text-xs">
+                  🖨️ 列印專屬臨床收據 ➔
+                </button>
+                <button onclick="window.LabApp.resetCalibrationQuiz()"
+                  class="liquid-glass-btn px-4 py-2 rounded-xl text-slate-300 text-xs">
+                  再測一次
                 </button>
               </div>
-              <div id="reserved-question-slots-box" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
             </div>
           </div>
 
@@ -574,8 +570,8 @@
           <div class="lg:col-span-5 space-y-3">
             <div class="liquid-glass-card rounded-2xl sm:rounded-3xl p-5 text-center">
               <div class="flex items-center justify-between font-mono text-xs text-slate-400 border-b border-white/10 pb-2 mb-3">
-                <span>SUGAR GAUGE</span>
-                <span class="text-amber-300">即時糖度計</span>
+                <span>DIAGNOSTIC STATUS</span>
+                <span class="text-cyan-300">答題進度即時監視</span>
               </div>
 
               <div class="relative w-44 h-44 mx-auto flex items-center justify-center">
@@ -585,37 +581,35 @@
                     stroke-dasharray="283" stroke-dashoffset="283" stroke-linecap="round"
                     style="transition: stroke-dashoffset 0.5s ease, stroke 0.3s ease;" />
                 </svg>
-                <div class="absolute inset-4 rounded-full bg-slate-950/90 border border-amber-500/25 flex flex-col items-center justify-center p-2">
-                  <span class="font-mono text-[9px] text-slate-400">測出糖度</span>
-                  <div id="quiz-gauge-cubes" class="font-mono text-2xl font-black text-amber-400 my-0.5">0 顆</div>
-                  <div id="quiz-gauge-grams" class="font-mono text-xs text-cyan-300">0 g</div>
-                  <div id="quiz-gauge-level" class="text-[10px] font-bold text-white px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 mt-1 max-w-[120px] truncate">
-                    Lv.0 無糖純潔
+                <div class="absolute inset-4 rounded-full bg-slate-950/90 border border-cyan-500/25 flex flex-col items-center justify-center p-2">
+                  <span class="font-mono text-[9px] text-slate-400">完成率</span>
+                  <div id="quiz-gauge-pct" class="font-mono text-2xl font-black text-cyan-300 my-0.5">0%</div>
+                  <div id="quiz-gauge-answered" class="font-mono text-xs text-amber-300">0 / 20 題</div>
+                  <div id="quiz-gauge-status" class="text-[10px] font-bold text-white px-2 py-0.5 rounded bg-cyan-500/20 border border-cyan-500/40 mt-1 max-w-[120px] truncate">
+                    作答中
                   </div>
                 </div>
               </div>
 
               <div class="mt-3 p-2.5 rounded-xl bg-slate-950/80 border border-white/10">
                 <div class="flex justify-between font-mono text-[10px] text-slate-400 mb-1.5">
-                  <span>🧊 方糖結晶池</span>
-                  <span class="text-amber-300">即時跳出</span>
+                  <span>🧊 方糖結晶池 (作答後揭露)</span>
+                  <span class="text-amber-300">保密中</span>
                 </div>
                 <div id="quiz-crystal-pool" class="min-h-[50px] flex flex-wrap justify-center items-end gap-1 p-0.5"></div>
               </div>
-
-              <div id="quiz-final-summary-box" class="hidden mt-3 p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-400/50 text-left text-xs"></div>
             </div>
           </div>
         </div>
 
-        <!-- Part B: Open Confession / Examples -->
+        <!-- Part B: Open Confession / Semantic Tester -->
         <div class="liquid-glass-card rounded-2xl sm:rounded-3xl p-5 space-y-4 border-cyan-500/35">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-white/10 pb-2.5">
             <div>
               <span class="font-mono text-xs text-cyan-400 font-bold">開放式輸入 ＆ 經典例子</span>
-              <h3 class="text-lg font-black text-white">輸入發生的事，或點選例子直接測糖！</h3>
+              <h3 class="text-base sm:text-lg font-black text-white">輸入發生的事，即刻分析糖度！</h3>
             </div>
-            <span id="ai-engine-mode-badge" class="font-mono text-[11px] px-2.5 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
+            <span class="font-mono text-[11px] px-2.5 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
               🧠 量子語意引擎
             </span>
           </div>
@@ -623,12 +617,6 @@
           <div>
             <div class="font-mono text-xs text-amber-300 font-bold mb-1.5">✨ 經典例子膠囊（點擊帶入）：</div>
             <div id="preset-capsules-box" class="flex flex-wrap gap-1.5"></div>
-          </div>
-
-          <!-- Reserved Example Slots -->
-          <div class="p-3 rounded-xl bg-slate-950/70 border border-dashed border-cyan-400/40 space-y-1.5">
-            <div class="font-mono text-xs text-cyan-300 font-bold">📌 預留例子位（之後可替換為您的新例子）：</div>
-            <div id="reserved-example-slots-box" class="flex flex-wrap gap-1.5"></div>
           </div>
 
           <div>
@@ -647,13 +635,6 @@
 
           <div id="scene-multipliers-box" class="grid grid-cols-2 lg:grid-cols-4 gap-2"></div>
 
-          <div id="scan-stage-wrapper" class="hidden p-3 rounded-xl bg-slate-950 border border-cyan-500/40 space-y-1.5">
-            <div id="scan-stage-text" class="font-mono text-xs text-cyan-300 animate-pulse">分析語意張力中...</div>
-            <div class="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden">
-              <div id="scan-stage-bar" class="h-full bg-gradient-to-r from-cyan-400 via-amber-400 to-emerald-400 transition-all duration-300" style="width: 33%"></div>
-            </div>
-          </div>
-
           <button onclick="window.LabApp.runSemanticEngine()"
             class="liquid-glass-amber w-full py-3.5 rounded-2xl text-slate-950 font-black text-sm shadow-xl transition-all">
             ⚡ 立即測出糖度 ＆ 列印診斷收據 ➔
@@ -662,10 +643,10 @@
       </div>
 
       <!-- ====================================================================
-           PAGE 3: 診斷收據 ＆ 男宿室友雙人 PK (#lab-page-3)
+           PAGE 3: 診斷收據 ＆ 雙人社交審判擂台 (#lab-page-3)
            ==================================================================== -->
-      <div id="lab-page-3" class="lab-page-view space-y-8">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <div id="lab-page-3" class="lab-page-view space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
           <!-- Left: Thermal Receipt -->
           <div class="lg:col-span-5">
             <div class="mb-2">
@@ -704,23 +685,24 @@
             </div>
           </div>
 
-          <!-- Right: Roommate PK Battle -->
+          <!-- Right: Social Duel Arena (無男宿字眼) -->
           <div class="lg:col-span-7 space-y-4">
             <div>
               <span class="font-mono text-xs text-cyan-400 font-bold">PAGE 03-B</span>
-              <h2 class="text-xl font-black text-white">⚔️ 室友雙人 PK 擂台：誰最社死？</h2>
+              <h2 class="text-xl font-black text-white">⚔️ 全糖雙人社交審判擂台</h2>
+              <p class="text-xs text-slate-400 mt-0.5">雙方各自輸入最蠢的經歷，中央天平一決高下！</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div class="liquid-glass-card rounded-xl p-3.5 space-y-2 border-cyan-400/40">
                 <div class="flex items-center justify-between">
-                  <span class="font-mono text-xs font-extrabold text-cyan-400">PLAYER A</span>
+                  <span class="font-mono text-xs font-extrabold text-cyan-400">CHALLENGER A</span>
                   <button onclick="window.LabApp.drawRandomPkAct('A')"
                     class="liquid-glass-btn px-2 py-0.5 rounded font-mono text-[10px] text-cyan-200">
                     🎲 抽題
                   </button>
                 </div>
-                <input id="pk-name-a" type="text" value="404上舖阿哲"
+                <input id="pk-name-a" type="text" value="受測者 A"
                   class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-xs font-bold text-white" />
                 <textarea id="pk-input-a" rows="2"
                   class="w-full p-2 rounded-lg bg-slate-950 border border-slate-700 text-xs text-slate-200"></textarea>
@@ -732,13 +714,13 @@
 
               <div class="liquid-glass-card rounded-xl p-3.5 space-y-2 border-amber-400/40">
                 <div class="flex items-center justify-between">
-                  <span class="font-mono text-xs font-extrabold text-amber-400">PLAYER B</span>
+                  <span class="font-mono text-xs font-extrabold text-amber-400">CHALLENGER B</span>
                   <button onclick="window.LabApp.drawRandomPkAct('B')"
                     class="liquid-glass-btn px-2 py-0.5 rounded font-mono text-[10px] text-amber-200">
                     🎲 抽題
                   </button>
                 </div>
-                <input id="pk-name-b" type="text" value="404下舖冠宇"
+                <input id="pk-name-b" type="text" value="受測者 B"
                   class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-xs font-bold text-white" />
                 <textarea id="pk-input-b" rows="2"
                   class="w-full p-2 rounded-lg bg-slate-950 border border-slate-700 text-xs text-slate-200"></textarea>
@@ -770,109 +752,91 @@
       </div>
 
       <!-- ====================================================================
-           PAGE 4: 遊樂場 ＆ 社死榮譽榜 (#lab-page-4)
+           PAGE 4: 全新高級遊樂場（量子裂變 × 超低溫提煉 × 神經元調諧）(#lab-page-4)
            ==================================================================== -->
-      <div id="lab-page-4" class="lab-page-view space-y-8">
+      <div id="lab-page-4" class="lab-page-view space-y-6">
         <div class="space-y-4">
           <div>
-            <span class="font-mono text-xs text-emerald-400 font-bold">PAGE 04-A</span>
-            <h2 class="text-xl sm:text-2xl font-black text-white">🎮 互動遊樂場：搖珍奶 × 打蟑螂 × 治癒槽</h2>
+            <span class="font-mono text-xs text-emerald-400 font-bold">PAGE 04-A // ADVANCED LAB APPARATUS</span>
+            <h2 class="text-xl sm:text-2xl font-black text-white">🎮 高級實驗儀器遊樂場：量子裂變 × 超低溫提煉 × 神經元調諧</h2>
           </div>
 
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <!-- Boba Shaker -->
-            <div class="liquid-glass-card rounded-2xl p-4 flex flex-col justify-between space-y-3">
-              <div>
-                <div class="flex items-center justify-between font-mono text-xs text-amber-400 mb-1">
-                  <span>BOBA LAB</span>
-                  <span id="boba-cup-total" class="font-extrabold">34 顆</span>
-                </div>
-                <h3 class="text-base font-black text-white">1. 全糖雪克杯</h3>
-                <div class="my-3 flex items-center justify-center">
-                  <div id="boba-visual-cup"
-                    class="w-20 h-28 rounded-b-2xl rounded-t-lg border-2 border-amber-300 bg-gradient-to-t from-amber-900 via-amber-500 to-yellow-200 flex flex-col items-center justify-end p-2 shadow-lg cursor-pointer"
-                    onclick="window.LabApp.shakeBobaCupAndDrink()">
-                    <div class="text-base">⚫🟣🍮⚫</div>
-                    <span class="font-mono text-[9px] font-black text-slate-950 bg-white/90 px-1.5 rounded mt-0.5">全糖</span>
-                  </div>
-                </div>
-                <div id="boba-toppings-list" class="space-y-1 text-xs"></div>
-              </div>
-              <button onclick="window.LabApp.shakeBobaCupAndDrink()"
-                class="liquid-glass-amber w-full py-2.5 rounded-xl text-slate-950 font-mono text-xs font-black">
-                🧋 瘋狂搖晃乾杯！
-              </button>
-            </div>
-
-            <!-- Cockroach Mini-Game -->
+            <!-- 遊戲 1: 量子果糖裂變反應爐 -->
             <div class="liquid-glass-card rounded-2xl p-4 flex flex-col justify-between space-y-3">
               <div>
                 <div class="flex items-center justify-between font-mono text-xs text-cyan-400 mb-1">
-                  <span>DORM 02:30 AM</span>
-                  <span id="roach-time" class="text-amber-300 font-extrabold">15s</span>
+                  <span>QUANTUM REACTOR</span>
+                  <span id="quantum-stability" class="font-black text-emerald-300">穩定度: 100%</span>
                 </div>
-                <h3 class="text-base font-black text-white">2. 藍白拖打飛天蟑螂</h3>
-                <div class="font-mono text-[11px] text-emerald-300" id="roach-hits">擊殺: 0 隻 ｜ 誤擊宿管: 0 次</div>
-                <div id="roach-game-arena"
-                  class="mt-2.5 h-40 rounded-xl bg-slate-950 border border-slate-800 relative overflow-hidden flex items-center justify-center">
-                  <div class="text-center font-mono text-xs text-slate-500">點擊下方啟動 15 秒打蟑螂！</div>
+                <h3 class="text-base font-black text-white">1. 量子果糖裂變反應爐</h3>
+                <p class="text-xs text-slate-400 mt-0.5">點選發光的能量節點穩定晶格，防止融毀！</p>
+                <div class="my-3 h-44 rounded-2xl bg-slate-950/90 border border-cyan-500/30 relative overflow-hidden flex items-center justify-center" id="quantum-reactor-arena">
+                  <!-- Nodes generated by JS -->
                 </div>
               </div>
-              <button id="roach-start-btn" onclick="window.LabApp.startCockroachMiniGame()"
+              <button onclick="window.LabApp.resetQuantumReactor()"
                 class="liquid-glass-cyan w-full py-2.5 rounded-xl text-cyan-200 font-mono text-xs font-black">
-                🩴 啟動 15 秒生存戰
+                ⚛️ 重啟量子反應爐節點
               </button>
             </div>
 
-            <!-- Social Healing -->
+            <!-- 遊戲 2: 全息超低溫焦糖提煉儀 -->
             <div class="liquid-glass-card rounded-2xl p-4 flex flex-col justify-between space-y-3">
-              <div class="space-y-2.5">
-                <div class="flex items-center justify-between font-mono text-xs text-emerald-400">
-                  <span>HEALING REACTOR</span>
-                  <span>科技 × 幽默</span>
+              <div>
+                <div class="flex items-center justify-between font-mono text-xs text-amber-400 mb-1">
+                  <span>CRYOGENIC DISTILLER</span>
+                  <span id="distiller-purity" class="font-black text-amber-300">純度: 99.8%</span>
                 </div>
-                <h3 class="text-base font-black text-white">3. 社交治癒反應爐</h3>
-                <div class="grid grid-cols-3 gap-2 items-center text-center">
-                  <div class="p-1.5 rounded-lg bg-slate-950/80 border border-cyan-500/30">
-                    <div class="w-10 h-12 mx-auto rounded-b border border-cyan-400 relative overflow-hidden bg-slate-900">
-                      <div id="beaker-a-liquid" class="w-full absolute bottom-0 bg-cyan-400" style="height:50%"></div>
-                    </div>
-                    <div class="font-mono text-[9px] text-cyan-300 mt-1">科技 <span id="beaker-a-pct">50%</span></div>
-                    <input id="reactor-slider-a" type="range" min="10" max="100" value="50"
-                      oninput="window.LabApp.updateHealingReactor()" class="w-full accent-cyan-400" />
+                <h3 class="text-base font-black text-white">2. 全息超低溫焦糖提煉儀</h3>
+                <p class="text-xs text-slate-400 mt-0.5">調節雷射冷卻溫度，萃取超純高結晶琥珀糖！</p>
+                <div class="my-3 h-44 rounded-2xl bg-slate-950/90 border border-amber-500/30 relative overflow-hidden flex flex-col items-center justify-between p-3">
+                  <div class="w-16 h-16 rounded-full border-2 border-amber-400/80 bg-amber-500/20 flex items-center justify-center font-mono text-xs font-black text-amber-200 shadow-[0_0_20px_#f59e0b]">
+                    <span id="distiller-temp-display">-196°C</span>
                   </div>
-                  <div>
-                    <div class="w-12 h-12 mx-auto rounded-full border-2 border-emerald-400 relative overflow-hidden bg-slate-950 flex items-center justify-center">
-                      <div id="reactor-center-liquid" class="w-full absolute bottom-0 bg-gradient-to-t from-emerald-500 to-amber-300" style="height:50%"></div>
-                      <span class="relative z-10 text-[10px] font-black text-slate-950 bg-white/90 px-1 rounded">治癒</span>
-                    </div>
+                  <div class="amber-drip-drop w-3 h-3 rounded-full bg-amber-400 shadow-[0_0_10px_#f59e0b]"></div>
+                  <div class="w-full flex items-center justify-between text-[11px] font-mono text-amber-300">
+                    <span>萃取滴數：</span>
+                    <span id="distiller-drips-count" class="font-extrabold text-white">12 滴</span>
                   </div>
-                  <div class="p-1.5 rounded-lg bg-slate-950/80 border border-amber-500/30">
-                    <div class="w-10 h-12 mx-auto rounded-b border border-amber-400 relative overflow-hidden bg-slate-900">
-                      <div id="beaker-b-liquid" class="w-full absolute bottom-0 bg-amber-400" style="height:50%"></div>
-                    </div>
-                    <div class="font-mono text-[9px] text-amber-300 mt-1">幽默 <span id="beaker-b-pct">50%</span></div>
-                    <input id="reactor-slider-b" type="range" min="10" max="100" value="50"
-                      oninput="window.LabApp.updateHealingReactor()" class="w-full accent-amber-400" />
-                  </div>
-                </div>
-                <div class="p-2.5 rounded-xl bg-slate-950/80 border border-white/10 flex items-center justify-between">
-                  <div class="font-mono text-xs text-cyan-300 font-extrabold" id="mic-db-value">聲納: 36 dB</div>
-                  <button id="mic-toggle-btn" onclick="window.LabApp.toggleMicSensor()"
-                    class="liquid-glass-btn px-2.5 py-1 rounded font-mono text-[11px] text-cyan-200">
-                    🎙️ 測慘叫
-                  </button>
                 </div>
               </div>
-              <button onclick="window.LabApp.synthesizeSocialHealing()"
-                class="liquid-glass-emerald w-full py-2.5 rounded-xl text-slate-950 font-mono text-xs font-black">
-                ⚗️ 治癒中和 (方糖減半)
+              <button onclick="window.LabApp.distillCaramelDrop()"
+                class="liquid-glass-amber w-full py-2.5 rounded-xl text-slate-950 font-mono text-xs font-black">
+                ✨ 萃取一滴高純結晶
+              </button>
+            </div>
+
+            <!-- 遊戲 3: 神經元腦波音頻調諧儀 -->
+            <div class="liquid-glass-card rounded-2xl p-4 flex flex-col justify-between space-y-3">
+              <div>
+                <div class="flex items-center justify-between font-mono text-xs text-purple-400 mb-1">
+                  <span>NEURAL RESONATOR</span>
+                  <span id="neural-freq-readout" class="font-black text-purple-300">432 Hz</span>
+                </div>
+                <h3 class="text-base font-black text-white">3. 神經元音頻調諧儀</h3>
+                <p class="text-xs text-slate-400 mt-0.5">實時音頻示波器，重構心靈頻率！</p>
+                <div class="my-3 h-44 rounded-2xl bg-slate-950/90 border border-purple-500/30 relative overflow-hidden flex flex-col justify-between p-2.5">
+                  <canvas id="neural-oscilloscope-canvas" width="280" height="90" class="w-full h-24 rounded-lg bg-black/80 border border-purple-500/20"></canvas>
+                  <div class="space-y-1">
+                    <div class="flex justify-between font-mono text-[10px] text-purple-300">
+                      <span>調諧頻率：</span>
+                      <span id="neural-slider-text">432 Hz (Alpha 舒緩)</span>
+                    </div>
+                    <input id="neural-freq-slider" type="range" min="110" max="880" value="432" step="1"
+                      oninput="window.LabApp.adjustNeuralFrequency(this.value)" class="w-full accent-purple-400 cursor-pointer" />
+                  </div>
+                </div>
+              </div>
+              <button onclick="window.LabApp.playNeuralResonanceChime()"
+                class="liquid-glass-btn w-full py-2.5 rounded-xl font-mono text-xs text-purple-200 font-bold">
+                🔮 觸發神經元諧振波
               </button>
             </div>
           </div>
         </div>
 
-        <!-- Hall of Shame -->
+        <!-- Hall of Shame (無男宿) -->
         <div class="space-y-4 pt-2">
           <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-white/10 pb-2">
             <div>
@@ -881,8 +845,8 @@
             </div>
             <div class="flex flex-wrap gap-1 font-mono text-xs">
               <button onclick="window.LabApp.filterHallOfShame('ALL')" class="liquid-glass-btn px-2.5 py-1 rounded-lg text-amber-300">全部</button>
-              <button onclick="window.LabApp.filterHallOfShame('尊稱錯亂')" class="liquid-glass-btn px-2.5 py-1 rounded-lg text-slate-300">稱謂</button>
-              <button onclick="window.LabApp.filterHallOfShame('男宿暴露')" class="liquid-glass-btn px-2.5 py-1 rounded-lg text-slate-300">男宿</button>
+              <button onclick="window.LabApp.filterHallOfShame('稱謂錯亂')" class="liquid-glass-btn px-2.5 py-1 rounded-lg text-slate-300">稱謂</button>
+              <button onclick="window.LabApp.filterHallOfShame('穿著失誤')" class="liquid-glass-btn px-2.5 py-1 rounded-lg text-slate-300">穿著</button>
               <button onclick="window.LabApp.filterHallOfShame('生化氣味')" class="liquid-glass-btn px-2.5 py-1 rounded-lg text-slate-300">生化</button>
               <button onclick="window.LabApp.filterHallOfShame('數位擴散')" class="liquid-glass-btn px-2.5 py-1 rounded-lg text-slate-300">數位</button>
             </div>
@@ -895,10 +859,10 @@
   </div>
 
   <!-- ========================================================================
-       MOBILE & TABLET BOTTOM 4-PAGE SWITCHER BAR (防遮擋保護)
+       MOBILE & TABLET BOTTOM 4-PAGE SWITCHER BAR
        ======================================================================== -->
   <nav id="mobile-bottom-nav"
-    class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#060911]/95 backdrop-blur-xl border-t border-amber-500/35 px-2 py-1.5 grid grid-cols-4 gap-1 text-[11px] font-bold shadow-[0_-8px_25px_rgba(0,0,0,0.8)]">
+    class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#050811]/95 backdrop-blur-xl border-t border-amber-500/35 px-2 py-1.5 grid grid-cols-4 gap-1 text-[11px] font-bold shadow-[0_-8px_25px_rgba(0,0,0,0.8)]">
     <button id="mob-page-tab-1" onclick="window.LabApp.switchLabPage(1)"
       class="flex flex-col items-center gap-0.5 px-2 py-1 rounded-xl bg-amber-400/20 text-amber-300 border border-amber-400/50 font-black">
       <span class="text-base leading-none">🏠</span>
@@ -921,58 +885,10 @@
     </button>
   </nav>
 
-  <!-- ========================================================================
-       MODAL: ADD CUSTOM QUESTION
-       ======================================================================== -->
-  <div id="add-question-modal"
-    class="hidden fixed inset-0 z-[115] bg-black/80 backdrop-blur-md flex items-center justify-center p-3">
-    <div class="liquid-glass-card rounded-3xl max-w-sm w-full p-5 space-y-3 relative border-amber-400/50">
-      <button onclick="window.LabApp.toggleModal('add-question-modal', false)"
-        class="absolute top-3.5 right-3.5 text-slate-400 hover:text-white font-mono text-sm">✕</button>
-      <div>
-        <span class="font-mono text-[10px] text-amber-400 font-bold">CUSTOM QUESTION</span>
-        <h3 class="text-lg font-black text-white">新增自訂測糖題目</h3>
-      </div>
-      <div class="space-y-2 text-xs">
-        <div>
-          <label class="block font-mono text-slate-300 mb-0.5">場景標籤：</label>
-          <input id="new-q-scene" type="text" placeholder="例：SCENE 06 // 迎新晚會"
-            class="w-full p-2 rounded-xl bg-slate-950 border border-slate-700 text-white" />
-        </div>
-        <div>
-          <label class="block font-mono text-slate-300 mb-0.5">問題情境：</label>
-          <textarea id="new-q-title" rows="2" placeholder="輸入你想問別人的情境..."
-            class="w-full p-2 rounded-xl bg-slate-950 border border-slate-700 text-white"></textarea>
-        </div>
-        <div>
-          <label class="block font-mono text-slate-300 mb-0.5">選項 A (+3顆)：</label>
-          <input id="new-q-opt-a" type="text" placeholder="裝沒事走人"
-            class="w-full p-1.5 rounded-xl bg-slate-950 border border-slate-700 text-white" />
-        </div>
-        <div>
-          <label class="block font-mono text-slate-300 mb-0.5">選項 B (+12顆)：</label>
-          <input id="new-q-opt-b" type="text" placeholder="臉紅結巴不知所措"
-            class="w-full p-1.5 rounded-xl bg-slate-950 border border-slate-700 text-white" />
-        </div>
-        <div>
-          <label class="block font-mono text-slate-300 mb-0.5">選項 C (+45顆)：</label>
-          <input id="new-q-opt-c" type="text" placeholder="直接社死成為焦點"
-            class="w-full p-1.5 rounded-xl bg-slate-950 border border-slate-700 text-white" />
-        </div>
-      </div>
-      <div class="flex justify-end gap-2 pt-1">
-        <button onclick="window.LabApp.toggleModal('add-question-modal', false)"
-          class="liquid-glass-btn px-3 py-1.5 rounded-xl text-xs text-slate-300">取消</button>
-        <button onclick="window.LabApp.saveCustomQuestionFromModal()"
-          class="liquid-glass-amber px-4 py-1.5 rounded-xl text-slate-950 font-black text-xs">儲存題目</button>
-      </div>
-    </div>
-  </div>
-
   <!-- Scripts with cache busters -->
-  <script src="data.js?v=5.1.3"></script>
-  <script src="audio.js?v=5.1.3"></script>
-  <script src="app.js?v=5.1.3"></script>
+  <script src="data.js?v=5.2.0"></script>
+  <script src="audio.js?v=5.2.0"></script>
+  <script src="app.js?v=5.2.0"></script>
 </body>
 
 </html>
