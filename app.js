@@ -14,6 +14,9 @@
     activePage: 1, // 1: 主頁量筒天平 | 2: 問問題測糖度(核心頁) | 3: 診斷收據與室友PK | 4: 遊樂場與榮譽榜
     carouselIndex: 0,
     carouselAngle: 0,
+    carouselAutoRotate: true,
+    carouselRafId: null,
+    carouselPausedByHover: false,
     playerName: '全糖受測員 #128',
     playerCard: DATA.loginIdentityCards[0],
     globalSugarCubes: 12,
@@ -156,7 +159,7 @@
     const count = cards.length;
     const stepDeg = 360 / count;
     const isMobile = window.innerWidth < 640;
-    const radius = isMobile ? 205 : 265;
+    const radius = isMobile ? 200 : 260;
 
     ring.innerHTML = cards.map((c, idx) => {
       const isSelected = idx === appState.carouselIndex;
@@ -166,29 +169,84 @@
              style="transform: rotateY(${angle}deg) translateZ(${radius}px);"
              class="card-3d-item ${isSelected ? 'active-3d-card' : ''}">
           <div>
-            <div class="flex items-center justify-between font-mono text-[10px] text-slate-400 mb-2">
+            <div class="flex items-center justify-between font-mono text-[9px] text-slate-400 mb-1.5">
               <span style="color:${c.accent}" class="font-bold">${c.code}</span>
-              <span class="px-1.5 py-0.5 rounded bg-slate-800 text-amber-300">${c.initCubes} 顆起跳</span>
+              <span class="px-1.5 py-0.5 rounded bg-slate-800 text-amber-300 font-mono">${c.initCubes} 顆</span>
             </div>
-            <div class="w-14 h-14 rounded-2xl mx-auto my-2 flex items-center justify-center text-3xl border"
+            <div class="w-12 h-12 rounded-2xl mx-auto my-1.5 flex items-center justify-center text-2xl border"
                  style="background:${c.accent}22; border-color:${c.accent}">
               ${c.icon}
             </div>
-            <h3 class="text-base font-black text-white text-center leading-snug">${c.title}</h3>
-            <p class="text-[11px] text-slate-400 text-center mt-0.5">${c.subtitle}</p>
+            <h3 class="text-sm sm:text-base font-black text-white text-center leading-tight">${c.title}</h3>
+            <p class="text-[10px] text-slate-400 text-center mt-0.5 font-mono">${c.subtitle}</p>
           </div>
 
-          <div class="space-y-2">
-            <div class="p-2 rounded-xl bg-slate-950/90 border border-slate-800 text-[11px] text-slate-300 leading-snug">
-              <strong class="text-amber-300">專屬特性：</strong>${c.perk}
+          <div class="space-y-1.5 mt-2">
+            <div class="p-1.5 rounded-xl bg-slate-950/80 border border-white/10 text-[10px] text-slate-300 leading-snug">
+              <strong class="text-amber-300">特性：</strong>${c.perk}
             </div>
-            <div class="text-[10px] italic text-cyan-300 text-center">${c.quote}</div>
+            <div class="text-[9px] italic text-cyan-300 text-center truncate">${c.quote}</div>
           </div>
         </div>
       `;
     }).join('');
 
     updateSelected3DCardSummary();
+  }
+
+  // 3D 卡牌平滑自動旋轉
+  function start3DAutoOrbit() {
+    if (appState.carouselRafId) return;
+    let lastTime = performance.now();
+    function orbitStep(time) {
+      const delta = Math.min(64, time - lastTime);
+      lastTime = time;
+      if (appState.carouselAutoRotate && !appState.carouselPausedByHover) {
+        // 每秒旋轉 ~16 度，平滑優雅
+        appState.carouselAngle -= 0.026 * delta;
+        const ring = document.getElementById('carousel-3d-ring');
+        if (ring) {
+          ring.style.transform = `rotateY(${appState.carouselAngle}deg)`;
+        }
+        const count = DATA.loginIdentityCards.length;
+        const stepDeg = 360 / count;
+        let normAngle = (-appState.carouselAngle) % 360;
+        if (normAngle < 0) normAngle += 360;
+        const nearestIdx = Math.round(normAngle / stepDeg) % count;
+        if (nearestIdx !== appState.carouselIndex) {
+          appState.carouselIndex = nearestIdx;
+          highlightActive3DCard(nearestIdx);
+          updateSelected3DCardSummary();
+        }
+      }
+      appState.carouselRafId = requestAnimationFrame(orbitStep);
+    }
+    appState.carouselRafId = requestAnimationFrame(orbitStep);
+  }
+
+  function stop3DAutoOrbit() {
+    if (appState.carouselRafId) {
+      cancelAnimationFrame(appState.carouselRafId);
+      appState.carouselRafId = null;
+    }
+  }
+
+  function toggle3DAutoRotate() {
+    appState.carouselAutoRotate = !appState.carouselAutoRotate;
+    const btn = document.getElementById('carousel-auto-toggle-btn');
+    if (btn) {
+      btn.innerHTML = appState.carouselAutoRotate
+        ? `<span>⏸️ 自動旋轉: 開</span>`
+        : `<span>▶️ 自動旋轉: 關</span>`;
+    }
+    showToast('3D 卡牌', appState.carouselAutoRotate ? '自動旋轉已啟動' : '自動旋轉已暫停', 'cyan');
+  }
+
+  function highlightActive3DCard(activeIdx) {
+    const cardItems = document.querySelectorAll('.card-3d-item');
+    cardItems.forEach((card, idx) => {
+      card.classList.toggle('active-3d-card', idx === activeIdx);
+    });
   }
 
   function rotate3DCarousel(deltaStep) {
@@ -201,8 +259,9 @@
     if (ring) {
       ring.style.transform = `rotateY(${appState.carouselAngle}deg)`;
     }
-    window.labAudio.playSugarDrop(1);
-    render3DCarouselCards();
+    window.labAudio.playCardSwipe();
+    highlightActive3DCard(appState.carouselIndex);
+    updateSelected3DCardSummary();
   }
 
   function select3DCard(targetIndex) {
@@ -215,11 +274,12 @@
 
   function updateSelected3DCardSummary() {
     const card = DATA.loginIdentityCards[appState.carouselIndex];
+    if (!card) return;
     appState.playerCard = card;
     const titleEl = document.getElementById('login-selected-card-title');
     const perkEl = document.getElementById('login-selected-card-perk');
-    if (titleEl) titleEl.textContent = `${card.icon} ${card.title}（初始 ${card.initCubes} 顆方糖）`;
-    if (perkEl) perkEl.textContent = card.perk;
+    if (titleEl) titleEl.textContent = `${card.icon} ${card.title}`;
+    if (perkEl) perkEl.textContent = `初始 ${card.initCubes} 顆 (${card.perk})`;
   }
 
   function enterLabFrom3DLogin(targetPage = 1) {
@@ -241,10 +301,17 @@
       toggleRootMode();
     }
 
+    // 自動啟動環境背景音 (若尚未播放)
+    if (window.labAudio && !window.labAudio.bgmPlaying && appState.soundEnabled) {
+      window.labAudio.startBGM();
+      const eqBars = document.getElementById('hud-eq-bars');
+      if (eqBars) eqBars.classList.remove('eq-paused');
+    }
+
     window.labAudio.playVictoryFanfare();
     setGlobalSugarCubes(appState.playerCard.initCubes, { syncLadder: true });
     switchLabPage(targetPage);
-    broadcastMascotMessage(`歡迎【${appState.playerName}】持「${appState.playerCard.title}」進入全糖量測所！點擊上方可隨時切換第 1~4 頁，或直接去第 2 頁開始問問題測糖度！`);
+    broadcastMascotMessage(`歡迎【${appState.playerName}】！點上方切換頁面，或去第 2 頁問問題測糖度！`);
   }
 
   function reopen3DLoginPortal() {
@@ -452,18 +519,31 @@
       quote.textContent = q;
       quote.dataset.ready = '1';
     }
+
+    // 動態更新果糖怪表情嘴形
+    const mouth = document.getElementById('mascot-mouth-path');
+    if (mouth) {
+      if (appState.easterEggUnlocked || appState.globalSugarCubes >= 100) {
+        mouth.setAttribute('d', 'M40,70 Q60,102 80,70 Z'); // 大笑驚呼
+      } else if (appState.globalSugarCubes >= 12) {
+        mouth.setAttribute('d', 'M42,72 Q60,92 78,72 Z'); // 興奮張嘴
+      } else {
+        mouth.setAttribute('d', 'M44,74 Q60,86 76,74 Z'); // 正常微甜微笑
+      }
+    }
   }
 
   function clickFructoseMonster() {
     appState.monsterClicks += 1;
     const btn = document.getElementById('mascot-avatar-btn');
     if (btn) {
-      btn.classList.remove('jelly-bounce');
+      btn.classList.remove('jelly-squish', 'jelly-bounce');
       void btn.offsetWidth;
-      btn.classList.add('jelly-bounce');
+      btn.classList.add('jelly-squish');
     }
 
-    window.labAudio.playBubble();
+    window.labAudio.playJellySquish();
+    window.labAudio.playSugarDrop(1);
     setGlobalSugarCubes(appState.globalSugarCubes + 1, { syncLadder: false });
     updateMascotUI(true);
 
@@ -1898,11 +1978,113 @@
   }
 
   // ========================================================================
+  // FLUID DYNAMIC CURSOR & MASCOT EYE TRACKING (自訂流體動態游標與眼睛追蹤)
+  // ========================================================================
+  function initCustomFluidCursor() {
+    const dot = document.getElementById('custom-cursor-dot');
+    const ring = document.getElementById('custom-cursor-ring');
+    if (!dot || !ring) return;
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX = mouseX;
+    let ringY = mouseY;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.left = `${mouseX}px`;
+      dot.style.top = `${mouseY}px`;
+      updateMascotEyes(mouseX, mouseY);
+    });
+
+    function renderCursorRing() {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      ring.style.left = `${ringX}px`;
+      ring.style.top = `${ringY}px`;
+      requestAnimationFrame(renderCursorRing);
+    }
+    requestAnimationFrame(renderCursorRing);
+
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.closest('button, a, input, textarea, select, [role="button"], .card-3d-item, .cursor-pointer, .liquid-glass-btn')) {
+        document.body.classList.add('cursor-is-hovering');
+      }
+    });
+
+    document.addEventListener('mouseout', (e) => {
+      if (e.target.closest('button, a, input, textarea, select, [role="button"], .card-3d-item, .cursor-pointer, .liquid-glass-btn')) {
+        document.body.classList.remove('cursor-is-hovering');
+      }
+    });
+
+    document.addEventListener('mousedown', () => {
+      document.body.classList.add('cursor-is-clicking');
+    });
+
+    document.addEventListener('mouseup', () => {
+      document.body.classList.remove('cursor-is-clicking');
+    });
+  }
+
+  function updateMascotEyes(mouseX, mouseY) {
+    const mascotBtn = document.getElementById('mascot-avatar-btn');
+    const pupilLeft = document.getElementById('mascot-pupil-left');
+    const pupilRight = document.getElementById('mascot-pupil-right');
+    if (!mascotBtn || !pupilLeft || !pupilRight) return;
+
+    const rect = mascotBtn.getBoundingClientRect();
+    const mascotCenterX = rect.left + rect.width / 2;
+    const mascotCenterY = rect.top + rect.height / 2;
+
+    const dx = mouseX - mascotCenterX;
+    const dy = mouseY - mascotCenterY;
+    const angle = Math.atan2(dy, dx);
+    const distance = Math.min(4.2, Math.hypot(dx, dy) * 0.035);
+
+    const pupilDx = Math.cos(angle) * distance;
+    const pupilDy = Math.sin(angle) * distance;
+
+    pupilLeft.style.transform = `translate(${pupilDx.toFixed(1)}px, ${pupilDy.toFixed(1)}px)`;
+    pupilRight.style.transform = `translate(${pupilDx.toFixed(1)}px, ${pupilDy.toFixed(1)}px)`;
+  }
+
+  function toggleBgmMusic() {
+    const playing = window.labAudio.toggleBGM();
+    const eqBars = document.getElementById('hud-eq-bars');
+    if (eqBars) {
+      eqBars.classList.toggle('eq-paused', !playing);
+    }
+    showToast('背景環境音', playing ? '已開啟科幻實驗室 BGM 🎵' : '已關閉 BGM', playing ? 'emerald' : 'cyan');
+  }
+
+  // ========================================================================
   // INITIALIZE ALL MODULES
   // ========================================================================
   function init() {
     loadPersistedData();
+    initCustomFluidCursor();
     render3DCarouselCards();
+    start3DAutoOrbit();
+
+    // 移入卡牌區暫停自動旋轉，移出繼續旋轉
+    const sceneContainer = document.getElementById('carousel-scene-container');
+    if (sceneContainer) {
+      sceneContainer.addEventListener('mouseenter', () => {
+        appState.carouselPausedByHover = true;
+      });
+      sceneContainer.addEventListener('mouseleave', () => {
+        appState.carouselPausedByHover = false;
+      });
+      sceneContainer.addEventListener('touchstart', () => {
+        appState.carouselPausedByHover = true;
+      }, { passive: true });
+      sceneContainer.addEventListener('touchend', () => {
+        setTimeout(() => { appState.carouselPausedByHover = false; }, 1000);
+      }, { passive: true });
+    }
+
     renderBeverageBenchmarkCards();
     renderLadderSection();
     renderCalibrationSection();
@@ -1920,15 +2102,15 @@
     }
     renderThermalReceipt({
       ticketId: 'LAB-1285160',
-      story: '把教授叫成阿嬤，還順口問她今天中午吃飽沒...',
+      story: '上台把大刀教授叫阿嬤，還問吃飽沒...',
       cubes: 50,
       grams: 250,
       level: 7,
       levelName: '阿嬤孝孫級爆糖',
       stamp: '孝感動天',
-      roast: '判決：50 顆方糖。評語：你的尊嚴已經跟著阿嬤去廟裡拜拜了。',
-      prescription: '每日服用無糖綠茶 3,000cc，下課主動幫教授提公事包並祝她長命百歲。',
-      factors: ['👵 尊稱錯亂孝孫因子', '🎓 權威長輩暴擊因子']
+      roast: '判決：50 顆方糖。尊嚴隨阿嬤去拜拜。',
+      prescription: '每日服綠茶 3,000cc，下課幫教授提包包。',
+      factors: ['👵 稱謂錯亂', '🎓 權威暴擊']
     });
 
     drawRandomPkAct('A');
@@ -1942,8 +2124,10 @@
   window.LabApp = {
     rotate3DCarousel,
     select3DCard,
+    toggle3DAutoRotate,
     enterLabFrom3DLogin,
     reopen3DLoginPortal,
+    toggleBgmMusic,
     switchLabPage,
     injectSugarToScale,
     randomDormBlindBoxSugar,
