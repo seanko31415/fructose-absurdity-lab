@@ -229,8 +229,8 @@ body.cursor-is-clicking #custom-cursor-ring {
     linear-gradient(160deg, rgba(20, 30, 52, 0.72) 0%, rgba(8, 13, 25, 0.88) 55%, rgba(4, 7, 15, 0.95) 100%);
   backdrop-filter: blur(16px) saturate(140%);
   -webkit-backdrop-filter: blur(16px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-top-color: rgba(255, 255, 255, 0.32);
+  border: 1.5px solid rgba(251, 191, 36, 0.38);
+  border-top-color: rgba(255, 255, 255, 0.55);
   box-shadow:
     0 20px 44px rgba(0, 0, 0, 0.8),
     inset 0 1px 2px rgba(255, 255, 255, 0.22),
@@ -238,6 +238,28 @@ body.cursor-is-clicking #custom-cursor-ring {
   animation: cardIndividualFloat 4s ease-in-out infinite;
   transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
 }
+
+/* 3D 卡牌高級浮雕邊角花紋 (Royal Filigree Corners) */
+.card-filigree-frame {
+  position: absolute;
+  inset: 5px;
+  border: 1px dashed rgba(251, 191, 36, 0.35);
+  border-radius: 18px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.card-filigree-corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  opacity: 0.85;
+}
+.card-filigree-tl { top: 3px; left: 3px; }
+.card-filigree-tr { top: 3px; right: 3px; transform: scaleX(-1); }
+.card-filigree-bl { bottom: 3px; left: 3px; transform: scaleY(-1); }
+.card-filigree-br { bottom: 3px; right: 3px; transform: scale(-1); }
 
 /* 正前方聚焦卡牌：清晰高亮、柔光液態邊框 */
 .card-3d-item.active-3d-card {
@@ -248,14 +270,18 @@ body.cursor-is-clicking #custom-cursor-ring {
 
 .card-3d-item.active-3d-card .card-3d-inner {
   transform: scale(1.10) translateY(-4px);
-  border-color: rgba(56, 189, 248, 0.55) !important;
-  border-top-color: rgba(255, 255, 255, 0.65) !important;
+  border-color: rgba(251, 191, 36, 0.85) !important;
+  border-top-color: rgba(255, 255, 255, 0.85) !important;
   box-shadow:
     0 24px 60px rgba(0, 0, 0, 0.9),
-    0 0 32px rgba(56, 189, 248, 0.25),
-    0 0 20px rgba(245, 158, 11, 0.2),
-    inset 0 1.5px 3px rgba(255, 255, 255, 0.42),
+    0 0 28px rgba(251, 191, 36, 0.45),
+    0 0 16px rgba(56, 189, 248, 0.35),
+    inset 0 1.5px 3px rgba(255, 255, 255, 0.5),
     inset 0 -4px 12px rgba(0, 0, 0, 0.7) !important;
+}
+
+.card-3d-item.active-3d-card .card-filigree-frame {
+  border-color: rgba(251, 191, 36, 0.65);
 }
 
 .card-3d-item:hover {
@@ -279,25 +305,68 @@ body.cursor-is-clicking #custom-cursor-ring {
 }
 
 /* ==========================================================================
-   3. SMOKED DARK LIQUID GLASS SYSTEM (暗黑煙燻液態玻璃・不刺眼・120fps 極速順暢)
+   3. DYNAMIC LIQUID GLASS SYSTEM (動態煙燻液態玻璃・水波流光折射・通透不刺眼)
    ========================================================================== */
 .liquid-glass-card,
 .lab-card {
   background:
-    radial-gradient(100% 60% at 50% 0%, rgba(255, 255, 255, 0.075) 0%, transparent 70%),
-    linear-gradient(150deg, rgba(16, 24, 42, 0.62) 0%, rgba(9, 14, 26, 0.76) 55%, rgba(5, 8, 16, 0.86) 100%);
+    radial-gradient(100% 60% at 50% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 70%),
+    linear-gradient(150deg, rgba(16, 24, 42, 0.65) 0%, rgba(9, 14, 26, 0.78) 55%, rgba(5, 8, 16, 0.88) 100%);
   backdrop-filter: blur(16px) saturate(145%);
   -webkit-backdrop-filter: blur(16px) saturate(145%);
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  border-top-color: rgba(255, 255, 255, 0.24);
-  border-left-color: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-top-color: rgba(255, 255, 255, 0.26);
+  border-left-color: rgba(255, 255, 255, 0.18);
   box-shadow:
-    0 14px 34px rgba(0, 0, 0, 0.58),
-    inset 0 1px 1.5px rgba(255, 255, 255, 0.20),
+    0 14px 34px rgba(0, 0, 0, 0.62),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.22),
     inset 0 -3px 8px rgba(0, 0, 0, 0.5);
   position: relative;
   overflow: hidden;
-  transition: border-color 0.14s ease, box-shadow 0.14s ease;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+/* 全站動態液態玻璃光斑掃描動畫 (緩慢柔和水波折射微光，高貴通透) */
+@keyframes dynamicLiquidGleam {
+  0% {
+    transform: translateX(-140%) skewX(-22deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.18;
+  }
+  45% {
+    opacity: 0.32;
+  }
+  75% {
+    opacity: 0.18;
+  }
+  100% {
+    transform: translateX(240%) skewX(-22deg);
+    opacity: 0;
+  }
+}
+
+.liquid-glass-card::after,
+.lab-card::after {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -60%;
+  width: 220%;
+  height: 220%;
+  background: linear-gradient(
+    108deg,
+    transparent 36%,
+    rgba(255, 255, 255, 0.03) 42%,
+    rgba(56, 189, 248, 0.14) 48%,
+    rgba(251, 191, 36, 0.12) 52%,
+    rgba(255, 255, 255, 0.05) 57%,
+    transparent 64%
+  );
+  pointer-events: none;
+  z-index: 1;
+  animation: dynamicLiquidGleam 10s ease-in-out infinite;
 }
 
 /* 液態玻璃頂部柔和折射水光線 (低調不刺眼) */
@@ -306,18 +375,18 @@ body.cursor-is-clicking #custom-cursor-ring {
   content: '';
   position: absolute;
   top: 0;
-  left: 12%;
-  right: 12%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.32), rgba(56, 189, 248, 0.28), transparent);
+  left: 10%;
+  right: 10%;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.38), rgba(56, 189, 248, 0.32), transparent);
   pointer-events: none;
   z-index: 2;
 }
 
 .liquid-glass-card:hover,
 .lab-card:hover {
-  border-color: rgba(56, 189, 248, 0.32);
-  border-top-color: rgba(255, 255, 255, 0.38);
+  border-color: rgba(56, 189, 248, 0.38);
+  border-top-color: rgba(255, 255, 255, 0.45);
 }
 
 /* 3D 暗黑內嵌凹槽面盤 (Smoked Recessed Well) */
@@ -739,6 +808,90 @@ body.sugar-quake-extreme #viewport-simulator-frame {
 
 .clinical-red-stamp {
   animation: stampSlam 0.42s cubic-bezier(0.2, 0.9, 0.3, 1.3) forwards;
+}
+
+/* ==========================================================================
+   4. NEW LUXURY SPECIALIZED MODULES (魔王浮動、離心機、心電圖、遊樂場觸控加速)
+   ========================================================================== */
+
+/* 大型互動糖果魔王呼吸起伏與光暈 */
+@keyframes sugarDemonBreathe {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+    filter: drop-shadow(0 0 16px rgba(245, 158, 11, 0.75));
+  }
+  50% {
+    transform: translateY(-8px) scale(1.025);
+    filter: drop-shadow(0 0 28px rgba(251, 191, 36, 0.95));
+  }
+}
+
+.sugar-demon-avatar-float {
+  animation: sugarDemonBreathe 4.2s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+/* 離心機動態高速旋轉動畫 (隨 RPM 加速) */
+@keyframes centrifugeRotateFast {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.centrifuge-rotor-spin {
+  animation: centrifugeRotateFast 0.32s linear infinite;
+  transform-origin: center center;
+}
+
+.centrifuge-rotor-paused {
+  animation-play-state: paused !important;
+}
+
+/* 即時心率與羞恥腦波儀 (ECG) */
+@keyframes ecgStreamPulse {
+  0% { stroke-dashoffset: 400; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.ecg-path-stream {
+  stroke-dasharray: 400;
+  animation: ecgStreamPulse 2.4s linear infinite;
+}
+
+/* 收據防偽金屬鐳射光條 */
+.receipt-hologram-strip {
+  height: 5px;
+  background: linear-gradient(90deg, #F59E0B, #EC4899, #06B6D4, #10B981, #F59E0B);
+  background-size: 300% 100%;
+  animation: hologramFoilSweep 4s linear infinite;
+}
+
+@keyframes hologramFoilSweep {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* 遊樂場打怪按鈕：超靈敏、零延遲點擊、即時打擊火花 */
+.whack-hole-btn {
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+  user-select: none !important;
+  cursor: pointer;
+  transition: transform 0.06s ease, border-color 0.1s ease, box-shadow 0.1s ease;
+}
+
+.whack-hole-btn:active {
+  transform: scale(0.88) !important;
+}
+
+@keyframes whackPopHit {
+  0% { transform: scale(0.7) translateY(0); opacity: 1; }
+  50% { transform: scale(1.25) translateY(-10px); opacity: 1; }
+  100% { transform: scale(1.4) translateY(-18px); opacity: 0; }
+}
+
+.whack-score-pop {
+  animation: whackPopHit 0.4s ease-out forwards;
+  pointer-events: none;
 }
 
 /* Responsive & Safe Area */

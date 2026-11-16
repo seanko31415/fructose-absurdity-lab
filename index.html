@@ -222,74 +222,130 @@
     <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-6">
 
       <!-- ====================================================================
-           PROMINENT MASCOT BROADCAST STAGE (果糖怪眼球動態追蹤)
+           PROMINENT GIANT MASCOT STAGE (大型互動糖果魔王・眼球隨鼠標追蹤・呼吸起伏)
            ==================================================================== -->
       <section id="prominent-mascot-stage"
-        class="liquid-glass-card rounded-2xl sm:rounded-3xl p-3.5 sm:p-4.5 flex flex-col md:flex-row items-center justify-between gap-3 border-amber-400/40">
-        <div class="flex items-center gap-3.5 w-full md:w-auto">
-          <!-- Interactive Upgraded Fructose Monster Avatar -->
-          <button id="mascot-avatar-btn" onclick="window.LabApp.clickFructoseMonster()"
-            title="點擊果糖怪餵糖！連擊10下解鎖隱藏 Level 15 彩蛋"
-            class="w-14 h-14 sm:w-16 sm:h-16 shrink-0 focus:outline-none relative group cursor-pointer">
-            <svg viewBox="0 0 120 120"
-              class="w-full h-full drop-shadow-[0_0_18px_rgba(245,158,11,0.85)] group-hover:scale-105 transition-transform">
-              <defs>
-                <linearGradient id="monsterSyrupGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="#FDE047" />
-                  <stop offset="50%" stop-color="#F59E0B" />
-                  <stop offset="100%" stop-color="#D97706" />
-                </linearGradient>
-                <linearGradient id="monsterGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#FEF08A" stop-opacity="0.9" />
-                  <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.1" />
-                </linearGradient>
-              </defs>
-              <polygon points="50,12 60,2 70,12 65,18 55,18" fill="#FBBF24" stroke="#FFF" stroke-width="1.5" />
-              <path id="mascot-svg-body"
-                d="M60,16 C88,16 102,38 102,66 C102,88 110,104 95,108 C82,111 76,102 60,102 C44,102 38,111 25,108 C10,104 18,88 18,66 C18,38 32,16 60,16 Z"
-                fill="url(#monsterSyrupGrad)" stroke="#FEF08A" stroke-width="2.5" />
-              <ellipse cx="44" cy="38" rx="14" ry="7" fill="url(#monsterGlow)" transform="rotate(-20 44 38)" />
-              <circle cx="45" cy="54" r="10.5" fill="#FFFFFF" stroke="#78350F" stroke-width="2" />
-              <g id="mascot-pupil-left" class="mascot-pupil">
-                <circle cx="46" cy="54" r="4.8" fill="#0F172A" />
-                <circle cx="48" cy="52" r="1.6" fill="#FFFFFF" />
-              </g>
-              <circle cx="75" cy="54" r="9.5" fill="#FFFFFF" stroke="#78350F" stroke-width="2" />
-              <g id="mascot-pupil-right" class="mascot-pupil">
-                <circle cx="74" cy="54" r="4.4" fill="#0F172A" />
-                <circle cx="76" cy="52" r="1.5" fill="#FFFFFF" />
-              </g>
-              <path id="mascot-mouth-path" d="M44,73 Q60,88 76,73 Z" fill="#7F1D1D" stroke="#78350F" stroke-width="2" />
-              <path d="M50,79 Q60,85 70,79" fill="#FB7185" />
-            </svg>
-          </button>
+        class="liquid-glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-5 flex flex-col md:flex-row items-center justify-between gap-4 border-amber-400/50 shadow-[0_12px_36px_rgba(245,158,11,0.15)]">
+        <div class="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+          <!-- Big Interactive Sugar Demon Avatar (大型生動立體魔王・眼球動態追蹤) -->
+          <div class="relative shrink-0 flex flex-col items-center">
+            <button id="mascot-avatar-btn" onclick="window.LabApp.clickFructoseMonster()"
+              title="點擊糖果魔王餵糖或戳戳！眼睛會即時跟著你的鼠標看喔！"
+              class="w-24 h-24 sm:w-28 sm:h-28 shrink-0 focus:outline-none relative group cursor-pointer sugar-demon-avatar-float">
+              <svg viewBox="0 0 130 130"
+                class="w-full h-full drop-shadow-[0_0_24px_rgba(245,158,11,0.95)] group-hover:scale-105 transition-transform">
+                <defs>
+                  <linearGradient id="demonSyrupGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#FEF08A" />
+                    <stop offset="25%" stop-color="#FBBF24" />
+                    <stop offset="70%" stop-color="#F59E0B" />
+                    <stop offset="100%" stop-color="#B45309" />
+                  </linearGradient>
+                  <linearGradient id="demonGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95" />
+                    <stop offset="100%" stop-color="#FDE047" stop-opacity="0.05" />
+                  </linearGradient>
+                  <filter id="royalCrownGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                </defs>
 
-          <!-- Speech Broadcast -->
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-1.5 flex-wrap mb-0.5">
-              <span class="px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black text-[11px]">🍯 果糖怪廣播</span>
-              <span id="mascot-status-badge" class="font-mono text-[10px] px-1.5 py-0.5 rounded border border-amber-400 text-amber-300 font-bold">調皮竊笑中</span>
-              <span id="mascot-combo-counter" class="font-mono text-[10px] text-fuchsia-300 font-bold">連擊: 0/10</span>
+                <!-- 魔王華麗小翅膀/果凍耳 -->
+                <path d="M22,50 C8,40 10,24 26,34 Z" fill="#F59E0B" opacity="0.8" />
+                <path d="M108,50 C122,40 120,24 104,34 Z" fill="#F59E0B" opacity="0.8" />
+
+                <!-- 魔王皇冠 (帶高光與寶石) -->
+                <g filter="url(#royalCrownGlow)">
+                  <polygon points="46,24 54,6 65,18 76,6 84,24" fill="#FDE047" stroke="#FFF" stroke-width="2" />
+                  <circle cx="54" cy="9" r="2.5" fill="#EF4444" />
+                  <circle cx="65" cy="18" r="3" fill="#06B6D4" />
+                  <circle cx="76" cy="9" r="2.5" fill="#EF4444" />
+                </g>
+
+                <!-- 魔王Q彈果糖身軀 -->
+                <path id="mascot-svg-body"
+                  d="M65,22 C96,22 112,46 112,76 C112,100 120,118 104,122 C90,125 84,115 65,115 C46,115 40,125 26,122 C10,118 18,100 18,76 C18,46 34,22 65,22 Z"
+                  fill="url(#demonSyrupGrad)" stroke="#FEF08A" stroke-width="3" />
+
+                <!-- 琉璃高光弧面 -->
+                <ellipse cx="48" cy="46" rx="16" ry="8" fill="url(#demonGlow)" transform="rotate(-24 48 46)" />
+
+                <!-- 左大眼 (立體眼眶 + 即時滑鼠動態眼球) -->
+                <circle cx="48" cy="64" r="13" fill="#FFFFFF" stroke="#451A03" stroke-width="2.5" />
+                <g id="mascot-pupil-left" class="mascot-pupil">
+                  <circle cx="49" cy="64" r="6.2" fill="#0F172A" />
+                  <circle cx="51" cy="62" r="2.4" fill="#FFFFFF" />
+                  <circle cx="47" cy="66" r="1.2" fill="#38BDF8" />
+                </g>
+
+                <!-- 右大眼 (立體眼眶 + 即時滑鼠動態眼球) -->
+                <circle cx="82" cy="64" r="12" fill="#FFFFFF" stroke="#451A03" stroke-width="2.5" />
+                <g id="mascot-pupil-right" class="mascot-pupil">
+                  <circle cx="81" cy="64" r="5.8" fill="#0F172A" />
+                  <circle cx="83" cy="62" r="2.2" fill="#FFFFFF" />
+                  <circle cx="79" cy="66" r="1.1" fill="#38BDF8" />
+                </g>
+
+                <!-- 魔王壞笑嘴巴與可愛尖牙 -->
+                <path id="mascot-mouth-path" d="M46,86 Q65,105 84,86 Z" fill="#7F1D1D" stroke="#451A03" stroke-width="2.5" />
+                <polygon points="54,86 58,92 62,86" fill="#FFFFFF" />
+                <polygon points="68,86 72,92 76,86" fill="#FFFFFF" />
+                <path d="M52,93 Q65,101 78,93" fill="#FB7185" />
+              </svg>
+            </button>
+            <span class="font-mono text-[10px] text-amber-300 font-extrabold mt-1">👑 糖果魔王本尊</span>
+          </div>
+
+          <!-- Speech & Interaction Controls -->
+          <div class="flex-1 min-w-0 text-center sm:text-left space-y-1.5">
+            <div class="flex items-center justify-center sm:justify-start gap-1.5 flex-wrap">
+              <span class="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black text-xs shadow-md">
+                👑 糖果魔王
+              </span>
+              <span id="mascot-status-badge" class="font-mono text-[10px] px-2 py-0.5 rounded-md border border-amber-400 text-amber-300 font-bold bg-amber-950/40">
+                眼睛跟隨鼠標中 👀
+              </span>
+              <span id="mascot-combo-counter" class="font-mono text-[10px] text-fuchsia-300 font-bold px-1.5 py-0.5 rounded bg-fuchsia-950/40 border border-fuchsia-400/30">
+                餵食飽食度: 0/10
+              </span>
             </div>
+
             <p id="mascot-quote-text" onclick="window.LabApp.clickFructoseMonster()"
-              class="text-xs sm:text-sm font-bold text-white leading-snug cursor-pointer">
-              歡迎！點擊「第2頁」問問題幫朋友測出糖度，點我可餵食方糖！
+              class="text-xs sm:text-sm font-bold text-white leading-relaxed cursor-pointer bg-slate-950/60 p-2 sm:p-2.5 rounded-xl border border-white/10 hover:border-amber-400/50 transition-colors">
+              「我是掌管全宇宙甜度的糖果魔王！移動鼠標看著我的眼睛～點擊我可以餵我吃方糖喔！」
             </p>
+
+            <!-- Quick Mascot Action Pills -->
+            <div class="flex items-center justify-center sm:justify-start gap-1.5 flex-wrap pt-0.5">
+              <button onclick="window.LabApp.feedMascotSugar(1)"
+                class="liquid-glass-btn px-2.5 py-1 rounded-lg font-mono text-[11px] text-amber-200 font-bold hover:text-white">
+                🧊 餵一顆方糖
+              </button>
+              <button onclick="window.LabApp.feedMascotSugar(12)"
+                class="liquid-glass-amber px-2.5 py-1 rounded-lg font-mono text-[11px] text-slate-950 font-black">
+                🍯 灌一口糖蜜 (+12)
+              </button>
+              <button onclick="window.LabApp.tickleMascotBelly()"
+                class="liquid-glass-btn px-2.5 py-1 rounded-lg font-mono text-[11px] text-pink-200 font-bold hover:text-white">
+                🤏 戳戳肚皮
+              </button>
+            </div>
           </div>
         </div>
 
-        <!-- Overload Buttons -->
-        <div class="flex items-center gap-1.5 shrink-0 w-full md:w-auto justify-end border-t md:border-t-0 border-white/10 pt-2 md:pt-0">
+        <!-- Overload Buttons (右側緊急調試按鈕) -->
+        <div class="flex items-center gap-1.5 shrink-0 w-full md:w-auto justify-center md:justify-end border-t md:border-t-0 border-white/10 pt-2.5 md:pt-0">
           <button onclick="window.LabApp.triggerCreativeOverloadMode('wobble')"
-            class="liquid-glass-btn px-2.5 py-1.5 rounded-xl font-mono text-xs text-amber-200 font-bold">
+            class="liquid-glass-btn px-2.5 py-2 rounded-xl font-mono text-xs text-amber-200 font-bold">
             🥴 晃動模式
           </button>
           <button onclick="window.LabApp.triggerCreativeOverloadMode('quake')"
-            class="liquid-glass-red px-2.5 py-1.5 rounded-xl font-mono text-xs text-white font-extrabold">
+            class="liquid-glass-red px-2.5 py-2 rounded-xl font-mono text-xs text-white font-extrabold">
             💥 1L地震
           </button>
           <button onclick="window.LabApp.emergencyGreenTeaFlush()"
-            class="liquid-glass-emerald px-2.5 py-1.5 rounded-xl font-mono text-xs text-emerald-950 font-bold">
+            class="liquid-glass-emerald px-2.5 py-2 rounded-xl font-mono text-xs text-emerald-950 font-bold">
             💉 綠茶解毒
           </button>
         </div>
@@ -525,29 +581,73 @@
               </div>
             </div>
 
-            <!-- Interactive Optical Refractometer & Ladder Matrix -->
+            <!-- Interactive Holographic Sugar Centrifuge & Ladder Matrix -->
             <div class="lg:col-span-8 space-y-3.5">
-              <!-- Holographic Optical Refractometer (升級 SVG 稜鏡光譜分析儀) -->
-              <div class="liquid-glass-card rounded-2xl p-4 space-y-2.5">
+              <!-- Holographic Sugar Centrifuge (全息糖分離心萃取機) -->
+              <div class="liquid-glass-card rounded-2xl p-4 space-y-3">
                 <div class="flex items-center justify-between flex-wrap gap-2">
-                  <span class="font-mono text-xs text-cyan-300 font-bold">🔬 全息稜鏡果糖折射儀 (Optical Brix Prism)</span>
-                  <span id="refractometer-brix-val" class="embossed-badge px-2.5 py-0.5 rounded-lg font-mono text-xs font-black text-amber-300">Brix: 12.0°Bx (臨界全糖)</span>
+                  <div class="flex items-center gap-2">
+                    <span class="font-mono text-xs text-cyan-300 font-bold">🌀 全息糖分離心萃取機 (Sugar Centrifuge)</span>
+                    <span id="centrifuge-status-tag" class="px-2 py-0.5 rounded text-[10px] bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/40">
+                      待機運轉中
+                    </span>
+                  </div>
+                  <span id="centrifuge-rpm-display" class="embossed-badge px-2.5 py-0.5 rounded-lg font-mono text-xs font-black text-amber-300">
+                    6,000 RPM (結晶析出)
+                  </span>
                 </div>
-                <div class="embossed-well relative h-16 rounded-xl overflow-hidden flex items-center justify-center px-4">
-                  <div id="refractometer-laser-beam" class="w-full h-1.5 rounded-full bg-gradient-to-r from-cyan-400 via-amber-400 to-rose-500 shadow-[0_0_16px_#06B6D4]"></div>
-                  <!-- 稜鏡 SVG 裝飾 -->
-                  <svg viewBox="0 0 40 40" class="w-9 h-9 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-65">
-                    <polygon points="20,4 36,34 4,34" fill="rgba(6,182,212,0.25)" stroke="#67E8F9" stroke-width="1.5" />
-                  </svg>
-                  <div id="refractometer-spectrum-disc" style="left: 25%; transform: translate(-50%, -50%);"
-                    class="absolute top-1/2 w-11 h-11 rounded-full border-2 border-amber-300 bg-amber-500/30 backdrop-blur-md flex items-center justify-center font-mono text-[10px] font-black text-white shadow-[0_0_18px_#F59E0B] pointer-events-none">
-                    12°Bx
+
+                <!-- 離心機動態視覺槽 (旋轉離心轉子 + 沉澱分層觀測窗) -->
+                <div class="embossed-well relative h-28 rounded-xl overflow-hidden flex items-center justify-between px-4 sm:px-6">
+                  <!-- 左側：旋轉離心盤與 4 根試管 -->
+                  <div class="relative w-24 h-24 shrink-0 flex items-center justify-center">
+                    <svg id="centrifuge-rotor" viewBox="0 0 100 100" class="w-full h-full centrifuge-rotor-spin drop-shadow-[0_0_12px_rgba(6,182,212,0.6)]">
+                      <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(56,189,248,0.25)" stroke-width="2" stroke-dasharray="6 4" />
+                      <circle cx="50" cy="50" r="16" fill="#0F172A" stroke="#06B6D4" stroke-width="2" />
+                      <!-- 4 根離心試管 (北東南西) -->
+                      <g transform="translate(50, 16)">
+                        <rect x="-4" y="-12" width="8" height="24" rx="4" fill="url(#demonSyrupGrad)" stroke="#FEF08A" stroke-width="1" />
+                      </g>
+                      <g transform="translate(84, 50) rotate(90)">
+                        <rect x="-4" y="-12" width="8" height="24" rx="4" fill="url(#demonSyrupGrad)" stroke="#FEF08A" stroke-width="1" />
+                      </g>
+                      <g transform="translate(50, 84) rotate(180)">
+                        <rect x="-4" y="-12" width="8" height="24" rx="4" fill="url(#demonSyrupGrad)" stroke="#FEF08A" stroke-width="1" />
+                      </g>
+                      <g transform="translate(16, 50) rotate(270)">
+                        <rect x="-4" y="-12" width="8" height="24" rx="4" fill="url(#demonSyrupGrad)" stroke="#FEF08A" stroke-width="1" />
+                      </g>
+                      <circle cx="50" cy="50" r="5" fill="#FDE047" />
+                    </svg>
+                  </div>
+
+                  <!-- 右側：沉澱分層觀測管與萃取按鈕 -->
+                  <div class="flex-1 min-w-0 pl-4 sm:pl-8 flex items-center justify-between gap-3">
+                    <div class="space-y-1 text-xs">
+                      <div class="flex items-center gap-1.5 font-mono text-[11px] text-slate-300">
+                        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+                        <span>上清液：純水/稀釋茶</span>
+                      </div>
+                      <div class="flex items-center gap-1.5 font-mono text-[11px] text-amber-300 font-bold">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                        <span id="centrifuge-sediment-label">離心沉澱層：特濃果糖膏 60g</span>
+                      </div>
+                      <div class="text-[10px] text-slate-400">
+                        提示：拉高轉速可加速分離沉澱方糖結晶！
+                      </div>
+                    </div>
+
+                    <button onclick="window.LabApp.spinCentrifugeExtract()"
+                      class="liquid-glass-amber py-2.5 px-3.5 rounded-xl font-mono text-xs text-slate-950 font-black shrink-0 shadow-lg">
+                      ⚡ 超速萃取
+                    </button>
                   </div>
                 </div>
+
                 <div class="flex items-center gap-3 text-[11px] font-mono text-slate-300">
-                  <span class="shrink-0">光譜調校：</span>
-                  <input id="refractometer-slider" type="range" min="0" max="65" value="12" step="1"
-                    oninput="window.LabApp.adjustRefractometer(this.value)" class="flex-1 accent-cyan-400 cursor-pointer" />
+                  <span class="shrink-0">🎛️ 轉速調校 (RPM)：</span>
+                  <input id="centrifuge-slider" type="range" min="0" max="12000" value="6000" step="500"
+                    oninput="window.LabApp.adjustCentrifugeRpm(this.value)" class="flex-1 accent-cyan-400 cursor-pointer" />
                 </div>
               </div>
 
@@ -665,6 +765,48 @@
                 <div id="quiz-crystal-pool" class="min-h-[50px] flex flex-wrap justify-center items-end gap-1 p-0.5"></div>
               </div>
             </div>
+
+            <!-- 右側補強：心率與羞恥腦波共振儀 (Neural Agitation & ECG Monitor) -->
+            <div class="liquid-glass-card rounded-2xl sm:rounded-3xl p-4 space-y-2.5 border-rose-500/30">
+              <div class="flex items-center justify-between font-mono text-xs border-b border-white/10 pb-2">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+                  <span class="text-rose-400 font-black">💓 羞恥心率＆腦波共振</span>
+                </div>
+                <span id="ecg-bpm-label" class="embossed-badge px-2 py-0.5 rounded text-rose-300 font-black text-[11px]">
+                  78 BPM // 正常
+                </span>
+              </div>
+
+              <!-- 動態 ECG 心電圖波形 -->
+              <div class="embossed-well h-20 rounded-xl p-2 flex items-center justify-center relative overflow-hidden">
+                <svg viewBox="0 0 300 60" class="w-full h-full">
+                  <path id="ecg-path" class="ecg-path-stream"
+                    d="M0,30 L50,30 L60,10 L70,52 L80,18 L90,38 L100,30 L160,30 L170,8 L180,54 L190,16 L200,38 L210,30 L300,30"
+                    fill="none" stroke="#F43F5E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <div class="absolute bottom-1 right-2 font-mono text-[9px] text-slate-400">
+                  額葉糖化率: <span id="frontal-sugar-pct" class="text-amber-300 font-bold">14%</span>
+                </div>
+              </div>
+
+              <!-- 羞恥進度條與冷卻按鈕 -->
+              <div class="flex items-center justify-between gap-2 pt-0.5">
+                <div class="flex-1 space-y-1">
+                  <div class="flex justify-between font-mono text-[10px] text-slate-300">
+                    <span>社死心慌指數：</span>
+                    <span id="shame-index-val" class="font-bold text-rose-400">22% 輕微尷尬</span>
+                  </div>
+                  <div class="w-full h-2 rounded-full bg-slate-900 border border-white/10 overflow-hidden">
+                    <div id="shame-progress-bar" class="h-full bg-gradient-to-r from-cyan-400 via-amber-400 to-rose-500 transition-all duration-300" style="width: 22%;"></div>
+                  </div>
+                </div>
+                <button onclick="window.LabApp.coolDownBrainWave()"
+                  class="liquid-glass-btn px-2.5 py-1.5 rounded-xl font-mono text-[10px] text-cyan-200 font-bold shrink-0">
+                  🧊 食鹽水降溫
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -730,6 +872,8 @@
 
             <div class="px-2">
               <div id="thermal-receipt-paper" class="thermal-paper rounded-b-sm">
+                <!-- 頂部防偽金屬全息鐳射光條 -->
+                <div class="receipt-hologram-strip"></div>
                 <div id="thermal-receipt-body" class="p-4 text-xs"></div>
                 <div class="jagged-edge-bottom"></div>
               </div>
@@ -954,9 +1098,9 @@
   </nav>
 
   <!-- Scripts with cache busters -->
-  <script src="data.js?v=5.5.0"></script>
-  <script src="audio.js?v=5.5.0"></script>
-  <script src="app.js?v=5.5.0"></script>
+  <script src="data.js?v=5.6.0"></script>
+  <script src="audio.js?v=5.6.0"></script>
+  <script src="app.js?v=5.6.0"></script>
 </body>
 
 </html>

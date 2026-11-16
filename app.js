@@ -217,21 +217,28 @@
         <div onclick="window.LabApp.select3DCard(${idx})"
              style="transform: rotateY(${angle}deg) translateZ(${radius}px);"
              class="card-3d-item ${isSelected ? 'active-3d-card' : ''}">
-          <div class="card-3d-inner w-full h-full flex flex-col justify-between select-none"
+          <div class="card-3d-inner w-full h-full flex flex-col justify-between select-none relative"
                style="animation-delay: ${floatDelay}s;">
 
-            <div class="flex items-center justify-between font-mono text-[10px] px-0.5">
+            <!-- 高級皇家巴洛克浮雕邊角花紋 (Ornate Filigree Patterns) -->
+            <div class="card-filigree-frame"></div>
+            <svg class="card-filigree-corner card-filigree-tl" viewBox="0 0 24 24"><path d="M2,2 L14,2 C10,6 6,10 2,14 Z M2,2 L2,20 C6,16 6,8 14,2 Z" fill="#FBBF24" opacity="0.75"/></svg>
+            <svg class="card-filigree-corner card-filigree-tr" viewBox="0 0 24 24"><path d="M2,2 L14,2 C10,6 6,10 2,14 Z M2,2 L2,20 C6,16 6,8 14,2 Z" fill="#FBBF24" opacity="0.75"/></svg>
+            <svg class="card-filigree-corner card-filigree-bl" viewBox="0 0 24 24"><path d="M2,2 L14,2 C10,6 6,10 2,14 Z M2,2 L2,20 C6,16 6,8 14,2 Z" fill="#FBBF24" opacity="0.75"/></svg>
+            <svg class="card-filigree-corner card-filigree-br" viewBox="0 0 24 24"><path d="M2,2 L14,2 C10,6 6,10 2,14 Z M2,2 L2,20 C6,16 6,8 14,2 Z" fill="#FBBF24" opacity="0.75"/></svg>
+
+            <div class="flex items-center justify-between font-mono text-[10px] px-1 relative z-10">
               <span style="color:${c.accent}" class="font-bold tracking-wider">${c.code}</span>
               <span class="embossed-badge px-2 py-0.5 rounded-full text-amber-200 font-mono text-[10px] font-bold">${c.initCubes}顆</span>
             </div>
 
             <!-- 中央大畫圖角色插畫 (Big Hero Vector Illustration) -->
-            <div class="my-auto py-1">
+            <div class="my-auto py-1 relative z-10">
               ${getCardHeroSvgIllustration(c, idx)}
               <h3 class="text-base font-black text-white text-center leading-tight mt-1.5">${c.title}</h3>
             </div>
 
-            <div class="embossed-well px-2.5 py-1.5 rounded-xl text-[10px] text-cyan-200 font-bold text-center truncate">
+            <div class="embossed-well px-2.5 py-1.5 rounded-xl text-[10px] text-cyan-200 font-bold text-center truncate relative z-10">
               ${c.perk}
             </div>
           </div>
@@ -675,7 +682,12 @@
   }
 
   function clickFructoseMonster() {
-    appState.monsterClicks += 1;
+    feedMascotSugar(1);
+  }
+
+  // 餵食糖果魔王方糖
+  function feedMascotSugar(count = 1) {
+    appState.monsterClicks += count;
     const btn = document.getElementById('mascot-avatar-btn');
     if (btn) {
       btn.classList.remove('jelly-squish', 'jelly-bounce');
@@ -683,14 +695,47 @@
       btn.classList.add('jelly-squish');
     }
 
-    window.labAudio.playJellySquish();
-    window.labAudio.playSugarDrop(1);
-    setGlobalSugarCubes(appState.globalSugarCubes + 1, { syncLadder: false });
+    if (window.labAudio && window.labAudio.playJellySquish) {
+      window.labAudio.playJellySquish();
+    }
+    if (window.labAudio && window.labAudio.playSugarDrop) {
+      window.labAudio.playSugarDrop(count);
+    }
+    setGlobalSugarCubes(appState.globalSugarCubes + count, { syncLadder: false });
     updateMascotUI(true);
 
-    if (appState.monsterClicks === 10 && !appState.easterEggUnlocked) {
+    const demonReplies = [
+      `「嗷嗚！咕嚕吞下 ${count} 顆方糖！好甜好舒服～」`,
+      `「甜度注入！我的眼睛在盯著你看呢，嘿嘿！」`,
+      `「滿口焦糖香～多餵一點，飽食度滿 10 有隱藏大彩蛋喔！」`,
+      `「呼呼～糖分神經突觸連線成功！再來一顆！」`
+    ];
+    const quoteEl = document.getElementById('mascot-quote-text');
+    if (quoteEl) {
+      quoteEl.textContent = demonReplies[Math.floor(Math.random() * demonReplies.length)];
+    }
+
+    if (appState.monsterClicks >= 10 && !appState.easterEggUnlocked) {
       triggerSecretMonsterEasterEgg();
     }
+  }
+
+  // 戳戳魔王肚皮
+  function tickleMascotBelly() {
+    const btn = document.getElementById('mascot-avatar-btn');
+    if (btn) {
+      btn.classList.remove('jelly-squish', 'jelly-bounce');
+      void btn.offsetWidth;
+      btn.classList.add('jelly-bounce');
+    }
+    if (window.labAudio && window.labAudio.playBubble) {
+      window.labAudio.playBubble();
+    }
+    const quoteEl = document.getElementById('mascot-quote-text');
+    if (quoteEl) {
+      quoteEl.textContent = '「噗嗤哈哈哈！好癢！魔王的肚皮不是給人隨便戳的啦！(扭動)」';
+    }
+    showToast('🤏 戳戳肚皮', '糖果魔王被你戳得笑得合不攏嘴！', 'fuchsia');
   }
 
   function triggerSecretMonsterEasterEgg() {
@@ -943,33 +988,85 @@
     renderLadderSection();
   }
 
-  // 光學果糖折射儀 (Holographic Optical Brix Refractometer)
+  // 全息糖分離心萃取機 (Holographic Sugar Centrifuge)
+  function adjustCentrifugeRpm(rpmVal) {
+    const rpm = parseInt(rpmVal, 10) || 6000;
+    const rpmDisplay = document.getElementById('centrifuge-rpm-display');
+    const statusTag = document.getElementById('centrifuge-status-tag');
+    const sedimentLabel = document.getElementById('centrifuge-sediment-label');
+    const rotor = document.getElementById('centrifuge-rotor');
+
+    let stage = '待機運轉中';
+    let sediment = '未分離 (均勻稀釋液)';
+    if (rpm >= 10000) {
+      stage = '⚡ 極速離心超載';
+      sediment = '離心沉澱層：純度99.9% 巨型方糖塊 (120g)';
+    } else if (rpm >= 7000) {
+      stage = '💥 結晶高速析出';
+      sediment = '離心沉澱層：特濃果糖膏 85g';
+    } else if (rpm >= 4000) {
+      stage = '🌀 正常分離沉澱';
+      sediment = '離心沉澱層：濃稠金黃糖蜜 60g';
+    } else if (rpm > 0) {
+      stage = '緩慢混合中';
+      sediment = '離心沉澱層：微量糖分沉積 20g';
+    } else {
+      stage = '🛑 停機狀態';
+      sediment = '無沉澱析出';
+    }
+
+    if (rpmDisplay) {
+      rpmDisplay.textContent = `${rpm.toLocaleString()} RPM (${stage.replace(/^[^\s]+\s*/, '')})`;
+    }
+    if (statusTag) {
+      statusTag.textContent = stage;
+      statusTag.className = `px-2 py-0.5 rounded text-[10px] font-bold border ${
+        rpm >= 8000 ? 'bg-amber-500/25 text-amber-300 border-amber-400' : 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
+      }`;
+    }
+    if (sedimentLabel) {
+      sedimentLabel.textContent = sediment;
+    }
+    if (rotor) {
+      if (rpm <= 0) {
+        rotor.classList.add('centrifuge-rotor-paused');
+      } else {
+        rotor.classList.remove('centrifuge-rotor-paused');
+        // RPM 越高，轉得越快 (0.75s ~ 0.08s)
+        const duration = Math.max(0.08, (0.75 - (rpm / 12000) * 0.65)).toFixed(2);
+        rotor.style.animationDuration = `${duration}s`;
+      }
+    }
+
+    if (window.labAudio && window.labAudio.playCentrifugeWhir) {
+      window.labAudio.playCentrifugeWhir(rpm);
+    }
+  }
+
+  // 點擊超速萃取按鈕：高速甩動並析出純淨方糖
+  function spinCentrifugeExtract() {
+    const slider = document.getElementById('centrifuge-slider');
+    const oldRpm = slider ? parseInt(slider.value, 10) : 6000;
+    if (slider) slider.value = '12000';
+    adjustCentrifugeRpm(12000);
+
+    const bonus = Math.floor(Math.random() * 8) + 8; // 8 ~ 15 顆
+    showToast('🌀 離心分離啟動！', `超速離心轉速爆發！成功析出 ${bonus} 顆純淨方糖結晶！`, 'amber');
+    if (window.labAudio && window.labAudio.playSugarDrop) {
+      window.labAudio.playSugarDrop(bonus);
+    }
+    setGlobalSugarCubes(appState.globalSugarCubes + bonus, { syncLadder: true });
+
+    setTimeout(() => {
+      if (slider) slider.value = String(oldRpm);
+      adjustCentrifugeRpm(oldRpm);
+    }, 1800);
+  }
+
+  // 向下相容折射儀函式
   function adjustRefractometer(brixVal) {
     const b = parseFloat(brixVal) || 12;
-    const brixDisplay = document.getElementById('refractometer-brix-val');
-    const beam = document.getElementById('refractometer-laser-beam');
-    const disc = document.getElementById('refractometer-spectrum-disc');
-    let levelName = '微糖清爽';
-    if (b >= 25) levelName = '超飽和結晶';
-    else if (b >= 18) levelName = '高濃縮焦糖';
-    else if (b >= 10) levelName = '臨界全糖';
-    else if (b >= 5) levelName = '少糖警戒';
-
-    if (brixDisplay) {
-      brixDisplay.textContent = `Brix: ${b.toFixed(1)}°Bx (${levelName})`;
-    }
-    if (disc) {
-      const leftPct = Math.min(86, Math.max(14, (b / 65) * 72 + 14));
-      disc.style.left = `${leftPct}%`;
-      disc.style.transform = 'translate(-50%, -50%)';
-      disc.textContent = `${Math.round(b)}°Bx`;
-    }
-    if (beam) {
-      beam.style.filter = `hue-rotate(${b * 5.5}deg)`;
-    }
-    if (window.labAudio && window.labAudio.playTone) {
-      window.labAudio.playTone(320 + b * 9, 'sine', 0.08, 0.06);
-    }
+    adjustCentrifugeRpm(Math.round(b * 180));
   }
 
   function renderLadderSection() {
@@ -1687,6 +1784,65 @@
         pool.appendChild(span);
       }
     }
+
+    updateNeuralAgitationGauge();
+  }
+
+  // 心率與羞恥腦波儀即時監控
+  function updateNeuralAgitationGauge() {
+    const answeredCount = Object.keys(appState.quizAnswers).length;
+    const totalCount = appState.activeQuestions ? appState.activeQuestions.length : 20;
+    const ratio = answeredCount / Math.max(1, totalCount);
+
+    const bpmEl = document.getElementById('ecg-bpm-label');
+    const frontalEl = document.getElementById('frontal-sugar-pct');
+    const shameValEl = document.getElementById('shame-index-val');
+    const shameBar = document.getElementById('shame-progress-bar');
+    const ecgPath = document.getElementById('ecg-path');
+
+    const bpm = Math.round(72 + ratio * 58);
+    const frontalPct = Math.round(14 + ratio * 80);
+    const shamePct = Math.round(20 + ratio * 78);
+
+    let status = '正常平穩';
+    if (shamePct >= 80) status = '😱 社死極限崩潰';
+    else if (shamePct >= 50) status = '😳 羞恥感劇烈激增';
+    else if (shamePct >= 30) status = '😅 輕微心慌';
+
+    if (bpmEl) {
+      bpmEl.textContent = `${bpm} BPM // ${status}`;
+      bpmEl.className = `embossed-badge px-2 py-0.5 rounded font-black text-[11px] ${
+        bpm > 105 ? 'text-rose-400 border-rose-500/50' : 'text-cyan-300 border-cyan-500/50'
+      }`;
+    }
+    if (frontalEl) frontalEl.textContent = `${frontalPct}%`;
+    if (shameValEl) shameValEl.textContent = `${shamePct}% ${status}`;
+    if (shameBar) shameBar.style.width = `${shamePct}%`;
+
+    if (ecgPath) {
+      const animSpeed = Math.max(0.7, (2.4 - ratio * 1.5)).toFixed(2);
+      ecgPath.style.animationDuration = `${animSpeed}s`;
+    }
+  }
+
+  // 生理食鹽水手動冷卻腦電波
+  function coolDownBrainWave() {
+    const bpmEl = document.getElementById('ecg-bpm-label');
+    const frontalEl = document.getElementById('frontal-sugar-pct');
+    const shameValEl = document.getElementById('shame-index-val');
+    const shameBar = document.getElementById('shame-progress-bar');
+    const ecgPath = document.getElementById('ecg-path');
+
+    if (bpmEl) bpmEl.textContent = '72 BPM // 冰鎮鎮靜';
+    if (frontalEl) frontalEl.textContent = '8%';
+    if (shameValEl) shameValEl.textContent = '5% 心如止水';
+    if (shameBar) shameBar.style.width = '5%';
+    if (ecgPath) ecgPath.style.animationDuration = '3.0s';
+
+    if (window.labAudio && window.labAudio.playSugarDrop) {
+      window.labAudio.playSugarDrop(3);
+    }
+    showToast('🧊 生理食鹽水冷卻', '已成功為額葉降溫！心電與羞恥腦波已回歸平靜！', 'cyan');
   }
 
   function printQuizSummaryToReceipt() {
@@ -1887,50 +2043,62 @@
     const factorBadges = (r.factors || []).map(f => `<span class="px-1.5 py-0.5 rounded bg-slate-200 text-slate-800 font-mono text-[10px]">#${f}</span>`).join(' ');
 
     body.innerHTML = `
-      <div class="text-center border-b-2 border-dashed border-slate-400 pb-3">
+      <div class="text-center border-b-2 border-dashed border-slate-400 pb-3 relative">
+        <div class="flex items-center justify-between font-mono text-[9px] text-slate-500 mb-1">
+          <span>ORIGINAL RX RECORD</span>
+          <span class="px-1.5 py-0.2 rounded bg-slate-200 text-slate-800 font-bold">SECURED</span>
+        </div>
         <div class="font-mono text-[10px] font-bold tracking-widest text-slate-500">FRUCTOSE ABSURDITY CLINICAL LAB // MODEL FR-9000</div>
-        <h4 class="text-lg font-black text-slate-900 mt-0.5">《全糖量測所・臨床社死診斷收據》</h4>
+        <h4 class="text-lg font-black text-slate-900 mt-0.5 tracking-tight">《全糖量測所・臨床社死診斷收據》</h4>
         <div class="flex justify-between font-mono text-[11px] text-slate-600 mt-1.5">
-          <span>受測者: ${appState.playerName}</span>
-          <span>${r.ticketId}</span>
+          <span>受測者: <strong>${appState.playerName}</strong></span>
+          <span class="font-bold text-slate-800">${r.ticketId}</span>
         </div>
       </div>
 
       <div class="py-3 border-b border-dashed border-slate-300 text-xs">
-        <div class="font-mono font-bold text-slate-500 mb-1">【受測者病歷引述】</div>
-        <p class="text-slate-900 font-medium leading-relaxed bg-white p-2.5 rounded border border-slate-200">「${r.story}」</p>
+        <div class="flex justify-between items-center font-mono font-bold text-slate-500 mb-1">
+          <span>【受測者病歷引述】</span>
+          <span class="text-[10px] text-slate-400">CONFIDENTIAL</span>
+        </div>
+        <p class="text-slate-900 font-medium leading-relaxed bg-white/90 p-2.5 rounded-lg border border-slate-300 shadow-sm">「${r.story}」</p>
         <div class="flex flex-wrap gap-1 mt-2">${factorBadges}</div>
       </div>
 
-      <div class="py-3.5 border-b-2 border-dashed border-slate-400 flex items-center justify-between relative">
+      <div class="py-3.5 border-b-2 border-dashed border-slate-400 flex items-center justify-between relative bg-amber-50/50 p-2 rounded-lg">
         <div>
-          <div class="font-mono text-[11px] text-slate-500">核定果糖階梯</div>
+          <div class="font-mono text-[11px] text-slate-500 font-bold">核定果糖階梯等級</div>
           <div class="text-base font-black text-slate-900">Lv.${r.level} ${r.levelName}</div>
-          <div class="font-mono text-xs text-slate-700 mt-0.5">當量克數：<strong>${r.grams} g</strong></div>
+          <div class="font-mono text-xs text-slate-700 mt-0.5">糖分當量：<strong class="text-amber-700">${r.grams} g</strong></div>
         </div>
         <div class="text-right">
-          <div class="font-mono text-[10px] text-slate-500">核定方糖當量</div>
-          <div class="font-mono text-4xl font-black text-red-600">${r.cubes}<span class="text-sm ml-1">顆</span></div>
+          <div class="font-mono text-[10px] text-slate-500 font-bold">核定方糖總數</div>
+          <div class="font-mono text-4xl font-black text-rose-600 drop-shadow-sm">${r.cubes}<span class="text-sm ml-1 text-slate-700">顆</span></div>
         </div>
       </div>
 
       <div class="py-3 border-b border-dashed border-slate-300 text-xs relative">
         <div class="font-mono font-bold text-slate-600 mb-1">【AI 審判庭毒舌臨床評語】</div>
-        <p class="text-slate-900 font-bold leading-relaxed">${r.roast}</p>
+        <p class="text-slate-900 font-bold leading-relaxed bg-white/80 p-2 rounded border border-slate-200">${r.roast}</p>
 
-        <div class="font-mono font-bold text-slate-600 mt-3 mb-1">【果糖怪解毒處方箋】</div>
-        <p class="text-emerald-800 font-medium leading-relaxed">${r.prescription}</p>
+        <div class="font-mono font-bold text-slate-600 mt-2.5 mb-1">【果糖怪解毒處方箋】</div>
+        <p class="text-emerald-900 font-bold leading-relaxed bg-emerald-50/90 p-2 rounded border border-emerald-300">${r.prescription}</p>
 
-        <div class="clinical-red-stamp absolute right-1 bottom-2 w-20 h-20 rounded-full border-4 border-red-600 text-red-600 flex flex-col items-center justify-center font-mono font-black bg-red-50/85 shadow-sm pointer-events-none">
-          <span class="text-[8px] tracking-tighter">CLINICAL LAB</span>
-          <span class="text-xs border-y border-red-600 px-1 my-0.5">${r.stamp || '重度調皮'}</span>
-          <span class="text-[8px]">VERIFIED</span>
+        <!-- 官方立體雙環防偽印章 (Double-Ring Clinical Seal) -->
+        <div class="clinical-red-stamp absolute right-1 bottom-1.5 w-24 h-24 rounded-full border-4 border-double border-red-600 text-red-600 flex flex-col items-center justify-center font-mono font-black bg-red-50/90 shadow-md pointer-events-none">
+          <span class="text-[7px] tracking-tighter">★ FRUCTOSE LAB ★</span>
+          <span class="text-[13px] border-y-2 border-red-600 px-1.5 my-0.5">${r.stamp || '重度調皮'}</span>
+          <span class="text-[7px] tracking-widest">CLINICAL VERIFIED</span>
         </div>
       </div>
 
       <div class="pt-3 text-center font-mono">
-        <div class="text-xs tracking-[0.28em] text-slate-800 font-black">||| |||| || ||||| ||| |||| ||||| || |||</div>
-        <div class="text-[10px] text-slate-500 mt-1">FOUNDER-60G-12CUBES // ${r.dateStr}</div>
+        <div class="text-xs tracking-[0.32em] text-slate-900 font-black">||| |||| | ||||| ||| |||| ||||| || |||</div>
+        <div class="flex items-center justify-between text-[9px] text-slate-500 mt-1 px-1">
+          <span>SEC: SHA256-AUTHENTIC</span>
+          <span>FOUNDER-60G-12CUBES</span>
+          <span>${r.dateStr}</span>
+        </div>
       </div>
     `;
 
@@ -2559,11 +2727,27 @@
     const grid = document.getElementById('whack-monster-grid');
     if (!grid) return;
     grid.innerHTML = Array.from({ length: 9 }, (_, idx) => `
-      <button id="whack-hole-${idx}" onclick="window.LabApp.whackMonsterHole(${idx})"
-        class="liquid-glass-btn rounded-xl flex items-center justify-center text-2xl h-full w-full select-none transition-transform active:scale-90">
+      <button id="whack-hole-${idx}"
+        class="whack-hole-btn liquid-glass-btn rounded-xl flex items-center justify-center text-2xl h-full w-full select-none relative overflow-hidden"
+        style="touch-action: manipulation;">
         <span class="opacity-20 text-sm">🕳️</span>
       </button>
     `).join('');
+
+    // 支援 pointerdown 零延遲（0ms）即時擊打，徹底杜絕點擊不靈敏
+    for (let i = 0; i < 9; i++) {
+      const hole = document.getElementById(`whack-hole-${i}`);
+      if (hole) {
+        hole.addEventListener('pointerdown', (e) => {
+          e.preventDefault();
+          whackMonsterHole(i);
+        });
+        hole.addEventListener('click', (e) => {
+          e.preventDefault();
+          whackMonsterHole(i);
+        });
+      }
+    }
   }
 
   function startMonsterWhackGame() {
@@ -2571,9 +2755,10 @@
     whackGame.running = true;
     whackGame.hits = 0;
     whackGame.timeLeft = 20;
+    whackGame.lastHitTime = 0;
 
     const btn = document.getElementById('whack-start-btn');
-    if (btn) btn.textContent = '⚡ 狂擊進行中！快點冒出的果糖怪！';
+    if (btn) btn.textContent = '⚡ 狂擊進行中！碰一下就得分！';
     updateWhackHud();
     window.labAudio.playBubble();
 
@@ -2592,14 +2777,17 @@
       const t = whackTargets[Math.floor(Math.random() * whackTargets.length)];
       whackGame.activeHole = holeIdx;
       whackGame.activeType = t;
+      whackGame.recentHole = holeIdx;
+      whackGame.recentType = t;
 
       const holeEl = document.getElementById(`whack-hole-${holeIdx}`);
       if (holeEl) {
-        holeEl.innerHTML = `<span class="text-2xl sm:text-3xl animate-bounce inline-block">${t.icon}</span>`;
+        holeEl.innerHTML = `<span class="text-2xl sm:text-3xl animate-bounce inline-block pointer-events-none">${t.icon}</span>`;
         holeEl.style.borderColor = t.isTrap ? '#10B981' : '#F59E0B';
+        holeEl.style.boxShadow = t.isTrap ? '0 0 16px rgba(16,185,129,0.5)' : '0 0 16px rgba(245,158,11,0.5)';
       }
 
-      whackGame.popId = setTimeout(spawnNextMonster, 620);
+      whackGame.popId = setTimeout(spawnNextMonster, 780);
     };
 
     spawnNextMonster();
@@ -2611,8 +2799,14 @@
       if (el) {
         el.innerHTML = `<span class="opacity-20 text-sm">🕳️</span>`;
         el.style.borderColor = 'rgba(255,255,255,0.14)';
+        el.style.boxShadow = 'none';
       }
     }
+    // 保留最近 160ms 寬容判定，絕不吞指令
+    setTimeout(() => {
+      whackGame.recentHole = -1;
+      whackGame.recentType = null;
+    }, 160);
     whackGame.activeHole = -1;
     whackGame.activeType = null;
   }
@@ -2622,23 +2816,47 @@
       startMonsterWhackGame();
       return;
     }
-    if (idx !== whackGame.activeHole || !whackGame.activeType) return;
 
-    const target = whackGame.activeType;
+    const now = performance.now();
+    if (now - (whackGame.lastHitTime || 0) < 60) return; // 60ms 物理防抖
+    whackGame.lastHitTime = now;
+
+    // 即時匹配或 160ms 寬容判定
+    let matchedType = null;
+    if (idx === whackGame.activeHole && whackGame.activeType) {
+      matchedType = whackGame.activeType;
+    } else if (idx === whackGame.recentHole && whackGame.recentType) {
+      matchedType = whackGame.recentType;
+    }
+
+    if (!matchedType) return;
+
     const holeEl = document.getElementById(`whack-hole-${idx}`);
-    if (target.isTrap) {
+    if (matchedType.isTrap) {
       whackGame.hits = Math.max(0, whackGame.hits - 1);
-      if (holeEl) holeEl.innerHTML = `<span class="text-xs font-bold text-emerald-300">-15!</span>`;
-      if (window.labAudio.playTone) window.labAudio.playTone(160, 'sawtooth', 0.14, 0.14);
+      if (holeEl) {
+        holeEl.innerHTML = `<span class="whack-score-pop font-mono text-sm font-black text-emerald-300">-15! 🍵</span>`;
+      }
+      if (window.labAudio && window.labAudio.playTone) {
+        window.labAudio.playTone(160, 'sawtooth', 0.14, 0.14);
+      }
     } else {
       whackGame.hits += 1;
-      if (holeEl) holeEl.innerHTML = `<span class="text-xs font-black text-amber-300">+${target.cubes}!</span>`;
-      window.labAudio.playJellySquish();
-      setGlobalSugarCubes(appState.globalSugarCubes + target.cubes, { syncLadder: false });
+      if (holeEl) {
+        holeEl.innerHTML = `<span class="whack-score-pop font-mono text-sm font-black text-amber-300">+${matchedType.cubes}! 💥</span>`;
+      }
+      if (window.labAudio && window.labAudio.playMonsterHit) {
+        window.labAudio.playMonsterHit();
+      } else if (window.labAudio && window.labAudio.playJellySquish) {
+        window.labAudio.playJellySquish();
+      }
+      setGlobalSugarCubes(appState.globalSugarCubes + matchedType.cubes, { syncLadder: false });
     }
 
     whackGame.activeHole = -1;
     whackGame.activeType = null;
+    whackGame.recentHole = -1;
+    whackGame.recentType = null;
     updateWhackHud();
   }
 
@@ -2890,8 +3108,9 @@
 
     document.addEventListener('mousedown', () => {
       document.body.classList.add('cursor-is-clicking');
-      // 首次點擊畫面任意處即自動喚醒調皮搞笑 BGM
-      if (window.labAudio && !window.labAudio.bgmPlaying && appState.soundEnabled) {
+      // 僅在用戶從未手動關閉過 BGM、且尚未首次喚醒時才自動啟動
+      if (!appState.bgmManualMuted && !appState.bgmFirstUnlocked && window.labAudio && !window.labAudio.bgmPlaying && appState.soundEnabled) {
+        appState.bgmFirstUnlocked = true;
         window.labAudio.startBGM();
         const eqBars = document.getElementById('hud-eq-bars');
         if (eqBars) eqBars.classList.remove('eq-paused');
@@ -2916,7 +3135,7 @@
     const dx = mouseX - mascotCenterX;
     const dy = mouseY - mascotCenterY;
     const angle = Math.atan2(dy, dx);
-    const distance = Math.min(4.2, Math.hypot(dx, dy) * 0.035);
+    const distance = Math.min(6.5, Math.hypot(dx, dy) * 0.045);
 
     const pupilDx = Math.cos(angle) * distance;
     const pupilDy = Math.sin(angle) * distance;
@@ -2926,12 +3145,23 @@
   }
 
   function toggleBgmMusic() {
-    const playing = window.labAudio.toggleBGM();
-    const eqBars = document.getElementById('hud-eq-bars');
-    if (eqBars) {
-      eqBars.classList.toggle('eq-paused', !playing);
+    if (window.labAudio && window.labAudio.bgmPlaying) {
+      appState.bgmManualMuted = true;
+      window.labAudio.stopBGM();
+      const eqBars = document.getElementById('hud-eq-bars');
+      if (eqBars) {
+        eqBars.classList.add('eq-paused');
+      }
+      showToast('背景環境音', '已完全關閉 BGM 🎵', 'cyan');
+    } else if (window.labAudio) {
+      appState.bgmManualMuted = false;
+      window.labAudio.startBGM();
+      const eqBars = document.getElementById('hud-eq-bars');
+      if (eqBars) {
+        eqBars.classList.remove('eq-paused');
+      }
+      showToast('背景環境音', '已開啟調皮搞笑 BGM 🎵', 'emerald');
     }
-    showToast('背景環境音', playing ? '已開啟科幻實驗室 BGM 🎵' : '已關閉 BGM', playing ? 'emerald' : 'cyan');
   }
 
   // ========================================================================
@@ -3065,11 +3295,14 @@
     selectLadderLevel,
     mintEmbossedSugar,
     adjustRefractometer,
+    adjustCentrifugeRpm,
+    spinCentrifugeExtract,
     setQuestionCountMode,
     chooseQuizOption,
     jumpToQuizStep,
     resetCalibrationQuiz,
     printQuizSummaryToReceipt,
+    coolDownBrainWave,
     useReservedExample,
     saveCustomQuestionFromModal,
     fillPresetConfession,
@@ -3096,6 +3329,8 @@
     filterHallOfShame,
     addSugarToHosItem,
     clickFructoseMonster,
+    feedMascotSugar,
+    tickleMascotBelly,
     toggleRootMode,
     setRootMultiplier,
     toggleModal,

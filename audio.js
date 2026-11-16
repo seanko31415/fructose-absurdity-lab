@@ -151,7 +151,9 @@ class FructoseAudioEngine {
         }
 
         step++;
-        this.bgmTimer = setTimeout(playMischiefStep, stepMs);
+        if (this.bgmPlaying) {
+          this.bgmTimer = setTimeout(playMischiefStep, stepMs);
+        }
       };
 
       playMischiefStep();
@@ -161,7 +163,7 @@ class FructoseAudioEngine {
   }
 
   stopBGM() {
-    if (!this.bgmPlaying) return;
+    this.bgmPlaying = false;
     if (this.bgmTimer) {
       clearTimeout(this.bgmTimer);
       this.bgmTimer = null;
@@ -169,12 +171,14 @@ class FructoseAudioEngine {
     if (this.bgmNodes && this.ctx) {
       try {
         const now = this.ctx.currentTime;
-        this.bgmNodes.masterBgmGain.gain.setValueAtTime(this.bgmNodes.masterBgmGain.gain.value, now);
-        this.bgmNodes.masterBgmGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
+        if (this.bgmNodes.masterBgmGain) {
+          this.bgmNodes.masterBgmGain.gain.cancelScheduledValues(now);
+          this.bgmNodes.masterBgmGain.gain.setValueAtTime(0, now);
+          this.bgmNodes.masterBgmGain.disconnect();
+        }
       } catch (e) {}
       this.bgmNodes = null;
     }
-    this.bgmPlaying = false;
   }
 
   toggleBGM() {
@@ -186,6 +190,49 @@ class FructoseAudioEngine {
       this.startBGM();
       return true;
     }
+  }
+
+  // 離心機高頻機械加速蜂鳴
+  playCentrifugeWhir(rpm = 3000) {
+    if (!this.soundEnabled) return;
+    this.init();
+    if (!this.ctx) return;
+    try {
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sawtooth';
+      const baseFreq = 120 + (rpm / 12000) * 880;
+      osc.frequency.setValueAtTime(baseFreq, now);
+      osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.25, now + 0.22);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.25);
+    } catch (e) {}
+  }
+
+  // 果糖怪被打擊暴擊音效 (Punch Pop)
+  playMonsterHit() {
+    if (!this.soundEnabled) return;
+    this.init();
+    if (!this.ctx) return;
+    try {
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(480, now);
+      osc.frequency.exponentialRampToValueAtTime(110, now + 0.12);
+      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.13);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.14);
+    } catch (e) {}
   }
 
   // 通用頻率音調合成器 (供折射儀、量子反應爐、神經元調諧器調用)
