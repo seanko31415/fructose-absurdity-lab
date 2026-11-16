@@ -1,0 +1,508 @@
+/* ==========================================================================
+   《全糖量測所：測測你的調皮不舒服程度》Fructose Absurdity Clinical Lab
+   V5.0 — 3D Orbiting Card Login + 4-Page Switchable SPA + Creative Overload
+   Complete Responsive Stylesheet (Mobile / Tablet / Desktop)
+   ========================================================================== */
+
+:root {
+  --bg-obsidian: #060911;
+  --bg-panel: rgba(14, 21, 38, 0.84);
+  --syrup-amber: #F59E0B;
+  --syrup-gold: #FBBF24;
+  --clinical-cyan: #06B6D4;
+  --pure-emerald: #10B981;
+  --biohazard-red: #EF4444;
+  --sugar-white: #F8FAFC;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-obsidian);
+  color: var(--sugar-white);
+  font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background-color: var(--bg-obsidian);
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(245, 158, 11, 0.14) 0%, transparent 38%),
+    radial-gradient(circle at 85% 22%, rgba(6, 182, 212, 0.11) 0%, transparent 42%),
+    radial-gradient(circle at 50% 90%, rgba(236, 72, 153, 0.08) 0%, transparent 45%),
+    linear-gradient(to right, rgba(30, 41, 59, 0.36) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(30, 41, 59, 0.36) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+  transition: background-color 0.5s ease, transform 0.3s ease;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #060911;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #F59E0B;
+}
+
+/* ==========================================================================
+   1. 3D ORBITING CARD CAROUSEL LOGIN PORTAL (3D 卡牌環繞登入介面)
+   ========================================================================== */
+#login-3d-overlay {
+  background:
+    radial-gradient(circle at 50% 35%, rgba(245, 158, 11, 0.22) 0%, rgba(6, 182, 212, 0.12) 38%, rgba(6, 9, 17, 0.98) 75%),
+    #050811;
+  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#login-3d-overlay.portal-hidden {
+  opacity: 0;
+  transform: scale(1.12);
+  pointer-events: none;
+}
+
+.carousel-3d-scene {
+  perspective: 1200px;
+  width: 100%;
+  height: 330px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  user-select: none;
+}
+
+.carousel-3d-ring {
+  width: 220px;
+  height: 290px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(0.2, 0.85, 0.3, 1.05);
+}
+
+.card-3d-item {
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  padding: 18px;
+  background: linear-gradient(155deg, rgba(17, 24, 39, 0.94) 0%, rgba(9, 13, 24, 0.97) 100%);
+  border: 2px solid rgba(245, 158, 11, 0.45);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.75),
+    0 0 25px rgba(245, 158, 11, 0.18),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  backface-visibility: visible;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-3d-item.active-3d-card {
+  border-color: #FBBF24;
+  box-shadow:
+    0 20px 55px rgba(245, 158, 11, 0.42),
+    0 0 40px rgba(6, 182, 212, 0.35),
+    inset 0 0 18px rgba(251, 191, 36, 0.25);
+}
+
+@media (max-width: 639px) {
+  .carousel-3d-scene {
+    height: 280px;
+    perspective: 950px;
+  }
+  .carousel-3d-ring {
+    width: 185px;
+    height: 250px;
+  }
+}
+
+/* ==========================================================================
+   2. HIGH-AESTHETIC GLASSMORPHIC PANELS (.lab-card)
+   ========================================================================== */
+.lab-card {
+  background: linear-gradient(165deg, rgba(17, 25, 44, 0.86) 0%, rgba(10, 15, 28, 0.9) 100%);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(245, 158, 11, 0.26);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 28px rgba(245, 158, 11, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  transition: border-color 0.28s ease, box-shadow 0.28s ease, transform 0.28s ease;
+}
+
+.lab-card:hover {
+  border-color: rgba(251, 191, 36, 0.6);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.6), 0 0 36px rgba(245, 158, 11, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.lab-card-cyan {
+  background: linear-gradient(165deg, rgba(13, 26, 45, 0.86) 0%, rgba(9, 16, 30, 0.9) 100%);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(6, 182, 212, 0.32);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 28px rgba(6, 182, 212, 0.08);
+  transition: border-color 0.28s ease, box-shadow 0.28s ease;
+}
+.lab-card-cyan:hover {
+  border-color: rgba(6, 182, 212, 0.7);
+}
+
+/* ==========================================================================
+   3. MULTI-PAGE TABBED SPA TRANSITIONS (四頁式獨立切換動畫)
+   ========================================================================== */
+.lab-page-view {
+  display: none;
+  animation: pageFadeSlideIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.lab-page-view.active-page {
+  display: block;
+}
+
+@keyframes pageFadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ==========================================================================
+   4. CREATIVE SUGAR OVERLOAD WOBBLE, EARTHQUAKE & HALLUCINATIONS
+      (糖分過高創意全站晃動、果凍暈眩與高血糖幻覺特效)
+   ========================================================================== */
+
+/* Burst Shake when adding high sugar */
+@keyframes labShake {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  12% { transform: translate(-10px, -6px) rotate(-1.1deg); }
+  25% { transform: translate(10px, 5px) rotate(1.1deg); }
+  37% { transform: translate(-8px, 7px) rotate(-0.8deg); }
+  50% { transform: translate(8px, -5px) rotate(0.8deg); }
+  65% { transform: translate(-5px, 4px) rotate(-0.4deg); }
+  80% { transform: translate(5px, -3px) rotate(0.3deg); }
+}
+
+.shake-screen {
+  animation: labShake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* Continuous Dizzy Sugar Rush Wobble (when >= 100 cubes or manually toggled) */
+@keyframes sugarDizzyWobble {
+  0%, 100% { transform: rotate(0deg) translate(0, 0) scale(1); }
+  25% { transform: rotate(0.65deg) translate(3px, -2px) scale(1.002); }
+  50% { transform: rotate(-0.55deg) translate(-3px, 3px) scale(0.998); }
+  75% { transform: rotate(0.45deg) translate(2px, 2px) scale(1.001); }
+}
+
+@keyframes cardJellyWobble {
+  0%, 100% { transform: skewX(0deg) scale(1); }
+  33% { transform: skewX(0.8deg) scale(1.004, 0.996); }
+  66% { transform: skewX(-0.8deg) scale(0.996, 1.004); }
+}
+
+body.sugar-rush-wobble #viewport-simulator-frame {
+  animation: sugarDizzyWobble 2.2s ease-in-out infinite;
+}
+
+body.sugar-rush-wobble .lab-card {
+  animation: cardJellyWobble 2.6s ease-in-out infinite;
+  border-color: rgba(239, 68, 68, 0.55);
+}
+
+/* Extreme 1L Syrup Earthquake Mode */
+@keyframes extremeSyrupQuake {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-5px, 3px) rotate(-0.7deg); }
+  40% { transform: translate(5px, -4px) rotate(0.7deg); }
+  60% { transform: translate(-4px, -2px) rotate(-0.5deg); }
+  80% { transform: translate(4px, 3px) rotate(0.5deg); }
+}
+
+body.sugar-quake-extreme #viewport-simulator-frame {
+  animation: extremeSyrupQuake 0.38s infinite;
+}
+
+/* Top Syrup Overload Banner */
+#syrup-overload-banner {
+  transform: translateY(-115%);
+  transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#syrup-overload-banner.active {
+  transform: translateY(0%);
+}
+
+@keyframes dripPulse {
+  0% { transform: scaleY(0.94); }
+  100% { transform: scaleY(1.1); }
+}
+
+.syrup-wave-svg {
+  animation: dripPulse 2.2s ease-in-out infinite alternate;
+  transform-origin: top center;
+}
+
+/* Floating Sugar Rush Hallucination Barrage Texts */
+@keyframes floatBarrage {
+  0% {
+    transform: translateX(105vw) rotate(-3deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.95;
+  }
+  90% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateX(-120vw) rotate(4deg);
+    opacity: 0;
+  }
+}
+
+.hallucination-pill {
+  position: fixed;
+  z-index: 88;
+  pointer-events: none;
+  white-space: nowrap;
+  animation: floatBarrage 7.5s linear forwards;
+}
+
+/* ==========================================================================
+   5. PROMINENT FLOATING HOLOGRAM MASCOT BANNER (不藏在右下角的醒目浮動訊息艙)
+   ========================================================================== */
+@keyframes mascotPopPulse {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-4px) scale(1.01); }
+}
+
+.prominent-mascot-stage {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(15, 23, 42, 0.92) 45%, rgba(6, 182, 212, 0.16) 100%);
+  border: 2px solid rgba(251, 191, 36, 0.65);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.65), 0 0 30px rgba(245, 158, 11, 0.22);
+  animation: mascotPopPulse 4s ease-in-out infinite;
+}
+
+@keyframes jellyBounce {
+  0%, 100% { transform: scale(1, 1) translateY(0); }
+  25% { transform: scale(1.2, 0.8) translateY(5px); }
+  50% { transform: scale(0.84, 1.16) translateY(-12px); }
+  75% { transform: scale(1.06, 0.94) translateY(2px); }
+}
+
+.jelly-bounce {
+  animation: jellyBounce 0.6s ease !important;
+}
+
+/* ==========================================================================
+   6. SUGAR CUBES, CYLINDER WAVES, ECG & THERMAL PRINTER
+   ========================================================================== */
+.sugar-cube-item {
+  width: 22px;
+  height: 22px;
+  background: linear-gradient(135deg, #ffffff 0%, #fef3c7 60%, #fde68a 100%);
+  border: 1px solid #f59e0b;
+  border-radius: 4px;
+  box-shadow: 2px 2px 0px #b45309, 0 0 10px rgba(251, 191, 36, 0.45);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 900;
+  color: #78350f;
+  animation: popInCube 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  user-select: none;
+}
+
+.sugar-cube-item.syrup-gold {
+  background: linear-gradient(135deg, #fde047 0%, #f59e0b 65%, #dc2626 100%);
+  color: #fff;
+  border-color: #fef08a;
+  box-shadow: 2px 2px 0px #7f1d1d, 0 0 14px rgba(239, 68, 68, 0.7);
+}
+
+@keyframes popInCube {
+  0% { opacity: 0; transform: translateY(-45px) rotate(-25deg) scale(0.4); }
+  70% { opacity: 1; transform: translateY(3px) rotate(8deg) scale(1.1); }
+  100% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+}
+
+@keyframes parabolicDrop {
+  0% { opacity: 1; transform: translate(0, -40px) rotate(0deg) scale(0.8); }
+  60% { opacity: 1; transform: translate(var(--tx, 20px), 65px) rotate(160deg) scale(1.05); }
+  100% { opacity: 0; transform: translate(var(--tx, 28px), 115px) rotate(240deg) scale(0.7); }
+}
+
+.falling-particle {
+  position: absolute;
+  pointer-events: none;
+  animation: parabolicDrop 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes ecgDash {
+  0% { stroke-dashoffset: 800; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.ecg-line-anim {
+  stroke-dasharray: 800;
+  animation: ecgDash 3.2s linear infinite;
+}
+
+#cylinder-liquid {
+  transition: height 0.68s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.45s ease;
+}
+
+@keyframes waveMove {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.liquid-wave-top {
+  animation: waveMove 3.6s linear infinite;
+}
+
+@keyframes bubbleRise {
+  0% { transform: translateY(0) scale(0.5); opacity: 0; }
+  20% { opacity: 0.85; }
+  80% { opacity: 0.7; }
+  100% { transform: translateY(-420px) scale(1.3); opacity: 0; }
+}
+
+.fructose-bubble {
+  position: absolute;
+  bottom: 8px;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(251, 191, 36, 0.4));
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  animation: bubbleRise 3.4s infinite ease-in;
+  pointer-events: none;
+}
+
+/* Thermal Paper & Red Stamp */
+.thermal-paper {
+  background-color: #FAF8F5;
+  color: #0F172A;
+  background-image: radial-gradient(#cbd5e1 0.75px, transparent 0.75px);
+  background-size: 14px 14px;
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.72);
+  position: relative;
+  overflow: hidden;
+  transition: max-height 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+
+.jagged-edge-bottom {
+  background:
+    linear-gradient(45deg, transparent 8px, #FAF8F5 0) 0 8px,
+    linear-gradient(-45deg, transparent 8px, #FAF8F5 0) 0 8px;
+  background-repeat: repeat-x;
+  background-size: 16px 16px;
+  height: 16px;
+  width: 100%;
+}
+
+@keyframes stampSlam {
+  0% { opacity: 0; transform: scale(2.6) rotate(-28deg); }
+  70% { opacity: 1; transform: scale(0.9) rotate(-10deg); }
+  100% { opacity: 0.92; transform: scale(1) rotate(-12deg); }
+}
+
+.clinical-red-stamp {
+  animation: stampSlam 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.3) forwards;
+}
+
+@keyframes bobaShake {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  20% { transform: rotate(-14deg) translateY(-10px); }
+  40% { transform: rotate(14deg) translateY(6px); }
+  60% { transform: rotate(-12deg) translateY(-8px); }
+  80% { transform: rotate(10deg) translateY(4px); }
+}
+
+.shaking-cup {
+  animation: bobaShake 0.5s ease-in-out 2;
+}
+
+/* ==========================================================================
+   7. MULTI-DEVICE RESPONSIVE SIMULATOR & MOBILE/TABLET LAYOUTS
+   ========================================================================== */
+#viewport-simulator-frame {
+  transition: max-width 0.4s cubic-bezier(0.22, 1, 0.36, 1), margin 0.4s ease, border 0.3s ease;
+  width: 100%;
+  margin: 0 auto;
+}
+
+body.preview-mode-mobile #viewport-simulator-frame {
+  max-width: 412px;
+  margin: 16px auto 96px auto;
+  border: 6px solid #334155;
+  border-radius: 36px;
+  box-shadow: 0 0 0 2px #f59e0b, 0 25px 70px rgba(0, 0, 0, 0.85);
+  overflow-x: hidden;
+  background-color: #060911;
+}
+
+body.preview-mode-tablet #viewport-simulator-frame {
+  max-width: 820px;
+  margin: 16px auto 90px auto;
+  border: 6px solid #475569;
+  border-radius: 28px;
+  box-shadow: 0 0 0 2px #06b6d4, 0 25px 70px rgba(0, 0, 0, 0.85);
+  overflow-x: hidden;
+  background-color: #060911;
+}
+
+body.preview-mode-mobile #viewport-simulator-frame .lg\:col-span-7,
+body.preview-mode-mobile #viewport-simulator-frame .lg\:col-span-5,
+body.preview-mode-mobile #viewport-simulator-frame .lg\:col-span-4,
+body.preview-mode-mobile #viewport-simulator-frame .lg\:col-span-8,
+body.preview-mode-mobile #viewport-simulator-frame .lg\:col-span-6,
+body.preview-mode-mobile #viewport-simulator-frame .md\:grid-cols-2,
+body.preview-mode-mobile #viewport-simulator-frame .lg\:grid-cols-3,
+body.preview-mode-mobile #viewport-simulator-frame .lg\:grid-cols-5 {
+  grid-column: span 12 / span 12 !important;
+  grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+}
+
+body.preview-mode-tablet #viewport-simulator-frame .lg\:col-span-7,
+body.preview-mode-tablet #viewport-simulator-frame .lg\:col-span-5,
+body.preview-mode-tablet #viewport-simulator-frame .lg\:col-span-4,
+body.preview-mode-tablet #viewport-simulator-frame .lg\:col-span-8 {
+  grid-column: span 12 / span 12 !important;
+}
+
+@media (max-width: 1023px) {
+  body {
+    padding-bottom: 78px;
+  }
+}
+
+@media (max-width: 639px) {
+  .lab-card, .lab-card-cyan {
+    padding: 1rem !important;
+    border-radius: 1.15rem !important;
+  }
+  #scale-beam {
+    width: 72% !important;
+  }
+}
