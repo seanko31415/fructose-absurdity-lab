@@ -39,7 +39,7 @@
   </script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="styles.css?v=7.4.0" />
+  <link rel="stylesheet" href="styles.css?v=7.5.0" />
 </head>
 
 <body class="min-h-screen text-slate-100 selection:bg-amber-400 selection:text-slate-950">
@@ -66,7 +66,7 @@
     <div class="relative z-10 text-center max-w-lg mx-auto pt-2">
       <div
         class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full embossed-badge text-cyan-300 font-mono text-[10px] mb-1">
-        <span>🚀 V7.4.0 旗艦修復版・點選卡牌切換・靠近減速</span>
+        <span>🚀 V7.5.0 旗艦修復版・點選卡牌切換・靠近減速</span>
       </div>
       <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
         全糖測量所登錄
@@ -366,7 +366,7 @@
       <section id="prominent-mascot-stage"
         class="liquid-glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-6 flex flex-col lg:flex-row items-center justify-between gap-6 border-amber-400/50 shadow-[0_12px_36px_rgba(245,158,11,0.18)]">
         
-        <!-- Left: Interactive Mascot Avatar (眼球追蹤滑鼠) -->
+        <!-- Left: Interactive Mascot Avatar (立體展示台與眼球即時追蹤) -->
         <div class="relative shrink-0 flex flex-col items-center">
           <button id="mascot-avatar-btn" onclick="window.LabApp.clickFructoseMonster()"
             title="點擊糖果魔王餵糖或戳肚皮！眼睛會即時跟隨滑鼠視線！"
@@ -429,45 +429,53 @@
                 <circle cx="79" cy="66" r="1.1" fill="#38BDF8" />
               </g>
 
-              <!-- 魔王壞笑嘴巴與可愛尖牙 (始終在眼下 Y=85~105 範圍，絕不遮眼) -->
+              <!-- 魔王壞笑嘴巴與可愛尖牙 (尖牙懸掛於上唇 Y=85，大笑時沿上唇張開，絕不浮空或遮眼) -->
               <g id="mascot-mouth-group">
                 <path id="mascot-mouth-path" d="M48,85 Q65,99 82,85 Z" fill="#7F1D1D" stroke="#451A03"
                   stroke-width="2.5" />
-                <polygon points="53,85 57,91 61,85" fill="#FFFFFF" />
-                <polygon points="69,85 73,91 77,85" fill="#FFFFFF" />
+                <polygon id="mascot-fang-left" points="53,85 57,91 61,85" fill="#FFFFFF" stroke="#451A03" stroke-width="0.8" />
+                <polygon id="mascot-fang-right" points="69,85 73,91 77,85" fill="#FFFFFF" stroke="#451A03" stroke-width="0.8" />
                 <path id="mascot-tongue" d="M55,92 Q65,98 75,92 Z" fill="#FB7185" />
               </g>
             </svg>
           </button>
+          
+          <!-- 立體基座光環與形態稱號標籤 -->
+          <div class="w-44 sm:w-52 h-2.5 rounded-full bg-amber-500/25 blur-sm -mt-1.5"></div>
           <div class="flex items-center gap-1.5 mt-2">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            <span class="font-mono text-xs text-amber-300 font-extrabold tracking-wide">👑 全糖魔王本尊</span>
+            <span id="mascot-avatar-form-title" class="font-mono text-xs px-2.5 py-0.5 rounded-full bg-amber-950/70 border border-amber-400/40 text-amber-300 font-extrabold tracking-wide">
+              👑 皇家金冠形態
+            </span>
           </div>
         </div>
 
-        <!-- Right: Modern Cockpit & Controls -->
-        <div class="flex-1 min-w-0 w-full flex flex-col justify-between gap-3.5 text-center sm:text-left">
+        <!-- Right: Modern Dual-Deck Cockpit (整齊分離的語錄儀表艙與控制台按鈕群) -->
+        <div class="flex-1 min-w-0 w-full flex flex-col justify-between gap-4 text-center sm:text-left">
           
-          <!-- Top Row: Status Badges -->
-          <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
-            <span class="px-3 py-1 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-black text-xs shadow-md">
-              👑 全糖魔王指揮台
-            </span>
-            <span id="mascot-status-badge"
-              class="font-mono text-[11px] px-2.5 py-0.5 rounded-lg border border-amber-400/50 text-amber-200 font-bold bg-amber-950/50">
-              👀 視線即時追蹤中
-            </span>
-            <span id="mascot-combo-counter"
-              class="font-mono text-[11px] text-fuchsia-300 font-bold px-2.5 py-0.5 rounded-lg bg-fuchsia-950/50 border border-fuchsia-400/40">
-              ⚡ 飽食超導: 0 / 10 顆
-            </span>
-          </div>
+          <!-- Card 1: 頂部狀態與全息對話艙 -->
+          <div class="bg-slate-950/70 p-3.5 sm:p-4 rounded-2xl border border-white/10 shadow-inner flex flex-col gap-2.5">
+            <!-- 狀態列 -->
+            <div class="flex items-center justify-between gap-2 flex-wrap pb-1 border-b border-white/5">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-black text-xs shadow-md">
+                  👑 全糖魔王指揮台
+                </span>
+                <span id="mascot-status-badge"
+                  class="font-mono text-[11px] px-2 py-0.5 rounded-md border border-amber-400/40 text-amber-200 font-bold bg-amber-950/40">
+                  👀 視線即時追蹤中
+                </span>
+              </div>
+              <span id="mascot-combo-counter"
+                class="font-mono text-[11px] text-fuchsia-300 font-bold px-2 py-0.5 rounded-md bg-fuchsia-950/40 border border-fuchsia-400/30">
+                ⚡ 飽食超導: 0 / 10 顆
+              </span>
+            </div>
 
-          <!-- Middle Row: Interactive Speech Box -->
-          <div onclick="window.LabApp.clickFructoseMonster()"
-            class="group cursor-pointer bg-slate-950/75 p-3 sm:p-4 rounded-2xl border border-white/15 hover:border-amber-400/70 transition-all shadow-inner relative overflow-hidden">
-            <div class="flex items-center gap-3">
-              <span class="text-amber-400 text-lg leading-none shrink-0 group-hover:scale-110 transition-transform">💬</span>
+            <!-- 對話氣泡 -->
+            <div onclick="window.LabApp.clickFructoseMonster()"
+              class="group cursor-pointer flex items-center gap-2.5 hover:opacity-95 transition-opacity pt-0.5">
+              <span class="text-amber-400 text-base shrink-0 group-hover:scale-110 transition-transform">💬</span>
               <p id="mascot-quote-text"
                 class="text-xs sm:text-sm font-bold text-amber-100 leading-relaxed drop-shadow flex-1">
                 「移動鼠標看我眼睛，戳戳肚皮我會笑喔！」
@@ -475,37 +483,41 @@
             </div>
           </div>
 
-          <!-- Bottom Row: Refined Button Deck -->
-          <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-1">
-            <!-- 核心互動組 -->
-            <button onclick="window.LabApp.tickleMascotBelly()"
-              class="liquid-glass-btn px-3 py-1.5 rounded-xl font-mono text-xs text-pink-200 font-black hover:text-white hover:border-pink-400 active:scale-95 transition-all flex items-center gap-1.5 shadow-sm">
-              <span>🤏</span><span>戳戳肚皮</span>
-            </button>
-            <button onclick="window.LabApp.cycleMascotForm()"
-              class="liquid-glass-btn px-3 py-1.5 rounded-xl font-mono text-xs text-amber-200 font-black hover:text-white border border-amber-400/50 hover:bg-amber-500/20 active:scale-95 transition-all flex items-center gap-1.5 shadow-sm">
-              <span>✨</span><span id="mascot-form-badge">換造型 (👑 皇家)</span>
-            </button>
-            <button onclick="window.LabApp.feedMascotSugar(1)"
-              class="liquid-glass-btn px-3 py-1.5 rounded-xl font-mono text-xs text-cyan-200 font-black hover:text-white active:scale-95 transition-all flex items-center gap-1.5 shadow-sm">
-              <span>🧊</span><span>餵方糖 (+1)</span>
-            </button>
-            <button onclick="window.LabApp.feedMascotSugar(12)"
-              class="liquid-glass-amber px-3 py-1.5 rounded-xl font-mono text-xs text-slate-950 font-black active:scale-95 transition-all flex items-center gap-1.5 shadow-sm">
-              <span>🍯</span><span>灌糖蜜 (+12)</span>
-            </button>
+          <!-- Card 2: 現代化按鈕控制甲板 (分為核心互動組與實驗警報組) -->
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 p-2 rounded-2xl bg-white/[0.02] border border-white/5">
+            <!-- 左側：魔王核心互動組 -->
+            <div class="flex items-center gap-1.5 flex-wrap justify-center sm:justify-start">
+              <button onclick="window.LabApp.tickleMascotBelly()"
+                class="liquid-glass-btn px-3 py-1.5 rounded-xl font-mono text-xs text-pink-200 font-black hover:text-white hover:border-pink-400 active:scale-95 transition-all flex items-center gap-1 shadow-sm">
+                <span>🤏</span><span>戳戳肚皮</span>
+              </button>
+              <button onclick="window.LabApp.cycleMascotForm()"
+                class="liquid-glass-btn px-3 py-1.5 rounded-xl font-mono text-xs text-amber-200 font-black hover:text-white border border-amber-400/50 hover:bg-amber-500/20 active:scale-95 transition-all flex items-center gap-1 shadow-sm">
+                <span>✨</span><span id="mascot-form-badge">換造型 (👑 皇家)</span>
+              </button>
+              <button onclick="window.LabApp.feedMascotSugar(1)"
+                class="liquid-glass-btn px-2.5 py-1.5 rounded-xl font-mono text-xs text-cyan-200 font-bold hover:text-white active:scale-95 transition-all flex items-center gap-1 shadow-sm">
+                <span>🧊</span><span>餵方糖 (+1)</span>
+              </button>
+              <button onclick="window.LabApp.feedMascotSugar(12)"
+                class="liquid-glass-amber px-2.5 py-1.5 rounded-xl font-mono text-xs text-slate-950 font-black active:scale-95 transition-all flex items-center gap-1 shadow-sm">
+                <span>🍯</span><span>灌糖蜜 (+12)</span>
+              </button>
+            </div>
 
-            <!-- 實驗模式組 (優雅分隔) -->
-            <span class="hidden sm:inline-block w-px h-6 bg-white/20 mx-1"></span>
-            <button onclick="window.LabApp.triggerCreativeOverloadMode('quake')"
-              class="liquid-glass-red px-3 py-1.5 rounded-xl font-mono text-xs text-white font-extrabold active:scale-95 transition-all flex items-center gap-1.5 shadow-sm">
-              <span>💥</span><span>1L 糖震海嘯</span>
-            </button>
-            <button onclick="window.LabApp.emergencyGreenTeaFlush()"
-              class="liquid-glass-emerald px-3 py-1.5 rounded-xl font-mono text-xs text-emerald-950 font-black active:scale-95 transition-all flex items-center gap-1.5 shadow-sm">
-              <span>🍵</span><span>萬能綠茶解毒</span>
-            </button>
+            <!-- 右側：實驗警報操作組 -->
+            <div class="flex items-center gap-1.5 shrink-0 justify-center sm:justify-end border-t sm:border-t-0 sm:border-l border-white/10 pt-2 sm:pt-0 sm:pl-2.5 w-full sm:w-auto">
+              <button onclick="window.LabApp.triggerCreativeOverloadMode('quake')"
+                class="liquid-glass-red px-3 py-1.5 rounded-xl font-mono text-xs text-white font-extrabold active:scale-95 transition-all flex items-center gap-1 shadow-sm">
+                <span>💥</span><span>1L 糖震</span>
+              </button>
+              <button onclick="window.LabApp.emergencyGreenTeaFlush()"
+                class="liquid-glass-emerald px-3 py-1.5 rounded-xl font-mono text-xs text-emerald-950 font-black active:scale-95 transition-all flex items-center gap-1 shadow-sm">
+                <span>🍵</span><span>綠茶解毒</span>
+              </button>
+            </div>
           </div>
+
         </div>
       </section>
 
@@ -2344,9 +2356,9 @@
   </nav>
 
   <!-- Scripts with cache busters -->
-  <script src="data.js?v=7.4.0"></script>
-  <script src="audio.js?v=7.4.0"></script>
-  <script src="app.js?v=7.4.0"></script>
+  <script src="data.js?v=7.5.0"></script>
+  <script src="audio.js?v=7.5.0"></script>
+  <script src="app.js?v=7.5.0"></script>
 </body>
 
 </html>

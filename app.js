@@ -576,34 +576,63 @@
 
     document.body.classList.remove('sugar-rush-wobble', 'sugar-quake-extreme');
 
+    if (dripCurtain) {
+      dripCurtain.classList.remove('mode-lv10', 'mode-lv11', 'mode-lv12', 'mode-lv13', 'mode-lv14', 'mode-mild', 'mode-full');
+    }
+
     if (appState.overloadShakeMode === 'off') {
-      if (dripCurtain) dripCurtain.classList.remove('active', 'mode-mild', 'mode-full');
+      if (dripCurtain) dripCurtain.classList.remove('active');
       return;
     }
 
-    // 1. 第十四級 (Level 14 / 1000mL / 終極純糖漿 / 地震模式) -> 全部糖漿傾瀉直通底部，超浮誇全螢幕焦糖海嘯
-    const isLevel14Full = lv >= 14 || cubes >= 1000 || appState.scaleOverload || appState.overloadShakeMode === 'quake';
-
-    // 2. 第十級開始 (Level 10 ~ 13 / 260~880方糖) -> 僅頂部邊緣一點點小糖漿，絕不流到全頁面！
-    const isLevel10Mild = !isLevel14Full && (lv >= 10 || cubes >= 260 || appState.overloadShakeMode === 'wobble');
-
-    if (isLevel14Full) {
+    // 1. 第十四級 (Lv.14+ / 1000g / 終極1L純糖漿 / 劇烈地震模式) -> 全部糖漿由上往下傾瀉覆蓋直通底部！
+    if (lv >= 14 || cubes >= 1000 || appState.scaleOverload || appState.overloadShakeMode === 'quake') {
       document.body.classList.add('sugar-quake-extreme');
       spawnHallucinationBarrage(3);
       if (dripCurtain) {
-        dripCurtain.classList.remove('hidden', 'mode-mild');
-        dripCurtain.classList.add('active', 'mode-full');
+        dripCurtain.classList.remove('hidden');
+        dripCurtain.classList.add('active', 'mode-lv14', 'mode-full');
       }
-    } else if (isLevel10Mild) {
+    }
+    // 2. 第十三級 (Lv.13 / 880g) -> 亞臨界果糖海，瀑布垂降至 75%
+    else if (lv === 13 || cubes >= 880) {
+      document.body.classList.add('sugar-rush-wobble');
+      spawnHallucinationBarrage(2);
+      if (dripCurtain) {
+        dripCurtain.classList.remove('hidden');
+        dripCurtain.classList.add('active', 'mode-lv13');
+      }
+    }
+    // 3. 第十二級 (Lv.12 / 650g) -> 史詩社死，瀑布垂降至 50%
+    else if (lv === 12 || cubes >= 650) {
       document.body.classList.add('sugar-rush-wobble');
       spawnHallucinationBarrage(1);
       if (dripCurtain) {
-        dripCurtain.classList.remove('hidden', 'mode-full');
-        dripCurtain.classList.add('active', 'mode-mild');
+        dripCurtain.classList.remove('hidden');
+        dripCurtain.classList.add('active', 'mode-lv12');
       }
-    } else {
+    }
+    // 4. 第十一級 (Lv.11 / 420g) -> 傳奇黑洞，頂部鐘乳石加深，2條小細流垂至 25%
+    else if (lv === 11 || cubes >= 420) {
+      document.body.classList.add('sugar-rush-wobble');
+      spawnHallucinationBarrage(1);
       if (dripCurtain) {
-        dripCurtain.classList.remove('active', 'mode-mild', 'mode-full');
+        dripCurtain.classList.remove('hidden');
+        dripCurtain.classList.add('active', 'mode-lv11');
+      }
+    }
+    // 5. 第十級 (Lv.10 / 260g / 晃動模式) -> 頂部僅露出一點點小糖漿 (~30px)，絕不流到全頁面！
+    else if (lv === 10 || cubes >= 260 || appState.overloadShakeMode === 'wobble') {
+      document.body.classList.add('sugar-rush-wobble');
+      if (dripCurtain) {
+        dripCurtain.classList.remove('hidden');
+        dripCurtain.classList.add('active', 'mode-lv10', 'mode-mild');
+      }
+    }
+    // 6. 低於十級 (< Lv.10) -> 完全乾淨無糖漿
+    else {
+      if (dripCurtain) {
+        dripCurtain.classList.remove('active');
       }
     }
   }
@@ -651,7 +680,7 @@
     selectLadderLevel(0, false);
     const dripCurtain = document.getElementById('top-syrup-drip-curtain') || document.getElementById('syrup-overload-banner');
     if (dripCurtain) {
-      dripCurtain.classList.remove('active', 'mode-mild', 'mode-full');
+      dripCurtain.classList.remove('active', 'mode-lv10', 'mode-lv11', 'mode-lv12', 'mode-lv13', 'mode-lv14', 'mode-mild', 'mode-full');
     }
     broadcastMascotMessage('💉 已為您緊急注射 3,000cc 冰鎮無糖綠茶！網站搖晃與焦糖海嘯已完全抽乾平息！');
     showToast('💉 無糖綠茶解毒完成', '網站已停止搖晃，體內含糖量恢復至 0g 純潔狀態！', 'emerald');
@@ -878,6 +907,10 @@
     if (quoteEl) {
       quoteEl.textContent = form.line;
     }
+    const avatarTitle = document.getElementById('mascot-avatar-form-title');
+    if (avatarTitle) {
+      avatarTitle.textContent = form.name + '形態';
+    }
 
     showCharacterGrandBanner(form.title, form.line, 'amber');
     showToast('✨ 魔王換裝', `糖果魔王已切換為【${form.name}】形態！`, 'amber');
@@ -905,16 +938,21 @@
       svgEl.classList.add('mascot-super-glow');
     }
 
-    // 嘴巴大開開懷大笑表情（頂部從 Y=82 開始向下開口，眼底在 Y=76~77，絕不遮掩眼睛！）
+    // 嘴巴大開開懷大笑表情（頂部從 Y=83 沿上唇平整展開向下張口，牙齒直接懸掛於上唇，絕不浮空或遮擋眼睛！）
+    const fangLeft = document.getElementById('mascot-fang-left');
+    const fangRight = document.getElementById('mascot-fang-right');
+
     if (mouthPath) {
-      mouthPath.setAttribute('d', 'M 46,82 Q 65,80 84,82 Q 65,116 46,82 Z');
+      mouthPath.setAttribute('d', 'M 46,83 Q 65,83 84,83 Q 65,116 46,83 Z');
       mouthPath.setAttribute('fill', '#450A0A');
       mouthPath.setAttribute('stroke', '#451A03');
       mouthPath.setAttribute('stroke-width', '2.5');
     }
+    if (fangLeft) fangLeft.setAttribute('points', '53,83 57,89 61,83');
+    if (fangRight) fangRight.setAttribute('points', '69,83 73,89 77,83');
     if (tongue) {
       tongue.setAttribute('visibility', 'visible');
-      tongue.setAttribute('d', 'M 52,100 Q 65,114 78,100 Z');
+      tongue.setAttribute('d', 'M 52,102 Q 65,115 78,102 Z');
     }
 
     if (window.labAudio && window.labAudio.playMascotLaugh) {
@@ -935,7 +973,7 @@
     showToast('😆 魔王開口笑', '糖果魔王金光暴漲，笑得合不攏嘴！', 'amber');
     speakDialogue(laughMsg, 'mascot');
 
-    // 1.8 秒後平滑恢復原狀，才能再次觸發
+    // 1.8 秒後平滑恢復原狀（牙齒與嘴角同步歸位，才能再次觸發）
     setTimeout(() => {
       if (svgEl) {
         svgEl.classList.remove('mascot-super-glow');
@@ -946,6 +984,8 @@
         mouthPath.setAttribute('stroke', '#451A03');
         mouthPath.setAttribute('stroke-width', '2.5');
       }
+      if (fangLeft) fangLeft.setAttribute('points', '53,85 57,91 61,85');
+      if (fangRight) fangRight.setAttribute('points', '69,85 73,91 77,85');
       if (tongue) {
         tongue.setAttribute('d', 'M55,92 Q65,98 75,92 Z');
         tongue.setAttribute('visibility', 'visible');
