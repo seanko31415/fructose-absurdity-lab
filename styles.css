@@ -1294,49 +1294,126 @@ body.preview-mode-tablet #viewport-simulator-frame .lg\:col-span-8 {
 
 
 /* Top Dramatic Dripping Syrup Curtain on Overload */
+/* ==========================================================================
+   全螢幕真實向下傾瀉焦糖瀑布系統 (Downpour Caramel Waterfall System)
+   ========================================================================== */
 #top-syrup-drip-curtain {
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+  position: fixed;
+  inset: 0;
+  z-index: 99990;
   pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
 #top-syrup-drip-curtain.active {
-  transform: translateY(0%) !important;
+  opacity: 1;
+  visibility: visible;
   pointer-events: auto;
 }
 
-/* 巨幅垂直向下流淌焦糖瀑布流水 (Full Screen Caramel Waterfall Streams) */
-.syrup-waterfall-stream {
-  background: linear-gradient(180deg, 
-    rgba(245, 158, 11, 0.95) 0%, 
-    rgba(217, 119, 6, 0.85) 40%, 
-    rgba(180, 83, 9, 0.9) 80%, 
-    rgba(251, 191, 36, 0.95) 100%
-  );
-  box-shadow: 0 0 18px rgba(245, 158, 11, 0.85), inset 0 0 8px rgba(254, 240, 138, 0.95);
-  border-radius: 9999px;
-  animation: waterfallFlow 1.8s ease-in-out infinite alternate;
+/* 1. 天花板鐘乳石向下滴落 */
+#syrup-top-stalactites {
+  transform: translateY(-100%);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#top-syrup-drip-curtain.active #syrup-top-stalactites {
+  transform: translateY(0);
 }
 
-@keyframes waterfallFlow {
+/* 2. 由上往下垂直噴湧貫穿的糖漿瀑布柱 (Shoot from top to bottom) */
+.syrup-cascade-column {
+  height: 0%;
+  transform-origin: top center;
+  border-radius: 0 0 12px 12px;
+  background: repeating-linear-gradient(
+    180deg,
+    #F59E0B 0px,
+    #D97706 30px,
+    #B45309 60px,
+    #FDE047 90px,
+    #F59E0B 120px
+  );
+  background-size: 100% 120px;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.9), inset 0 0 10px rgba(254, 240, 138, 0.9);
+  opacity: 0;
+  transition: height 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+#top-syrup-drip-curtain.active .syrup-cascade-column {
+  height: 100%;
+  opacity: 0.92;
+  animation: caramelDownstream 0.75s linear infinite;
+}
+
+@keyframes caramelDownstream {
   0% {
-    transform: scaleY(0.96) scaleX(0.85);
-    opacity: 0.8;
+    background-position-y: 0px;
   }
   100% {
-    transform: scaleY(1.03) scaleX(1.15);
-    opacity: 0.98;
+    background-position-y: 120px;
   }
 }
 
-@keyframes dripDrop {
-  0% { transform: translateY(0) scaleY(1); opacity: 0.9; }
-  50% { transform: translateY(8px) scaleY(1.3); opacity: 1; }
-  100% { transform: translateY(0) scaleY(1); opacity: 0.9; }
+/* 3. 雨滴式從頂部快速直墜到底部的焦糖滴 (Falling droplets from top to bottom) */
+.syrup-falling-drop {
+  position: absolute;
+  top: 0;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: radial-gradient(circle at 35% 30%, #FEF08A 0%, #F59E0B 65%, #92400E 100%);
+  box-shadow: 0 0 12px #FDE047;
+  opacity: 0;
+  pointer-events: none;
 }
 
-.syrup-drip-glow {
-  filter: drop-shadow(0 6px 12px rgba(245, 158, 11, 0.7));
-  animation: dripDrop 2.5s ease-in-out infinite;
+#top-syrup-drip-curtain.active .syrup-falling-drop {
+  opacity: 1;
+  animation: dropFallingDown 1.1s cubic-bezier(0.4, 0, 0.8, 1) infinite;
+}
+
+@keyframes dropFallingDown {
+  0% {
+    top: 20px;
+    opacity: 0;
+    transform: scaleY(1.2) scaleX(0.9);
+  }
+  15% {
+    opacity: 1;
+    transform: scaleY(2.2) scaleX(0.7);
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    top: 92vh;
+    opacity: 0;
+    transform: scaleY(0.5) scaleX(1.8);
+  }
+}
+
+/* 4. 底部累積焦糖池 (瀑布落下後才向上蓄水湧現) */
+#syrup-bottom-ocean {
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.35s, opacity 0.5s ease 0.35s;
+}
+
+#top-syrup-drip-curtain.active #syrup-bottom-ocean {
+  transform: translateY(0%);
+  opacity: 1;
+}
+
+/* 5. 中央緊急警報台從上方降下 */
+#syrup-alert-panel {
+  transform: translateY(-60px) scale(0.92);
+  opacity: 0;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s, opacity 0.5s ease 0.25s;
+}
+
+#top-syrup-drip-curtain.active #syrup-alert-panel {
+  transform: translateY(0) scale(1);
+  opacity: 1;
 }
 
 /* ==========================================================================

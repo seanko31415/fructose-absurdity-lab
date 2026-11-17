@@ -760,10 +760,13 @@
       name: '👑 皇家金冠',
       title: '👑 皇家焦糖魔王形態',
       svg: `
-        <polygon points="46,24 54,6 65,18 76,6 84,24" fill="#FDE047" stroke="#FFF" stroke-width="2" />
-        <circle cx="54" cy="9" r="2.5" fill="#EF4444" />
-        <circle cx="65" cy="18" r="3" fill="#06B6D4" />
-        <circle cx="76" cy="9" r="2.5" fill="#10B981" />
+        <g filter="url(#royalCrownGlow)">
+          <polygon points="46,24 54,6 65,18 76,6 84,24" fill="#FDE047" stroke="#FFF" stroke-width="2" />
+          <circle cx="54" cy="9" r="2.8" fill="#EF4444" />
+          <circle cx="65" cy="18" r="3.2" fill="#06B6D4" />
+          <circle cx="76" cy="9" r="2.8" fill="#10B981" />
+          <polygon points="65,96 70,103 65,110 60,103" fill="#EF4444" stroke="#FDE047" stroke-width="1.2" />
+        </g>
       `,
       line: '「本魔王戴上了全糖純金皇冠！整個實驗室的焦糖都聽我號令！」'
     },
@@ -772,11 +775,16 @@
       name: '🕶️ 潮酷墨鏡',
       title: '🕶️ 全糖墨鏡潮魔形態',
       svg: `
-        <rect x="36" y="44" width="26" height="15" rx="3" fill="#0F172A" stroke="#38BDF8" stroke-width="1.8" />
-        <rect x="68" y="44" width="26" height="15" rx="3" fill="#0F172A" stroke="#38BDF8" stroke-width="1.8" />
-        <line x1="62" y1="51" x2="68" y2="51" stroke="#38BDF8" stroke-width="2" />
-        <line x1="39" y1="46" x2="52" y2="57" stroke="#F43F5E" stroke-width="1.2" opacity="0.8" />
-        <line x1="71" y1="46" x2="84" y2="57" stroke="#FBBF24" stroke-width="1.2" opacity="0.8" />
+        <g filter="drop-shadow(0 4px 10px rgba(0,0,0,0.8))">
+          <rect x="33" y="52" width="30" height="24" rx="6" fill="#0A0F1D" stroke="#38BDF8" stroke-width="2" />
+          <rect x="67" y="52" width="30" height="24" rx="6" fill="#0A0F1D" stroke="#38BDF8" stroke-width="2" />
+          <rect x="61" y="60" width="8" height="4" rx="2" fill="#0A0F1D" stroke="#38BDF8" stroke-width="1.5" />
+          <path d="M33,62 L20,56" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" />
+          <path d="M97,62 L110,56" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" />
+          <line x1="37" y1="56" x2="55" y2="72" stroke="#F43F5E" stroke-width="2" stroke-linecap="round" opacity="0.9" />
+          <line x1="71" y1="56" x2="89" y2="72" stroke="#FBBF24" stroke-width="2" stroke-linecap="round" opacity="0.9" />
+          <path d="M44,98 Q65,114 86,98" fill="none" stroke="#FDE047" stroke-width="2.5" stroke-dasharray="3,2" />
+        </g>
       `,
       line: '「墨鏡一戴，全場最帥！誰敢點無糖直接被本魔王帥氣社死！」'
     },
@@ -785,9 +793,15 @@
       name: '😈 調皮惡魔',
       title: '😈 暗夜調皮小魔形態',
       svg: `
-        <path d="M38,32 Q26,12 18,22 Q30,30 38,36 Z" fill="#7C3AED" stroke="#C084FC" stroke-width="1.5" />
-        <path d="M92,32 Q104,12 112,22 Q100,30 92,36 Z" fill="#7C3AED" stroke="#C084FC" stroke-width="1.5" />
-        <path d="M100,98 Q118,108 122,95 L126,102 L116,102 Z" fill="#EF4444" />
+        <g filter="drop-shadow(0 4px 12px rgba(147,51,234,0.7))">
+          <path d="M38,24 C30,10 16,6 14,14 C14,22 26,26 36,28 Z" fill="#9333EA" stroke="#C084FC" stroke-width="1.8" />
+          <path d="M92,24 C100,10 114,6 116,14 C116,22 104,26 94,28 Z" fill="#9333EA" stroke="#C084FC" stroke-width="1.8" />
+          <line x1="16" y1="46" x2="16" y2="108" stroke="#EF4444" stroke-width="2.2" stroke-linecap="round" />
+          <polygon points="12,46 16,36 20,46 16,42" fill="#EF4444" />
+          <line x1="10" y1="47" x2="22" y2="47" stroke="#EF4444" stroke-width="1.8" />
+          <path d="M102,106 Q118,116 120,100" fill="none" stroke="#EF4444" stroke-width="2.2" stroke-linecap="round" />
+          <polygon points="120,94 126,102 116,103" fill="#EF4444" />
+        </g>
       `,
       line: '「嘿嘿嘿！惡魔犄角長出來了！今晚要去哪間寢室偷塞方糖呢？」'
     },
@@ -796,8 +810,15 @@
       name: '😴 昏睡泡泡',
       title: '😴 糖分昏睡果凍形態',
       svg: `
-        <circle cx="78" cy="62" r="8" fill="rgba(6,182,212,0.45)" stroke="#38BDF8" stroke-width="1.5" class="animate-pulse" />
-        <text x="86" y="45" fill="#FBBF24" font-size="12" font-weight="bold">Zzz...</text>
+        <g filter="drop-shadow(0 4px 10px rgba(56,189,248,0.5))">
+          <path d="M50,22 C50,6 80,4 88,14 C94,22 96,34 94,42 Z" fill="#3B82F6" stroke="#93C5FD" stroke-width="1.8" opacity="0.95" />
+          <circle cx="94" cy="42" r="4.5" fill="#FFF" />
+          <circle cx="78" cy="80" r="9" fill="rgba(56,189,248,0.45)" stroke="#38BDF8" stroke-width="1.6" />
+          <circle cx="75" cy="77" r="2.5" fill="#FFF" opacity="0.85" />
+          <text x="86" y="28" fill="#FDE047" font-size="11" font-weight="900" font-family="monospace">Z</text>
+          <text x="96" y="18" fill="#FDE047" font-size="13" font-weight="900" font-family="monospace">z</text>
+          <text x="108" y="10" fill="#FDE047" font-size="16" font-weight="900" font-family="monospace">z</text>
+        </g>
       `,
       line: '「呼嚕嚕...糖分吃太多了...本魔王眼皮好沉重...別吵我睡覺...」'
     },
@@ -806,9 +827,14 @@
       name: '⚡ 狂暴超導',
       title: '⚡ 狂暴高頻超導形態',
       svg: `
-        <polygon points="65,4 60,18 72,18 58,34 68,20 56,20" fill="#FDE047" stroke="#FFF" stroke-width="1" class="animate-bounce" />
-        <circle cx="28" cy="50" r="4" fill="#38BDF8" class="animate-ping" />
-        <circle cx="102" cy="50" r="4" fill="#F43F5E" class="animate-ping" />
+        <g filter="drop-shadow(0 0 14px rgba(253,224,71,0.95))">
+          <polygon points="65,2 58,16 68,16 54,32 66,17 56,17" fill="#FDE047" stroke="#FFF" stroke-width="1.5" />
+          <path d="M18,48 L10,56 L20,62" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round" />
+          <path d="M112,48 L120,56 L110,62" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round" />
+          <circle cx="34" cy="98" r="3" fill="#FDE047" />
+          <circle cx="96" cy="98" r="3" fill="#38BDF8" />
+          <circle cx="65" cy="112" r="3.5" fill="#F43F5E" />
+        </g>
       `,
       line: '「轟隆隆！超導電流引爆！本魔王全身上下充斥著十萬伏特焦糖雷電！」'
     }
@@ -864,19 +890,16 @@
       svgEl.classList.add('mascot-super-glow');
     }
 
-    // 嘴巴大開開懷大笑表情
+    // 嘴巴大開開懷大笑表情（頂部從 Y=82 開始向下開口，眼底在 Y=76~77，絕不遮掩眼睛！）
     if (mouthPath) {
-      mouthPath.setAttribute('d', 'M 44,72 Q 65,108 86,72 Q 65,66 44,72 Z');
+      mouthPath.setAttribute('d', 'M 46,82 Q 65,80 84,82 Q 65,116 46,82 Z');
       mouthPath.setAttribute('fill', '#450A0A');
-      mouthPath.setAttribute('stroke', '#FFF');
-      mouthPath.setAttribute('stroke-width', '3');
+      mouthPath.setAttribute('stroke', '#451A03');
+      mouthPath.setAttribute('stroke-width', '2.5');
     }
     if (tongue) {
       tongue.setAttribute('visibility', 'visible');
-      tongue.setAttribute('cx', '65');
-      tongue.setAttribute('cy', '90');
-      tongue.setAttribute('rx', '14');
-      tongue.setAttribute('ry', '10');
+      tongue.setAttribute('d', 'M 52,100 Q 65,114 78,100 Z');
     }
 
     if (window.labAudio && window.labAudio.playMascotLaugh) {
