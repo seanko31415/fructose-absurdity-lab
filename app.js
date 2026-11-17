@@ -709,6 +709,7 @@
   }
 
   function clickFructoseMonster() {
+    tickleMascotBelly();
     feedMascotSugar(1);
   }
 
@@ -750,19 +751,69 @@
   // 戳戳魔王肚皮
   function tickleMascotBelly() {
     const btn = document.getElementById('mascot-avatar-btn');
+    const svgEl = btn ? btn.querySelector('svg') : null;
+    const mouthPath = document.getElementById('mascot-mouth-path');
+    const tongue = document.getElementById('mascot-tongue');
+    const quoteEl = document.getElementById('mascot-quote-text');
+
+    // 1. 超級耀眼光芒 ＆ 果凍彈跳
     if (btn) {
       btn.classList.remove('jelly-squish', 'jelly-bounce');
       void btn.offsetWidth;
       btn.classList.add('jelly-bounce');
     }
-    if (window.labAudio && window.labAudio.playBubble) {
+    if (svgEl) {
+      svgEl.classList.remove('mascot-super-glow');
+      void svgEl.offsetWidth;
+      svgEl.classList.add('mascot-super-glow');
+      setTimeout(() => svgEl.classList.remove('mascot-super-glow'), 2200);
+    }
+
+    // 2. 嘴巴張大開懷大笑表情
+    if (mouthPath) {
+      mouthPath.setAttribute('d', 'M 44,72 Q 65,106 86,72 Q 65,68 44,72 Z');
+      mouthPath.setAttribute('fill', '#450A0A');
+      mouthPath.setAttribute('stroke', '#FFF');
+      mouthPath.setAttribute('stroke-width', '3');
+    }
+    if (tongue) {
+      tongue.setAttribute('visibility', 'visible');
+      tongue.setAttribute('cx', '65');
+      tongue.setAttribute('cy', '88');
+      tongue.setAttribute('rx', '13');
+      tongue.setAttribute('ry', '9');
+    }
+
+    // 3. 播放專屬狂笑音效 ＆ 真人語音大笑
+    if (window.labAudio && window.labAudio.playMascotLaugh) {
+      window.labAudio.playMascotLaugh();
+    } else if (window.labAudio && window.labAudio.playBubble) {
       window.labAudio.playBubble();
     }
-    const quoteEl = document.getElementById('mascot-quote-text');
+    const laughLines = [
+      '「哈哈哈哈！別戳肚皮啦！好癢好甜啊！金黃糖漿要噴出來了！」',
+      '「嘻嘻嘻嘻！魔王也是怕癢的！金光閃閃糖漿爆發啦！」',
+      '「噗嗤哈哈哈！受不了啦！再戳本魔王就要笑成一顆全糖大泡泡了！」'
+    ];
+    const laughMsg = laughLines[Math.floor(Math.random() * laughLines.length)];
     if (quoteEl) {
-      quoteEl.textContent = '「噗嗤哈哈哈！好癢！魔王的肚皮不是給人隨便戳的啦！(扭動)」';
+      quoteEl.textContent = laughMsg;
     }
-    showToast('🤏 戳戳肚皮', '糖果魔王被你戳得笑得合不攏嘴！', 'fuchsia');
+    showToast('😆 魔王開口笑', '糖果魔王金光暴漲，笑得合不攏嘴！', 'amber');
+    speakDialogue(laughMsg);
+
+    // 4. 2.2 秒後嘴巴平滑收回微笑
+    setTimeout(() => {
+      if (mouthPath) {
+        mouthPath.setAttribute('d', 'M 48,76 Q 65,92 82,76');
+        mouthPath.setAttribute('fill', 'none');
+        mouthPath.setAttribute('stroke', '#450A0A');
+        mouthPath.setAttribute('stroke-width', '3');
+      }
+      if (tongue) {
+        tongue.setAttribute('visibility', 'hidden');
+      }
+    }, 2200);
   }
 
   function triggerSecretMonsterEasterEgg() {
@@ -3662,41 +3713,55 @@
     let mouseY = -100;
     let ringX = -100;
     let ringY = -100;
+    let rafScheduled = false;
+
+    // 快取魔王按鈕中心座標，避免頻繁觸發 forced layout thrashing
+    let mascotCenter = null;
+    function updateMascotCenterCache() {
+      const mascotBtn = document.getElementById('mascot-avatar-btn');
+      if (mascotBtn) {
+        const rect = mascotBtn.getBoundingClientRect();
+        mascotCenter = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+      }
+    }
+    updateMascotCenterCache();
+    window.addEventListener('resize', updateMascotCenterCache, { passive: true });
+    window.addEventListener('scroll', updateMascotCenterCache, { passive: true });
+
+    function renderCursor() {
+      dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+      ringX += (mouseX - ringX) * 0.75;
+      ringY += (mouseY - ringY) * 0.75;
+      ring.style.transform = `translate3d(${ringX.toFixed(1)}px, ${ringY.toFixed(1)}px, 0)`;
+
+      if (mascotCenter) {
+        updateMascotEyesWithCache(mouseX, mouseY, mascotCenter);
+      }
+      rafScheduled = false;
+    }
 
     const onPointerMove = (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      // 核心光點與外環直接鎖定座標，完全不建立額外 DOM 節點，確保按鈕與捲動 120fps 絲滑順暢
-      dot.style.left = `${mouseX}px`;
-      dot.style.top = `${mouseY}px`;
-      if (ringX < 0 || Math.hypot(mouseX - ringX, mouseY - ringY) > 160) {
-        ringX = mouseX;
-        ringY = mouseY;
+      if (ringX < 0) { ringX = mouseX; ringY = mouseY; }
+      if (!rafScheduled) {
+        rafScheduled = true;
+        requestAnimationFrame(renderCursor);
       }
-      ringX += (mouseX - ringX) * 0.78;
-      ringY += (mouseY - ringY) * 0.78;
-      ring.style.left = `${ringX.toFixed(1)}px`;
-      ring.style.top = `${ringY.toFixed(1)}px`;
-      updateMascotEyes(mouseX, mouseY);
     };
 
     window.addEventListener('pointermove', onPointerMove, { passive: true });
 
     document.addEventListener('mouseover', (e) => {
       if (e.target && e.target.closest && e.target.closest('button, a, input, textarea, select, [role="button"], .card-3d-item, .cursor-pointer, .liquid-glass-btn')) {
-        document.body.classList.add('cursor-is-hovering');
+        document.body.classList.add('cursor-hover-active');
+      } else {
+        document.body.classList.remove('cursor-hover-active');
       }
-    });
-
-    document.addEventListener('mouseout', (e) => {
-      if (e.target && e.target.closest && e.target.closest('button, a, input, textarea, select, [role="button"], .card-3d-item, .cursor-pointer, .liquid-glass-btn')) {
-        document.body.classList.remove('cursor-is-hovering');
-      }
-    });
+    }, { passive: true });
 
     document.addEventListener('mousedown', () => {
       document.body.classList.add('cursor-is-clicking');
-      // 僅在用戶從未手動關閉過 BGM、且尚未首次喚醒時才自動啟動
       if (!appState.bgmManualMuted && !appState.bgmFirstUnlocked && window.labAudio && !window.labAudio.bgmPlaying && appState.soundEnabled) {
         appState.bgmFirstUnlocked = true;
         window.labAudio.startBGM();
@@ -3710,18 +3775,13 @@
     });
   }
 
-  function updateMascotEyes(mouseX, mouseY) {
-    const mascotBtn = document.getElementById('mascot-avatar-btn');
+  function updateMascotEyesWithCache(mouseX, mouseY, center) {
     const pupilLeft = document.getElementById('mascot-pupil-left');
     const pupilRight = document.getElementById('mascot-pupil-right');
-    if (!mascotBtn || !pupilLeft || !pupilRight) return;
+    if (!pupilLeft || !pupilRight) return;
 
-    const rect = mascotBtn.getBoundingClientRect();
-    const mascotCenterX = rect.left + rect.width / 2;
-    const mascotCenterY = rect.top + rect.height / 2;
-
-    const dx = mouseX - mascotCenterX;
-    const dy = mouseY - mascotCenterY;
+    const dx = mouseX - center.x;
+    const dy = mouseY - center.y;
     const angle = Math.atan2(dy, dx);
     const distance = Math.min(6.5, Math.hypot(dx, dy) * 0.045);
 
@@ -3730,26 +3790,6 @@
 
     pupilLeft.style.transform = `translate(${pupilDx.toFixed(1)}px, ${pupilDy.toFixed(1)}px)`;
     pupilRight.style.transform = `translate(${pupilDx.toFixed(1)}px, ${pupilDy.toFixed(1)}px)`;
-  }
-
-  function toggleBgmMusic() {
-    if (window.labAudio && window.labAudio.bgmPlaying) {
-      appState.bgmManualMuted = true;
-      window.labAudio.stopBGM();
-      const eqBars = document.getElementById('hud-eq-bars');
-      if (eqBars) {
-        eqBars.classList.add('eq-paused');
-      }
-      showToast('背景環境音', '已完全關閉 BGM 🎵', 'cyan');
-    } else if (window.labAudio) {
-      appState.bgmManualMuted = false;
-      window.labAudio.startBGM();
-      const eqBars = document.getElementById('hud-eq-bars');
-      if (eqBars) {
-        eqBars.classList.remove('eq-paused');
-      }
-      showToast('背景環境音', '已開啟調皮搞笑 BGM 🎵', 'emerald');
-    }
   }
 
   // ========================================================================
