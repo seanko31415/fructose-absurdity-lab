@@ -566,12 +566,12 @@
 
   function applyCreativeSugarOverloadEffects() {
     const cubes = appState.globalSugarCubes;
-    const overloadBanner = document.getElementById('syrup-overload-banner');
+    const dripCurtain = document.getElementById('top-syrup-drip-curtain') || document.getElementById('syrup-overload-banner');
 
     document.body.classList.remove('sugar-rush-wobble', 'sugar-quake-extreme');
 
     if (appState.overloadShakeMode === 'off') {
-      if (overloadBanner) overloadBanner.classList.remove('active');
+      if (dripCurtain) dripCurtain.classList.remove('active');
       return;
     }
 
@@ -585,12 +585,12 @@
         document.body.classList.add('sugar-rush-wobble');
         spawnHallucinationBarrage(2);
       }
-      if (overloadBanner) {
-        overloadBanner.classList.remove('hidden');
-        overloadBanner.classList.add('active');
+      if (dripCurtain) {
+        dripCurtain.classList.remove('hidden');
+        dripCurtain.classList.add('active');
       }
     } else {
-      if (overloadBanner) overloadBanner.classList.remove('active');
+      if (dripCurtain) dripCurtain.classList.remove('active');
     }
   }
 
@@ -4226,14 +4226,21 @@
   }
 
   function jumpToSection(sectionId) {
-    // 確保回到第 1 頁主畫面並捲動至目標錨點
-    switchLabPage(1);
+    if (sectionId === 'arcade-game-section' || sectionId === 'shaker-hub-section' || sectionId === 'sugar-catcher-canvas') {
+      switchLabPage(4);
+    } else if (sectionId === 'hall-of-shame-grid' || sectionId === 'pk-battle-section' || sectionId === 'receipt-printer-section') {
+      switchLabPage(3);
+    } else if (sectionId === 'quiz-matrix-section') {
+      switchLabPage(2);
+    } else {
+      switchLabPage(1);
+    }
     setTimeout(() => {
       const el = document.getElementById(sectionId);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-    }, 100);
+    }, 150);
   }
 
   function jumpToArcadeAndStart() {
@@ -4245,9 +4252,9 @@
 
   function resetLabOverload() {
     emergencyGreenTeaFlush();
-    const banner = document.getElementById('syrup-overload-banner');
-    if (banner) {
-      banner.classList.remove('active');
+    const dripCurtain = document.getElementById('top-syrup-drip-curtain') || document.getElementById('syrup-overload-banner');
+    if (dripCurtain) {
+      dripCurtain.classList.remove('active');
     }
   }
 
