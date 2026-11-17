@@ -1179,13 +1179,17 @@
     pulseReactorFission();
   }
 
-  // 🎛️ 糖感神經波形諧振合成器互動邏輯
+  // 🎛️ 糖感神經波形諧振合成器互動邏輯 (精準波形演算＆修復 0Hz 靜音波)
   function setSynthesizerWaveform(type, freq) {
     appState.synthWaveform = type;
-    if (freq !== undefined && freq > 0) {
-      appState.synthFrequency = freq;
+    if (freq !== undefined) {
+      appState.synthFrequency = Number(freq) || 0;
       const slider = document.getElementById('synth-freq-slider');
-      if (slider) slider.value = String(freq);
+      if (slider) slider.value = String(appState.synthFrequency);
+      const readout = document.getElementById('synth-freq-readout');
+      if (readout) {
+        readout.textContent = appState.synthFrequency === 0 ? '0 Hz (平靜無糖態)' : `${appState.synthFrequency} Hz`;
+      }
     }
     const btns = ['sine', 'triangle', 'sawtooth', 'square'];
     btns.forEach(b => {
@@ -1197,28 +1201,33 @@
     });
     const nameMap = {
       sine: 'SINE WAVE (0Hz 純淨平靜波)',
-      triangle: 'TRIANGLE WAVE (440Hz 奶茶微糖諧波)',
+      triangle: 'TRIANGLE WAVE (440Hz 奶茶微糖三角波)',
       sawtooth: 'SAWTOOTH WAVE (880Hz 全糖亢奮鋸齒波)',
-      square: 'SQUARE WAVE (1760Hz 爆表神經痙攣波)'
+      square: 'SQUARE WAVE (1760Hz 爆表神經方波)'
     };
     const nameEl = document.getElementById('synth-wave-name');
     if (nameEl) nameEl.textContent = nameMap[type] || type.toUpperCase();
 
     renderSynthesizerWave();
-    playSynthesizerTone();
+    if (appState.synthFrequency > 0) {
+      playSynthesizerTone();
+    }
   }
 
   function setSynthesizerFrequency(freq) {
-    appState.synthFrequency = Number(freq) || 440;
+    appState.synthFrequency = Number(freq) || 0;
     const readout = document.getElementById('synth-freq-readout');
-    if (readout) readout.textContent = `${appState.synthFrequency} Hz`;
+    if (readout) {
+      readout.textContent = appState.synthFrequency === 0 ? '0 Hz (平靜無糖態)' : `${appState.synthFrequency} Hz`;
+    }
     renderSynthesizerWave();
-    if (window.labAudio && window.labAudio.playFrequencyTone) {
+    if (appState.synthFrequency > 0 && window.labAudio && window.labAudio.playFrequencyTone) {
       window.labAudio.playFrequencyTone(appState.synthFrequency, appState.synthWaveform || 'triangle', 0.12);
     }
   }
 
   function playSynthesizerTone() {
+    if (appState.synthFrequency <= 0) return;
     if (window.labAudio && window.labAudio.playFrequencyTone) {
       window.labAudio.playFrequencyTone(appState.synthFrequency || 440, appState.synthWaveform || 'triangle', 0.35);
     }
@@ -1239,28 +1248,51 @@
         const type = appState.synthWaveform || 'triangle';
         const w = 500;
         const midY = 40;
-        const isMuted = (type === 'sine' && freq === 0);
-        const baseAmp = isMuted ? 0 : 22;
-        const amp = baseAmp + (isMuted ? 0 : Math.sin(synthPhase * 2.2) * 4);
-        const speed = isMuted ? 0 : Math.max(0.04, Math.min(0.25, (freq / 440) * 0.08));
-        synthPhase += speed;
+        const isMuted = (type === 'sine' && freq === 0) || freq <= 0;
 
-        const cycles = Math.max(2, Math.min(18, Math.round(freq / 110)));
-        const segW = w / cycles;
-        const offset = isMuted ? 0 : ((synthPhase * 32) % segW);
+        // 依據波形模式動態更新霓虹光輝色彩
+        const waveColors = {
+          sine: { stroke: '#10B981', filter: 'drop-shadow(0 0 8px rgba(16,185,129,0.85))' },
+          triangle: { stroke: '#06B6D4', filter: 'drop-shadow(0 0 8px rgba(6,182,212,0.85))' },
+          sawtooth: { stroke: '#FBBF24', filter: 'drop-shadow(0 0 8px rgba(251,191,36,0.85))' },
+          square: { stroke: '#EF4444', filter: 'drop-shadow(0 0 8px rgba(239,68,68,0.85))' }
+        };
+        const colorCfg = waveColors[type] || waveColors.triangle;
+        pathEl.setAttribute('stroke', colorCfg.stroke);
+        pathEl.style.filter = colorCfg.filter;
 
-        let d = `M 0,${midY}`;
-        for (let x = -segW; x <= w + segW * 2; x += segW) {
-          const drawX = x - offset;
-          if (type === 'square') {
-            d += ` L ${drawX},${midY - amp} L ${drawX + segW / 2},${midY - amp} L ${drawX + segW / 2},${midY + amp} L ${drawX + segW},${midY + amp} L ${drawX + segW},${midY}`;
-          } else if (type === 'sawtooth') {
-            d += ` L ${drawX},${midY - amp} L ${drawX + segW},${midY + amp} L ${drawX + segW},${midY}`;
-          } else {
-            d += ` Q ${drawX + segW / 4},${midY - amp} ${drawX + segW / 2},${midY} Q ${drawX + segW * 0.75},${midY + amp} ${drawX + segW},${midY}`;
+        if (isMuted) {
+          // 0Hz 純淨平靜態：平滑直線
+          pathEl.setAttribute('d', `M 0,${midY} L ${w},${midY}`);
+        } else {
+          const baseAmp = 22;
+          const amp = baseAmp + Math.sin(synthPhase * 2.2) * 3;
+          const speed = Math.max(0.04, Math.min(0.25, (freq / 440) * 0.08));
+          synthPhase += speed;
+
+          const cycles = Math.max(2, Math.min(18, Math.round(freq / 110)));
+          const segW = w / cycles;
+          const offset = (synthPhase * 32) % segW;
+
+          let d = `M 0,${midY}`;
+          for (let x = -segW; x <= w + segW * 2; x += segW) {
+            const drawX = x - offset;
+            if (type === 'square') {
+              // 矩形方波
+              d += ` L ${drawX},${midY - amp} L ${drawX + segW / 2},${midY - amp} L ${drawX + segW / 2},${midY + amp} L ${drawX + segW},${midY + amp} L ${drawX + segW},${midY}`;
+            } else if (type === 'sawtooth') {
+              // 銳利鋸齒波
+              d += ` L ${drawX},${midY + amp} L ${drawX + segW},${midY - amp} L ${drawX + segW},${midY + amp}`;
+            } else if (type === 'triangle') {
+              // 三角波 (銳利折線)
+              d += ` L ${drawX + segW * 0.25},${midY - amp} L ${drawX + segW * 0.75},${midY + amp} L ${drawX + segW},${midY}`;
+            } else {
+              // 正弦波 (平滑平曲線)
+              d += ` Q ${drawX + segW * 0.25},${midY - amp} ${drawX + segW * 0.5},${midY} Q ${drawX + segW * 0.75},${midY + amp} ${drawX + segW},${midY}`;
+            }
           }
+          pathEl.setAttribute('d', d);
         }
-        pathEl.setAttribute('d', d);
       }
       requestAnimationFrame(loop);
     }
@@ -1352,18 +1384,32 @@
       const levelsToShow = DATA.fructoseLevels.filter(x => !x.isSecret || appState.easterEggUnlocked);
       matrix.innerHTML = levelsToShow.map(l => {
         const active = l.level === lv;
+        const isLv14 = l.level === 14;
+        let cardBg = 'bg-slate-950/85 border-slate-800 hover:border-amber-400/60 hover:bg-slate-900';
+        if (active) {
+          cardBg = 'bg-gradient-to-b from-amber-500/30 via-slate-900 to-slate-950 border-2 border-amber-300 shadow-[0_0_24px_rgba(245,158,11,0.55)] scale-[1.04] ring-1 ring-amber-400/50';
+        } else if (isLv14) {
+          cardBg = 'bg-gradient-to-b from-red-950/70 via-slate-900 to-slate-950 border-2 border-red-500 shadow-[0_0_25px_rgba(239,68,68,0.5)] animate-pulse';
+        }
         return `
           <button onclick="window.LabApp.selectLadderLevel(${l.level}, true)"
-                  class="p-2.5 rounded-xl border text-left transition-all flex flex-col justify-between ${
-                    active
-                      ? 'bg-amber-500/25 border-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.3)] scale-[1.02]'
-                      : 'bg-slate-950/80 border-slate-800 hover:border-amber-500/40'
-                  }">
-            <div class="flex items-center justify-between w-full font-mono text-xs">
-              <span class="font-extrabold ${active ? 'text-amber-300' : 'text-slate-400'}">Lv.${l.level}</span>
-              <span class="text-[11px] ${l.level >= 10 ? 'text-red-400' : 'text-cyan-300'}">${l.level === 14 ? '1000+' : l.cubes}顆</span>
+                  class="p-3 sm:p-3.5 rounded-2xl border text-left transition-all flex flex-col justify-between ${cardBg} cursor-pointer group">
+            <div class="flex items-center justify-between w-full font-mono">
+              <span class="text-xs sm:text-sm font-black ${isLv14 ? 'text-red-400' : active ? 'text-amber-300' : 'text-slate-200'}">
+                Lv.${l.level}
+              </span>
+              <span class="text-[10px] sm:text-xs font-bold px-1.5 py-0.2 rounded ${
+                isLv14 ? 'bg-red-500 text-slate-950 font-black' : active ? 'bg-amber-400 text-slate-950 font-bold' : 'bg-slate-800 text-slate-300'
+              }">
+                ${isLv14 ? '1000+顆' : `${l.cubes}顆`}
+              </span>
             </div>
-            <div class="text-xs font-bold text-white truncate mt-1">${l.name}</div>
+            <div class="text-xs sm:text-sm font-extrabold text-white truncate mt-1.5 group-hover:text-amber-300 transition-colors">
+              ${l.name}
+            </div>
+            <div class="font-mono text-[9px] text-slate-400 mt-0.5 truncate">
+              ${l.grams}g (${l.viscosity || '1.0 cP'})
+            </div>
           </button>
         `;
       }).join('');
@@ -1881,6 +1927,9 @@
 
     window.labAudio.playSugarDrop(1);
 
+    // 即時同步右側進度儀表板與腦波 ECG 監測 (不再有延遲)
+    updateQuizGaugeAndSummary();
+
     const answeredCount = Object.keys(appState.quizAnswers).length;
     const totalCount = qList.length;
 
@@ -1893,21 +1942,26 @@
         setTimeout(() => {
           appState.quizIndex += 1;
           renderCalibrationSection();
-        }, 220);
+        }, 180);
       } else {
         renderCalibrationSection();
       }
     }
   }
 
-  // 作答完畢：全面統計揭曉最終糖度
+  // 作答完畢：全面統計揭曉最終糖度、Level 級數並即時印出專屬診斷書
   function finishAndRevealQuizVerdict() {
     appState.quizCompleted = true;
     const sumCubes = getQuizSumCubes();
     const grams = sumCubes * 5;
     const lvObj = cubesToLevelObj(sumCubes);
+    const answeredCount = Object.keys(appState.quizAnswers).length;
+    const totalCount = appState.activeQuestions ? appState.activeQuestions.length : 20;
 
     setGlobalSugarCubes(Math.max(appState.globalSugarCubes, sumCubes), { syncLadder: true });
+
+    // 即時依受測者作答記錄生成獨一無二的專屬熱感收據 (即時變動)
+    printQuizSummaryToReceipt();
 
     const revealBox = document.getElementById('quiz-final-reveal-box');
     const tagEl = document.getElementById('final-sugar-verdict-tag');
@@ -1915,14 +1969,36 @@
 
     if (revealBox) {
       revealBox.classList.remove('hidden');
-      if (tagEl) tagEl.textContent = `Lv.${lvObj.level} ${lvObj.name}`;
+      if (tagEl) {
+        tagEl.textContent = `Lv.${lvObj.level} ${lvObj.name}`;
+        tagEl.className = 'px-3 py-1 rounded-xl bg-amber-400 text-slate-950 font-black text-xs shadow-md';
+      }
       if (descEl) {
+        const ticketId = appState.currentReceipt ? appState.currentReceipt.ticketId : 'RX-CONFIDENTIAL';
         descEl.innerHTML = `
-          <div class="text-amber-300 font-mono text-base font-black mb-1">
-            總測得糖度：${sumCubes} 顆方糖 (含糖量 ${grams}g) — 【${lvObj.stamp}】
-          </div>
-          <div class="text-xs text-slate-200 leading-relaxed break-words">
-            ${lvObj.symptom}
+          <div class="space-y-3">
+            <div class="p-3.5 rounded-2xl bg-gradient-to-r from-amber-500/20 via-slate-900 to-amber-950/40 border border-amber-400/50 flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <div class="text-[10px] font-mono text-slate-400">核定糖度當量</div>
+                <div class="text-2xl font-black text-amber-300 font-mono">${sumCubes} 顆方糖 (${grams}g)</div>
+              </div>
+              <div>
+                <div class="text-[10px] font-mono text-slate-400">核定等級</div>
+                <div class="text-lg font-black text-cyan-300">Lv.${lvObj.level} ${lvObj.name}</div>
+              </div>
+              <div>
+                <div class="text-[10px] font-mono text-slate-400">作答題數完成度</div>
+                <div class="text-sm font-black text-emerald-300 font-mono">100% (${answeredCount}/${totalCount}題)</div>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-950/90 border border-white/10 text-xs text-slate-300 space-y-1">
+              <div class="font-mono text-amber-400 font-bold flex items-center gap-1.5">
+                <span>📋 臨床判決引述：</span>
+                <span class="text-[10px] text-slate-500 font-mono">[${ticketId}]</span>
+              </div>
+              <p class="leading-relaxed text-slate-200">${lvObj.symptom}</p>
+            </div>
           </div>
         `;
       }
@@ -1931,8 +2007,8 @@
     renderCalibrationSection();
     window.labAudio.playVictoryFanfare();
     if (sumCubes >= 25) triggerLabShake();
-    broadcastMascotMessage(`🎉 全數問答完成！共核定 ${sumCubes} 顆方糖！獲得「${lvObj.name}」診斷！`);
-    showToast('🎉 糖度結算完成！', `共計 ${sumCubes} 顆方糖（${grams}g），已核發診斷！可前往第 3 頁列印收據！`, 'amber');
+    broadcastMascotMessage(`🎉 全數問答完成！共核定 ${sumCubes} 顆方糖（${grams}g）！已同步印出 Lv.${lvObj.level} 專屬臨床診斷收據！`);
+    showToast('🎉 糖度結算完成！', `已完成 ${totalCount} 題診斷！核定 Lv.${lvObj.level} ${lvObj.name}，可點擊查看診斷收據！`, 'amber');
   }
 
   function jumpToQuizStep(idx) {
@@ -3724,6 +3800,43 @@
     const calculatedCubes = Math.max(5, Math.round((avgScore / 100) * 85));
     bobaRadarState.calculatedCubes = calculatedCubes;
 
+    // 1. 即時連動左側圖：靈魂特調手搖杯 (液面升降、色彩漸變、配料氣泡)
+    const liquidLayer = document.getElementById('boba-cup-liquid-layer');
+    const bobaStatus = document.getElementById('boba-cup-status');
+    const bobaMl = document.getElementById('boba-cup-ml-text');
+    const bobaToppings = document.getElementById('boba-cup-toppings-visual');
+
+    const fillPct = Math.max(15, Math.min(96, Math.round(avgScore)));
+    if (liquidLayer) {
+      liquidLayer.style.height = `${fillPct}%`;
+      if (avgScore < 30) {
+        liquidLayer.style.background = 'linear-gradient(to top, #064E3B, #059669, #34D399)';
+      } else if (avgScore < 60) {
+        liquidLayer.style.background = 'linear-gradient(to top, #78350F, #D97706, #FBBF24)';
+      } else {
+        liquidLayer.style.background = 'linear-gradient(to top, #450A0A, #DC2626, #F59E0B)';
+      }
+    }
+    if (bobaStatus) {
+      if (avgScore < 25) bobaStatus.textContent = '無糖微涼・純淨玄米';
+      else if (avgScore < 50) bobaStatus.textContent = '微糖半糖・微醺珍奶';
+      else if (avgScore < 75) bobaStatus.textContent = '少糖全糖・香濃焦糖';
+      else bobaStatus.textContent = '🔥 焦糖核爆・過載濃縮';
+    }
+    if (bobaMl) {
+      bobaMl.textContent = `${Math.round(250 + fillPct * 4.5)}ml (${calculatedCubes}顆方糖)`;
+    }
+    if (bobaToppings) {
+      const bubbleCount = Math.min(8, Math.max(2, Math.round(avgScore / 14)));
+      const items = ['⚫', '🧊', '🧋', '🍯'];
+      let html = '';
+      for (let k = 0; k < bubbleCount; k++) {
+        html += `<span class="text-xs inline-block animate-bounce" style="animation-delay:${(k * 0.15).toFixed(2)}s">${items[k % items.length]}</span>`;
+      }
+      bobaToppings.innerHTML = html;
+    }
+
+    // 2. 即時連動右側圖：雷達數據徽章與綜合判定
     const resBadge = document.getElementById('radar-total-score-badge');
     if (resBadge) resBadge.textContent = `綜合糖度：${Math.round(avgScore * 8)}% 爆糖`;
 
