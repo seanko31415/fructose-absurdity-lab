@@ -749,14 +749,109 @@
   }
 
   // 戳戳魔王肚皮
+  
+  // ========================================================================
+  // 糖果魔王 5 大百變造型系統 (Form-Shifting Demon King System)
+  // ========================================================================
+  const MASCOT_FORMS = [
+    {
+      id: 'crown',
+      name: '👑 皇家金冠',
+      title: '👑 皇家焦糖魔王形態',
+      svg: `
+        <polygon points="46,24 54,6 65,18 76,6 84,24" fill="#FDE047" stroke="#FFF" stroke-width="2" />
+        <circle cx="54" cy="9" r="2.5" fill="#EF4444" />
+        <circle cx="65" cy="18" r="3" fill="#06B6D4" />
+        <circle cx="76" cy="9" r="2.5" fill="#10B981" />
+      `,
+      line: '「本魔王戴上了全糖純金皇冠！整個實驗室的焦糖都聽我號令！」'
+    },
+    {
+      id: 'shades',
+      name: '🕶️ 潮酷墨鏡',
+      title: '🕶️ 全糖墨鏡潮魔形態',
+      svg: `
+        <rect x="36" y="44" width="26" height="15" rx="3" fill="#0F172A" stroke="#38BDF8" stroke-width="1.8" />
+        <rect x="68" y="44" width="26" height="15" rx="3" fill="#0F172A" stroke="#38BDF8" stroke-width="1.8" />
+        <line x1="62" y1="51" x2="68" y2="51" stroke="#38BDF8" stroke-width="2" />
+        <line x1="39" y1="46" x2="52" y2="57" stroke="#F43F5E" stroke-width="1.2" opacity="0.8" />
+        <line x1="71" y1="46" x2="84" y2="57" stroke="#FBBF24" stroke-width="1.2" opacity="0.8" />
+      `,
+      line: '「墨鏡一戴，全場最帥！誰敢點無糖直接被本魔王帥氣社死！」'
+    },
+    {
+      id: 'devil',
+      name: '😈 調皮惡魔',
+      title: '😈 暗夜調皮小魔形態',
+      svg: `
+        <path d="M38,32 Q26,12 18,22 Q30,30 38,36 Z" fill="#7C3AED" stroke="#C084FC" stroke-width="1.5" />
+        <path d="M92,32 Q104,12 112,22 Q100,30 92,36 Z" fill="#7C3AED" stroke="#C084FC" stroke-width="1.5" />
+        <path d="M100,98 Q118,108 122,95 L126,102 L116,102 Z" fill="#EF4444" />
+      `,
+      line: '「嘿嘿嘿！惡魔犄角長出來了！今晚要去哪間寢室偷塞方糖呢？」'
+    },
+    {
+      id: 'sleepy',
+      name: '😴 昏睡泡泡',
+      title: '😴 糖分昏睡果凍形態',
+      svg: `
+        <circle cx="78" cy="62" r="8" fill="rgba(6,182,212,0.45)" stroke="#38BDF8" stroke-width="1.5" class="animate-pulse" />
+        <text x="86" y="45" fill="#FBBF24" font-size="12" font-weight="bold">Zzz...</text>
+      `,
+      line: '「呼嚕嚕...糖分吃太多了...本魔王眼皮好沉重...別吵我睡覺...」'
+    },
+    {
+      id: 'overdrive',
+      name: '⚡ 狂暴超導',
+      title: '⚡ 狂暴高頻超導形態',
+      svg: `
+        <polygon points="65,4 60,18 72,18 58,34 68,20 56,20" fill="#FDE047" stroke="#FFF" stroke-width="1" class="animate-bounce" />
+        <circle cx="28" cy="50" r="4" fill="#38BDF8" class="animate-ping" />
+        <circle cx="102" cy="50" r="4" fill="#F43F5E" class="animate-ping" />
+      `,
+      line: '「轟隆隆！超導電流引爆！本魔王全身上下充斥著十萬伏特焦糖雷電！」'
+    }
+  ];
+
+  let currentMascotFormIndex = 0;
+
+  function cycleMascotForm() {
+    window.labAudio && (window.labAudio.playLaser ? window.labAudio.playLaser() : window.labAudio.playChime());
+    currentMascotFormIndex = (currentMascotFormIndex + 1) % MASCOT_FORMS.length;
+    applyMascotForm(currentMascotFormIndex);
+  }
+
+  function applyMascotForm(idx) {
+    const form = MASCOT_FORMS[idx];
+    const layer = document.getElementById('mascot-accessory-layer');
+    const badge = document.getElementById('mascot-form-badge');
+    const quoteEl = document.getElementById('mascot-quote-text');
+
+    if (layer) {
+      layer.innerHTML = form.svg;
+    }
+    if (badge) {
+      badge.textContent = form.name;
+    }
+    if (quoteEl) {
+      quoteEl.textContent = form.line;
+    }
+
+    showCharacterGrandBanner(form.title, form.line, 'amber');
+    showToast('✨ 魔王換裝', `糖果魔王已切換為【${form.name}】形態！`, 'amber');
+  }
+
+  let isMascotBusy = false;
   function tickleMascotBelly() {
+    if (isMascotBusy) return;
+    isMascotBusy = true;
+
     const btn = document.getElementById('mascot-avatar-btn');
     const svgEl = btn ? btn.querySelector('svg') : null;
     const mouthPath = document.getElementById('mascot-mouth-path');
     const tongue = document.getElementById('mascot-tongue');
     const quoteEl = document.getElementById('mascot-quote-text');
 
-    // 1. 超級耀眼光芒 ＆ 果凍彈跳
     if (btn) {
       btn.classList.remove('jelly-squish', 'jelly-bounce');
       void btn.offsetWidth;
@@ -766,12 +861,11 @@
       svgEl.classList.remove('mascot-super-glow');
       void svgEl.offsetWidth;
       svgEl.classList.add('mascot-super-glow');
-      setTimeout(() => svgEl.classList.remove('mascot-super-glow'), 2200);
     }
 
-    // 2. 嘴巴張大開懷大笑表情
+    // 嘴巴大開開懷大笑表情
     if (mouthPath) {
-      mouthPath.setAttribute('d', 'M 44,72 Q 65,106 86,72 Q 65,68 44,72 Z');
+      mouthPath.setAttribute('d', 'M 44,72 Q 65,108 86,72 Q 65,66 44,72 Z');
       mouthPath.setAttribute('fill', '#450A0A');
       mouthPath.setAttribute('stroke', '#FFF');
       mouthPath.setAttribute('stroke-width', '3');
@@ -779,17 +873,17 @@
     if (tongue) {
       tongue.setAttribute('visibility', 'visible');
       tongue.setAttribute('cx', '65');
-      tongue.setAttribute('cy', '88');
-      tongue.setAttribute('rx', '13');
-      tongue.setAttribute('ry', '9');
+      tongue.setAttribute('cy', '90');
+      tongue.setAttribute('rx', '14');
+      tongue.setAttribute('ry', '10');
     }
 
-    // 3. 播放專屬狂笑音效 ＆ 真人語音大笑
     if (window.labAudio && window.labAudio.playMascotLaugh) {
       window.labAudio.playMascotLaugh();
     } else if (window.labAudio && window.labAudio.playBubble) {
       window.labAudio.playBubble();
     }
+
     const laughLines = [
       '「哈哈哈哈！別戳肚皮啦！好癢好甜啊！金黃糖漿要噴出來了！」',
       '「嘻嘻嘻嘻！魔王也是怕癢的！金光閃閃糖漿爆發啦！」',
@@ -800,20 +894,25 @@
       quoteEl.textContent = laughMsg;
     }
     showToast('😆 魔王開口笑', '糖果魔王金光暴漲，笑得合不攏嘴！', 'amber');
-    speakDialogue(laughMsg);
+    speakDialogue(laughMsg, 'mascot');
 
-    // 4. 2.2 秒後嘴巴平滑收回微笑
+    // 1.8 秒後平滑恢復原狀，才能再次觸發
     setTimeout(() => {
+      if (svgEl) {
+        svgEl.classList.remove('mascot-super-glow');
+      }
       if (mouthPath) {
-        mouthPath.setAttribute('d', 'M 48,76 Q 65,92 82,76');
-        mouthPath.setAttribute('fill', 'none');
-        mouthPath.setAttribute('stroke', '#450A0A');
-        mouthPath.setAttribute('stroke-width', '3');
+        mouthPath.setAttribute('d', 'M48,85 Q65,99 82,85 Z');
+        mouthPath.setAttribute('fill', '#7F1D1D');
+        mouthPath.setAttribute('stroke', '#451A03');
+        mouthPath.setAttribute('stroke-width', '2.5');
       }
       if (tongue) {
-        tongue.setAttribute('visibility', 'hidden');
+        tongue.setAttribute('d', 'M55,92 Q65,98 75,92 Z');
+        tongue.setAttribute('visibility', 'visible');
       }
-    }, 2200);
+      isMascotBusy = false;
+    }, 1800);
   }
 
   function triggerSecretMonsterEasterEgg() {
@@ -4380,15 +4479,37 @@
   // ========================================================================
   // 語音朗讀合成器 ＆ 全息大橫幅台詞系統
   // ========================================================================
-  function speakDialogue(text) {
+  function speakDialogue(text, speaker = 'founder') {
     if ('speechSynthesis' in window) {
       try {
         window.speechSynthesis.cancel();
         const clean = text.replace(/[「」『』【】\(\)（）~～！!？?]/g, ' ').trim();
         const utter = new SpeechSynthesisUtterance(clean);
         utter.lang = 'zh-TW';
-        utter.rate = 1.05;
-        utter.pitch = 1.15;
+
+        const voices = window.speechSynthesis.getVoices ? window.speechSynthesis.getVoices() : [];
+        if (speaker === 'founder') {
+          // 靈魂人物：深沉穩重成熟男性科學家語音
+          const maleVoice = voices.find(v => 
+            v.lang.startsWith('zh') && 
+            (v.name.includes('Male') || v.name.includes('Yunjian') || v.name.includes('Yunxi') || 
+             v.name.includes('Kangkang') || v.name.includes('Zhiwei') || v.name.includes('Danny') || 
+             v.name.includes('Hanhan') || v.name.includes('George'))
+          );
+          if (maleVoice) utter.voice = maleVoice;
+          utter.pitch = 0.70; // 顯著低沉男聲頻率
+          utter.rate = 0.95;  // 穩重沈著語速
+        } else {
+          // 果糖魔王：調皮高亢尖尖的萌怪語音
+          const mascotVoice = voices.find(v => 
+            v.lang.startsWith('zh') && 
+            (v.name.includes('Xiaoxiao') || v.name.includes('HsiaoChen') || v.name.includes('Female') || v.name.includes('Mei-Jia'))
+          );
+          if (mascotVoice) utter.voice = mascotVoice;
+          utter.pitch = 1.45; // 高亢俏皮魔王音
+          utter.rate = 1.15;
+        }
+
         window.speechSynthesis.speak(utter);
       } catch (e) {
         console.warn('Speech synthesis skipped:', e);
@@ -4408,18 +4529,18 @@
 
     if (theme === 'cyan') {
       banner.classList.add('border-cyan-400', 'bg-cyan-950/95');
-      speakerEl.className = 'px-3.5 py-1.5 rounded-full bg-cyan-400 text-slate-950 font-black text-xs font-mono shadow-[0_0_20px_rgba(6,182,212,0.8)]';
+      speakerEl.className = 'px-3.5 py-1 rounded-full bg-cyan-400 text-slate-950 font-black text-xs font-mono shadow-[0_0_20px_rgba(6,182,212,0.8)] shrink-0';
       textEl.className = 'text-sm sm:text-base font-black text-cyan-200 leading-relaxed text-center sm:text-left drop-shadow flex-1';
+      speakDialogue(text, 'founder');
     } else {
       banner.classList.add('border-amber-400', 'bg-amber-950/95');
-      speakerEl.className = 'px-3.5 py-1.5 rounded-full bg-amber-400 text-slate-950 font-black text-xs font-mono shadow-[0_0_20px_rgba(245,158,11,0.8)]';
+      speakerEl.className = 'px-3.5 py-1 rounded-full bg-amber-400 text-slate-950 font-black text-xs font-mono shadow-[0_0_20px_rgba(245,158,11,0.8)] shrink-0';
       textEl.className = 'text-sm sm:text-base font-black text-amber-200 leading-relaxed text-center sm:text-left drop-shadow flex-1';
+      speakDialogue(text, 'mascot');
     }
 
     banner.classList.remove('opacity-0', 'scale-95');
     banner.classList.add('opacity-100', 'scale-100', 'jelly-bounce');
-
-    speakDialogue(text);
   }
 
   // ========================================================================
@@ -4641,6 +4762,7 @@
   }
 
   window.LabApp = {
+    cycleMascotForm,
     triggerWhackSugarStunt,
     showCharacterGrandBanner,
     rollFunnyStamp,

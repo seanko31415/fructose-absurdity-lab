@@ -39,7 +39,7 @@
   </script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="styles.css?v=7.0.0" />
+  <link rel="stylesheet" href="styles.css?v=7.1.0" />
 </head>
 
 <body class="min-h-screen text-slate-100 selection:bg-amber-400 selection:text-slate-950">
@@ -113,9 +113,11 @@
        平時完全收在螢幕頂部之外 (-translate-y-full)，絕不干擾登錄介面與正常瀏覽！
        ======================================================================== -->
   <div id="top-syrup-drip-curtain"
-    class="fixed top-0 inset-x-0 z-[99990] pointer-events-none transform -translate-y-full transition-transform duration-700 ease-out flex flex-col items-center">
-    <div class="w-full relative filter drop-shadow-[0_15px_30px_rgba(245,158,11,0.85)] pointer-events-auto">
-      <svg viewBox="0 0 1440 135" preserveAspectRatio="none" class="w-full h-24 sm:h-32">
+    class="fixed inset-0 w-screen h-screen z-[99990] pointer-events-none transform -translate-y-full transition-transform duration-700 ease-out flex flex-col justify-between overflow-hidden">
+    
+    <!-- 1. Top Stalactites (天花板黏稠厚焦糖鐘乳石向下滴落) -->
+    <div class="w-full relative filter drop-shadow-[0_15px_30px_rgba(245,158,11,0.9)] pointer-events-auto">
+      <svg viewBox="0 0 1440 140" preserveAspectRatio="none" class="w-full h-24 sm:h-32">
         <defs>
           <linearGradient id="syrupDripGrad" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stop-color="#78350F" />
@@ -124,39 +126,83 @@
             <stop offset="100%" stop-color="#FDE047" />
           </linearGradient>
         </defs>
-        <!-- 誇張下垂黏稠糖滴波浪 (Exaggerated Dripping Stalactites) -->
+        <!-- 誇張下垂黏稠糖滴波浪 -->
         <path
           d="M0,0 L1440,0 L1440,38 Q1380,95 1350,38 Q1310,120 1280,38 Q1220,105 1190,42 Q1140,130 1110,48 Q1060,95 1030,38 Q980,120 940,32 Q880,130 840,42 Q790,105 760,38 Q710,128 670,48 Q620,98 590,38 Q530,135 490,42 Q440,95 410,38 Q350,125 310,42 Q260,98 230,38 Q180,132 140,48 Q90,95 60,38 Q30,115 0,42 Z"
           fill="url(#syrupDripGrad)" opacity="0.96" />
-        <!-- 晶亮反光立體高光曲線 -->
         <path
           d="M20,18 Q60,45 100,22 Q140,65 180,22 Q240,50 300,22 Q360,55 420,18 Q500,68 560,22 Q640,60 720,22 Q800,62 880,22 Q960,62 1040,22 Q1120,60 1200,22 Q1280,55 1360,22"
           fill="none" stroke="#FEF08A" stroke-width="3" opacity="0.85" stroke-linecap="round" />
-        <!-- 誇張下落高光糖滴 -->
         <circle cx="140" cy="110" r="5" fill="#FDE047" class="animate-bounce" />
         <circle cx="490" cy="115" r="5.5" fill="#FDE047" class="animate-bounce" style="animation-delay: 0.2s;" />
         <circle cx="840" cy="112" r="6" fill="#FDE047" class="animate-bounce" style="animation-delay: 0.4s;" />
         <circle cx="1110" cy="108" r="4.5" fill="#FDE047" class="animate-bounce" style="animation-delay: 0.1s;" />
         <circle cx="1280" cy="102" r="5" fill="#FDE047" class="animate-bounce" style="animation-delay: 0.3s;" />
       </svg>
+    </div>
 
-      <!-- 中央超載警告與綠茶緊急清洗按鈕 (懸掛於糖滴之中) -->
-      <div class="absolute top-2 inset-x-0 flex items-center justify-center gap-3 px-3">
-        <div
-          class="bg-slate-950/95 border-2 border-amber-400 px-4 py-1.5 rounded-full shadow-[0_0_30px_rgba(245,158,11,0.9)] flex items-center gap-2.5 flex-wrap justify-center">
-          <span class="relative flex h-3 w-3">
+    <!-- 2. Screen-wide Cascading Liquid Caramel Waterfall Streams (直通底部的黏稠焦糖瀑布巨流) -->
+    <div class="absolute inset-0 flex justify-around pointer-events-none opacity-85 z-10">
+      <div class="w-3 sm:w-5 h-full syrup-waterfall-stream" style="animation-delay: 0.1s;"></div>
+      <div class="w-2 sm:w-4 h-full syrup-waterfall-stream" style="animation-delay: 0.4s;"></div>
+      <div class="w-4 sm:w-7 h-full syrup-waterfall-stream" style="animation-delay: 0.2s;"></div>
+      <div class="w-3 sm:w-5 h-full syrup-waterfall-stream" style="animation-delay: 0.5s;"></div>
+      <div class="w-5 sm:w-8 h-full syrup-waterfall-stream" style="animation-delay: 0.3s;"></div>
+      <div class="w-2 sm:w-4 h-full syrup-waterfall-stream" style="animation-delay: 0.6s;"></div>
+      <div class="w-4 sm:w-6 h-full syrup-waterfall-stream" style="animation-delay: 0.25s;"></div>
+      <div class="w-3 sm:w-5 h-full syrup-waterfall-stream" style="animation-delay: 0.45s;"></div>
+    </div>
+
+    <!-- 3. Floating Center Emergency Alert Capsule (流淌中央警報台) -->
+    <div class="relative z-30 flex items-center justify-center px-4 my-auto pointer-events-auto">
+      <div class="bg-slate-950/95 border-2 border-amber-400 p-4 sm:p-5 rounded-2xl sm:rounded-3xl shadow-[0_0_50px_rgba(245,158,11,0.95)] flex flex-col items-center gap-3 text-center max-w-lg backdrop-blur-md animate-pulse">
+        <div class="flex items-center gap-2">
+          <span class="relative flex h-3.5 w-3.5">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+            <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-red-500"></span>
           </span>
-          <span class="font-mono text-xs sm:text-sm font-black text-amber-300">
-            ⚠️ 焦糖超導聚變過載！糖漿正在向下流淌！
+          <span class="font-mono text-sm sm:text-base font-black text-amber-300">
+            🚨 1L 焦糖海嘯淹沒實驗室！糖漿已流至最底層！
           </span>
-          <button id="btn-clean-syrup" onclick="window.LabApp.emergencyGreenTeaFlush()"
-            class="px-3.5 py-1 rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 text-slate-950 font-black text-xs font-mono shadow-[0_0_15px_rgba(16,185,129,0.8)] active:scale-95 hover:brightness-110 transition-all flex items-center gap-1">
-            <span>🍵</span>
-            <span>注射綠茶清洗（平息糖漿）</span>
-          </button>
         </div>
+        <p class="text-xs text-amber-200/90 leading-relaxed font-bold">
+          檢測到 1L 純焦糖震盪！高黏稠度糖漿傾瀉直下！
+        </p>
+        <button id="btn-clean-syrup" onclick="window.LabApp.emergencyGreenTeaFlush()"
+          class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 text-slate-950 font-black text-sm font-mono shadow-[0_0_25px_rgba(16,185,129,0.9)] active:scale-95 hover:brightness-110 transition-all flex items-center gap-2 cursor-pointer">
+          <span class="text-lg">🍵</span>
+          <span>立即注射萬能無糖綠茶（平息糖漿海嘯）</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 4. Bottom Caramel Ocean Pool (底部積糖湧動海嘯・真實流到底部頁面) -->
+    <div class="w-full relative filter drop-shadow-[0_-15px_30px_rgba(245,158,11,0.9)] pointer-events-auto z-20">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none" class="w-full h-24 sm:h-32">
+        <defs>
+          <linearGradient id="syrupBottomGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#451A03" />
+            <stop offset="40%" stop-color="#92400E" />
+            <stop offset="75%" stop-color="#D97706" />
+            <stop offset="100%" stop-color="#FBBF24" />
+          </linearGradient>
+        </defs>
+        <!-- 底部波浪焦糖池 -->
+        <path
+          d="M0,120 L1440,120 L1440,40 Q1380,10 1320,45 Q1260,80 1200,40 Q1140,5 1080,45 Q1020,85 960,35 Q900,10 840,40 Q780,75 720,35 Q660,5 600,40 Q540,80 480,35 Q420,10 360,45 Q300,80 240,40 Q180,5 120,45 Q60,80 0,40 Z"
+          fill="url(#syrupBottomGrad)" opacity="0.97" />
+        <!-- 底部焦糖反光高光 -->
+        <path
+          d="M30,55 Q90,25 150,55 Q210,85 270,50 Q330,20 390,55 Q450,85 510,50 Q570,20 630,55 Q690,85 750,50 Q810,20 870,55 Q930,85 990,50 Q1050,20 1110,55 Q1170,85 1230,50 Q1290,20 1350,55"
+          fill="none" stroke="#FEF08A" stroke-width="2.5" opacity="0.8" stroke-linecap="round" />
+      </svg>
+      <!-- 底部焦糖熱氣泡冒出 -->
+      <div class="absolute bottom-2 inset-x-0 flex justify-around pointer-events-none">
+        <span class="w-3 h-3 rounded-full bg-amber-300 animate-ping opacity-80"></span>
+        <span class="w-4 h-4 rounded-full bg-amber-400 animate-bounce opacity-70" style="animation-delay: 0.3s;"></span>
+        <span class="w-2.5 h-2.5 rounded-full bg-yellow-200 animate-ping opacity-90" style="animation-delay: 0.6s;"></span>
+        <span class="w-3.5 h-3.5 rounded-full bg-amber-300 animate-bounce opacity-75" style="animation-delay: 0.15s;"></span>
+        <span class="w-4 h-4 rounded-full bg-amber-400 animate-ping opacity-85" style="animation-delay: 0.45s;"></span>
       </div>
     </div>
   </div>
@@ -304,7 +350,7 @@
        VIEWPORT SIMULATOR FRAME
        ======================================================================== -->
   <div id="viewport-simulator-frame">
-    <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-6">
+    <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 pb-28 lg:pb-12 space-y-6">
 
       <!-- ====================================================================
            PROMINENT GIANT MASCOT STAGE (大型互動糖果魔王・眼球隨鼠標追蹤・呼吸起伏)
@@ -316,7 +362,7 @@
           <div class="relative shrink-0 flex flex-col items-center">
             <button id="mascot-avatar-btn" onclick="window.LabApp.clickFructoseMonster()"
               title="點擊糖果魔王餵糖或戳戳！眼睛會即時跟著你的鼠標看喔！"
-              class="w-44 h-44 sm:w-52 sm:h-52 shrink-0 focus:outline-none relative group cursor-pointer sugar-demon-avatar-float">
+              class="w-56 h-56 sm:w-64 sm:h-64 lg:w-72 lg:h-72 shrink-0 focus:outline-none relative group cursor-pointer sugar-demon-avatar-float">
               <svg viewBox="0 0 130 130"
                 class="w-full h-full drop-shadow-[0_0_30px_rgba(245,158,11,0.95)] group-hover:scale-105 transition-transform">
                 <defs>
@@ -341,11 +387,13 @@
                 <path d="M108,50 C122,40 120,24 104,34 Z" fill="#F59E0B" opacity="0.8" />
 
                 <!-- 魔王皇冠 (帶高光與寶石) -->
-                <g filter="url(#royalCrownGlow)">
-                  <polygon points="46,24 54,6 65,18 76,6 84,24" fill="#FDE047" stroke="#FFF" stroke-width="2" />
-                  <circle cx="54" cy="9" r="2.5" fill="#EF4444" />
-                  <circle cx="65" cy="18" r="3" fill="#06B6D4" />
-                  <circle cx="76" cy="9" r="2.5" fill="#EF4444" />
+                <g id="mascot-accessory-layer">
+                  <g filter="url(#royalCrownGlow)">
+                    <polygon points="46,24 54,6 65,18 76,6 84,24" fill="#FDE047" stroke="#FFF" stroke-width="2" />
+                    <circle cx="54" cy="9" r="2.5" fill="#EF4444" />
+                    <circle cx="65" cy="18" r="3" fill="#06B6D4" />
+                    <circle cx="76" cy="9" r="2.5" fill="#EF4444" />
+                  </g>
                 </g>
 
                 <!-- 魔王Q彈果糖身軀 -->
@@ -420,6 +468,10 @@
               <button onclick="window.LabApp.tickleMascotBelly()"
                 class="liquid-glass-btn px-2.5 py-1 rounded-lg font-mono text-[11px] text-pink-200 font-bold hover:text-white">
                 🤏 戳戳肚皮
+              </button>
+              <button onclick="window.LabApp.cycleMascotForm()"
+                class="liquid-glass-btn px-2.5 py-1 rounded-lg font-mono text-[11px] text-amber-200 font-bold hover:text-white flex items-center gap-1 border border-amber-400/40">
+                <span>✨</span><span id="mascot-form-badge">換造型 (👑 皇家)</span>
               </button>
             </div>
           </div>
@@ -1267,7 +1319,7 @@
                 </div>
                 <h4 class="text-base font-black text-white">靈魂手搖雪克杯 ＆ 六角全息雷達分析儀美術圖</h4>
                 <p class="text-xs text-slate-400 leading-relaxed">
-                  調整 6 大日常屬性滑桿，演算專屬糖度人格。
+                  調整屬性，演算專屬糖度人格。
                 </p>
               </div>
               <button type="button" onclick="window.LabApp.jumpToSection('shaker-hub-section')"
@@ -1738,19 +1790,19 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                 <div class="embossed-well p-2.5 rounded-xl">
                   <div class="font-mono text-amber-300 font-bold text-[11px] mb-0.5">1. 糖度不可逆定律</div>
-                  <p class="text-slate-300 leading-snug">越尷尬的蠢事分泌越多假想焦糖，經語意分析克數最高者承擔「全場甜度王」。</p>
+                  <p class="text-slate-300 leading-snug">克數最高者承擔「全場甜度王」。</p>
                 </div>
                 <div class="embossed-well p-2.5 rounded-xl">
                   <div class="font-mono text-emerald-300 font-bold text-[11px] mb-0.5">2. 綠茶贖罪義務</div>
-                  <p class="text-slate-300 leading-snug">糖度較低者享有理智免責權，享有要求敗者請喝無糖綠茶外送之仲裁權利。</p>
+                  <p class="text-slate-300 leading-snug">勝者享有要求敗者請喝無糖綠茶權利。</p>
                 </div>
                 <div class="embossed-well p-2.5 rounded-xl">
                   <div class="font-mono text-cyan-300 font-bold text-[11px] mb-0.5">3. 平局雙重焦糖化</div>
-                  <p class="text-slate-300 leading-snug">若兩位選手社死指數完全平手，啟動「雙重核爆」，雙方共同請全寢室喝飲料。</p>
+                  <p class="text-slate-300 leading-snug">若社死平手，雙方共同請全寢喝飲料。</p>
                 </div>
                 <div class="embossed-well p-2.5 rounded-xl">
                   <div class="font-mono text-rose-300 font-bold text-[11px] mb-0.5">4. 收據公審存證</div>
-                  <p class="text-slate-300 leading-snug">勝出者可一鍵將診斷印成熱感收據，並公開登錄榮譽榜或匯出 IG 限動永久存證。</p>
+                  <p class="text-slate-300 leading-snug">可一鍵列印診斷收據或公開登錄榮譽榜。</p>
                 </div>
               </div>
             </div>
@@ -2278,9 +2330,9 @@
   </nav>
 
   <!-- Scripts with cache busters -->
-  <script src="data.js?v=7.0.0"></script>
-  <script src="audio.js?v=7.0.0"></script>
-  <script src="app.js?v=7.0.0"></script>
+  <script src="data.js?v=7.1.0"></script>
+  <script src="audio.js?v=7.1.0"></script>
+  <script src="app.js?v=7.1.0"></script>
 </body>
 
 </html>

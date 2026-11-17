@@ -1295,11 +1295,37 @@ body.preview-mode-tablet #viewport-simulator-frame .lg\:col-span-8 {
 
 /* Top Dramatic Dripping Syrup Curtain on Overload */
 #top-syrup-drip-curtain {
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+  pointer-events: none;
 }
 
 #top-syrup-drip-curtain.active {
   transform: translateY(0%) !important;
+  pointer-events: auto;
+}
+
+/* 巨幅垂直向下流淌焦糖瀑布流水 (Full Screen Caramel Waterfall Streams) */
+.syrup-waterfall-stream {
+  background: linear-gradient(180deg, 
+    rgba(245, 158, 11, 0.95) 0%, 
+    rgba(217, 119, 6, 0.85) 40%, 
+    rgba(180, 83, 9, 0.9) 80%, 
+    rgba(251, 191, 36, 0.95) 100%
+  );
+  box-shadow: 0 0 18px rgba(245, 158, 11, 0.85), inset 0 0 8px rgba(254, 240, 138, 0.95);
+  border-radius: 9999px;
+  animation: waterfallFlow 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes waterfallFlow {
+  0% {
+    transform: scaleY(0.96) scaleX(0.85);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scaleY(1.03) scaleX(1.15);
+    opacity: 0.98;
+  }
 }
 
 @keyframes dripDrop {
