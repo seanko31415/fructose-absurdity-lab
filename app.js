@@ -120,7 +120,7 @@
     void frame.offsetWidth;
     frame.classList.add('shake-screen');
     setTimeout(() => frame.classList.remove('shake-screen'), 580);
-    if (navigator.vibrate) {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
       try { navigator.vibrate([70, 30, 90]); } catch (e) {}
     }
   }
@@ -571,45 +571,55 @@
 
   function applyCreativeSugarOverloadEffects() {
     const cubes = appState.globalSugarCubes;
+    const lv = appState.activeLadderLevel;
     const dripCurtain = document.getElementById('top-syrup-drip-curtain') || document.getElementById('syrup-overload-banner');
 
     document.body.classList.remove('sugar-rush-wobble', 'sugar-quake-extreme');
 
     if (appState.overloadShakeMode === 'off') {
-      if (dripCurtain) dripCurtain.classList.remove('active');
+      if (dripCurtain) dripCurtain.classList.remove('active', 'mode-mild', 'mode-full');
       return;
     }
 
-    const isOverload = appState.scaleOverload || cubes >= 100 || appState.activeLadderLevel >= 14 || appState.overloadShakeMode === 'quake' || appState.overloadShakeMode === 'wobble';
+    // 1. 第十四級 (Level 14 / 1000mL / 終極純糖漿 / 地震模式) -> 全部糖漿傾瀉直通底部，超浮誇全螢幕焦糖海嘯
+    const isLevel14Full = lv >= 14 || cubes >= 1000 || appState.scaleOverload || appState.overloadShakeMode === 'quake';
 
-    if (isOverload) {
-      if (appState.overloadShakeMode === 'quake' || cubes >= 500 || appState.activeLadderLevel >= 14) {
-        document.body.classList.add('sugar-quake-extreme');
-        spawnHallucinationBarrage(3);
-      } else {
-        document.body.classList.add('sugar-rush-wobble');
-        spawnHallucinationBarrage(2);
-      }
+    // 2. 第十級開始 (Level 10 ~ 13 / 260~880方糖) -> 僅頂部邊緣一點點小糖漿，絕不流到全頁面！
+    const isLevel10Mild = !isLevel14Full && (lv >= 10 || cubes >= 260 || appState.overloadShakeMode === 'wobble');
+
+    if (isLevel14Full) {
+      document.body.classList.add('sugar-quake-extreme');
+      spawnHallucinationBarrage(3);
       if (dripCurtain) {
-        dripCurtain.classList.remove('hidden');
-        dripCurtain.classList.add('active');
+        dripCurtain.classList.remove('hidden', 'mode-mild');
+        dripCurtain.classList.add('active', 'mode-full');
+      }
+    } else if (isLevel10Mild) {
+      document.body.classList.add('sugar-rush-wobble');
+      spawnHallucinationBarrage(1);
+      if (dripCurtain) {
+        dripCurtain.classList.remove('hidden', 'mode-full');
+        dripCurtain.classList.add('active', 'mode-mild');
       }
     } else {
-      if (dripCurtain) dripCurtain.classList.remove('active');
+      if (dripCurtain) {
+        dripCurtain.classList.remove('active', 'mode-mild', 'mode-full');
+      }
     }
   }
 
   function triggerCreativeOverloadMode(mode) {
     appState.overloadShakeMode = mode;
     if (mode === 'wobble') {
-      if (appState.globalSugarCubes < 85) setGlobalSugarCubes(85, { syncLadder: true });
-      else applyCreativeSugarOverloadEffects();
-      window.labAudio?.playBubble?.();
-      broadcastMascotMessage('🥴【高血糖微醺果凍晃動模式】啟動！整個網站正在跟著你的社死指數一起果凍搖擺！');
+      // 晃動模式 -> 進入第十級 (Lv.10)，頂部僅一點點小糖漿微滲
+      selectLadderLevel(10, true);
+      broadcastMascotMessage('🥴【Lv.10 焦糖微醺晃動】天花板邊緣滲出微量小糖漿，未擴散至全頁面！');
+      showToast('🥴 Lv.10 輕微小糖漿', '已切換至第 10 級，僅頂部滲漏微量糖滴', 'amber');
     } else if (mode === 'quake') {
-      window.labAudio?.playOverloadSiren?.();
-      setGlobalSugarCubes(1000, { syncLadder: true, isOverloadTrigger: true });
-      broadcastMascotMessage('🚨【1L 糖漿焦糖化大地震】全站劇烈搖晃中！高血糖幻覺彈幕來襲！快按「緊急注射無糖綠茶」解毒！');
+      // 1L地震 -> 進入第十四級 (Lv.14)，全部糖漿由上往下傾瀉覆蓋全站！
+      selectLadderLevel(14, true);
+      broadcastMascotMessage('🚨【Lv.14 終極焦糖海嘯大地震】全部糖漿由上往下傾瀉流淌！快按「綠茶解毒」抽乾！');
+      showToast('💥 Lv.14 終極糖漿海嘯', '第 14 級終極焦糖海嘯由天花板狂暴直沖地面！', 'red');
     } else {
       emergencyGreenTeaFlush();
     }
@@ -638,7 +648,12 @@
     document.body.classList.remove('sugar-rush-wobble', 'sugar-quake-extreme');
     window.labAudio?.playBubble?.();
     setGlobalSugarCubes(0, { syncLadder: true, isOverloadTrigger: false });
-    broadcastMascotMessage('💉 已為您緊急注射 3,000cc 冰鎮無糖綠茶！網站搖晃與高血糖幻覺已完全平息！');
+    selectLadderLevel(0, false);
+    const dripCurtain = document.getElementById('top-syrup-drip-curtain') || document.getElementById('syrup-overload-banner');
+    if (dripCurtain) {
+      dripCurtain.classList.remove('active', 'mode-mild', 'mode-full');
+    }
+    broadcastMascotMessage('💉 已為您緊急注射 3,000cc 冰鎮無糖綠茶！網站搖晃與焦糖海嘯已完全抽乾平息！');
     showToast('💉 無糖綠茶解毒完成', '網站已停止搖晃，體內含糖量恢復至 0g 純潔狀態！', 'emerald');
   }
 
