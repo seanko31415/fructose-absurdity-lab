@@ -109,27 +109,32 @@
   </div>
 
   <!-- ========================================================================
-       2. TOP STICKY SYRUP OVERLOAD DRIP OVERLAY (Hidden until >100 cubes or Level 14)
+       2. BOTTOM FLOATING SYRUP OVERLOAD & GREEN TEA RESCUE DOCK (滿等/晃動時從下方滑出)
        ======================================================================== -->
   <div id="syrup-overload-banner"
-    class="fixed top-0 left-0 right-0 z-[95] pointer-events-none transform -translate-y-full syrup-drip-bar">
+    class="fixed bottom-0 inset-x-0 z-[9999] pointer-events-none transform translate-y-full transition-transform duration-500 ease-out p-3 sm:p-4 flex justify-center syrup-bottom-bar">
     <div
-      class="bg-gradient-to-r from-amber-600 via-yellow-500 to-red-600 text-slate-950 font-black py-1.5 px-4 text-xs md:text-sm flex items-center justify-between shadow-2xl pointer-events-auto">
-      <div class="flex items-center gap-2">
-        <span class="inline-block w-2.5 h-2.5 rounded-full bg-red-950 animate-ping"></span>
-        <span class="font-mono tracking-wider">⚠️ BIOHAZARD LEVEL 14 OVERLOAD：全校高果糖黏稠致死警報已觸發！目前實驗室地板極度黏滑！</span>
+      class="max-w-3xl w-full bg-gradient-to-r from-red-950 via-slate-950 to-amber-950 border-2 border-amber-400 rounded-2xl p-3 sm:px-6 sm:py-3.5 shadow-[0_0_50px_rgba(239,68,68,0.85)] flex flex-wrap items-center justify-between gap-3 pointer-events-auto backdrop-blur-xl">
+      <div class="flex items-center gap-2.5">
+        <span class="relative flex h-3.5 w-3.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-red-500"></span>
+        </span>
+        <div>
+          <div class="font-mono text-xs sm:text-sm font-black text-amber-300 tracking-wide">
+            ⚠️ BIOHAZARD OVERLOAD // 全校高果糖致死黏稠警報！
+          </div>
+          <div class="text-[11px] text-red-200 hidden sm:block">
+            體內含糖量過載，全站正劇烈晃動！請立即注射無糖綠茶解毒！
+          </div>
+        </div>
       </div>
       <button id="btn-clean-syrup" onclick="window.LabApp.resetLabOverload()"
-        class="bg-slate-950 text-amber-400 hover:bg-slate-900 px-3 py-0.5 rounded-full font-mono text-xs font-bold transition shadow">
-        💉 緊急注射無糖綠茶清洗
+        class="liquid-glass-amber px-5 py-2.5 rounded-xl font-mono text-xs sm:text-sm font-black text-slate-950 hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(245,158,11,0.9)] flex items-center gap-1.5 border border-white">
+        <span>💉</span>
+        <span>緊急注射無糖綠茶（停止晃動）</span>
       </button>
     </div>
-    <svg class="w-full h-7 text-amber-500/90 fill-current drop-shadow-[0_6px_12px_rgba(245,158,11,0.5)]"
-      viewBox="0 0 1200 60" preserveAspectRatio="none">
-      <path
-        d="M0,0 L1200,0 L1200,15 C1150,15 1140,55 1110,55 C1080,55 1070,18 1020,18 C970,18 960,48 930,48 C900,48 890,12 830,12 C770,12 760,58 725,58 C690,58 680,15 620,15 C560,15 550,42 520,42 C490,42 480,14 410,14 C340,14 330,54 295,54 C260,54 250,16 190,16 C130,16 120,46 85,46 C50,46 40,12 0,12 Z">
-      </path>
-    </svg>
   </div>
 
   <!-- ========================================================================
@@ -1772,102 +1777,98 @@
            PAGE 4: 全新升級街機遊樂場（磁浮接方糖 × 皇家777拉霸 × 極速打果糖怪）(#lab-page-4)
            ==================================================================== -->
       <div id="lab-page-4" class="lab-page-view space-y-6">
-        <section id="arcade-game-section" class="space-y-8 scroll-mt-20">
-          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-5">
+        <section id="arcade-game-section" class="space-y-6 scroll-mt-20">
+          <!-- 街機頂部炫彩霓虹標題框 (Arcade Marquee Header) -->
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-3 border-b border-cyan-500/30 pb-4">
             <div>
-              <span class="text-xs font-mono uppercase tracking-widest text-cyan-400">CORE MODULE 03 // SUGAR DETOX
-                ARCADE GAME</span>
-              <h2 class="text-2xl sm:text-4xl font-black text-white mt-1">核心模組三：爆打方糖怪・無糖綠茶保衛戰 (互動減糖街機)</h2>
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-400 text-[11px] font-mono text-cyan-300 font-bold tracking-wider shadow-sm mb-1.5">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                <span>ARCADE 03 // 減糖街機保衛戰</span>
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2">
+                <span>🕹️ 爆打方糖怪・無糖綠茶保衛戰</span>
+              </h2>
             </div>
-            <p class="text-slate-400 text-sm max-w-md">
-              20 秒極速挑戰！點擊「🧊 方糖」與「👾 果糖怪」減糖，點擊「🍵 綠茶」雙倍解毒！
+            <p class="text-slate-300 text-xs sm:text-sm font-mono max-w-md bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
+              ⚡ 20 秒極速挑戰：敲擊冒出的 <span class="text-cyan-300 font-bold">🧊 方糖</span> 與 <span class="text-amber-400 font-bold">👾 果糖怪</span> 減糖，點擊 <span class="text-emerald-400 font-bold">🍵 綠茶</span> 雙倍解毒！
             </p>
           </div>
 
-          <div class="lab-card liquid-glass-card rounded-3xl p-6 sm:p-8 space-y-6 border-2 border-cyan-500/30">
+          <!-- 街機本體外殼 (Cyberpunk Arcade Cabinet Frame) -->
+          <div class="lab-card liquid-glass-card rounded-3xl p-5 sm:p-7 space-y-6 border-2 border-cyan-500/40 shadow-[0_0_35px_rgba(6,182,212,0.2)] bg-gradient-to-b from-slate-950/90 via-slate-900/90 to-slate-950/95">
+            <!-- 街機頂部 LED 數位儀表板 (LED Scoreboard HUD) -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div class="bg-slate-950/90 p-3.5 rounded-2xl border border-slate-800 text-center">
-                <div class="text-[11px] font-mono text-slate-400">COUNTDOWN TIMER</div>
-                <div id="arcade-timer" class="text-2xl sm:text-3xl font-mono font-black text-cyan-400 mt-0.5">20.0s
-                </div>
+              <div class="bg-slate-950 p-3 rounded-2xl border-2 border-cyan-500/50 text-center shadow-[inset_0_0_15px_rgba(6,182,212,0.2)]">
+                <div class="text-[10px] font-mono font-bold text-cyan-400 tracking-wider">COUNTDOWN TIMER</div>
+                <div id="arcade-timer" class="text-2xl sm:text-3xl font-mono font-black text-cyan-300 mt-0.5 drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]">20.0s</div>
               </div>
-              <div class="bg-slate-950/90 p-3.5 rounded-2xl border border-slate-800 text-center">
-                <div class="text-[11px] font-mono text-slate-400">擊碎方糖總數</div>
-                <div id="arcade-score" class="text-2xl sm:text-3xl font-mono font-black text-amber-400 mt-0.5">0 顆</div>
+              <div class="bg-slate-950 p-3 rounded-2xl border-2 border-amber-500/50 text-center shadow-[inset_0_0_15px_rgba(245,158,11,0.2)]">
+                <div class="text-[10px] font-mono font-bold text-amber-400 tracking-wider">方糖擊碎總數</div>
+                <div id="arcade-score" class="text-2xl sm:text-3xl font-mono font-black text-amber-300 mt-0.5 drop-shadow-[0_0_8px_rgba(245,158,11,0.6)]">0 顆</div>
               </div>
-              <div class="bg-slate-950/90 p-3.5 rounded-2xl border border-slate-800 text-center">
-                <div class="text-[11px] font-mono text-slate-400">COMBO 連擊倍率</div>
-                <div id="arcade-combo" class="text-2xl sm:text-3xl font-mono font-black text-emerald-400 mt-0.5">x1
-                </div>
+              <div class="bg-slate-950 p-3 rounded-2xl border-2 border-emerald-500/50 text-center shadow-[inset_0_0_15px_rgba(16,185,129,0.2)]">
+                <div class="text-[10px] font-mono font-bold text-emerald-400 tracking-wider">COMBO 連擊倍率</div>
+                <div id="arcade-combo" class="text-2xl sm:text-3xl font-mono font-black text-emerald-300 mt-0.5 drop-shadow-[0_0_8px_rgba(16,185,129,0.6)]">x1</div>
               </div>
-              <div class="bg-slate-950/90 p-3.5 rounded-2xl border border-slate-800 flex items-center justify-center">
+              <div class="bg-slate-950 p-1.5 rounded-2xl border-2 border-cyan-400 flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.3)]">
                 <button id="btn-start-arcade" onclick="window.LabApp.startArcadeGame()"
-                  class="w-full h-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-400 to-emerald-400 text-slate-950 font-black text-sm font-mono shadow-[0_0_25px_rgba(6,182,212,0.4)] hover:brightness-110 active:scale-95 transition">
-                  🕹️ 啟動 20 秒減糖挑戰
+                  class="w-full h-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-cyan-400 via-emerald-400 to-amber-400 text-slate-950 font-black text-xs sm:text-sm font-mono shadow-[0_0_20px_rgba(6,182,212,0.5)] hover:brightness-110 active:scale-95 transition-all">
+                  🕹️ 啟動 20 秒減糖
                 </button>
               </div>
             </div>
 
-            <!-- 9-Hole Lab Centrifuge Whack-a-Sugar Grid -->
-            <div class="grid grid-cols-3 gap-3 sm:gap-4 max-w-2xl mx-auto">
+            <!-- 9 孔高科技離心艙打地鼠矩陣 (9-Chamber Centrifuge Arcade Matrix) -->
+            <div class="grid grid-cols-3 gap-3 sm:gap-4 max-w-xl mx-auto p-3 rounded-2xl bg-slate-950/80 border border-slate-800 shadow-inner">
               <button type="button" onclick="window.LabApp.whackArcadeHole(0)" id="arcade-hole-0"
-                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
-                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
-                  id="arcade-target-0">🕳️</span>
-                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-0">離心艙 #01</span>
+                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-900/90 border-2 border-slate-700/80 hover:border-cyan-400 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95 shadow-md">
+                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150" id="arcade-target-0">🕳️</span>
+                <span class="text-[9px] font-mono text-slate-400 mt-1" id="arcade-label-0">艙體 #01</span>
               </button>
               <button type="button" onclick="window.LabApp.whackArcadeHole(1)" id="arcade-hole-1"
-                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
-                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
-                  id="arcade-target-1">🕳️</span>
-                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-1">離心艙 #02</span>
+                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-900/90 border-2 border-slate-700/80 hover:border-cyan-400 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95 shadow-md">
+                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150" id="arcade-target-1">🕳️</span>
+                <span class="text-[9px] font-mono text-slate-400 mt-1" id="arcade-label-1">艙體 #02</span>
               </button>
               <button type="button" onclick="window.LabApp.whackArcadeHole(2)" id="arcade-hole-2"
-                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
-                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
-                  id="arcade-target-2">🕳️</span>
-                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-2">離心艙 #03</span>
+                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-900/90 border-2 border-slate-700/80 hover:border-cyan-400 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95 shadow-md">
+                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150" id="arcade-target-2">🕳️</span>
+                <span class="text-[9px] font-mono text-slate-400 mt-1" id="arcade-label-2">艙體 #03</span>
               </button>
               <button type="button" onclick="window.LabApp.whackArcadeHole(3)" id="arcade-hole-3"
-                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
-                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
-                  id="arcade-target-3">🕳️</span>
-                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-3">離心艙 #04</span>
+                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-900/90 border-2 border-slate-700/80 hover:border-cyan-400 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95 shadow-md">
+                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150" id="arcade-target-3">🕳️</span>
+                <span class="text-[9px] font-mono text-slate-400 mt-1" id="arcade-label-3">艙體 #04</span>
               </button>
               <button type="button" onclick="window.LabApp.whackArcadeHole(4)" id="arcade-hole-4"
-                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
-                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
-                  id="arcade-target-4">🕳️</span>
-                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-4">離心艙 #05</span>
+                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-900/90 border-2 border-slate-700/80 hover:border-cyan-400 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95 shadow-md">
+                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150" id="arcade-target-4">🕳️</span>
+                <span class="text-[9px] font-mono text-slate-400 mt-1" id="arcade-label-4">艙體 #05</span>
               </button>
               <button type="button" onclick="window.LabApp.whackArcadeHole(5)" id="arcade-hole-5"
-                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
-                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
-                  id="arcade-target-5">🕳️</span>
-                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-5">離心艙 #06</span>
+                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-900/90 border-2 border-slate-700/80 hover:border-cyan-400 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95 shadow-md">
+                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150" id="arcade-target-5">🕳️</span>
+                <span class="text-[9px] font-mono text-slate-400 mt-1" id="arcade-label-5">艙體 #06</span>
               </button>
               <button type="button" onclick="window.LabApp.whackArcadeHole(6)" id="arcade-hole-6"
-                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
-                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
-                  id="arcade-target-6">🕳️</span>
-                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-6">離心艙 #07</span>
+                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-900/90 border-2 border-slate-700/80 hover:border-cyan-400 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95 shadow-md">
+                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150" id="arcade-target-6">🕳️</span>
+                <span class="text-[9px] font-mono text-slate-400 mt-1" id="arcade-label-6">艙體 #07</span>
               </button>
               <button type="button" onclick="window.LabApp.whackArcadeHole(7)" id="arcade-hole-7"
-                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
-                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
-                  id="arcade-target-7">🕳️</span>
-                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-7">離心艙 #08</span>
+                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-900/90 border-2 border-slate-700/80 hover:border-cyan-400 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95 shadow-md">
+                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150" id="arcade-target-7">🕳️</span>
+                <span class="text-[9px] font-mono text-slate-400 mt-1" id="arcade-label-7">艙體 #08</span>
               </button>
               <button type="button" onclick="window.LabApp.whackArcadeHole(8)" id="arcade-hole-8"
-                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95">
-                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150"
-                  id="arcade-target-8">🕳️</span>
-                <span class="text-[10px] font-mono text-slate-500 mt-1" id="arcade-label-8">離心艙 #09</span>
+                class="whack-hole-btn h-24 sm:h-28 rounded-2xl bg-slate-900/90 border-2 border-slate-700/80 hover:border-cyan-400 flex flex-col items-center justify-center relative overflow-hidden transition active:scale-95 shadow-md">
+                <span class="text-3xl sm:text-4xl select-none transition-transform duration-150" id="arcade-target-8">🕳️</span>
+                <span class="text-[9px] font-mono text-slate-400 mt-1" id="arcade-label-8">艙體 #09</span>
               </button>
             </div>
 
-            <div id="arcade-status-banner" class="text-center text-xs sm:text-sm font-mono text-slate-400">
-              💡 規則：點擊 🧊 (+2) / 🍯 (+5) / 🍵 (+8 減糖)，避開 💣 (-5)！
+            <div id="arcade-status-banner" class="text-center text-xs font-mono text-slate-300 bg-slate-950/70 p-2 rounded-xl border border-slate-800">
+              💡 積分規則：🧊 方糖 (+1) ｜ 🍵 綠茶 (+3 & 連擊加成) ｜ 👾 果糖怪 (+5 暴擊) ｜ 避開超時重置！
             </div>
           </div>
         </section>
@@ -1956,6 +1957,12 @@
                   class="md:col-span-5 flex flex-col items-center justify-center bg-slate-950/90 rounded-2xl border border-slate-800 p-4">
                   <div class="relative w-56 h-56 flex items-center justify-center">
                     <svg viewBox="0 0 240 240" class="w-full h-full overflow-visible">
+                      <defs>
+                        <radialGradient id="radarScanGrad" cx="50%" cy="50%" r="50%">
+                          <stop offset="0%" stop-color="#06B6D4" stop-opacity="0.35" />
+                          <stop offset="100%" stop-color="#06B6D4" stop-opacity="0.0" />
+                        </radialGradient>
+                      </defs>
                       <polygon points="120,25 202,72 202,168 120,215 38,168 38,72" fill="none" stroke="#1E293B"
                         stroke-width="1.5" />
                       <polygon points="120,57 175,88 175,152 120,183 65,152 65,88" fill="none" stroke="#1E293B"
@@ -1965,9 +1972,26 @@
                       <line x1="120" y1="25" x2="120" y2="215" stroke="#1E293B" stroke-width="1" />
                       <line x1="202" y1="72" x2="38" y2="168" stroke="#1E293B" stroke-width="1" />
                       <line x1="202" y1="168" x2="38" y2="72" stroke="#1E293B" stroke-width="1" />
+                      
+                      <!-- 旋轉雷達全息掃描光束 -->
+                      <g class="radar-scan-beam">
+                        <line x1="120" y1="120" x2="120" y2="25" stroke="#38BDF8" stroke-width="1.8" stroke-linecap="round" opacity="0.8" />
+                        <polygon points="120,120 120,25 158,35" fill="url(#radarScanGrad)" opacity="0.5" />
+                      </g>
+
+                      <!-- 即時連動多邊形 -->
                       <polygon id="radar-data-polygon" points="120,48 172,90 190,160 120,168 54,158 62,86"
-                        fill="rgba(245, 158, 11, 0.32)" stroke="#FBBF24" stroke-width="2.5"
-                        class="transition-all duration-300" />
+                        fill="rgba(245, 158, 11, 0.45)" stroke="#FBBF24" stroke-width="2.5"
+                        class="transition-all duration-200" />
+                      
+                      <!-- 6 軸連動發光節點 -->
+                      <circle id="radar-node-0" cx="120" cy="48" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
+                      <circle id="radar-node-1" cx="172" cy="90" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
+                      <circle id="radar-node-2" cx="190" cy="160" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
+                      <circle id="radar-node-3" cx="120" cy="168" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
+                      <circle id="radar-node-4" cx="54" cy="158" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
+                      <circle id="radar-node-5" cx="62" cy="86" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
+
                       <text x="120" y="14" text-anchor="middle" fill="#FBBF24" font-size="10"
                         font-weight="bold">手搖成癮</text>
                       <text x="216" y="72" text-anchor="start" fill="#94A3B8" font-size="10">社死頻率</text>

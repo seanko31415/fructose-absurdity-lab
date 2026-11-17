@@ -1134,13 +1134,14 @@ body.preview-mode-tablet #viewport-simulator-frame .lg\:col-span-8 {
   animation: cupShake 0.42s ease-in-out infinite !important;
 }
 
-/* Sticky Top Syrup Drip when Overload is triggered */
-.syrup-drip-bar {
-  transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+/* Bottom Floating Syrup Overload Bar when Overload is triggered */
+.syrup-bottom-bar {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
 }
 
 #syrup-overload-banner.active {
   transform: translateY(0%) !important;
+  opacity: 1 !important;
 }
 
 /* Ticker Tape Marquee (最上方動態跑馬燈橫標) */
@@ -1262,4 +1263,17 @@ body.preview-mode-tablet #viewport-simulator-frame .lg\:col-span-8 {
   background: rgba(168, 85, 247, 0.9) !important;
   box-shadow: 0 0 16px #A855F7, 0 0 28px rgba(168, 85, 247, 0.9) !important;
 }
+
+/* 6-Axis Sugar Radar Hologram Scanner Beam */
+@keyframes radarSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.radar-scan-beam {
+  transform-origin: 120px 120px;
+  animation: radarSpin 4s linear infinite;
+  pointer-events: none;
+}
+
 

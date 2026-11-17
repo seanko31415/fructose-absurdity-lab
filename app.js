@@ -560,6 +560,7 @@
     if (syncLadder) {
       renderLadderSection(false);
     }
+    renderBeverageBenchmarkCards();
     updateMascotUI(false);
   }
 
@@ -574,14 +575,20 @@
       return;
     }
 
-    if (appState.overloadShakeMode === 'quake' || cubes >= 500) {
-      document.body.classList.add('sugar-quake-extreme');
-      if (overloadBanner) overloadBanner.classList.add('active');
-      spawnHallucinationBarrage(3);
-    } else if (appState.overloadShakeMode === 'wobble' || cubes >= 60) {
-      document.body.classList.add('sugar-rush-wobble');
-      if (overloadBanner) overloadBanner.classList.add('active');
-      spawnHallucinationBarrage(2);
+    const isOverload = appState.scaleOverload || cubes >= 100 || appState.activeLadderLevel >= 14 || appState.overloadShakeMode === 'quake' || appState.overloadShakeMode === 'wobble';
+
+    if (isOverload) {
+      if (appState.overloadShakeMode === 'quake' || cubes >= 500 || appState.activeLadderLevel >= 14) {
+        document.body.classList.add('sugar-quake-extreme');
+        spawnHallucinationBarrage(3);
+      } else {
+        document.body.classList.add('sugar-rush-wobble');
+        spawnHallucinationBarrage(2);
+      }
+      if (overloadBanner) {
+        overloadBanner.classList.remove('hidden');
+        overloadBanner.classList.add('active');
+      }
     } else {
       if (overloadBanner) overloadBanner.classList.remove('active');
     }
@@ -966,31 +973,53 @@
 
   function renderBeverageBenchmarkCards() {
     const grid = document.getElementById('beverage-benchmark-grid');
-    if (!grid) return;
+    if (!grid || !DATA.beverageStandards) return;
+
+    const currentCubes = appState.globalSugarCubes;
+    const currentLv = appState.activeLadderLevel;
 
     grid.innerHTML = DATA.beverageStandards.map((b, idx) => {
-      const fillPct = Math.min(92, 18 + idx * 19);
+      const fillPct = Math.min(92, 18 + idx * 16);
+      const isSelected = (currentLv === b.level) || (idx === 0 && currentCubes === 0 && currentLv === 0);
+      const isReached = currentCubes >= b.cubes;
+
+      // 每個卡片都常駐明亮通透的專屬霓虹光澤，全部都能亮起
+      const tierColors = {
+        0: { border: 'border-emerald-500/70', bg: 'bg-emerald-950/60', text: 'text-emerald-300', glow: 'rgba(16,185,129,0.45)' },
+        1: { border: 'border-cyan-500/70', bg: 'bg-cyan-950/60', text: 'text-cyan-300', glow: 'rgba(6,182,212,0.45)' },
+        2: { border: 'border-amber-500/70', bg: 'bg-amber-950/60', text: 'text-amber-300', glow: 'rgba(245,158,11,0.45)' },
+        3: { border: 'border-orange-500/70', bg: 'bg-orange-950/60', text: 'text-orange-300', glow: 'rgba(249,115,22,0.45)' },
+        4: { border: 'border-rose-500/70', bg: 'bg-rose-950/60', text: 'text-rose-300', glow: 'rgba(239,68,68,0.55)' }
+      }[idx] || { border: 'border-amber-500/70', bg: 'bg-amber-950/60', text: 'text-amber-300', glow: 'rgba(245,158,11,0.45)' };
+
+      let cardStyle = `box-shadow: 0 0 18px ${tierColors.glow};`;
+      let glowClass = `${tierColors.bg} border-2 ${tierColors.border} hover:scale-105`;
+
+      if (isSelected) {
+        glowClass = `bg-gradient-to-b from-amber-500/40 via-slate-900 to-slate-950 border-2 border-amber-300 scale-105 shadow-[0_0_36px_rgba(245,158,11,0.8)] ring-2 ring-amber-400/60`;
+      }
+
       return `
-        <button onclick="window.LabApp.selectBeverageStandard(${b.level}, ${b.cubes})"
-                class="liquid-glass-card rounded-2xl p-3 text-left transition-all relative overflow-hidden group ${
-                  b.isCritical ? 'border-red-400/80 shadow-[0_0_25px_rgba(239,68,68,0.28)]' : ''
-                }">
+        <button type="button" onclick="window.LabApp.selectBeverageStandard(${b.level}, ${b.cubes})"
+                style="${cardStyle}"
+                class="rounded-2xl p-3 text-left transition-all duration-300 relative overflow-hidden group cursor-pointer ${glowClass}">
           <div class="flex items-center justify-between gap-1 mb-1.5">
-            <span class="embossed-badge font-mono text-[9px] font-bold px-2 py-0.5 rounded" style="color:${b.color}; border-color:${b.color}88">
-              ${b.tag}
+            <span class="font-mono text-[9px] font-extrabold px-2 py-0.5 rounded-full border border-white/20 bg-slate-950/90 ${tierColors.text} shadow-sm">
+              ${isSelected ? '🔥 ' + b.tag : b.tag}
             </span>
-            <!-- 視覺化手搖杯 SVG 圖標 -->
-            <svg viewBox="0 0 32 36" class="w-6 h-7 shrink-0">
-              <path d="M6,6 L26,6 L23,32 Q22.5,34 20,34 L12,34 Q9.5,34 9,32 Z" fill="rgba(15,23,42,0.85)" stroke="${b.color}" stroke-width="1.8" />
-              <rect x="8" y="${34 - (fillPct * 0.24)}" width="16" height="${fillPct * 0.24}" rx="2" fill="${b.color}" opacity="0.65" />
+            <!-- 視覺化手搖杯 SVG 圖標 (全部常駐點亮高光) -->
+            <svg viewBox="0 0 32 36" class="w-6 h-7 shrink-0 transition-transform group-hover:scale-110 drop-shadow-[0_0_8px_${b.color}]">
+              <path d="M6,6 L26,6 L23,32 Q22.5,34 20,34 L12,34 Q9.5,34 9,32 Z" fill="rgba(15,23,42,0.9)" stroke="${b.color}" stroke-width="2" />
+              <rect x="8" y="${34 - (fillPct * 0.24)}" width="16" height="${fillPct * 0.24}" rx="2" fill="${b.color}" opacity="0.95" />
               <line x1="18" y1="1" x2="14" y2="30" stroke="#FDE047" stroke-width="2" stroke-linecap="round" />
             </svg>
           </div>
-          <div class="text-xs sm:text-sm font-black text-white group-hover:text-amber-300 transition-colors truncate">${b.title}</div>
+          <div class="text-xs sm:text-sm font-black transition-colors truncate text-white">${b.title}</div>
           <div class="mt-1 flex items-baseline gap-1.5 font-mono">
-            <span class="text-lg sm:text-xl font-extrabold text-amber-300">${b.cubes}顆</span>
-            <span class="text-[10px] text-slate-400">/ ${b.grams}g</span>
+            <span class="text-lg sm:text-xl font-extrabold ${tierColors.text}">${b.cubes}顆</span>
+            <span class="text-[10px] text-slate-200">/ ${b.grams}g</span>
           </div>
+          ${isSelected ? '<div class="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-r from-amber-400 via-rose-400 to-cyan-400 animate-pulse"></div>' : ''}
         </button>
       `;
     }).join('');
@@ -1354,7 +1383,7 @@
   const scenarioPool25 = [
     {
       scene: 'SCENE // 圖書館自習室',
-      question: '期末自習室安靜到連根針掉地都聽得見，你點開影片，耳機沒連上，直接最大音量公放羞恥動漫撒嬌聲：',
+      question: '自習室安靜到極致，影片沒接耳機，直接最大音量公放羞恥嬌喘聲：',
       options: [
         { label: 'A', text: '面不改色繼續做筆記，假裝聲音不是我的', cubes: 2, note: '強大心理素質，但對面同學已憋笑抽搐' },
         { label: 'B', text: '手忙腳亂狂按音量鍵，發出劇烈假咳嗽掩飾', cubes: 8, note: '破音咳嗽與撒嬌聲完美交響' },
@@ -1364,7 +1393,7 @@
     },
     {
       scene: 'SCENE // 走廊樓梯轉角',
-      question: '深夜走廊裝水，一隻巴掌大的會飛大蟑螂張開翅膀直線朝你臉上衝刺：',
+      question: '深夜走廊，一隻會飛的大蟑螂張開翅膀直線往你臉上衝刺：',
       options: [
         { label: 'A', text: '眼神一凝，脫下拖鞋精準一擊必殺', cubes: 0, note: '無糖戰神！在場所有人拜你為義父' },
         { label: 'B', text: '怪叫一聲，百米衝刺閃回房內反鎖', cubes: 5, note: '微糖驚嚇，只有隔壁聽見嬌喘' },
@@ -1374,7 +1403,7 @@
     },
     {
       scene: 'SCENE // 早八必修課堂',
-      question: '早八必修課睡著被嚴格教授點名，驚醒站起來脫口而出：',
+      question: '早八必修課睡死被教授點名，驚醒站起來脫口說出：',
       options: [
         { label: 'A', text: '「報告教授，邏輯推導中請容我思考30秒。」', cubes: 1, note: '危機處理典範，教授點頭認可' },
         { label: 'B', text: '「阿姨我要大冰奶加蛋，內用！」', cubes: 10, note: '少糖夢遊！教授問可不可以幫代購' },
@@ -1384,7 +1413,7 @@
     },
     {
       scene: 'SCENE // 數位萬人大群',
-      question: '自拍配文「這課無聊到想圓寂」，按下發送才發現：',
+      question: '自拍配文「這課無聊到想死」，按發送才發現傳進：',
       options: [
         { label: 'A', text: '發在自己的個人私人備忘錄裡', cubes: 0, note: '安全過關，僅果糖怪知曉' },
         { label: 'B', text: '發在好友4人群，2秒內光速收回', cubes: 4, note: '朋友截圖永遠比光速快0.1秒' },
@@ -1394,7 +1423,7 @@
     },
     {
       scene: 'SCENE // 尖峰學餐美食街',
-      question: '端麻婆豆腐走過暗戀對象身旁，腳底踩到油漬失去重心：',
+      question: '端麻婆豆腐走過暗戀對象旁，腳滑踩到油漬失去重心：',
       options: [
         { label: 'A', text: '太空步滑行穩住餐盤，一滴不漏', cubes: 2, note: '全場誤以為是熱舞社長帥氣登場' },
         { label: 'B', text: '單膝跪地做出求婚姿勢化解尷尬', cubes: 10, note: '暗戀對象以為你在跟打飯阿姨求婚' },
@@ -1404,7 +1433,7 @@
     },
     {
       scene: 'SCENE // 健身房更衣室',
-      question: '在健身房更衣室吹頭髮，突然發現全身鏡裡反射著旁邊教練驚訝的表情：',
+      question: '健身房更衣室吹頭髮，鏡子反射出旁邊教練的驚訝神情：',
       options: [
         { label: 'A', text: '從容關掉吹風機，點頭致意離場', cubes: 1, note: '無懈可擊的紳士風度' },
         { label: 'B', text: '發現自己褲子穿反，迅速轉身整理', cubes: 8, note: '教練默默轉移視線' },
@@ -1414,7 +1443,7 @@
     },
     {
       scene: 'SCENE // 文青咖啡廳',
-      question: '在文青咖啡廳點單，店員問「冰塊甜度怎麼調整？」，你神遊中脫口而出：',
+      question: '文青咖啡廳點單，店員問「甜度冰塊？」，你神遊脫口說：',
       options: [
         { label: 'A', text: '「正常冰微糖，謝謝。」', cubes: 0, note: '日常純潔操作' },
         { label: 'B', text: '「加一匙胡椒，少蔥多辣！」', cubes: 7, note: '店員笑著問要不要加酸菜' },
@@ -1424,7 +1453,7 @@
     },
     {
       scene: 'SCENE // 電梯密閉空間',
-      question: '客滿 12 人的公司電梯緩慢上升，肚子突傳一陣雷鳴般的滾動聲：',
+      question: '客滿 12 人的電梯緩慢上升，肚子突傳一陣如雷巨響：',
       options: [
         { label: 'A', text: '氣沉丹田，用意志力鎖死括約肌', cubes: 2, note: '成功化解危機於無形' },
         { label: 'B', text: '放出微弱氣聲，立刻低頭看手機', cubes: 9, note: '後方同事默默拉高衣領' },
@@ -1434,7 +1463,7 @@
     },
     {
       scene: 'SCENE // 跨年慶典晚會',
-      question: '萬人跨年倒數最後 3 秒「3、2、1！」，大家都在相擁歡呼，你興奮舉起雙手：',
+      question: '跨年倒數「3、2、1！」，大家相擁歡呼，你興奮舉起手卻：',
       options: [
         { label: 'A', text: '和同行朋友碰杯慶祝新年快樂', cubes: 1, note: '溫馨滿分無社死' },
         { label: 'B', text: '揮手打翻了隔壁陌生人的爆米花桶', cubes: 10, note: '新年第一秒就忙著在地上撿爆米花' },
@@ -1444,7 +1473,7 @@
     },
     {
       scene: 'SCENE // 線上會議報告',
-      question: '百人遠距線上大會輪到你分享螢幕，你按下「共用整個螢幕」的那一刻：',
+      question: '百人線上會議換你報告，按「共用整個螢幕」的瞬間：',
       options: [
         { label: 'A', text: '精準切換到準備好的乾淨簡報頁面', cubes: 0, note: '專業滿分操作' },
         { label: 'B', text: '跳出網購「生髮水與脫毛膏」購物車視窗', cubes: 14, note: '總監輕咳一聲提醒換頁' },
@@ -1454,7 +1483,7 @@
     },
     {
       scene: 'SCENE // 捷運通勤車廂',
-      question: '搭乘擠滿通勤族的捷運末班車，太睏不小心睡著：',
+      question: '擠滿通勤族的捷運末班車，太睏不小心睡死靠在旁邊肩膀：',
       options: [
         { label: 'A', text: '只是小點頭，到站前自然清醒', cubes: 1, note: '優雅的日常通勤者' },
         { label: 'B', text: '整顆頭靠在旁邊大叔肩膀上，還發出微弱鼾聲', cubes: 12, note: '大叔身體僵硬一動不敢動' },
@@ -1464,7 +1493,7 @@
     },
     {
       scene: 'SCENE // 社區倒垃圾現場',
-      question: '提著兩大袋滿滿的廚餘垃圾走向垃圾車，在鄰居眾目睽睽之下：',
+      question: '提兩大袋廚餘走向垃圾車，眾目睽睽下垃圾袋突然破底：',
       options: [
         { label: 'A', text: '優雅準確丟入垃圾車壓縮槽', cubes: 0, note: '標準模範公民' },
         { label: 'B', text: '垃圾袋手把斷掉，袋子在地上滾了兩圈', cubes: 8, note: '清潔隊員好心幫忙撿起' },
@@ -1474,7 +1503,7 @@
     },
     {
       scene: 'SCENE // 專業美髮沙龍',
-      question: '設計師精雕細琢剪了一小時，拿起鏡子問你「帥嗎？還滿意嗎？」，鏡子裡你的瀏海短到像西瓜皮：',
+      question: '設計師剪完拿起鏡子問「帥嗎？」，鏡中瀏海短如西瓜皮：',
       options: [
         { label: 'A', text: '禮貌微笑「很清爽，謝謝設計師」快步結帳', cubes: 3, note: '成熟大人的體面謊言' },
         { label: 'B', text: '呆滯 5 秒脫口而出「這是我嗎？怎麼像河童」', cubes: 12, note: '全店美髮師突然安靜' },
@@ -1484,7 +1513,7 @@
     },
     {
       scene: 'SCENE // 家族過年圍爐',
-      question: '三十幾位親戚的大圓桌前，你站起來要敬酒，對著最有錢的大伯脫口喊道：',
+      question: '親戚大圓桌前敬酒，對著最有錢的大伯脫口喊成：',
       options: [
         { label: 'A', text: '「大伯新年快樂，身體健康萬事如意！」', cubes: 0, note: '吉祥話滿分，紅包加碼' },
         { label: 'B', text: '「二舅公新年快樂！」（全場提醒這是大伯）', cubes: 8, note: '氣氛略顯尷尬但紅包照拿' },
@@ -1494,7 +1523,7 @@
     },
     {
       scene: 'SCENE // 牙醫洗牙候診',
-      question: '躺在牙醫躺椅上洗牙，醫生說「嘴巴張大喔」，下一秒吸水管掉落：',
+      question: '看牙醫躺椅上，醫生說「嘴巴張大」，吸水管突然滑脫噴口水：',
       options: [
         { label: 'A', text: '舉手示意暫停，擦拭嘴角', cubes: 1, note: '冷靜從容' },
         { label: 'B', text: '口水嗆到氣管發出劇烈咳嗽噴出水花', cubes: 11, note: '護士小姐迅速拿毛巾遮擋' },
@@ -1504,7 +1533,7 @@
     },
     {
       scene: 'SCENE // 超商深夜結帳',
-      question: '買宵夜店員問「有會員嗎？請報電話號碼」，你心不在焉大聲唸出：',
+      question: '超商結帳店員問「報會員電話」，你心不在焉大聲唸出：',
       options: [
         { label: 'A', text: '自己順暢無比的手機號碼', cubes: 0, note: '絲滑結帳' },
         { label: 'B', text: '家裡二十年前的市話號碼', cubes: 6, note: '店員笑著說查無此人' },
@@ -1514,7 +1543,7 @@
     },
     {
       scene: 'SCENE // 考場絕對安靜',
-      question: '國家考試倒數 10 分鐘，考場針落有聲，你剛吃完麻辣鍋的腸胃突然發作：',
+      question: '考場極度安靜，考試倒數10分鐘，麻辣鍋後勁突然劇烈引爆：',
       options: [
         { label: 'A', text: '深呼吸收緊腹部，靠意志力撐到交卷鐘響', cubes: 2, note: '定力極強的考生' },
         { label: 'B', text: '肚子發出咕嚕嚕長達三秒的低音炮', cubes: 10, note: '隔壁考生默默分心看你一眼' },
@@ -1524,7 +1553,7 @@
     },
     {
       scene: 'SCENE // 電影院生離死別高潮',
-      question: '催淚大片演到男女主角生離死別、全場抽泣啜泣時，你喉嚨奇癢無比：',
+      question: '電影播到生離死別最催淚處，你突然忍不住發出響亮怪聲：',
       options: [
         { label: 'A', text: '用紙巾捂死嘴巴，發出悶悶的微響', cubes: 2, note: '極具同理心的觀影人' },
         { label: 'B', text: '一聲石破天驚的巨型噴嚏打破悲傷氣氛', cubes: 14, note: '前排觀眾被嚇得彈起來' },
@@ -1534,7 +1563,7 @@
     },
     {
       scene: 'SCENE // 畢業典禮受獎',
-      question: '台上校長親自頒發優秀學業獎，你踏上講台紅毯時踩到學士袍下擺：',
+      question: '台上校長頒獎，走上紅毯時踩到學士袍下擺往前撲倒：',
       options: [
         { label: 'A', text: '一個踉蹌立即站穩，微笑向校長鞠躬', cubes: 2, note: '優雅化解危機' },
         { label: 'B', text: '單膝下跪，乾脆順勢做出領取爵士榮譽姿勢', cubes: 12, note: '台下響起善意的掌聲' },
@@ -1544,7 +1573,7 @@
     },
     {
       scene: 'SCENE // 游泳池跳水台',
-      question: '夏日泳池眾多帥哥美女在旁，你自信滿滿從三米跳板優美躍下：',
+      question: '泳池眾人注視下從跳板優美躍下，泳褲卻在落水瞬間被沖掉：',
       options: [
         { label: 'A', text: '完美入水水花極小，全場讚嘆', cubes: 0, note: '水上王子/公主' },
         { label: 'B', text: '大肚子平拍落水「啪」的一聲巨響肚皮通紅', cubes: 15, note: '救生員差點吹哨衝過來' },
@@ -1554,7 +1583,7 @@
     },
     {
       scene: 'SCENE // 租屋處門口反鎖',
-      question: '穿著蕾絲卡哇伊粉紅睡袍出來丟門口垃圾，大門「碰」一聲自動鎖死：',
+      question: '穿著粉紅睡衣出門倒垃圾，大門「碰」一聲自動反鎖：',
       options: [
         { label: 'A', text: '口袋剛好有手機，從容聯絡房東開鎖', cubes: 2, note: '隨時有備無患' },
         { label: 'B', text: '蹲在門口用腳踏墊遮身等鄰居經過求助', cubes: 15, note: '走廊監視器記錄下無助背影' },
@@ -1564,7 +1593,7 @@
     },
     {
       scene: 'SCENE // 公司大螢幕投影',
-      question: '正在向客戶與高層簡報，手機連動投影突然彈出置頂浮動視窗：',
+      question: '會議投影報告中，手機突然彈出置頂私密訊息浮動視窗：',
       options: [
         { label: 'A', text: '已事先開啟請勿打擾模式，無任何通知', cubes: 0, note: '專業商務菁英' },
         { label: 'B', text: '彈出外送平台「您的香酥雞排與大冰奶即將送達」', cubes: 12, note: '客戶笑問這家好不好吃' },
@@ -1574,7 +1603,7 @@
     },
     {
       scene: 'SCENE // 潮流鞋店試穿',
-      question: '試穿最新款球鞋，店員請你在鏡子前走走看腳感：',
+      question: '潮流鞋店試穿走動，襪子破大洞大拇指直接衝破露出來：',
       options: [
         { label: 'A', text: '踩了兩步確認尺寸剛好，脫下交還店員', cubes: 0, note: '正常試穿流程' },
         { label: 'B', text: '單腳試穿走著走著神遊直接走到隔壁奶茶店排隊', cubes: 16, note: '店員拿著另一隻鞋追出來問先生要去哪' },
@@ -1584,7 +1613,7 @@
     },
     {
       scene: 'SCENE // 觀光風景區合照',
-      question: '幫熱戀中的情侶朋友在名勝風景區拍全身照，你負責掌鏡倒數：',
+      question: '幫情侶朋友拍照掌鏡倒數，退後一步突然踩空掉進水池：',
       options: [
         { label: 'A', text: '構圖完美光線充足，情侶非常感激', cubes: 0, note: '專業神隊友攝影師' },
         { label: 'B', text: '拍了三十張才發現相機開著前鏡頭，拍的全是自己的雙下巴', cubes: 18, note: '朋友檢查相簿時露出神秘笑容' },
@@ -1594,7 +1623,7 @@
     },
     {
       scene: 'SCENE // 超市試吃攤位',
-      question: '熱情阿姨遞上一塊剛煎好的黑胡椒多汁香腸：「帥哥試吃看看！」你一口咬下：',
+      question: '熱情阿姨遞上剛煎好的多汁熱香腸，一口咬下滾燙肉汁直噴：',
       options: [
         { label: 'A', text: '細嚼慢嚥讚不絕口並禮貌買了一包', cubes: 0, note: '攤位阿姨的最愛' },
         { label: 'B', text: '太燙直接把香腸吐在自己手掌心被阿姨全程目睹', cubes: 12, note: '阿姨連忙遞水安慰' },
@@ -1843,8 +1872,11 @@
     appState.quizAnswers[qId] = {
       optIndex,
       cubes: opt.cubes,
-      note: opt.clinicalNote,
-      label: opt.label
+      note: opt.clinicalNote || opt.note,
+      label: opt.label,
+      scene: q.scene,
+      question: q.question,
+      chosenText: opt.text
     };
 
     window.labAudio.playSugarDrop(1);
@@ -2035,17 +2067,57 @@
   function printQuizSummaryToReceipt() {
     const sumCubes = getQuizSumCubes();
     const lvObj = cubesToLevelObj(sumCubes);
+    const answersList = Object.values(appState.quizAnswers || {});
+
+    // 找出受測者最社死 / 最高糖的代表作
+    let peakAnswer = null;
+    let maxAnswerCubes = -1;
+    let counts = { A: 0, B: 0, C: 0, D: 0 };
+    answersList.forEach(a => {
+      counts[a.label] = (counts[a.label] || 0) + 1;
+      if (a.cubes > maxAnswerCubes) {
+        maxAnswerCubes = a.cubes;
+        peakAnswer = a;
+      }
+    });
+
+    // 決定個人專屬人格型態
+    let archetype = '【隨機調皮型】';
+    let dominant = 'B';
+    if (counts.A >= counts.B && counts.A >= counts.C && counts.A >= counts.D) {
+      archetype = '【第 I 型・無痛無感冰凍理智人格】';
+      dominant = 'A';
+    } else if (counts.B >= counts.A && counts.B >= counts.C && counts.B >= counts.D) {
+      archetype = '【第 II 型・自適應腳趾摳地避難人格】';
+      dominant = 'B';
+    } else if (counts.C >= counts.A && counts.C >= counts.B && counts.C >= counts.D) {
+      archetype = '【第 III 型・拉人墊背同歸於盡暴徒】';
+      dominant = 'C';
+    } else {
+      archetype = '【第 IV 型・核能級全裸棄療社死王者】';
+      dominant = 'D';
+    }
+
+    const peakScene = peakAnswer ? (peakAnswer.scene || '代表作現場') : '日常社交場域';
+    const peakText = peakAnswer ? peakAnswer.chosenText : '面臨社交窘境';
+    const peakNote = peakAnswer ? peakAnswer.note : '心理耐受力極限';
+
+    // 打造每個人獨一無二的病歷引述與評語
+    const personalizedStory = `【受測者：${appState.playerName}】完成 ${appState.questionCountMode || 20} 題深度診斷。在「${peakScene}」面臨危機時，選擇「${peakText}」，被臨床審判庭認定為「${peakNote}」！`;
+    const personalizedRoast = `AI 臨床鑑定：受測者為典型的「${archetype}」，累計高達 ${sumCubes} 顆方糖當量（${sumCubes * 5}g）。${lvObj.symptom} 其行為模式呈現嚴重的「${dominant} 型應激反射」，極具荒謬觀賞價值。`;
+    const personalizedRx = `處方醫囑：${lvObj.prescription} 特別針對「${peakScene}」失控症狀，每日晨起建議注射冰鎮無糖綠茶 600ml，並暫停使用系大群 48 小時。`;
+
     const receiptData = {
-      ticketId: `LAB-${Math.floor(1000000 + Math.random() * 9000000)}`,
-      story: `【受測者：${appState.playerName}】完成 ${appState.questionCountMode || 20} 題情境心理測驗，共測出 ${sumCubes} 顆方糖當量（${sumCubes * 5}g）。`,
+      ticketId: `RX-${Date.now().toString(36).toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`,
+      story: personalizedStory,
       cubes: sumCubes,
       grams: sumCubes * 5,
       level: lvObj.level,
-      levelName: lvObj.name,
+      levelName: `${lvObj.name} · ${archetype}`,
       stamp: lvObj.stamp,
-      roast: `判決：${sumCubes} 顆方糖。臨床評語：${lvObj.symptom}`,
-      prescription: lvObj.prescription,
-      factors: ['問問題測糖度核定', `Lv.${lvObj.level} ${lvObj.name}`]
+      roast: personalizedRoast,
+      prescription: personalizedRx,
+      factors: [archetype, `核心引爆點：${peakScene}`, `Lv.${lvObj.level} ${lvObj.name}`]
     };
     switchLabPage(3);
     setTimeout(() => renderThermalReceipt(receiptData), 220);
@@ -3606,22 +3678,74 @@
   }
 
   function randomizeRadarSliders() {
-    const keys = Object.keys(bobaRadarState.sliders);
-    keys.forEach(k => {
-      bobaRadarState.sliders[k] = Math.floor(Math.random() * 85) + 15;
-      const el = document.getElementById(`radar-slider-${k}`);
-      if (el) el.value = bobaRadarState.sliders[k];
-    });
     window.labAudio && window.labAudio.playChime();
-    renderBobaCupAndRadar();
+    for (let i = 0; i < 6; i++) {
+      const el = document.getElementById(`radar-slider-${i}`);
+      if (el) el.value = Math.floor(Math.random() * 80) + 15;
+    }
+    updateSugarRadar();
     showToast('隨機混沌參數', '日常 6 大受難因子已隨機重新分配！', 'purple');
   }
 
-  function updateSugarRadar(axisKey, val) {
-    if (axisKey && bobaRadarState.sliders[axisKey] !== undefined) {
-      bobaRadarState.sliders[axisKey] = parseInt(val, 10) || 0;
+  function updateSugarRadar() {
+    // 讀取 6 個滑桿的值
+    const vals = [];
+    for (let i = 0; i < 6; i++) {
+      const slider = document.getElementById(`radar-slider-${i}`);
+      const val = slider ? parseInt(slider.value, 10) || 50 : 50;
+      vals.push(val);
+      const valEl = document.getElementById(`radar-val-${i}`);
+      if (valEl) valEl.textContent = `${val}%`;
     }
-    renderBobaCupAndRadar();
+
+    // 計算 SVG 6 邊形座標 (中心 120, 120, 半徑 92)
+    const cx = 120, cy = 120, maxR = 92;
+    const pointsArr = vals.map((v, i) => {
+      const angle = (Math.PI / 3) * i - Math.PI / 2;
+      const r = Math.max(12, (v / 100) * maxR);
+      const x = cx + r * Math.cos(angle);
+      const y = cy + r * Math.sin(angle);
+
+      const dot = document.getElementById(`radar-node-${i}`);
+      if (dot) {
+        dot.setAttribute('cx', x.toFixed(1));
+        dot.setAttribute('cy', y.toFixed(1));
+      }
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    });
+
+    const polygon = document.getElementById('radar-data-polygon') || document.getElementById('sugar-dna-polygon');
+    if (polygon) {
+      polygon.setAttribute('points', pointsArr.join(' '));
+    }
+
+    // 換算綜合人格糖度
+    const avgScore = vals.reduce((a, b) => a + b, 0) / vals.length;
+    const calculatedCubes = Math.max(5, Math.round((avgScore / 100) * 85));
+    bobaRadarState.calculatedCubes = calculatedCubes;
+
+    const resBadge = document.getElementById('radar-total-score-badge');
+    if (resBadge) resBadge.textContent = `綜合糖度：${Math.round(avgScore * 8)}% 爆糖`;
+
+    const resCubes = document.getElementById('radar-cubes-equivalent');
+    if (resCubes) resCubes.textContent = `折合 ${calculatedCubes} 顆方糖 (${calculatedCubes * 5}g)`;
+
+    const titleEl = document.getElementById('radar-persona-title');
+    const descEl = document.getElementById('radar-persona-desc');
+
+    if (calculatedCubes <= 15) {
+      if (titleEl) titleEl.textContent = '【微甜草食理智派】';
+      if (descEl) descEl.textContent = '你的心如止水，即使在極度尷尬的走廊上也能面不改色，是一杯自律純潔的無糖玄米茶！';
+    } else if (calculatedCubes <= 35) {
+      if (titleEl) titleEl.textContent = '【半糖社死微醺體質】';
+      if (descEl) descEl.textContent = '平時正常內斂，但偶爾手滑錯頻或踩到水窪會瞬間引爆小規模社死，需要偶爾來杯珍奶急救！';
+    } else if (calculatedCubes <= 65) {
+      if (titleEl) titleEl.textContent = '【全糖調皮搗蛋暴徒】';
+      if (descEl) descEl.textContent = '男宿深夜嗨歌、群組甩迷因的始作俑者！只要身邊有人出糗，你的笑聲通常是最大的那個！';
+    } else {
+      if (titleEl) titleEl.textContent = '【焦糖核爆神經病王者】';
+      if (descEl) descEl.textContent = '你的血液裡已經完全結晶化為 100% 焦糖！所有常規的社交禮儀對你而言都是可以粉碎的方糖！';
+    }
   }
 
   function renderBobaCupAndRadar() {
@@ -3661,55 +3785,8 @@
       }).join(' ');
     }
 
-    // 3. 計算雷達 6 軸分數
-    const vals = [
-      bobaRadarState.sliders.screenTime || 50,
-      bobaRadarState.sliders.otHours || 50,
-      bobaRadarState.sliders.awkwardCount || 50,
-      bobaRadarState.sliders.bobaCups || 50,
-      bobaRadarState.sliders.sleepDeficit || 50,
-      bobaRadarState.sliders.walletLoss || 50
-    ];
-
-    const radarLabels = [
-      'radar-val-screen', 'radar-val-ot', 'radar-val-awkward',
-      'radar-val-boba', 'radar-val-sleep', 'radar-val-wallet'
-    ];
-    radarLabels.forEach((id, i) => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = `${vals[i]}%`;
-    });
-
-    // 4. 計算 SVG 6 邊形座標 (中心 100, 100, 半徑 80)
-    const cx = 100, cy = 100, maxR = 80;
-    const points = vals.map((v, i) => {
-      const angle = (Math.PI / 3) * i - Math.PI / 2;
-      const r = (v / 100) * maxR;
-      const x = cx + r * Math.cos(angle);
-      const y = cy + r * Math.sin(angle);
-      return `${x.toFixed(1)},${y.toFixed(1)}`;
-    }).join(' ');
-
-    const polygon = document.getElementById('sugar-dna-polygon');
-    if (polygon) {
-      polygon.setAttribute('points', points);
-    }
-
-    // 5. 換算綜合人格糖度
-    const avgScore = vals.reduce((a, b) => a + b, 0) / vals.length;
-    const calculatedCubes = Math.round((avgScore / 100) * 80 + toppingCubes);
-    bobaRadarState.calculatedCubes = calculatedCubes;
-
-    const resCubesEl = document.getElementById('radar-calc-cubes');
-    if (resCubesEl) resCubesEl.textContent = `${calculatedCubes} 顆`;
-
-    const resPersonaEl = document.getElementById('radar-calc-persona');
-    if (resPersonaEl) {
-      if (calculatedCubes < 20) resPersonaEl.textContent = '微甜養生社畜 (微糖人)';
-      else if (calculatedCubes < 45) resPersonaEl.textContent = '半糖社死預備役 (半糖人)';
-      else if (calculatedCubes < 75) resPersonaEl.textContent = '全糖暴走熬夜狂人 (全糖暴徒)';
-      else resPersonaEl.textContent = '焦糖超載神仙體 (多重器官浸糖)';
-    }
+    // 3. 觸發雷達重算
+    updateSugarRadar();
   }
 
   function applyRadarToGlobal() {
@@ -4056,7 +4133,9 @@
   function resetLabOverload() {
     emergencyGreenTeaFlush();
     const banner = document.getElementById('syrup-overload-banner');
-    if (banner) banner.classList.add('hidden');
+    if (banner) {
+      banner.classList.remove('active');
+    }
   }
 
   // 將新函數註冊至 window 供 index.html 呼叫
