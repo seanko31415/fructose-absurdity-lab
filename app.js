@@ -17,6 +17,7 @@
     carouselAutoRotate: true,
     carouselRafId: null,
     carouselPausedByHover: false,
+    selectedToppings: ['pearl', 'syrup'],
     playerName: '全糖受測員 #128',
     playerCard: DATA.loginIdentityCards[0],
     globalSugarCubes: 0, // 初始糖分完全歸零
@@ -411,7 +412,7 @@
     if (ring) {
       ring.style.transform = `rotateY(${appState.carouselAngle}deg)`;
     }
-    window.labAudio.playCardSwipe();
+    window.labAudio?.playCardSwipe?.();
     highlightActive3DCard(appState.carouselIndex);
     updateSelected3DCardSummary();
   }
@@ -457,12 +458,12 @@
 
     // 自動啟動調皮搞怪風背景音樂 (若尚未播放)
     if (window.labAudio && !window.labAudio.bgmPlaying && appState.soundEnabled) {
-      window.labAudio.startBGM();
+      window.labAudio?.startBGM?.();
       const eqBars = document.getElementById('hud-eq-bars');
       if (eqBars) eqBars.classList.remove('eq-paused');
     }
 
-    window.labAudio.playVictoryFanfare();
+    window.labAudio?.playVictoryFanfare?.();
 
     // 依使用者指示：登進去的時候糖分完全歸零 (0 顆 / 0g / Lv.0 無糖純潔態)！
     setGlobalSugarCubes(0, { syncLadder: true });
@@ -479,7 +480,7 @@
       overlay.classList.remove('portal-hidden');
       start3DAutoOrbit();
       initLoginCosmicBackground();
-      window.labAudio.playBubble();
+      window.labAudio?.playBubble?.();
     }
   }
 
@@ -510,7 +511,7 @@
       }
     }
 
-    window.labAudio.playBubble();
+    window.labAudio?.playBubble?.();
     if (typeof window.scrollTo === 'function') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -603,10 +604,10 @@
     if (mode === 'wobble') {
       if (appState.globalSugarCubes < 85) setGlobalSugarCubes(85, { syncLadder: true });
       else applyCreativeSugarOverloadEffects();
-      window.labAudio.playBubble();
+      window.labAudio?.playBubble?.();
       broadcastMascotMessage('🥴【高血糖微醺果凍晃動模式】啟動！整個網站正在跟著你的社死指數一起果凍搖擺！');
     } else if (mode === 'quake') {
-      window.labAudio.playOverloadSiren();
+      window.labAudio?.playOverloadSiren?.();
       setGlobalSugarCubes(1000, { syncLadder: true, isOverloadTrigger: true });
       broadcastMascotMessage('🚨【1L 糖漿焦糖化大地震】全站劇烈搖晃中！高血糖幻覺彈幕來襲！快按「緊急注射無糖綠茶」解毒！');
     } else {
@@ -635,7 +636,7 @@
     appState.overloadShakeMode = 'auto';
     appState.scaleOverload = false;
     document.body.classList.remove('sugar-rush-wobble', 'sugar-quake-extreme');
-    window.labAudio.playBubble();
+    window.labAudio?.playBubble?.();
     setGlobalSugarCubes(0, { syncLadder: true, isOverloadTrigger: false });
     broadcastMascotMessage('💉 已為您緊急注射 3,000cc 冰鎮無糖綠茶！網站搖晃與高血糖幻覺已完全平息！');
     showToast('💉 無糖綠茶解毒完成', '網站已停止搖晃，體內含糖量恢復至 0g 純潔狀態！', 'emerald');
@@ -724,10 +725,10 @@
     }
 
     if (window.labAudio && window.labAudio.playJellySquish) {
-      window.labAudio.playJellySquish();
+      window.labAudio?.playJellySquish?.();
     }
     if (window.labAudio && window.labAudio.playSugarDrop) {
-      window.labAudio.playSugarDrop(count);
+      window.labAudio?.playSugarDrop?.(count);
     }
     setGlobalSugarCubes(appState.globalSugarCubes + count, { syncLadder: false });
     updateMascotUI(true);
@@ -816,7 +817,7 @@
   let currentMascotFormIndex = 0;
 
   function cycleMascotForm() {
-    window.labAudio && (window.labAudio.playLaser ? window.labAudio.playLaser() : window.labAudio.playChime());
+    window.labAudio && (window.labAudio.playLaser ? window.labAudio?.playLaser?.() : window.labAudio?.playChime?.());
     currentMascotFormIndex = (currentMascotFormIndex + 1) % MASCOT_FORMS.length;
     applyMascotForm(currentMascotFormIndex);
   }
@@ -879,9 +880,9 @@
     }
 
     if (window.labAudio && window.labAudio.playMascotLaugh) {
-      window.labAudio.playMascotLaugh();
+      window.labAudio?.playMascotLaugh?.();
     } else if (window.labAudio && window.labAudio.playBubble) {
-      window.labAudio.playBubble();
+      window.labAudio?.playBubble?.();
     }
 
     const laughLines = [
@@ -917,7 +918,7 @@
 
   function triggerSecretMonsterEasterEgg() {
     appState.easterEggUnlocked = true;
-    window.labAudio.playVictoryFanfare();
+    window.labAudio?.playVictoryFanfare?.();
     triggerLabShake();
     launchFullScreenSugarRain();
     selectLadderLevel(15, true);
@@ -989,7 +990,7 @@
     }
 
     const added = Math.max(1, Math.round(deltaCubes * mult));
-    window.labAudio.playSugarDrop(Math.min(added, 6));
+    window.labAudio?.playSugarDrop?.(Math.min(added, 6));
     if (added >= 12) triggerLabShake();
     spawnScaleParticles(Math.min(added, 10), added >= 12);
     setGlobalSugarCubes(appState.globalSugarCubes + added, { syncLadder: true });
@@ -999,7 +1000,7 @@
     const acts = DATA.pkRandomActs;
     const pick = acts[Math.floor(Math.random() * acts.length)];
     const added = Math.round(pick.baseCubes * appState.absurdityMultiplier);
-    window.labAudio.playSugarDrop(5);
+    window.labAudio?.playSugarDrop?.(5);
     triggerLabShake();
     spawnScaleParticles(8, true);
     setGlobalSugarCubes(appState.globalSugarCubes + added, { syncLadder: true });
@@ -1120,7 +1121,7 @@
         if (showcase.children[1]) showcase.removeChild(showcase.children[1]);
       }
     }
-    window.labAudio.playSugarDrop(Math.min(cubes, 5));
+    window.labAudio?.playSugarDrop?.(Math.min(cubes, 5));
     setGlobalSugarCubes(appState.globalSugarCubes + cubes, { syncLadder: true });
     showToast(`⚜️ 壓鑄「${label}」成功`, `已鑄造立體浮雕結晶，天平注入 +${cubes} 顆方糖！`, 'amber');
   }
@@ -1180,7 +1181,7 @@
   }
 
   function selectBeverageStandard(level, cubes) {
-    window.labAudio.playSugarDrop(Math.max(1, Math.min(cubes, 5)));
+    window.labAudio?.playSugarDrop?.(Math.max(1, Math.min(cubes, 5)));
     setGlobalSugarCubes(cubes, { syncLadder: true });
     selectLadderLevel(level, false);
   }
@@ -1192,10 +1193,10 @@
     const item = DATA.fructoseLevels[lv];
 
     if (lv >= 14) {
-      window.labAudio.playOverloadSiren();
+      window.labAudio?.playOverloadSiren?.();
       triggerLabShake();
     } else {
-      window.labAudio.playBubble();
+      window.labAudio?.playBubble?.();
     }
 
     if (updateGlobal && item) {
@@ -1256,7 +1257,7 @@
     }
 
     if (window.labAudio && window.labAudio.playCentrifugeWhir) {
-      window.labAudio.playCentrifugeWhir(rpm);
+      window.labAudio?.playCentrifugeWhir?.(rpm);
     }
   }
 
@@ -1270,7 +1271,7 @@
     const bonus = Math.floor(Math.random() * 8) + 8; // 8 ~ 15 顆
     showToast('🌀 離心分離啟動！', `超速離心轉速爆發！成功析出 ${bonus} 顆純淨方糖結晶！`, 'amber');
     if (window.labAudio && window.labAudio.playSugarDrop) {
-      window.labAudio.playSugarDrop(bonus);
+      window.labAudio?.playSugarDrop?.(bonus);
     }
     setGlobalSugarCubes(appState.globalSugarCubes + bonus, { syncLadder: true });
 
@@ -1289,7 +1290,7 @@
   // 🔮 全息焦糖分子超導聚變反應爐互動邏輯
   function pulseReactorFission() {
     if (window.labAudio && window.labAudio.playSugarDrop) {
-      window.labAudio.playSugarDrop(4);
+      window.labAudio?.playSugarDrop?.(4);
     }
     appState.reactorTemp = (parseFloat(appState.reactorTemp) || 165) + 3.5;
     appState.reactorPsi = (parseFloat(appState.reactorPsi) || 88.4) + 1.2;
@@ -1300,7 +1301,7 @@
 
   function cryoCoolReactor() {
     if (window.labAudio && window.labAudio.playCryoFreeze) {
-      window.labAudio.playCryoFreeze();
+      window.labAudio?.playCryoFreeze?.();
     }
     appState.reactorTemp = Math.max(80, (parseFloat(appState.reactorTemp) || 165) - 25);
     appState.reactorPsi = Math.max(30, (parseFloat(appState.reactorPsi) || 88.4) - 15);
@@ -1310,7 +1311,7 @@
 
   function injectReactorNucleotide() {
     if (window.labAudio && window.labAudio.playBubble) {
-      window.labAudio.playBubble();
+      window.labAudio?.playBubble?.();
     }
     setGlobalSugarCubes(appState.globalSugarCubes + 10, { syncLadder: false });
     showToast('🧬 果糖核酸注入', '分子鏈劇烈增長！全息焦糖聚合物擴展，獲得 +10 顆方糖！', 'pink');
@@ -1376,14 +1377,14 @@
     }
     renderSynthesizerWave();
     if (appState.synthFrequency > 0 && window.labAudio && window.labAudio.playFrequencyTone) {
-      window.labAudio.playFrequencyTone(appState.synthFrequency, appState.synthWaveform || 'triangle', 0.12);
+      window.labAudio?.playFrequencyTone?.(appState.synthFrequency, appState.synthWaveform || 'triangle', 0.12);
     }
   }
 
   function playSynthesizerTone() {
     if (appState.synthFrequency <= 0) return;
     if (window.labAudio && window.labAudio.playFrequencyTone) {
-      window.labAudio.playFrequencyTone(appState.synthFrequency || 440, appState.synthWaveform || 'triangle', 0.35);
+      window.labAudio?.playFrequencyTone?.(appState.synthFrequency || 440, appState.synthWaveform || 'triangle', 0.35);
     }
     showToast('🔊 諧振音激發', `發射 ${appState.synthFrequency || 440}Hz ${appState.synthWaveform || 'triangle'} 神經甜度共振波！`, 'cyan');
   }
@@ -2075,7 +2076,7 @@
       chosenText: opt.text
     };
 
-    window.labAudio.playSugarDrop(1);
+    window.labAudio?.playSugarDrop?.(1);
 
     // 即時同步右側進度儀表板與腦波 ECG 監測 (不再有延遲)
     updateQuizGaugeAndSummary();
@@ -2155,7 +2156,7 @@
     }
 
     renderCalibrationSection();
-    window.labAudio.playVictoryFanfare();
+    window.labAudio?.playVictoryFanfare?.();
     if (sumCubes >= 25) triggerLabShake();
     broadcastMascotMessage(`🎉 全數問答完成！共核定 ${sumCubes} 顆方糖（${grams}g）！已同步印出 Lv.${lvObj.level} 專屬臨床診斷收據！`);
     showToast('🎉 糖度結算完成！', `已完成 ${totalCount} 題診斷！核定 Lv.${lvObj.level} ${lvObj.name}，可點擊查看診斷收據！`, 'amber');
@@ -2163,7 +2164,7 @@
 
   function jumpToQuizStep(idx) {
     appState.quizIndex = idx;
-    window.labAudio.playBubble();
+    window.labAudio?.playBubble?.();
     renderCalibrationSection();
   }
 
@@ -2173,7 +2174,7 @@
     appState.quizCompleted = false;
     const revealBox = document.getElementById('quiz-final-reveal-box');
     if (revealBox) revealBox.classList.add('hidden');
-    window.labAudio.playBubble();
+    window.labAudio?.playBubble?.();
     renderCalibrationSection();
     showToast('🔄 測驗已重置', '所有回答與進度已歸零，請重新作答。', 'cyan');
   }
@@ -2285,7 +2286,7 @@
     if (ecgPath) ecgPath.style.animationDuration = '3.0s';
 
     if (window.labAudio && window.labAudio.playSugarDrop) {
-      window.labAudio.playSugarDrop(3);
+      window.labAudio?.playSugarDrop?.(3);
     }
     showToast('🧊 生理食鹽水冷卻', '已成功為額葉降溫！心電與羞恥腦波已回歸平靜！', 'cyan');
   }
@@ -2382,7 +2383,7 @@
     const input = document.getElementById('confession-textarea');
     if (input) {
       input.value = item.text;
-      window.labAudio.playSugarDrop(2);
+      window.labAudio?.playSugarDrop?.(2);
       onConfessionInputChanged();
     }
   }
@@ -2408,7 +2409,7 @@
     const previewMultiplierEl = document.getElementById('live-multiplier-readout');
     if (!input || !tagContainer) return;
 
-    const text = input.value.trim();
+    const text = (input.value || '').trim();
     const { matched } = detectShameFactors(text);
 
     let mult = appState.absurdityMultiplier;
@@ -2491,12 +2492,12 @@
     if (barWrap) barWrap.classList.remove('hidden');
     if (barFill) barFill.style.width = '35%';
     if (stageText) stageText.textContent = 'STAGE 1/3 // 解構語意羞恥張力與關鍵字權重...';
-    window.labAudio.playSugarDrop(1);
+    window.labAudio?.playSugarDrop?.(1);
     await new Promise(r => setTimeout(r, 320));
 
     if (barFill) barFill.style.width = '75%';
     if (stageText) stageText.textContent = 'STAGE 2/3 // 乘算現場目擊當量與高果糖黏稠度...';
-    window.labAudio.playBubble();
+    window.labAudio?.playBubble?.();
     await new Promise(r => setTimeout(r, 320));
 
     const verdict = computeLocalSemanticVerdict(text);
@@ -2646,7 +2647,7 @@
   }
 
   function rollFunnyStamp() {
-    window.labAudio && window.labAudio.playStamp();
+    window.labAudio && window.labAudio?.playStamp?.();
     currentFunnyStampIndex = (currentFunnyStampIndex + 1) % FUNNY_STAMPS_DATA.length;
     renderFunnyReceiptStamp(currentFunnyStampIndex);
     showToast('官方印章稱號', '已換發全新搞笑官方認證印章！', 'rose');
@@ -2728,7 +2729,7 @@
       </div>
     `;
 
-    window.labAudio.playPrinter();
+    window.labAudio?.playPrinter?.();
     requestAnimationFrame(() => {
       paper.style.maxHeight = '920px';
       paper.style.opacity = '1';
@@ -2775,7 +2776,7 @@
     appState.hallOfShameList.unshift(newItem);
     saveHallOfShame();
     renderHallOfShame();
-    window.labAudio.playVictoryFanfare();
+    window.labAudio?.playVictoryFanfare?.();
     switchLabPage(4);
     showToast('🏆 已登上第 4 頁全校社死榮譽榜', '你的荒謬事蹟已成為全糖量測所公開教材！', 'amber');
   }
@@ -2854,7 +2855,7 @@
     link.href = canvas.toDataURL('image/png');
     link.click();
 
-    window.labAudio.playVictoryFanfare();
+    window.labAudio?.playVictoryFanfare?.();
     showToast('📸 IG 限動炫耀圖卡已下載', '已生成 1080×1920 黑金實驗室高畫質診斷圖卡！', 'emerald');
   }
 
@@ -2886,7 +2887,7 @@
     if (nameInput && !nameInput.value) {
       nameInput.value = player === 'A' ? '404號房上舖阿哲' : '404號房下舖冠宇';
     }
-    window.labAudio.playSugarDrop(2);
+    window.labAudio?.playSugarDrop?.(2);
   }
 
   const PK_PENALTIES = [
@@ -2922,7 +2923,7 @@
 
   function rollPkPenaltyDice() {
     if (window.labAudio && window.labAudio.playSugarDrop) {
-      window.labAudio.playSugarDrop(3);
+      window.labAudio?.playSugarDrop?.(3);
     }
     const pick = PK_PENALTIES[Math.floor(Math.random() * PK_PENALTIES.length)];
     const penaltyCard = document.getElementById('pk-penalty-roulette-card');
@@ -3059,7 +3060,7 @@
       story: `【雙人對決勝出：${winnerName}】${winVerdict.story}`
     };
 
-    window.labAudio.playVictoryFanfare();
+    window.labAudio?.playVictoryFanfare?.();
     setGlobalSugarCubes(Math.max(appState.globalSugarCubes, winVerdict.cubes), { syncLadder: true });
   }
 
@@ -3073,7 +3074,7 @@
     const box = document.getElementById('boba-toppings-list');
     if (!box) return;
 
-    box.innerHTML = DATA.bobaToppings.map(t => {
+    box.innerHTML = (DATA.bobaToppings || []).map(t => {
       const active = appState.selectedToppings.includes(t.id);
       return `
         <button onclick="window.LabApp.toggleBobaTopping('${t.id}')"
@@ -3095,7 +3096,7 @@
     const idx = appState.selectedToppings.indexOf(id);
     if (idx >= 0) appState.selectedToppings.splice(idx, 1);
     else appState.selectedToppings.push(id);
-    window.labAudio.playBubble();
+    window.labAudio?.playBubble?.();
     renderBobaShakerToppings();
   }
 
@@ -3118,7 +3119,7 @@
       cup.classList.add('shaking-cup');
     }
     const total = updateBobaCupPreview();
-    window.labAudio.playShakerSound();
+    window.labAudio?.playShakerSound?.();
     setTimeout(() => {
       setGlobalSugarCubes(appState.globalSugarCubes + total, { syncLadder: true });
       broadcastMascotMessage(`🧋 特調手搖飲乾杯！一口氣灌入 +${total} 顆方糖！`);
@@ -3225,7 +3226,7 @@
     const startBtn = document.getElementById('catcher-start-btn');
     if (startBtn) startBtn.textContent = '⏹️ 遊戲進行中 (滑動上方接盤！)';
     updateCatcherHud();
-    window.labAudio.playBubble();
+    window.labAudio?.playBubble?.();
 
     catcherGame.timerId = setInterval(() => {
       catcherGame.timeLeft -= 1;
@@ -3282,13 +3283,13 @@
             catcherGame.combo = 1;
             catcherGame.score = Math.max(0, catcherGame.score + it.pts);
             catcherGame.popups.push({ x: it.x, y: py - 8, text: '苦茶 -20!', color: '#EF4444', life: 24 });
-            if (window.labAudio.playTone) window.labAudio.playTone(150, 'sawtooth', 0.14, 0.15);
+            if (window.labAudio.playTone) window.labAudio?.playTone?.(150, 'sawtooth', 0.14, 0.15);
           } else {
             const gain = it.pts * catcherGame.combo;
             catcherGame.score += gain;
             catcherGame.combo = Math.min(8, catcherGame.combo + 1);
             catcherGame.popups.push({ x: it.x, y: py - 8, text: `+${gain} (x${catcherGame.combo})`, color: it.color, life: 24 });
-            if (window.labAudio.playTone) window.labAudio.playTone(480 + catcherGame.combo * 55, 'sine', 0.09, 0.12);
+            if (window.labAudio.playTone) window.labAudio?.playTone?.(480 + catcherGame.combo * 55, 'sine', 0.09, 0.12);
           }
           updateCatcherHud();
           catcherGame.items.splice(i, 1);
@@ -3332,7 +3333,7 @@
 
     const earnedCubes = Math.max(5, Math.round(catcherGame.score / 15));
     setGlobalSugarCubes(appState.globalSugarCubes + earnedCubes, { syncLadder: true });
-    window.labAudio.playVictoryFanfare();
+    window.labAudio?.playVictoryFanfare?.();
     showToast('🎯 磁浮接糖結算！', `總分 ${catcherGame.score} 分！成功兌換 +${earnedCubes} 顆方糖注入天平！`, 'cyan');
     drawCatcherIdleFrame();
   }
@@ -3391,20 +3392,20 @@
         renderReel(r1, slotSymbols[ticks % slotSymbols.length]);
       } else if (ticks === 8) {
         renderReel(r1, slotSymbols[finalIdx1], true);
-        if (window.labAudio.playTone) window.labAudio.playTone(520, 'triangle', 0.08, 0.14);
+        if (window.labAudio.playTone) window.labAudio?.playTone?.(520, 'triangle', 0.08, 0.14);
       }
 
       if (ticks < 14) {
         renderReel(r2, slotSymbols[(ticks + 2) % slotSymbols.length]);
       } else if (ticks === 14) {
         renderReel(r2, slotSymbols[finalIdx2], true);
-        if (window.labAudio.playTone) window.labAudio.playTone(660, 'triangle', 0.08, 0.14);
+        if (window.labAudio.playTone) window.labAudio?.playTone?.(660, 'triangle', 0.08, 0.14);
       }
 
       if (ticks < 20) {
         renderReel(r3, slotSymbols[(ticks + 4) % slotSymbols.length]);
         if (ticks % 2 === 0 && window.labAudio.playTone) {
-          window.labAudio.playTone(300 + (ticks * 18), 'sine', 0.05, 0.08);
+          window.labAudio?.playTone?.(300 + (ticks * 18), 'sine', 0.05, 0.08);
         }
       } else {
         clearInterval(spinTimer);
@@ -3420,7 +3421,7 @@
           const prize = s1.cubes;
           if (badge) badge.textContent = `🎉 JACKPOT +${prize}顆!`;
           if (resText) resText.textContent = `👑 恭喜三連線【${s1.name}】大滿貫！暴增 +${prize} 顆！`;
-          window.labAudio.playVictoryFanfare();
+          window.labAudio?.playVictoryFanfare?.();
           triggerLabShake();
           setGlobalSugarCubes(appState.globalSugarCubes + prize, { syncLadder: true });
           showToast('🎰 皇家 777 大滿貫！', `三顆【${s1.icon} ${s1.name}】連線！暴得 +${prize} 顆方糖！`, 'amber');
@@ -3429,14 +3430,14 @@
           const prize = 35;
           if (badge) badge.textContent = `✨ 雙連線 +${prize}顆`;
           if (resText) resText.textContent = `✨ 雙重【${matchSym.name}】連線！獲得 +${prize} 顆方糖！`;
-          window.labAudio.playSugarDrop(4);
+          window.labAudio?.playSugarDrop?.(4);
           setGlobalSugarCubes(appState.globalSugarCubes + prize, { syncLadder: true });
           showToast('🎰 雙連線中獎！', `抽中雙重【${matchSym.icon} ${matchSym.name}】，獲得 +${prize} 顆方糖！`, 'cyan');
         } else {
           const prize = 8;
           if (badge) badge.textContent = `🧊 安慰獎 +${prize}顆`;
           if (resText) resText.textContent = `差一點連線！果糖怪賞你 +${prize} 顆安慰方糖！`;
-          window.labAudio.playSugarDrop(1);
+          window.labAudio?.playSugarDrop?.(1);
           setGlobalSugarCubes(appState.globalSugarCubes + prize, { syncLadder: true });
         }
       }
@@ -3498,7 +3499,7 @@
     const btn = document.getElementById('whack-start-btn');
     if (btn) btn.textContent = '⚡ 狂擊進行中！碰一下就得分！';
     updateWhackHud();
-    window.labAudio.playBubble();
+    window.labAudio?.playBubble?.();
 
     whackGame.timerId = setInterval(() => {
       whackGame.timeLeft -= 1;
@@ -3576,7 +3577,7 @@
         holeEl.innerHTML = `<span class="whack-score-pop font-mono text-sm font-black text-emerald-300">-15! 🍵</span>`;
       }
       if (window.labAudio && window.labAudio.playTone) {
-        window.labAudio.playTone(160, 'sawtooth', 0.14, 0.14);
+        window.labAudio?.playTone?.(160, 'sawtooth', 0.14, 0.14);
       }
     } else {
       whackGame.hits += 1;
@@ -3584,9 +3585,9 @@
         holeEl.innerHTML = `<span class="whack-score-pop font-mono text-sm font-black text-amber-300">+${matchedType.cubes}! 💥</span>`;
       }
       if (window.labAudio && window.labAudio.playMonsterHit) {
-        window.labAudio.playMonsterHit();
+        window.labAudio?.playMonsterHit?.();
       } else if (window.labAudio && window.labAudio.playJellySquish) {
-        window.labAudio.playJellySquish();
+        window.labAudio?.playJellySquish?.();
       }
       setGlobalSugarCubes(appState.globalSugarCubes + matchedType.cubes, { syncLadder: false });
     }
@@ -3613,7 +3614,7 @@
 
     const btn = document.getElementById('whack-start-btn');
     if (btn) btn.textContent = '⚡ 再戰一局！啟動 20 秒極速連擊';
-    window.labAudio.playVictoryFanfare();
+    window.labAudio?.playVictoryFanfare?.();
     showToast('🔨 極速打擊結束！', `共成功擊中 ${whackGame.hits} 隻調皮果糖怪！`, 'fuchsia');
   }
 
@@ -3633,11 +3634,11 @@
     const btn = document.getElementById('mic-toggle-btn');
     const readout = document.getElementById('mic-db-value');
     if (window.labAudio.micActive) {
-      window.labAudio.stopMicrophoneSensor();
+      window.labAudio?.stopMicrophoneSensor?.();
       if (btn) btn.textContent = '🎙️ 測慘叫分貝';
       return;
     }
-    const ok = await window.labAudio.startMicrophoneSensor(
+    const ok = await window.labAudio?.startMicrophoneSensor?.(
       (db) => {
         if (readout) readout.textContent = `${db} dB`;
         if (db >= 88) {
@@ -3647,7 +3648,7 @@
       () => {
         const simDb = Math.floor(92 + Math.random() * 26);
         if (readout) readout.textContent = `${simDb} dB (模擬海豚音)`;
-        window.labAudio.playSugarDrop(4);
+        window.labAudio?.playSugarDrop?.(4);
         setGlobalSugarCubes(appState.globalSugarCubes + 15, { syncLadder: true });
         showToast(`🔊 極限海豚音慘叫 ${simDb} dB`, '聲波震碎玻璃！已自動換算 +15 顆方糖！', 'cyan');
       }
@@ -3721,7 +3722,7 @@
     item.level = cubesToLevelObj(item.cubes).level;
     saveHallOfShame();
     renderHallOfShame();
-    window.labAudio.playSugarDrop(Math.min(delta, 4));
+    window.labAudio?.playSugarDrop?.(Math.min(delta, 4));
     setGlobalSugarCubes(appState.globalSugarCubes + delta, { syncLadder: false });
   }
 
@@ -3730,7 +3731,7 @@
     const btn = document.getElementById('hud-root-btn');
     const panel = document.getElementById('root-overclock-bar');
     if (appState.rootClearance) {
-      window.labAudio.playVictoryFanfare();
+      window.labAudio?.playVictoryFanfare?.();
       if (btn) {
         btn.textContent = '🔓 ROOT LV.5';
         btn.className = 'px-2.5 py-1.5 rounded-lg font-mono text-xs font-bold bg-emerald-500/25 text-emerald-300 border border-emerald-400';
@@ -3863,7 +3864,7 @@
       document.body.classList.add('cursor-is-clicking');
       if (!appState.bgmManualMuted && !appState.bgmFirstUnlocked && window.labAudio && !window.labAudio.bgmPlaying && appState.soundEnabled) {
         appState.bgmFirstUnlocked = true;
-        window.labAudio.startBGM();
+        window.labAudio?.startBGM?.();
         const eqBars = document.getElementById('hud-eq-bars');
         if (eqBars) eqBars.classList.remove('eq-paused');
       }
@@ -3987,13 +3988,13 @@
     } else {
       bobaRadarState.selectedToppings.push(id);
     }
-    window.labAudio && window.labAudio.playBubble();
+    window.labAudio && window.labAudio?.playBubble?.();
     renderBobaCupAndRadar();
   }
 
   function clearBobaCup() {
     bobaRadarState.selectedToppings = [];
-    window.labAudio && window.labAudio.playBubble();
+    window.labAudio && window.labAudio?.playBubble?.();
     renderBobaCupAndRadar();
     showToast('手搖雪克杯', '已清空杯內配料！可重新挑選添加', 'cyan');
   }
@@ -4001,7 +4002,7 @@
   function shakeBobaCup() {
     if (bobaRadarState.shaking) return;
     bobaRadarState.shaking = true;
-    window.labAudio && window.labAudio.playShakerSound();
+    window.labAudio && window.labAudio?.playShakerSound?.();
 
     const cup = document.getElementById('boba-cup-shaker-body');
     if (cup) {
@@ -4034,7 +4035,7 @@
   }
 
   function randomizeRadarSliders() {
-    window.labAudio && window.labAudio.playChime();
+    window.labAudio && window.labAudio?.playChime?.();
     for (let i = 0; i < 6; i++) {
       const el = document.getElementById(`radar-slider-${i}`);
       if (el) el.value = Math.floor(Math.random() * 80) + 15;
@@ -4220,7 +4221,7 @@
 
     updateArcadeHUD();
     renderArcadeGrid();
-    window.labAudio && window.labAudio.playChime();
+    window.labAudio && window.labAudio?.playChime?.();
     broadcastMascotMessage('🕹️ 20 秒減糖保衛戰開始！快敲打冒出來的方糖怪減糖！');
 
     // 倒數計時器 (每 100ms 更新)
@@ -4282,7 +4283,7 @@
     const item = arcadeState.holes[index];
     if (!item) return;
 
-    window.labAudio && window.labAudio.playWhackHit();
+    window.labAudio && window.labAudio?.playWhackHit?.();
 
     let points = 1;
     if (item.type === 'tea') {
@@ -4368,7 +4369,7 @@
       btn.classList.remove('opacity-75', 'cursor-not-allowed');
     }
 
-    window.labAudio && window.labAudio.playVictoryFanfare();
+    window.labAudio && window.labAudio?.playVictoryFanfare?.();
     showToast('🏆 減糖街機結算', `太神啦！20秒內成功擊碎 ${arcadeState.score} 顆方糖！體內毒素大幅下降！`, 'emerald');
     broadcastMascotMessage(`🎉 減糖大獲全勝！總共擊碎了 ${arcadeState.score} 顆方糖！你的意志力令果糖怪瑟瑟發抖！`);
   }
@@ -4429,7 +4430,7 @@
   let founderQuoteIndex = 0;
 
   function triggerFounderQuote() {
-    window.labAudio && window.labAudio.playChime();
+    window.labAudio && window.labAudio?.playChime?.();
     const q = founderQuotesList[founderQuoteIndex % founderQuotesList.length];
     founderQuoteIndex++;
     updateFounderDialogue(q);
@@ -4437,7 +4438,7 @@
   }
 
   function triggerFounderBalanceWeigh() {
-    window.labAudio && window.labAudio.playBubble();
+    window.labAudio && window.labAudio?.playBubble?.();
     const tare = (Math.random() * 20 + 30).toFixed(4);
     const msg = `「微量天平已校準歸零，測得你方才流失的心理甜度淨重約 ${tare}g。」`;
     updateFounderDialogue(msg);
@@ -4445,7 +4446,7 @@
   }
 
   function pokeMascotEyes() {
-    window.labAudio && window.labAudio.playBoing();
+    window.labAudio && window.labAudio?.playBoing?.();
     const eyeQuotes = [
       '「不要戳我大眼睛啦！眼冒金星看到一堆跳舞的方糖了！」',
       '「哇！好癢好癢！眼珠子要骨碌碌掉進珍奶杯裡了！」',
@@ -4457,19 +4458,19 @@
   }
 
   function triggerFounderBeakerInspect() {
-    window.labAudio && window.labAudio.playBubble();
+    window.labAudio && window.labAudio?.playBubble?.();
     showToast('🔬 巨型燒杯光學偵測', '創始人特調「全糖濃縮液」密度已達 1.42 g/cm³，內含 12 塊懸浮高純度方糖！', 'amber');
     updateFounderDialogue('「這杯全糖濃縮液，是為那些在深夜依然堅持燃燒靈魂的社畜量身訂製的。」');
   }
 
   function triggerFounderGlassesScan() {
-    window.labAudio && window.labAudio.playChime();
+    window.labAudio && window.labAudio?.playChime?.();
     showToast('🕶️ 霓虹全息眼鏡掃描', '光譜掃描完成：偵測到使用者眼球有輕微熬夜血絲，建議補充半糖微量元素！', 'cyan');
     updateFounderDialogue('「透過我的全息偏光鏡，所有社交尷尬都只不過是一串果糖分子震盪！」');
   }
 
   function triggerFounderOscilloscopeSync() {
-    window.labAudio && window.labAudio.playLaser();
+    window.labAudio && window.labAudio?.playLaser?.();
     setSynthesizerWaveform('sawtooth', 880);
     showToast('📈 示波器神經同步', '雙通道示波器已將你的大腦抗糖波形與創始人實驗室完成同頻鎖定！', 'purple');
     updateFounderDialogue('「示波器頻率鎖定 880 Hz！現在你的腦電波跟整個全糖實驗室完美共鳴！」');
@@ -4564,7 +4565,7 @@
     if (window.labAudio && window.labAudio[stunt.sound]) {
       window.labAudio[stunt.sound]();
     } else if (window.labAudio && window.labAudio.playWhackHit) {
-      window.labAudio.playWhackHit();
+      window.labAudio?.playWhackHit?.();
     }
 
     if (cubeEl) {
@@ -4597,7 +4598,7 @@
   let mascotPokeIdx = 0;
 
   function pokeMascotArtwork() {
-    window.labAudio && (window.labAudio.playMascotLaugh ? window.labAudio.playMascotLaugh() : window.labAudio.playBoing());
+    window.labAudio && (window.labAudio.playMascotLaugh ? window.labAudio?.playMascotLaugh?.() : window.labAudio?.playBoing?.());
 
     const img = document.getElementById('mascot-artwork-img');
     const laughOverlay = document.getElementById('mascot-laugh-overlay');
@@ -4625,21 +4626,21 @@
   }
 
   function stealMascotSugarCube() {
-    window.labAudio && window.labAudio.playWhackHit();
+    window.labAudio && window.labAudio?.playWhackHit?.();
     injectSugarToScale(1, 'add');
     showToast('🧊 奪取方糖成功', '你從果糖怪懷裡搶走了一顆方糖放入自己的量筒！(+1 顆方糖)', 'cyan');
     updateMascotDialogue('「欸！我的下午茶方糖！快還我啦可惡的人類！」');
   }
 
   function boostMascotCoilTube() {
-    window.labAudio && window.labAudio.playLaser();
+    window.labAudio && window.labAudio?.playLaser?.();
     pulseReactorFission();
     showToast('🌀 螺旋冷凝管增壓', '純金冷凝管加速抽吸高果糖漿，實驗室反應爐進入高活性狀態！', 'emerald');
     updateMascotDialogue('「呼哇！冷凝管抽吸加速！整座實驗室的焦糖能量都在沸騰啦！」');
   }
 
   function openPosterLightbox() {
-    window.labAudio && window.labAudio.playChime();
+    window.labAudio && window.labAudio?.playChime?.();
     const modal = document.getElementById('poster-lightbox-modal');
     if (modal) {
       modal.classList.remove('hidden');
@@ -4757,8 +4758,22 @@
     appState.quizIndex = appState.activeQuestions.length - 1;
     toggleModal('add-question-modal', false);
     renderCalibrationSection();
-    window.labAudio.playVictoryFanfare();
+    window.labAudio?.playVictoryFanfare?.();
     showToast('✅ 新問題已加入題庫', `題庫已擴充至 ${appState.activeQuestions.length} 題！已切換至該題。`, 'emerald');
+  }
+
+  function toggleBgmMusic() {
+    if (window.labAudio && window.labAudio.toggleBGM) {
+      const isPlaying = window.labAudio?.toggleBGM?.();
+      const btn = document.getElementById('hud-bgm-btn');
+      const eqBars = document.getElementById('hud-eq-bars');
+      if (btn) btn.textContent = isPlaying ? '🎵' : '🔇';
+      if (eqBars) {
+        if (isPlaying) eqBars.classList.remove('eq-paused');
+        else eqBars.classList.add('eq-paused');
+      }
+      return isPlaying;
+    }
   }
 
   window.LabApp = {
@@ -4773,6 +4788,7 @@
     enterLabFrom3DLogin,
     reopen3DLoginPortal,
     toggleBgmMusic,
+    toggleBgm: toggleBgmMusic,
     switchLabPage,
     injectSugarToScale,
     randomBlindBoxSugar,
@@ -4857,7 +4873,7 @@
     saveApiSettings,
     setViewportPreview,
     toggleSound: () => {
-      const enabled = window.labAudio.toggleSound();
+      const enabled = window.labAudio?.toggleSound?.();
       appState.soundEnabled = enabled;
       const btn = document.getElementById('hud-sound-btn');
       if (btn) btn.textContent = enabled ? '🔊' : '🔇';
@@ -4867,5 +4883,9 @@
   // 雙向綁定至 window，確保 index.html 中的所有 inline onclick / onchange 隨時可呼叫
   Object.assign(window, window.LabApp);
 
-  document.addEventListener('DOMContentLoaded', init);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();

@@ -9,6 +9,17 @@
 
 window.FRUCTOSE_LAB_DATA = {
   // 0. 3D 環繞浮動卡牌身份卡組 (無男宿、超精緻)
+  
+  // 6 大日常手搖配料數據
+  bobaToppings: [
+    { id: 'pearl', name: '黑糖珍珠', cubes: 5 },
+    { id: 'pudding', name: '焦糖布丁', cubes: 8 },
+    { id: 'foam', name: '厚奶蓋', cubes: 6 },
+    { id: 'jelly', name: '椰果粒', cubes: 4 },
+    { id: 'popping', name: '爆爆珠', cubes: 12 },
+    { id: 'syrup', name: '高果糖漿', cubes: 25 }
+  ],
+
   loginIdentityCards: [
     {
       id: 'card-founder',
