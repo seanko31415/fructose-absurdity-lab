@@ -39,7 +39,7 @@
   </script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="styles.css?v=6.8.0" />
+  <link rel="stylesheet" href="styles.css?v=6.9.0" />
 </head>
 
 <body class="min-h-screen text-slate-100 selection:bg-amber-400 selection:text-slate-950">
@@ -125,11 +125,13 @@
           </linearGradient>
         </defs>
         <!-- 誇張下垂黏稠糖滴波浪 (Exaggerated Dripping Stalactites) -->
-        <path d="M0,0 L1440,0 L1440,38 Q1380,95 1350,38 Q1310,120 1280,38 Q1220,105 1190,42 Q1140,130 1110,48 Q1060,95 1030,38 Q980,120 940,32 Q880,130 840,42 Q790,105 760,38 Q710,128 670,48 Q620,98 590,38 Q530,135 490,42 Q440,95 410,38 Q350,125 310,42 Q260,98 230,38 Q180,132 140,48 Q90,95 60,38 Q30,115 0,42 Z"
-              fill="url(#syrupDripGrad)" opacity="0.96" />
+        <path
+          d="M0,0 L1440,0 L1440,38 Q1380,95 1350,38 Q1310,120 1280,38 Q1220,105 1190,42 Q1140,130 1110,48 Q1060,95 1030,38 Q980,120 940,32 Q880,130 840,42 Q790,105 760,38 Q710,128 670,48 Q620,98 590,38 Q530,135 490,42 Q440,95 410,38 Q350,125 310,42 Q260,98 230,38 Q180,132 140,48 Q90,95 60,38 Q30,115 0,42 Z"
+          fill="url(#syrupDripGrad)" opacity="0.96" />
         <!-- 晶亮反光立體高光曲線 -->
-        <path d="M20,18 Q60,45 100,22 Q140,65 180,22 Q240,50 300,22 Q360,55 420,18 Q500,68 560,22 Q640,60 720,22 Q800,62 880,22 Q960,62 1040,22 Q1120,60 1200,22 Q1280,55 1360,22"
-              fill="none" stroke="#FEF08A" stroke-width="3" opacity="0.85" stroke-linecap="round" />
+        <path
+          d="M20,18 Q60,45 100,22 Q140,65 180,22 Q240,50 300,22 Q360,55 420,18 Q500,68 560,22 Q640,60 720,22 Q800,62 880,22 Q960,62 1040,22 Q1120,60 1200,22 Q1280,55 1360,22"
+          fill="none" stroke="#FEF08A" stroke-width="3" opacity="0.85" stroke-linecap="round" />
         <!-- 誇張下落高光糖滴 -->
         <circle cx="140" cy="110" r="5" fill="#FDE047" class="animate-bounce" />
         <circle cx="490" cy="115" r="5.5" fill="#FDE047" class="animate-bounce" style="animation-delay: 0.2s;" />
@@ -137,10 +139,11 @@
         <circle cx="1110" cy="108" r="4.5" fill="#FDE047" class="animate-bounce" style="animation-delay: 0.1s;" />
         <circle cx="1280" cy="102" r="5" fill="#FDE047" class="animate-bounce" style="animation-delay: 0.3s;" />
       </svg>
-      
+
       <!-- 中央超載警告與綠茶緊急清洗按鈕 (懸掛於糖滴之中) -->
       <div class="absolute top-2 inset-x-0 flex items-center justify-center gap-3 px-3">
-        <div class="bg-slate-950/95 border-2 border-amber-400 px-4 py-1.5 rounded-full shadow-[0_0_30px_rgba(245,158,11,0.9)] flex items-center gap-2.5 flex-wrap justify-center">
+        <div
+          class="bg-slate-950/95 border-2 border-amber-400 px-4 py-1.5 rounded-full shadow-[0_0_30px_rgba(245,158,11,0.9)] flex items-center gap-2.5 flex-wrap justify-center">
           <span class="relative flex h-3 w-3">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
             <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
@@ -614,12 +617,15 @@
               </div>
 
               <!-- 0 到 14 級十五個等級直觀按鈕網格 (放大升級、直觀好按) -->
-              <div class="liquid-glass-card rounded-3xl p-5 space-y-3 border-2 border-amber-500/30 shadow-[0_0_30px_rgba(245,158,11,0.15)]">
-                <div class="flex items-center justify-between font-mono text-xs sm:text-sm text-slate-200 border-b border-white/10 pb-2">
+              <div
+                class="liquid-glass-card rounded-3xl p-5 space-y-3 border-2 border-amber-500/30 shadow-[0_0_30px_rgba(245,158,11,0.15)]">
+                <div
+                  class="flex items-center justify-between font-mono text-xs sm:text-sm text-slate-200 border-b border-white/10 pb-2">
                   <span class="font-black text-amber-300 flex items-center gap-1.5 text-sm sm:text-base">
                     <span>📋 0~14 級糖分生活指標全覽</span>
                   </span>
-                  <span class="text-xs font-mono text-cyan-300 font-bold px-2 py-0.5 rounded bg-cyan-950/60 border border-cyan-500/40">
+                  <span
+                    class="text-xs font-mono text-cyan-300 font-bold px-2 py-0.5 rounded bg-cyan-950/60 border border-cyan-500/40">
                     點擊直接切換等級
                   </span>
                 </div>
@@ -1021,6 +1027,25 @@
             </div>
           </div>
 
+          <!-- 全息大橫幅對話台詞顯示區 (點擊創始人或果糖怪魔王時語音說出＋大字高亮) -->
+          <div id="character-speech-banner"
+            class="liquid-glass-card rounded-2xl p-3.5 sm:p-4 border-2 border-amber-400/80 bg-amber-950/95 shadow-[0_0_25px_rgba(245,158,11,0.35)] flex flex-col sm:flex-row items-center justify-between gap-3 transition-all duration-300">
+            <div class="flex flex-col sm:flex-row items-center gap-2.5 text-center sm:text-left flex-1">
+              <span id="character-speech-speaker"
+                class="px-3.5 py-1 rounded-full bg-amber-400 text-slate-950 font-black text-xs font-mono shadow-[0_0_15px_rgba(245,158,11,0.8)] shrink-0">
+                👾 果糖魔王本尊開口笑
+              </span>
+              <p id="character-speech-text"
+                class="text-xs sm:text-sm font-black text-amber-200 leading-snug drop-shadow">
+                「哈哈哈哈！不要一直戳我的果凍肚皮啦！好癢好甜啊～等等蜜糖噴你一臉喔！」
+              </p>
+            </div>
+            <button type="button" onclick="window.LabApp.pokeMascotArtwork()"
+              class="liquid-glass-btn px-3 py-1 rounded-xl text-amber-300 font-mono text-xs font-bold shrink-0 hover:scale-105 active:scale-95 transition">
+              👉 戳肚皮大笑
+            </button>
+          </div>
+
           <!-- 雙主圖高畫質展示卡 (Beaker Inspection & Mascot Spec) -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
             <!-- Card 1: FOUNDER SPEC // 全糖創始人 (靈魂人物原圖 + 語錄互動) -->
@@ -1033,7 +1058,8 @@
                       class="px-3 py-1 rounded-xl bg-slate-950 border border-cyan-400 text-cyan-300 font-mono text-xs font-black tracking-wide shadow-md">
                       🧬 FOUNDER // 全糖創始人
                     </span>
-                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-[10px] font-mono text-cyan-300">
+                    <span
+                      class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-[10px] font-mono text-cyan-300">
                       <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
                       <span>靈魂人物</span>
                     </span>
@@ -1044,10 +1070,11 @@
                 <!-- 創始人圖鑑 (點擊圖片互動) -->
                 <div id="founder-artwork-container" onclick="window.LabApp.triggerFounderQuote()"
                   class="artwork-showcase-frame relative group bg-slate-950 rounded-2xl overflow-hidden cursor-pointer select-none border border-cyan-500/30">
-                  <img src="assets/soul-founder-character.jpg" alt="FOUNDER // 全糖創始人"
-                    class="w-full h-72 sm:h-80 object-cover object-center group-hover:scale-105 transition-transform duration-500" />
-                  
-                  <div class="absolute bottom-2.5 left-2.5 bg-slate-950/85 backdrop-blur-md px-3 py-1 rounded-xl border border-cyan-500/40 text-[11px] font-mono text-cyan-300 flex items-center gap-1.5 shadow-lg">
+                  <img id="founder-artwork-img" src="assets/soul-founder-character.jpg" alt="FOUNDER // 全糖創始人"
+                    class="w-full h-96 sm:h-[420px] object-cover object-center group-hover:scale-105 transition-transform duration-500" />
+
+                  <div
+                    class="absolute bottom-2.5 left-2.5 bg-slate-950/85 backdrop-blur-md px-3 py-1 rounded-xl border border-cyan-500/40 text-[11px] font-mono text-cyan-300 flex items-center gap-1.5 shadow-lg">
                     <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
                     <span>👉 點擊聽取創始人糖分名言！</span>
                   </div>
@@ -1083,7 +1110,8 @@
                       class="px-3 py-1 rounded-xl bg-slate-950 border border-amber-400 text-amber-300 font-mono text-xs font-black tracking-wide shadow-md">
                       🧬 MASCOT SPEC // 果糖怪圖鑑
                     </span>
-                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-950/80 border border-amber-500/40 text-[10px] font-mono text-amber-300">
+                    <span
+                      class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-950/80 border border-amber-500/40 text-[10px] font-mono text-amber-300">
                       <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
                       <span>黏稠度 99.8%</span>
                     </span>
@@ -1094,10 +1122,27 @@
                 <!-- 果糖怪圖鑑 (點擊直接戳怪互動) -->
                 <div id="mascot-artwork-container" onclick="window.LabApp.pokeMascotArtwork()"
                   class="artwork-showcase-frame relative group bg-slate-950 rounded-2xl overflow-hidden cursor-pointer select-none border border-amber-500/30">
-                  <img src="assets/mascot-fructose-monster.jpg" alt="MASCOT SPEC // 果糖怪 (Fructose Monster)"
-                    class="w-full h-72 sm:h-80 object-cover object-center group-hover:scale-105 transition-transform duration-500" />
+                  <img id="mascot-artwork-img" src="assets/mascot-fructose-monster.jpg" alt="MASCOT SPEC // 糖果魔王本尊果糖怪"
+                    class="w-full h-96 sm:h-[420px] object-cover object-center group-hover:scale-105 transition-all duration-300" />
                   
-                  <div class="absolute bottom-2.5 left-2.5 bg-slate-950/85 backdrop-blur-md px-3 py-1 rounded-xl border border-amber-500/40 text-[11px] font-mono text-amber-300 flex items-center gap-1.5 shadow-lg">
+                  <!-- 戳肚皮大笑嘴巴張開光效層 (點擊肚皮時超亮＋嘴巴張開大笑) -->
+                  <div id="mascot-laugh-overlay" class="hidden absolute inset-0 bg-amber-500/15 backdrop-blur-[1px] z-30 flex-col items-center justify-center p-4 select-none pointer-events-none">
+                    <div class="relative flex flex-col items-center animate-bounce">
+                      <!-- 嘴巴大開笑 SVG -->
+                      <svg viewBox="0 0 160 100" class="w-32 h-20 drop-shadow-[0_0_25px_rgba(245,158,11,1)]">
+                        <path d="M 20,30 Q 80,10 140,30 Q 140,85 80,95 Q 20,85 20,30 Z" fill="#450A0A" stroke="#FBBF24" stroke-width="4" />
+                        <polygon points="45,25 55,40 65,25" fill="#FFFFFF" />
+                        <polygon points="95,25 105,40 115,25" fill="#FFFFFF" />
+                        <path d="M 40,75 Q 80,45 120,75 Q 80,98 40,75 Z" fill="#F43F5E" />
+                      </svg>
+                      <span class="mt-2 px-3 py-1 rounded-full bg-amber-400 text-slate-950 font-black text-xs font-mono shadow-[0_0_25px_rgba(245,158,11,1)] border border-white">
+                        😆 哈哈哈哈！好癢好甜！
+                      </span>
+                    </div>
+                  </div>
+
+                  <div
+                    class="absolute bottom-2.5 left-2.5 bg-slate-950/85 backdrop-blur-md px-3 py-1 rounded-xl border border-amber-500/40 text-[11px] font-mono text-amber-300 flex items-center gap-1.5 shadow-lg">
                     <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
                     <span>👉 點擊圖片任何地方戳果糖怪！</span>
                   </div>
@@ -1539,7 +1584,8 @@
             </div>
 
             <!-- 官方搞笑稱號印章 (收據下方專屬空間) -->
-            <div id="receipt-funny-stamp-card" class="mt-3 lab-card liquid-glass-card rounded-2xl p-3 border-2 border-rose-500/40 bg-slate-950/90 shadow-[0_0_20px_rgba(244,63,94,0.15)] space-y-2">
+            <div id="receipt-funny-stamp-card"
+              class="mt-3 lab-card liquid-glass-card rounded-2xl p-3 border-2 border-rose-500/40 bg-slate-950/90 shadow-[0_0_20px_rgba(244,63,94,0.15)] space-y-2">
             </div>
           </div>
 
@@ -1718,7 +1764,8 @@
           <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-amber-500/30 pb-2">
             <div>
               <div class="flex items-center gap-2">
-                <span class="px-2 py-0.5 rounded bg-amber-400 text-slate-950 font-mono text-[10px] font-black">ARCHIVE P3</span>
+                <span class="px-2 py-0.5 rounded bg-amber-400 text-slate-950 font-mono text-[10px] font-black">ARCHIVE
+                  P3</span>
                 <h3 class="text-lg sm:text-xl font-black text-white">🏆 全校社死榮譽榜 // 歷史重症病例名錄</h3>
               </div>
               <p class="text-slate-400 text-xs mt-0.5">公審存證檔案庫・全校匿名收據收錄</p>
@@ -1741,7 +1788,7 @@
 
       </div>
 
-            <!-- ====================================================================
+      <!-- ====================================================================
            PAGE 4: 全新升級街機遊樂場（左減糖街機 × 右手搖雷達 ＆ 皇家3合1街機）(#lab-page-4)
            ==================================================================== -->
       <div id="lab-page-4" class="lab-page-view space-y-6">
@@ -1766,12 +1813,14 @@
                左側欄 (lg:col-span-6): 爆打方糖怪・互動減糖街機 (小巧精緻不佔過大版面)
                ================================================================ -->
           <section id="arcade-game-section" class="lg:col-span-6 space-y-3 scroll-mt-20">
-            <div class="lab-card liquid-glass-card rounded-2xl p-4 space-y-3 border-2 border-cyan-500/40 shadow-[0_0_20px_rgba(6,182,212,0.15)] bg-slate-950/90">
-              
+            <div
+              class="lab-card liquid-glass-card rounded-2xl p-4 space-y-3 border-2 border-cyan-500/40 shadow-[0_0_20px_rgba(6,182,212,0.15)] bg-slate-950/90">
+
               <!-- 街機頂部 LED 標題與即時儀表板 -->
               <div class="flex items-center justify-between border-b border-white/10 pb-2">
                 <div class="flex items-center gap-1.5">
-                  <span class="px-2 py-0.5 rounded bg-cyan-400 text-slate-950 font-mono text-[10px] font-black">20s ARCADE</span>
+                  <span class="px-2 py-0.5 rounded bg-cyan-400 text-slate-950 font-mono text-[10px] font-black">20s
+                    ARCADE</span>
                   <span class="text-sm font-black text-white">🕹️ 爆打方糖怪減糖機</span>
                 </div>
                 <div class="text-[10px] font-mono text-cyan-300">
@@ -1783,15 +1832,21 @@
               <div class="grid grid-cols-4 gap-1.5">
                 <div class="bg-slate-950 p-1.5 rounded-xl border border-cyan-500/50 text-center shadow-inner">
                   <div class="text-[8px] font-mono font-bold text-cyan-400">倒數</div>
-                  <div id="arcade-timer" class="text-base sm:text-lg font-mono font-black text-cyan-300 drop-shadow-[0_0_6px_rgba(6,182,212,0.6)]">20.0s</div>
+                  <div id="arcade-timer"
+                    class="text-base sm:text-lg font-mono font-black text-cyan-300 drop-shadow-[0_0_6px_rgba(6,182,212,0.6)]">
+                    20.0s</div>
                 </div>
                 <div class="bg-slate-950 p-1.5 rounded-xl border border-amber-500/50 text-center shadow-inner">
                   <div class="text-[8px] font-mono font-bold text-amber-400">擊碎</div>
-                  <div id="arcade-score" class="text-base sm:text-lg font-mono font-black text-amber-300 drop-shadow-[0_0_6px_rgba(245,158,11,0.6)]">0 顆</div>
+                  <div id="arcade-score"
+                    class="text-base sm:text-lg font-mono font-black text-amber-300 drop-shadow-[0_0_6px_rgba(245,158,11,0.6)]">
+                    0 顆</div>
                 </div>
                 <div class="bg-slate-950 p-1.5 rounded-xl border border-emerald-500/50 text-center shadow-inner">
                   <div class="text-[8px] font-mono font-bold text-emerald-400">連擊</div>
-                  <div id="arcade-combo" class="text-base sm:text-lg font-mono font-black text-emerald-300 drop-shadow-[0_0_6px_rgba(16,185,129,0.6)]">x1</div>
+                  <div id="arcade-combo"
+                    class="text-base sm:text-lg font-mono font-black text-emerald-300 drop-shadow-[0_0_6px_rgba(16,185,129,0.6)]">
+                    x1</div>
                 </div>
                 <div class="bg-slate-950 p-1 rounded-xl border border-cyan-400 flex items-center justify-center">
                   <button id="btn-start-arcade" type="button" onclick="window.LabApp.startArcadeGame()"
@@ -1799,6 +1854,31 @@
                     🕹️ 啟動
                   </button>
                 </div>
+              </div>
+
+              <!-- 威克方糖本尊特技動作台 (點擊觸發 5 大特技動作) -->
+              <div class="bg-slate-950/80 p-2.5 rounded-xl border border-cyan-500/30 flex items-center justify-between gap-3 shadow-inner">
+                <div class="flex items-center gap-2.5">
+                  <button type="button" id="interactive-whack-sugar-cube" onclick="window.LabApp.triggerWhackSugarStunt()"
+                    title="點我觸發各種特技動作！"
+                    class="w-12 h-12 rounded-xl bg-gradient-to-br from-white via-cyan-100 to-cyan-300 border-2 border-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.6)] flex flex-col items-center justify-center cursor-pointer select-none active:scale-90 transition-transform shrink-0">
+                    <span class="text-xl select-none">🧊</span>
+                    <span class="text-[7px] font-mono font-black text-slate-900 leading-none">威克方糖</span>
+                  </button>
+                  <div>
+                    <div class="text-xs font-black text-white flex items-center gap-1.5">
+                      <span>威克方糖特技動作</span>
+                      <span id="whack-stunt-badge" class="px-2 py-0.5 rounded bg-cyan-400 text-slate-950 font-mono text-[9px] font-black transition-all">
+                        點擊玩特技動作
+                      </span>
+                    </div>
+                    <p class="text-[10px] text-slate-400 mt-0.5">點擊方糖觸發翻滾、彈跳、地震、旋轉！</p>
+                  </div>
+                </div>
+                <button type="button" onclick="window.LabApp.triggerWhackSugarStunt()"
+                  class="liquid-glass-cyan px-2.5 py-1.5 rounded-lg text-cyan-200 font-mono text-xs font-black shrink-0 hover:scale-105 active:scale-95 transition">
+                  ⚡ 戳方糖
+                </button>
               </div>
 
               <!-- 9 孔緊湊打擊矩陣 (縮小精緻，高度 h-14~h-16，小巧不佔版面) -->
@@ -1850,7 +1930,8 @@
                 </button>
               </div>
 
-              <div id="arcade-status-banner" class="text-center text-[10px] font-mono text-slate-300 bg-slate-950/70 p-1.5 rounded-lg border border-slate-800">
+              <div id="arcade-status-banner"
+                class="text-center text-[10px] font-mono text-slate-300 bg-slate-950/70 p-1.5 rounded-lg border border-slate-800">
                 💡 點擊 🧊 (+1) ｜ 🍵 (+3 & 連擊) ｜ 👾 (+5 暴擊)
               </div>
             </div>
@@ -1861,12 +1942,14 @@
                (縮小精緻、左量杯右雷達即時連動、移除旋轉光束、底座手搖飲精美化)
                ================================================================ -->
           <section id="shaker-hub-section" class="lg:col-span-6 space-y-3 scroll-mt-20">
-            <div class="lab-card liquid-glass-card rounded-2xl p-4 space-y-3 border border-amber-500/40 bg-slate-950/90 shadow-[0_0_20px_rgba(245,158,11,0.15)]">
-              
+            <div
+              class="lab-card liquid-glass-card rounded-2xl p-4 space-y-3 border border-amber-500/40 bg-slate-950/90 shadow-[0_0_20px_rgba(245,158,11,0.15)]">
+
               <!-- 頂部短標題與隨機按鈕 -->
               <div class="flex items-center justify-between border-b border-white/10 pb-2">
                 <div class="flex items-center gap-1.5">
-                  <span class="px-2 py-0.5 rounded bg-cyan-400 text-slate-950 font-mono text-[10px] font-black">6-AXIS RADAR</span>
+                  <span class="px-2 py-0.5 rounded bg-cyan-400 text-slate-950 font-mono text-[10px] font-black">6-AXIS
+                    RADAR</span>
                   <h3 class="text-sm font-black text-white">📊 6 維日常糖度雷達</h3>
                 </div>
                 <button type="button" onclick="window.LabApp.randomizeRadarSliders()"
@@ -1876,7 +1959,8 @@
               </div>
 
               <!-- 六角雷達圖置中展示區 (純六維雷達，無手搖杯，多邊形與節點連動) -->
-              <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 flex flex-col items-center justify-center space-y-1">
+              <div
+                class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 flex flex-col items-center justify-center space-y-1">
                 <div class="flex items-center justify-between w-full font-mono text-[11px] px-2 mb-1">
                   <span class="text-cyan-400 font-bold">RADAR MESH</span>
                   <span class="text-amber-300 font-black" id="radar-cubes-equivalent">折合 46 顆方糖 (230g)</span>
@@ -1885,9 +1969,12 @@
                 <div class="relative w-full aspect-square max-w-[210px] flex items-center justify-center">
                   <svg viewBox="0 0 240 240" class="w-full h-full drop-shadow-[0_0_15px_rgba(6,182,212,0.35)]">
                     <!-- 刻度底網 (六邊形網格) -->
-                    <polygon points="120,25 202,72 202,168 120,215 38,168 38,72" fill="none" stroke="#1E293B" stroke-width="1.5" />
-                    <polygon points="120,57 175,88 175,152 120,183 65,152 65,88" fill="none" stroke="#1E293B" stroke-width="1" stroke-dasharray="3 3" />
-                    <polygon points="120,88 147,104 147,136 120,152 93,136 93,104" fill="none" stroke="#1E293B" stroke-width="1" />
+                    <polygon points="120,25 202,72 202,168 120,215 38,168 38,72" fill="none" stroke="#1E293B"
+                      stroke-width="1.5" />
+                    <polygon points="120,57 175,88 175,152 120,183 65,152 65,88" fill="none" stroke="#1E293B"
+                      stroke-width="1" stroke-dasharray="3 3" />
+                    <polygon points="120,88 147,104 147,136 120,152 93,136 93,104" fill="none" stroke="#1E293B"
+                      stroke-width="1" />
                     <!-- 軸線 -->
                     <line x1="120" y1="25" x2="120" y2="215" stroke="#1E293B" stroke-width="1" />
                     <line x1="202" y1="72" x2="38" y2="168" stroke="#1E293B" stroke-width="1" />
@@ -1895,18 +1982,26 @@
 
                     <!-- 即時連動多邊形 -->
                     <polygon id="radar-data-polygon" points="120,48 172,90 190,160 120,168 54,158 62,86"
-                      fill="rgba(245, 158, 11, 0.45)" stroke="#FBBF24" stroke-width="2.5" class="transition-all duration-150" />
-                    
+                      fill="rgba(245, 158, 11, 0.45)" stroke="#FBBF24" stroke-width="2.5"
+                      class="transition-all duration-150" />
+
                     <!-- 6 軸連動發光節點 -->
-                    <circle id="radar-node-0" cx="120" cy="48" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
-                    <circle id="radar-node-1" cx="172" cy="90" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
-                    <circle id="radar-node-2" cx="190" cy="160" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
-                    <circle id="radar-node-3" cx="120" cy="168" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
-                    <circle id="radar-node-4" cx="54" cy="158" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
-                    <circle id="radar-node-5" cx="62" cy="86" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
+                    <circle id="radar-node-0" cx="120" cy="48" r="4.5" fill="#38BDF8" stroke="#FFFFFF"
+                      stroke-width="1.5" />
+                    <circle id="radar-node-1" cx="172" cy="90" r="4.5" fill="#38BDF8" stroke="#FFFFFF"
+                      stroke-width="1.5" />
+                    <circle id="radar-node-2" cx="190" cy="160" r="4.5" fill="#38BDF8" stroke="#FFFFFF"
+                      stroke-width="1.5" />
+                    <circle id="radar-node-3" cx="120" cy="168" r="4.5" fill="#38BDF8" stroke="#FFFFFF"
+                      stroke-width="1.5" />
+                    <circle id="radar-node-4" cx="54" cy="158" r="4.5" fill="#38BDF8" stroke="#FFFFFF"
+                      stroke-width="1.5" />
+                    <circle id="radar-node-5" cx="62" cy="86" r="4.5" fill="#38BDF8" stroke="#FFFFFF"
+                      stroke-width="1.5" />
 
                     <!-- 軸文字標籤 -->
-                    <text x="120" y="16" text-anchor="middle" fill="#FBBF24" font-size="10" font-weight="bold">手搖成癮</text>
+                    <text x="120" y="16" text-anchor="middle" fill="#FBBF24" font-size="10"
+                      font-weight="bold">手搖成癮</text>
                     <text x="212" y="72" text-anchor="start" fill="#94A3B8" font-size="10">社死頻率</text>
                     <text x="212" y="172" text-anchor="start" fill="#94A3B8" font-size="10">男宿發瘋</text>
                     <text x="120" y="230" text-anchor="middle" fill="#94A3B8" font-size="10">群組手滑</text>
@@ -1919,7 +2014,7 @@
               <!-- 6 大日常屬性滑桿 (2欄佈局，滑動時雷達即時連動) -->
               <div class="space-y-1.5 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
                 <div class="grid grid-cols-2 gap-x-3 gap-y-1.5 text-[11px]">
-                  
+
                   <div>
                     <div class="flex justify-between font-bold mb-0.5">
                       <span class="text-slate-200">1. 🥤 手搖成癮</span>
@@ -1984,7 +2079,8 @@
               </div>
 
               <!-- 下方綜合判定條與一鍵注入按鈕 -->
-              <div class="bg-slate-950/90 rounded-xl p-2.5 border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+              <div
+                class="bg-slate-950/90 rounded-xl p-2.5 border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                 <div class="space-y-0.5">
                   <span class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-mono text-[10px] font-black"
                     id="radar-total-score-badge">綜合糖度：700% 爆糖</span>
@@ -2011,7 +2107,8 @@
             <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
               <span>🎮 全糖皇家街機遊樂場</span>
             </h2>
-            <span class="embossed-badge px-2.5 py-0.5 rounded-full font-mono text-[11px] text-cyan-300">3 款高質感實時街機</span>
+            <span class="embossed-badge px-2.5 py-0.5 rounded-full font-mono text-[11px] text-cyan-300">3
+              款高質感實時街機</span>
           </div>
 
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -2181,9 +2278,9 @@
   </nav>
 
   <!-- Scripts with cache busters -->
-  <script src="data.js?v=6.8.0"></script>
-  <script src="audio.js?v=6.8.0"></script>
-  <script src="app.js?v=6.8.0"></script>
+  <script src="data.js?v=6.9.0"></script>
+  <script src="audio.js?v=6.9.0"></script>
+  <script src="app.js?v=6.9.0"></script>
 </body>
 
 </html>

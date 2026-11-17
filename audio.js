@@ -630,6 +630,47 @@ class FructoseAudioEngine {
     osc.start(now);
     osc.stop(now + 0.21);
   }
+  // 😆 果糖怪魔王狂笑音效
+  playMascotLaugh() {
+    if (!this.soundEnabled) return;
+    this.init();
+    if (!this.ctx) return;
+    const now = this.ctx.currentTime;
+    [320, 380, 480, 560, 420].forEach((freq, i) => {
+      const t = now + i * 0.08;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(freq, t);
+      osc.frequency.exponentialRampToValueAtTime(freq + 80, t + 0.06);
+      gain.gain.setValueAtTime(0.2, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.07);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.08);
+    });
+  }
+
+  // 🤸 威克方糖特技動作音效
+  playWhackStunt() {
+    if (!this.soundEnabled) return;
+    this.init();
+    if (!this.ctx) return;
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(220, now);
+    osc.frequency.exponentialRampToValueAtTime(660, now + 0.15);
+    osc.frequency.exponentialRampToValueAtTime(330, now + 0.3);
+    gain.gain.setValueAtTime(0.3, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.32);
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.33);
+  }
 }
 
 window.labAudio = new FructoseAudioEngine();

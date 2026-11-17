@@ -4162,6 +4162,13 @@
     arcadeState.score += earned;
     arcadeState.holes[index] = null;
 
+    const holeEl = document.getElementById(`arcade-hole-${index}`);
+    if (holeEl) {
+      const stunt = WHACK_STUNT_ACTIONS[Math.floor(Math.random() * WHACK_STUNT_ACTIONS.length)];
+      holeEl.classList.add(stunt.class);
+      setTimeout(() => holeEl.classList.remove(stunt.class), 600);
+    }
+
     // 即時扣除全站糖度 (減糖體驗)
     if (appState.globalSugarCubes > 0) {
       const deduction = Math.min(appState.globalSugarCubes, earned);
@@ -4287,7 +4294,7 @@
     const q = founderQuotesList[founderQuoteIndex % founderQuotesList.length];
     founderQuoteIndex++;
     updateFounderDialogue(q);
-    showToast('👨‍🔬 創始人金句', q, 'amber');
+    showCharacterGrandBanner('👨‍🔬 全糖創始人親筆名言', q, 'cyan');
   }
 
   function triggerFounderBalanceWeigh() {
@@ -4329,10 +4336,131 @@
     updateFounderDialogue('「示波器頻率鎖定 880 Hz！現在你的腦電波跟整個全糖實驗室完美共鳴！」');
   }
 
+  
+  // ========================================================================
+  // 語音朗讀合成器 ＆ 全息大橫幅台詞系統
+  // ========================================================================
+  function speakDialogue(text) {
+    if ('speechSynthesis' in window) {
+      try {
+        window.speechSynthesis.cancel();
+        const clean = text.replace(/[「」『』【】\(\)（）~～！!？?]/g, ' ').trim();
+        const utter = new SpeechSynthesisUtterance(clean);
+        utter.lang = 'zh-TW';
+        utter.rate = 1.05;
+        utter.pitch = 1.15;
+        window.speechSynthesis.speak(utter);
+      } catch (e) {
+        console.warn('Speech synthesis skipped:', e);
+      }
+    }
+  }
+
+  function showCharacterGrandBanner(speaker, text, theme) {
+    const banner = document.getElementById('character-speech-banner');
+    const speakerEl = document.getElementById('character-speech-speaker');
+    const textEl = document.getElementById('character-speech-text');
+    if (!banner || !speakerEl || !textEl) return;
+
+    speakerEl.textContent = speaker;
+    textEl.textContent = text;
+    banner.classList.remove('hidden', 'border-amber-400', 'border-cyan-400', 'bg-amber-950/95', 'bg-cyan-950/95');
+
+    if (theme === 'cyan') {
+      banner.classList.add('border-cyan-400', 'bg-cyan-950/95');
+      speakerEl.className = 'px-3.5 py-1.5 rounded-full bg-cyan-400 text-slate-950 font-black text-xs font-mono shadow-[0_0_20px_rgba(6,182,212,0.8)]';
+      textEl.className = 'text-sm sm:text-base font-black text-cyan-200 leading-relaxed text-center sm:text-left drop-shadow flex-1';
+    } else {
+      banner.classList.add('border-amber-400', 'bg-amber-950/95');
+      speakerEl.className = 'px-3.5 py-1.5 rounded-full bg-amber-400 text-slate-950 font-black text-xs font-mono shadow-[0_0_20px_rgba(245,158,11,0.8)]';
+      textEl.className = 'text-sm sm:text-base font-black text-amber-200 leading-relaxed text-center sm:text-left drop-shadow flex-1';
+    }
+
+    banner.classList.remove('opacity-0', 'scale-95');
+    banner.classList.add('opacity-100', 'scale-100', 'jelly-bounce');
+
+    speakDialogue(text);
+  }
+
+  // ========================================================================
+  // 威克方糖 5 大特技動作庫
+  // ========================================================================
+  const WHACK_STUNT_ACTIONS = [
+    { class: 'sugar-stunt-backflip', label: '🤸 360° 空中特技翻滾！', sound: 'playWhackStunt' },
+    { class: 'sugar-stunt-squish', label: '🍮 極限深蹲果凍彈跳！', sound: 'playJellySquish' },
+    { class: 'sugar-stunt-quake', label: '⚡ 10 級地震瘋狂震顫！', sound: 'playWhackHit' },
+    { class: 'sugar-stunt-spin', label: '🌪️ 彩虹陀螺光速大迴旋！', sound: 'playLaser' },
+    { class: 'sugar-stunt-inflate', label: '🎈 巨無霸充氣膨脹爆擊！', sound: 'playBoing' }
+  ];
+  let currentStuntIdx = 0;
+
+  function triggerWhackSugarStunt() {
+    const cubeEl = document.getElementById('interactive-whack-sugar-cube');
+    const badgeEl = document.getElementById('whack-stunt-badge');
+    const stunt = WHACK_STUNT_ACTIONS[currentStuntIdx % WHACK_STUNT_ACTIONS.length];
+    currentStuntIdx++;
+
+    if (window.labAudio && window.labAudio[stunt.sound]) {
+      window.labAudio[stunt.sound]();
+    } else if (window.labAudio && window.labAudio.playWhackHit) {
+      window.labAudio.playWhackHit();
+    }
+
+    if (cubeEl) {
+      WHACK_STUNT_ACTIONS.forEach(a => cubeEl.classList.remove(a.class));
+      void cubeEl.offsetWidth;
+      cubeEl.classList.add(stunt.class);
+      setTimeout(() => {
+        cubeEl.classList.remove(stunt.class);
+      }, 850);
+    }
+
+    if (badgeEl) {
+      badgeEl.textContent = stunt.label;
+      badgeEl.classList.remove('opacity-0');
+      badgeEl.classList.add('opacity-100');
+    }
+
+    if (appState.globalSugarCubes > 0) {
+      setGlobalSugarCubes(Math.max(0, appState.globalSugarCubes - 1), { syncLadder: true });
+    }
+    showToast('🧊 威克方糖特技', `觸發 ${stunt.label}（減糖 1 顆）`, 'cyan');
+  }
+
+  const mascotPokes = [
+    '「哈哈哈哈！不要一直戳我的果凍肚皮啦！好癢好甜啊～等等蜜糖噴你一臉喔！」',
+    '「噗嚕嚕～戳肚皮會加速焦糖反應！本魔王全身的金黃糖漿都要沸騰了！」',
+    '「嘻嘻嘻！你體內的方糖已經被本魔王全部感應到了！再戳我就把你變成全糖珍奶！」',
+    '「咕嚕嚕～好癢好癢！看本魔王釋放千瓦特金黃高果糖閃光波！」'
+  ];
+  let mascotPokeIdx = 0;
+
   function pokeMascotArtwork() {
-    window.labAudio && window.labAudio.playBoing();
-    showToast('👾 戳戳果糖怪本尊', '果糖怪晃了兩下，身體泛起晶瑩剔透的蜜糖波浪～發出咕嚕嚕的滿足叫聲！', 'amber');
-    updateMascotDialogue('「咕嚕嚕～不要戳我的果凍肚皮啦！等等蜜糖噴你一臉喔！」');
+    window.labAudio && (window.labAudio.playMascotLaugh ? window.labAudio.playMascotLaugh() : window.labAudio.playBoing());
+
+    const img = document.getElementById('mascot-artwork-img');
+    const laughOverlay = document.getElementById('mascot-laugh-overlay');
+
+    if (img) {
+      img.classList.remove('mascot-super-glow');
+      void img.offsetWidth;
+      img.classList.add('mascot-super-glow');
+      setTimeout(() => img.classList.remove('mascot-super-glow'), 1800);
+    }
+
+    if (laughOverlay) {
+      laughOverlay.classList.remove('hidden');
+      laughOverlay.classList.add('flex', 'mascot-laughing-anim');
+      setTimeout(() => {
+        laughOverlay.classList.remove('flex', 'mascot-laughing-anim');
+        laughOverlay.classList.add('hidden');
+      }, 2000);
+    }
+
+    const msg = mascotPokes[mascotPokeIdx % mascotPokes.length];
+    mascotPokeIdx++;
+    updateMascotDialogue(msg);
+    showCharacterGrandBanner('👾 果糖魔王本尊開口笑', msg, 'amber');
   }
 
   function stealMascotSugarCube() {
@@ -4473,6 +4601,8 @@
   }
 
   window.LabApp = {
+    triggerWhackSugarStunt,
+    showCharacterGrandBanner,
     rollFunnyStamp,
     renderFunnyReceiptStamp,
     rotate3DCarousel,
