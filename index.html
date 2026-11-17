@@ -39,7 +39,7 @@
   </script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="styles.css?v=7.5.0" />
+  <link rel="stylesheet" href="styles.css?v=7.6.0" />
 </head>
 
 <body class="min-h-screen text-slate-100 selection:bg-amber-400 selection:text-slate-950">
@@ -114,6 +114,16 @@
        ======================================================================== -->
   <div id="top-syrup-drip-curtain"
     class="fixed inset-0 w-screen h-screen z-[99990] pointer-events-none flex flex-col justify-between overflow-hidden">
+
+    <!-- 0. 全級別常駐・注射無糖綠茶收回按鈕 (Lv.10 ~ Lv.14 通用・隨時一鍵平滑收回) -->
+    <div id="syrup-floating-retract-bar"
+      class="fixed top-4 right-4 sm:top-6 sm:right-6 z-[99999] pointer-events-auto transition-all duration-300">
+      <button id="btn-floating-clean-syrup" onclick="window.LabApp.emergencyGreenTeaFlush()"
+        class="liquid-glass-emerald border-2 border-emerald-400 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-slate-950 font-black text-xs sm:text-sm font-mono shadow-[0_0_35px_rgba(16,185,129,0.95)] active:scale-95 hover:scale-105 hover:brightness-110 transition-all flex items-center gap-2 cursor-pointer animate-pulse">
+        <span class="text-base sm:text-lg">🍵</span>
+        <span class="tracking-wide">注射無糖綠茶（收回糖漿）</span>
+      </button>
+    </div>
     
     <!-- 1. Top Stalactites (天花板黏稠厚焦糖鐘乳石・由頂部降下) -->
     <div id="syrup-top-stalactites" class="w-full relative filter drop-shadow-[0_15px_30px_rgba(245,158,11,0.95)] pointer-events-auto z-20">
@@ -2358,7 +2368,7 @@
   <!-- Scripts with cache busters -->
   <script src="data.js?v=7.5.0"></script>
   <script src="audio.js?v=7.5.0"></script>
-  <script src="app.js?v=7.5.0"></script>
+  <script src="app.js?v=7.6.0"></script>
 </body>
 
 </html>

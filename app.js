@@ -574,6 +574,11 @@
     const lv = appState.activeLadderLevel;
     const dripCurtain = document.getElementById('top-syrup-drip-curtain') || document.getElementById('syrup-overload-banner');
 
+    // 若正在播放「無糖綠茶平滑收回動畫」，讓收回動畫完整平滑播完，避免瞬間重置中斷
+    if (dripCurtain && dripCurtain.classList.contains('retracting')) {
+      return;
+    }
+
     document.body.classList.remove('sugar-rush-wobble', 'sugar-quake-extreme');
 
     if (dripCurtain) {
@@ -675,15 +680,34 @@
     appState.overloadShakeMode = 'auto';
     appState.scaleOverload = false;
     document.body.classList.remove('sugar-rush-wobble', 'sugar-quake-extreme');
+
+    // 綠茶注入清爽解毒音效
+    window.labAudio?.playCryoFreeze?.();
     window.labAudio?.playBubble?.();
-    setGlobalSugarCubes(0, { syncLadder: true, isOverloadTrigger: false });
-    selectLadderLevel(0, false);
+
+    // 觸發綠茶清洗全螢幕微光波紋 (Tea flush ripple wash)
+    const flushRipple = document.createElement('div');
+    flushRipple.className = 'fixed inset-0 z-[99998] pointer-events-none bg-emerald-500/25 backdrop-blur-[2px] transition-opacity duration-500';
+    document.body.appendChild(flushRipple);
+    setTimeout(() => {
+      flushRipple.style.opacity = '0';
+      setTimeout(() => flushRipple.remove(), 550);
+    }, 60);
+
     const dripCurtain = document.getElementById('top-syrup-drip-curtain') || document.getElementById('syrup-overload-banner');
     if (dripCurtain) {
-      dripCurtain.classList.remove('active', 'mode-lv10', 'mode-lv11', 'mode-lv12', 'mode-lv13', 'mode-lv14', 'mode-mild', 'mode-full');
+      // 觸發平滑收回動畫 (Smooth Retract)
+      dripCurtain.classList.add('retracting');
+      setTimeout(() => {
+        dripCurtain.classList.remove('active', 'retracting', 'mode-lv10', 'mode-lv11', 'mode-lv12', 'mode-lv13', 'mode-lv14', 'mode-mild', 'mode-full');
+      }, 500);
     }
-    broadcastMascotMessage('💉 已為您緊急注射 3,000cc 冰鎮無糖綠茶！網站搖晃與焦糖海嘯已完全抽乾平息！');
-    showToast('💉 無糖綠茶解毒完成', '網站已停止搖晃，體內含糖量恢復至 0g 純潔狀態！', 'emerald');
+
+    setGlobalSugarCubes(0, { syncLadder: true, isOverloadTrigger: false });
+    selectLadderLevel(0, false);
+
+    broadcastMascotMessage('🍵 已為您緊急注射 3,000cc 冰鎮無糖綠茶！焦糖瀑布已順暢平滑收回，全站含糖量歸零！');
+    showToast('🍵 無糖綠茶收回完畢', '已注射無糖綠茶中和，糖漿已順暢收回，體內含糖量歸零！', 'emerald');
   }
 
   // ========================================================================
