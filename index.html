@@ -39,7 +39,7 @@
   </script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="styles.css?v=6.7.0" />
+  <link rel="stylesheet" href="styles.css?v=6.8.0" />
 </head>
 
 <body class="min-h-screen text-slate-100 selection:bg-amber-400 selection:text-slate-950">
@@ -1023,7 +1023,7 @@
 
           <!-- 雙主圖高畫質展示卡 (Beaker Inspection & Mascot Spec) -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-            <!-- Card 1: 專屬燒杯檢測艙 (不放人物，純放高科技燒杯光學檢測) -->
+            <!-- Card 1: FOUNDER SPEC // 全糖創始人 (靈魂人物原圖 + 語錄互動) -->
             <div
               class="lab-card liquid-glass-card rounded-3xl p-5 flex flex-col justify-between space-y-4 border border-cyan-500/40 shadow-[0_0_35px_rgba(6,182,212,0.15)]">
               <div class="space-y-3">
@@ -1031,78 +1031,44 @@
                   <div class="flex items-center gap-2">
                     <span
                       class="px-3 py-1 rounded-xl bg-slate-950 border border-cyan-400 text-cyan-300 font-mono text-xs font-black tracking-wide shadow-md">
-                      🔬 BEAKER SPEC // 全息高果糖燒杯檢測
+                      🧬 FOUNDER // 全糖創始人
                     </span>
                     <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-[10px] font-mono text-cyan-300">
                       <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-                      <span>折射率 1.489</span>
+                      <span>靈魂人物</span>
                     </span>
                   </div>
-                  <span class="text-xs font-mono text-slate-400">1000 mL 容量</span>
+                  <span class="text-xs font-mono text-cyan-400/80">點擊圖片聽取創始人語錄</span>
                 </div>
 
-                <!-- 燒杯檢測光學視覺艙 (動態高果糖溶液、懸浮方糖與刻度) -->
-                <div class="artwork-showcase-frame relative group bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 rounded-2xl overflow-hidden p-6 flex flex-col items-center justify-center min-h-[280px] border border-cyan-500/30">
-                  <div class="relative w-48 h-56 flex items-center justify-center">
-                    <svg viewBox="0 0 160 200" class="w-full h-full overflow-visible drop-shadow-[0_0_20px_rgba(245,158,11,0.35)]">
-                      <defs>
-                        <linearGradient id="beakerSyrupGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.9" />
-                          <stop offset="50%" stop-color="#D97706" stop-opacity="0.95" />
-                          <stop offset="100%" stop-color="#92400E" stop-opacity="1" />
-                        </linearGradient>
-                      </defs>
-                      <path d="M 25,20 L 15,20 L 15,30 L 25,30 L 25,180 Q 25,195 40,195 L 120,195 Q 135,195 135,180 L 135,30 L 145,30 L 145,20 L 135,20" 
-                            fill="none" stroke="#38BDF8" stroke-width="3" stroke-linecap="round" opacity="0.85" />
-                      <path d="M 15,20 Q 5,16 10,12 Q 18,12 25,20" fill="none" stroke="#38BDF8" stroke-width="2.5" />
-                      <path d="M 28,65 Q 80,60 132,65 L 132,180 Q 132,192 120,192 L 40,192 Q 28,192 28,180 Z" fill="url(#beakerSyrupGrad)" />
-                      <ellipse cx="80" cy="65" rx="52" ry="7" fill="#FDE047" opacity="0.75" />
-                      <rect x="45" y="85" width="22" height="22" rx="3" fill="#FFFFFF" opacity="0.85" stroke="#FBBF24" stroke-width="1.5" transform="rotate(12 56 96)" />
-                      <rect x="90" y="110" width="20" height="20" rx="3" fill="#FFFFFF" opacity="0.85" stroke="#FBBF24" stroke-width="1.5" transform="rotate(-15 100 120)" />
-                      <rect x="58" y="140" width="24" height="24" rx="3" fill="#FFFFFF" opacity="0.85" stroke="#FBBF24" stroke-width="1.5" transform="rotate(8 70 152)" />
-                      <line x1="30" y1="50" x2="45" y2="50" stroke="#E2E8F0" stroke-width="1.8" />
-                      <text x="50" y="53" fill="#94A3B8" font-size="9" font-family="monospace">1000ml</text>
-                      <line x1="30" y1="80" x2="42" y2="80" stroke="#E2E8F0" stroke-width="1.5" />
-                      <text x="47" y="83" fill="#94A3B8" font-size="8" font-family="monospace">800ml</text>
-                      <line x1="30" y1="110" x2="42" y2="110" stroke="#E2E8F0" stroke-width="1.5" />
-                      <text x="47" y="113" fill="#94A3B8" font-size="8" font-family="monospace">500ml</text>
-                      <line x1="30" y1="140" x2="42" y2="140" stroke="#E2E8F0" stroke-width="1.5" />
-                      <text x="47" y="143" fill="#94A3B8" font-size="8" font-family="monospace">200ml</text>
-                    </svg>
-                  </div>
-
-                  <!-- 即時檢測數據條 -->
-                  <div class="mt-3 grid grid-cols-3 gap-2 w-full max-w-sm text-center font-mono">
-                    <div class="bg-slate-950/80 p-2 rounded-xl border border-slate-800">
-                      <div class="text-[9px] text-slate-400">糖度密度</div>
-                      <div class="text-xs font-bold text-amber-300">1.42 g/cm³</div>
-                    </div>
-                    <div class="bg-slate-950/80 p-2 rounded-xl border border-slate-800">
-                      <div class="text-[9px] text-slate-400">懸浮方糖</div>
-                      <div class="text-xs font-bold text-cyan-300">12 顆滿載</div>
-                    </div>
-                    <div class="bg-slate-950/80 p-2 rounded-xl border border-slate-800">
-                      <div class="text-[9px] text-slate-400">流體黏度</div>
-                      <div class="text-xs font-bold text-emerald-300">1250 cP</div>
-                    </div>
+                <!-- 創始人圖鑑 (點擊圖片互動) -->
+                <div id="founder-artwork-container" onclick="window.LabApp.triggerFounderQuote()"
+                  class="artwork-showcase-frame relative group bg-slate-950 rounded-2xl overflow-hidden cursor-pointer select-none border border-cyan-500/30">
+                  <img src="assets/soul-founder-character.jpg" alt="FOUNDER // 全糖創始人"
+                    class="w-full h-72 sm:h-80 object-cover object-center group-hover:scale-105 transition-transform duration-500" />
+                  
+                  <div class="absolute bottom-2.5 left-2.5 bg-slate-950/85 backdrop-blur-md px-3 py-1 rounded-xl border border-cyan-500/40 text-[11px] font-mono text-cyan-300 flex items-center gap-1.5 shadow-lg">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                    <span>👉 點擊聽取創始人糖分名言！</span>
                   </div>
                 </div>
 
-                <!-- 燒杯分析結果顯示 -->
-                <div class="bg-slate-950/90 border border-cyan-500/30 rounded-2xl p-3 min-h-[50px] flex items-center gap-2.5 shadow-inner">
-                  <span class="text-xl shrink-0">🥃</span>
+                <!-- 創始人即時語錄終端機 -->
+                <div id="founder-dialogue-box"
+                  class="bg-slate-950/90 border border-cyan-500/30 rounded-2xl p-3 min-h-[50px] flex items-center gap-2.5 shadow-inner">
+                  <span class="text-xl shrink-0">👓</span>
                   <div class="text-xs font-mono text-cyan-200 leading-relaxed" id="founder-dialogue-text">
-                    「全糖量測燒杯光學檢測就緒：1000ml 琥珀特調濃縮液，等待分析指令。」
+                    「一天沒喝到 12 顆方糖（60g），整個人都不對勁！果糖是社死世界唯一的防腐劑。」
                   </div>
                 </div>
               </div>
 
-              <!-- 動作按鈕 -->
+              <!-- 創始人按鈕 -->
               <div class="pt-1">
-                <button type="button" onclick="window.LabApp.triggerFounderBeakerInspect()"
+                <button type="button" onclick="window.LabApp.triggerFounderQuote()"
                   class="w-full liquid-glass-cyan py-2.5 px-4 rounded-xl font-mono text-xs sm:text-sm font-black text-cyan-200 hover:scale-[1.02] active:scale-95 transition text-center shadow-[0_0_20px_rgba(6,182,212,0.3)] flex items-center justify-center gap-2 border border-cyan-400/50">
-                  <span>🥃</span>
-                  <span>啟動全糖燒杯光學檢測</span>
+                  <span>👓</span>
+                  <span>點擊創始人語錄（同步靈魂波形）</span>
                 </button>
               </div>
             </div>
@@ -1571,13 +1537,17 @@
                 🏆 登榮譽榜
               </button>
             </div>
+
+            <!-- 官方搞笑稱號印章 (收據下方專屬空間) -->
+            <div id="receipt-funny-stamp-card" class="mt-3 lab-card liquid-glass-card rounded-2xl p-3 border-2 border-rose-500/40 bg-slate-950/90 shadow-[0_0_20px_rgba(244,63,94,0.15)] space-y-2">
+            </div>
           </div>
 
           <!-- Right: Social Duel Arena (無男宿字眼) -->
           <div class="lg:col-span-7 space-y-4">
             <div>
               <span class="font-mono text-xs text-cyan-400 font-bold">PAGE 03-B</span>
-              <h2 class="text-xl font-black text-white">⚔️ 全糖雙人社交審判擂台</h2>
+              <h2 class="text-xl font-black text-white">⚔️ 雙人社交審判擂台</h2>
               <p class="text-xs text-slate-400 mt-0.5">雙方各自輸入最蠢的經歷，中央天平一決高下！</p>
             </div>
 
@@ -1893,105 +1863,63 @@
           <section id="shaker-hub-section" class="lg:col-span-6 space-y-3 scroll-mt-20">
             <div class="lab-card liquid-glass-card rounded-2xl p-4 space-y-3 border border-amber-500/40 bg-slate-950/90 shadow-[0_0_20px_rgba(245,158,11,0.15)]">
               
-              <!-- 頂部小標題與隨機按鈕 -->
+              <!-- 頂部短標題與隨機按鈕 -->
               <div class="flex items-center justify-between border-b border-white/10 pb-2">
                 <div class="flex items-center gap-1.5">
-                  <span class="px-2 py-0.5 rounded bg-amber-400 text-slate-950 font-mono text-[10px] font-black">6-AXIS DUAL</span>
-                  <h3 class="text-sm font-black text-white">🧋 特調手搖飲 ＆ 六維度雷達</h3>
+                  <span class="px-2 py-0.5 rounded bg-cyan-400 text-slate-950 font-mono text-[10px] font-black">6-AXIS RADAR</span>
+                  <h3 class="text-sm font-black text-white">📊 6 維日常糖度雷達</h3>
                 </div>
                 <button type="button" onclick="window.LabApp.randomizeRadarSliders()"
-                  class="px-2 py-0.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-amber-500/50 text-amber-300 font-mono text-[10px] font-bold transition active:scale-95 shadow">
+                  class="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-amber-500/50 text-amber-300 font-mono text-[11px] font-bold transition active:scale-95 shadow">
                   🎲 隨機抽籤
                 </button>
               </div>
 
-              <!-- 雙圖並排展示區 (左側: 精美手搖杯 ｜ 右側: 六角雷達多邊形) -->
-              <div class="grid grid-cols-2 gap-2 bg-slate-950/70 p-2.5 rounded-xl border border-slate-800 items-center">
-                
-                <!-- 左圖：特調靈魂手搖量杯 (升降液面、精美反光、精緻底座) -->
-                <div class="flex flex-col items-center justify-between p-1.5 bg-slate-900/60 rounded-xl border border-white/5 space-y-1.5">
-                  <div class="text-center">
-                    <span class="font-mono text-[9px] text-amber-400 font-bold block">靈魂手搖杯</span>
-                    <div id="boba-cup-status" class="text-[11px] font-black text-white truncate max-w-[120px]">微糖半糖・微醺珍奶</div>
-                  </div>
+              <!-- 六角雷達圖置中展示區 (純六維雷達，無手搖杯，多邊形與節點連動) -->
+              <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 flex flex-col items-center justify-center space-y-1">
+                <div class="flex items-center justify-between w-full font-mono text-[11px] px-2 mb-1">
+                  <span class="text-cyan-400 font-bold">RADAR MESH</span>
+                  <span class="text-amber-300 font-black" id="radar-cubes-equivalent">折合 46 顆方糖 (230g)</span>
+                </div>
 
-                  <!-- 手搖杯外框與動態液面 -->
-                  <div class="relative w-24 h-36 bg-slate-950/90 rounded-b-2xl rounded-t-md border-2 border-amber-400/60 overflow-hidden flex flex-col justify-end p-0.5 shadow-[0_0_15px_rgba(245,158,11,0.25)]">
-                    <!-- 斜插吸管 -->
-                    <div class="absolute -top-2 right-4 w-2 h-20 bg-gradient-to-b from-rose-400 to-amber-300 rounded-full rotate-6 z-20 shadow-md"></div>
+                <div class="relative w-full aspect-square max-w-[210px] flex items-center justify-center">
+                  <svg viewBox="0 0 240 240" class="w-full h-full drop-shadow-[0_0_15px_rgba(6,182,212,0.35)]">
+                    <!-- 刻度底網 (六邊形網格) -->
+                    <polygon points="120,25 202,72 202,168 120,215 38,168 38,72" fill="none" stroke="#1E293B" stroke-width="1.5" />
+                    <polygon points="120,57 175,88 175,152 120,183 65,152 65,88" fill="none" stroke="#1E293B" stroke-width="1" stroke-dasharray="3 3" />
+                    <polygon points="120,88 147,104 147,136 120,152 93,136 93,104" fill="none" stroke="#1E293B" stroke-width="1" />
+                    <!-- 軸線 -->
+                    <line x1="120" y1="25" x2="120" y2="215" stroke="#1E293B" stroke-width="1" />
+                    <line x1="202" y1="72" x2="38" y2="168" stroke="#1E293B" stroke-width="1" />
+                    <line x1="202" y1="168" x2="38" y2="72" stroke="#1E293B" stroke-width="1" />
+
+                    <!-- 即時連動多邊形 -->
+                    <polygon id="radar-data-polygon" points="120,48 172,90 190,160 120,168 54,158 62,86"
+                      fill="rgba(245, 158, 11, 0.45)" stroke="#FBBF24" stroke-width="2.5" class="transition-all duration-150" />
                     
-                    <!-- 動態升降液面層 -->
-                    <div id="boba-cup-liquid-layer" class="w-full rounded-b-xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between"
-                         style="height: 60%; background: linear-gradient(to top, #78350F, #D97706, #FBBF24);">
-                      <!-- 液面波紋 -->
-                      <div class="w-full h-1.5 bg-amber-200/50 rounded-full animate-pulse"></div>
-                      <!-- 浮動配料與珍珠 -->
-                      <div id="boba-cup-toppings-visual" class="flex flex-wrap justify-center gap-0.5 p-0.5 boba-bubble-anim">
-                        <span class="text-[10px]">⚫</span>
-                        <span class="text-[10px]">🧊</span>
-                        <span class="text-[10px]">⚫</span>
-                      </div>
-                    </div>
+                    <!-- 6 軸連動發光節點 -->
+                    <circle id="radar-node-0" cx="120" cy="48" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
+                    <circle id="radar-node-1" cx="172" cy="90" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
+                    <circle id="radar-node-2" cx="190" cy="160" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
+                    <circle id="radar-node-3" cx="120" cy="168" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
+                    <circle id="radar-node-4" cx="54" cy="158" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
+                    <circle id="radar-node-5" cx="62" cy="86" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
 
-                    <!-- 杯底高光沉積槽 (精美手搖杯底視覺升級) -->
-                    <div class="absolute bottom-0 inset-x-0 h-2 bg-gradient-to-t from-amber-900/80 to-transparent border-t border-amber-400/30 pointer-events-none z-10"></div>
-                  </div>
-
-                  <!-- 杯底發光基座與容量標籤 -->
-                  <div class="w-full flex flex-col items-center">
-                    <div class="w-16 h-1 bg-gradient-to-r from-transparent via-amber-400/60 to-transparent rounded-full blur-[1px]"></div>
-                    <div id="boba-cup-ml-text" class="font-mono text-[9px] text-amber-300 font-bold mt-0.5">500ml (46顆)</div>
-                  </div>
+                    <!-- 軸文字標籤 -->
+                    <text x="120" y="16" text-anchor="middle" fill="#FBBF24" font-size="10" font-weight="bold">手搖成癮</text>
+                    <text x="212" y="72" text-anchor="start" fill="#94A3B8" font-size="10">社死頻率</text>
+                    <text x="212" y="172" text-anchor="start" fill="#94A3B8" font-size="10">男宿發瘋</text>
+                    <text x="120" y="230" text-anchor="middle" fill="#94A3B8" font-size="10">群組手滑</text>
+                    <text x="28" y="172" text-anchor="end" fill="#94A3B8" font-size="10">調皮嘴砲</text>
+                    <text x="28" y="72" text-anchor="end" fill="#06B6D4" font-size="10" font-weight="bold">強心臟</text>
+                  </svg>
                 </div>
-
-                <!-- 右圖：六角雷達監測 (無旋轉掃描光束，多邊形與節點即時連動) -->
-                <div class="flex flex-col items-center justify-between p-1.5 bg-slate-900/60 rounded-xl border border-white/5 space-y-1">
-                  <div class="text-center">
-                    <span class="font-mono text-[9px] text-cyan-400 font-bold block">六維雷達</span>
-                    <div class="text-[11px] font-black text-cyan-200" id="radar-cubes-equivalent">折合 46 顆方糖</div>
-                  </div>
-
-                  <div class="relative w-full aspect-square max-w-[145px] flex items-center justify-center">
-                    <svg viewBox="0 0 240 240" class="w-full h-full drop-shadow-[0_0_10px_rgba(6,182,212,0.3)]">
-                      <!-- 刻度底網 (六邊形網格) -->
-                      <polygon points="120,25 202,72 202,168 120,215 38,168 38,72" fill="none" stroke="#1E293B" stroke-width="1.5" />
-                      <polygon points="120,57 175,88 175,152 120,183 65,152 65,88" fill="none" stroke="#1E293B" stroke-width="1" stroke-dasharray="3 3" />
-                      <polygon points="120,88 147,104 147,136 120,152 93,136 93,104" fill="none" stroke="#1E293B" stroke-width="1" />
-                      <!-- 軸線 -->
-                      <line x1="120" y1="25" x2="120" y2="215" stroke="#1E293B" stroke-width="1" />
-                      <line x1="202" y1="72" x2="38" y2="168" stroke="#1E293B" stroke-width="1" />
-                      <line x1="202" y1="168" x2="38" y2="72" stroke="#1E293B" stroke-width="1" />
-
-                      <!-- 即時連動多邊形 (無轉圈光束，純多邊形流暢響應) -->
-                      <polygon id="radar-data-polygon" points="120,48 172,90 190,160 120,168 54,158 62,86"
-                        fill="rgba(245, 158, 11, 0.45)" stroke="#FBBF24" stroke-width="2.5" class="transition-all duration-150" />
-                      
-                      <!-- 6 軸連動發光節點 -->
-                      <circle id="radar-node-0" cx="120" cy="48" r="4" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
-                      <circle id="radar-node-1" cx="172" cy="90" r="4" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
-                      <circle id="radar-node-2" cx="190" cy="160" r="4" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
-                      <circle id="radar-node-3" cx="120" cy="168" r="4" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
-                      <circle id="radar-node-4" cx="54" cy="158" r="4" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
-                      <circle id="radar-node-5" cx="62" cy="86" r="4" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5" />
-
-                      <!-- 軸文字標籤 -->
-                      <text x="120" y="16" text-anchor="middle" fill="#FBBF24" font-size="9" font-weight="bold">手搖成癮</text>
-                      <text x="212" y="72" text-anchor="start" fill="#94A3B8" font-size="9">社死頻率</text>
-                      <text x="212" y="172" text-anchor="start" fill="#94A3B8" font-size="9">男宿發瘋</text>
-                      <text x="120" y="230" text-anchor="middle" fill="#94A3B8" font-size="9">群組手滑</text>
-                      <text x="28" y="172" text-anchor="end" fill="#94A3B8" font-size="9">調皮嘴砲</text>
-                      <text x="28" y="72" text-anchor="end" fill="#06B6D4" font-size="9" font-weight="bold">強心臟</text>
-                    </svg>
-                  </div>
-                </div>
-
               </div>
 
-              <!-- 6 大日常屬性滑桿 (精緻排版，滑動時左右雙圖即時變動) -->
+              <!-- 6 大日常屬性滑桿 (2欄佈局，滑動時雷達即時連動) -->
               <div class="space-y-1.5 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
                 <div class="grid grid-cols-2 gap-x-3 gap-y-1.5 text-[11px]">
                   
-                  <!-- 屬性 1 -->
                   <div>
                     <div class="flex justify-between font-bold mb-0.5">
                       <span class="text-slate-200">1. 🥤 手搖成癮</span>
@@ -2002,7 +1930,6 @@
                       oninput="window.LabApp.updateSugarRadar()" />
                   </div>
 
-                  <!-- 屬性 2 -->
                   <div>
                     <div class="flex justify-between font-bold mb-0.5">
                       <span class="text-slate-200">2. 💀 社死頻率</span>
@@ -2013,7 +1940,6 @@
                       oninput="window.LabApp.updateSugarRadar()" />
                   </div>
 
-                  <!-- 屬性 3 -->
                   <div>
                     <div class="flex justify-between font-bold mb-0.5">
                       <span class="text-slate-200">3. 🤪 男宿發瘋</span>
@@ -2024,7 +1950,6 @@
                       oninput="window.LabApp.updateSugarRadar()" />
                   </div>
 
-                  <!-- 屬性 4 -->
                   <div>
                     <div class="flex justify-between font-bold mb-0.5">
                       <span class="text-slate-200">4. 📱 群組手滑</span>
@@ -2035,7 +1960,6 @@
                       oninput="window.LabApp.updateSugarRadar()" />
                   </div>
 
-                  <!-- 屬性 5 -->
                   <div>
                     <div class="flex justify-between font-bold mb-0.5">
                       <span class="text-slate-200">5. 😈 調皮嘴砲</span>
@@ -2046,7 +1970,6 @@
                       oninput="window.LabApp.updateSugarRadar()" />
                   </div>
 
-                  <!-- 屬性 6 -->
                   <div>
                     <div class="flex justify-between font-bold mb-0.5">
                       <span class="text-slate-200">6. 🛡️ 強心臟度</span>
@@ -2258,9 +2181,9 @@
   </nav>
 
   <!-- Scripts with cache busters -->
-  <script src="data.js?v=6.7.0"></script>
-  <script src="audio.js?v=6.7.0"></script>
-  <script src="app.js?v=6.7.0"></script>
+  <script src="data.js?v=6.8.0"></script>
+  <script src="audio.js?v=6.8.0"></script>
+  <script src="app.js?v=6.8.0"></script>
 </body>
 
 </html>

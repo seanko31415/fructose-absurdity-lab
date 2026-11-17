@@ -343,6 +343,8 @@
   }
 
   // 3D 卡牌平滑自動旋轉（滑鼠靠近時變慢轉動，絕不完全卡住停止！）
+  let carouselCurrentSpeed = 0.011;
+
   function start3DAutoOrbit() {
     if (appState.carouselRafId) return;
     let lastTime = performance.now();
@@ -350,9 +352,10 @@
       const delta = Math.min(64, time - lastTime);
       lastTime = time;
       if (appState.carouselAutoRotate) {
-        // 滑鼠靠近時減速為 1/4 慢速優雅旋轉，移開時恢復正常巡航速度
-        const speed = appState.carouselPausedByHover ? 0.0068 : 0.028;
-        appState.carouselAngle -= speed * delta;
+        // 平時慢速旋轉 (0.011)，滑鼠靠近時平滑減速至優雅微速 (0.0018)
+        const targetSpeed = appState.carouselPausedByHover ? 0.0018 : 0.011;
+        carouselCurrentSpeed += (targetSpeed - carouselCurrentSpeed) * 0.05;
+        appState.carouselAngle -= carouselCurrentSpeed * delta;
         const ring = document.getElementById('carousel-3d-ring');
         if (ring) {
           ring.style.transform = `rotateY(${appState.carouselAngle}deg)`;
@@ -561,6 +564,7 @@
       renderLadderSection(false);
     }
     renderBeverageBenchmarkCards();
+    renderFunnyReceiptStamp(0);
     updateMascotUI(false);
   }
 
@@ -1250,7 +1254,6 @@
         const midY = 40;
         const isMuted = (type === 'sine' && freq === 0) || freq <= 0;
 
-        // 依據波形模式動態更新霓虹光輝色彩
         const waveColors = {
           sine: { stroke: '#10B981', filter: 'drop-shadow(0 0 8px rgba(16,185,129,0.85))' },
           triangle: { stroke: '#06B6D4', filter: 'drop-shadow(0 0 8px rgba(6,182,212,0.85))' },
@@ -1262,36 +1265,33 @@
         pathEl.style.filter = colorCfg.filter;
 
         if (isMuted) {
-          // 0Hz 純淨平靜態：平滑直線
+          // 0Hz 純淨平靜態：平滑水平線，無任何雜訊
           pathEl.setAttribute('d', `M 0,${midY} L ${w},${midY}`);
         } else {
-          const baseAmp = 22;
-          const amp = baseAmp + Math.sin(synthPhase * 2.2) * 3;
-          const speed = Math.max(0.04, Math.min(0.25, (freq / 440) * 0.08));
+          const amp = 24 + Math.sin(synthPhase * 1.5) * 3;
+          const speed = Math.max(0.02, Math.min(0.15, (freq / 440) * 0.05));
           synthPhase += speed;
 
-          const cycles = Math.max(2, Math.min(18, Math.round(freq / 110)));
-          const segW = w / cycles;
-          const offset = (synthPhase * 32) % segW;
+          const cycles = Math.max(2, Math.min(14, Math.round(freq / 110)));
+          const pts = [];
 
-          let d = `M 0,${midY}`;
-          for (let x = -segW; x <= w + segW * 2; x += segW) {
-            const drawX = x - offset;
-            if (type === 'square') {
-              // 矩形方波
-              d += ` L ${drawX},${midY - amp} L ${drawX + segW / 2},${midY - amp} L ${drawX + segW / 2},${midY + amp} L ${drawX + segW},${midY + amp} L ${drawX + segW},${midY}`;
-            } else if (type === 'sawtooth') {
-              // 銳利鋸齒波
-              d += ` L ${drawX},${midY + amp} L ${drawX + segW},${midY - amp} L ${drawX + segW},${midY + amp}`;
+          // 從 x=0 到 x=w 連續取樣，無任何跳躍線條與刺插現象
+          for (let x = 0; x <= w; x += 3) {
+            const p = (x / w) * cycles * 2 * Math.PI - synthPhase * 3;
+            let y = midY;
+            if (type === 'sine') {
+              y = midY + Math.sin(p) * amp;
             } else if (type === 'triangle') {
-              // 三角波 (銳利折線)
-              d += ` L ${drawX + segW * 0.25},${midY - amp} L ${drawX + segW * 0.75},${midY + amp} L ${drawX + segW},${midY}`;
-            } else {
-              // 正弦波 (平滑平曲線)
-              d += ` Q ${drawX + segW * 0.25},${midY - amp} ${drawX + segW * 0.5},${midY} Q ${drawX + segW * 0.75},${midY + amp} ${drawX + segW},${midY}`;
+              y = midY + (2 / Math.PI) * Math.asin(Math.sin(p)) * amp;
+            } else if (type === 'sawtooth') {
+              const mod = ((p % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+              y = midY + (mod / Math.PI - 1) * amp;
+            } else if (type === 'square') {
+              y = Math.sin(p) >= 0 ? midY - amp : midY + amp;
             }
+            pts.push(`${x === 0 ? 'M' : 'L'} ${x},${y.toFixed(1)}`);
           }
-          pathEl.setAttribute('d', d);
+          pathEl.setAttribute('d', pts.join(' '));
         }
       }
       requestAnimationFrame(loop);
@@ -1404,10 +1404,10 @@
                 ${isLv14 ? '1000+顆' : `${l.cubes}顆`}
               </span>
             </div>
-            <div class="text-xs sm:text-sm font-extrabold text-white truncate mt-1.5 group-hover:text-amber-300 transition-colors">
+            <div class="text-xs sm:text-[13px] font-black text-white break-words leading-tight mt-1 group-hover:text-amber-300 transition-colors">
               ${l.name}
             </div>
-            <div class="font-mono text-[9px] text-slate-400 mt-0.5 truncate">
+            <div class="font-mono text-[9px] text-slate-400 mt-0.5 break-words leading-none">
               ${l.grams}g (${l.viscosity || '1.0 cP'})
             </div>
           </button>
@@ -2359,6 +2359,147 @@
       renderThermalReceipt(verdict);
       broadcastMascotMessage(`🖨️ 診斷收據列印完成！核定【${verdict.cubes} 顆方糖 (${verdict.grams}g)】！${verdict.roast}`);
     }, 260);
+  }
+
+  
+  // ========================================================================
+  // 搞笑官方印章與稱號資料庫 (診斷書下方專屬空間)
+  // ========================================================================
+  const FUNNY_STAMPS_DATA = [
+    {
+      title: '🧋 綠茶喚不回的深淵甜心',
+      badge: '全糖特派員',
+      stamp: '絕密超標認證',
+      stampColor: 'text-rose-500 border-rose-500 bg-rose-950/40',
+      desc: '體內果糖濃度高達 98%，飲用無糖綠茶會引發全身拒絕反應！',
+      serial: 'SEAL-SUGAR-9941'
+    },
+    {
+      title: '🍯 男宿走廊夜行焦糖幽靈',
+      badge: '半夜糖癮重症',
+      stamp: '夜間禁足處分',
+      stampColor: 'text-amber-500 border-amber-500 bg-amber-950/40',
+      desc: '凌晨兩點出現在各寢室門口乞討方糖，發出「咕嚕咕嚕」的可疑聲響。',
+      serial: 'SEAL-DORM-7721'
+    },
+    {
+      title: '🧊 假裝自律但狂嚼方糖之王',
+      badge: '表面無糖實質全糖',
+      stamp: '偽裝大師揭發',
+      stampColor: 'text-cyan-400 border-cyan-400 bg-cyan-950/40',
+      desc: '點飲料必喊「微糖微冰」，轉頭就在包包偷塞三包黑糖塊。',
+      serial: 'SEAL-FAKE-3382'
+    },
+    {
+      title: '💥 群組手滑自爆一級先鋒',
+      badge: '社交核反應堆',
+      stamp: '公開處刑留存',
+      stampColor: 'text-red-500 border-red-500 bg-red-950/40',
+      desc: '手指比大腦快十秒，撤回訊息的速度永遠趕不上室友截圖的速度。',
+      serial: 'SEAL-EXPLODE-8819'
+    },
+    {
+      title: '👑 全校手搖店地下至尊乾爹',
+      badge: '皇家全糖尊爵',
+      stamp: '終身免檢特權',
+      stampColor: 'text-yellow-400 border-yellow-400 bg-yellow-950/40',
+      desc: '手搖店店員看到走進來直接備好全糖珍奶，不用開口。',
+      serial: 'SEAL-VIP-0007'
+    },
+    {
+      title: '🫠 拔絲地瓜本體人間體',
+      badge: '熱力學焦糖化',
+      stamp: '黏稠度特級',
+      stampColor: 'text-orange-500 border-orange-500 bg-orange-950/40',
+      desc: '一緊張就會分泌出高濃縮糖漿，任何靠近的物品都會被黏在原地。',
+      serial: 'SEAL-STICKY-5520'
+    },
+    {
+      title: '🍵 綠茶純愛戰士之糖分過敏體',
+      badge: '純潔無糖使者',
+      stamp: '聖光純淨證書',
+      stampColor: 'text-emerald-400 border-emerald-400 bg-emerald-950/40',
+      desc: '任何高於 1% 的糖度都會造成精神震盪，是全校唯一的解毒劑製造機。',
+      serial: 'SEAL-PURE-1104'
+    },
+    {
+      title: '⚡ 腦波已被高果糖漿全面接管的生化人',
+      badge: '生化糖魔機體',
+      stamp: '強制斷糖通緝',
+      stampColor: 'text-purple-400 border-purple-400 bg-purple-950/40',
+      desc: '思考電位與果糖波形完全同頻，計算數學時腦海裡都在浮現珍珠。',
+      serial: 'SEAL-CYBORG-6639'
+    },
+    {
+      title: '🍮 走在路上散播焦糖費洛蒙危險分子',
+      badge: '香甜氣味超標',
+      stamp: '生化香氣管制',
+      stampColor: 'text-pink-400 border-pink-400 bg-pink-950/40',
+      desc: '只要經過自習室走道，整排人都會忍不住想點下午茶外送。',
+      serial: 'SEAL-SCENT-4209'
+    }
+  ];
+
+  let currentFunnyStampIndex = 0;
+
+  function renderFunnyReceiptStamp(optionalIndex) {
+    const container = document.getElementById('receipt-funny-stamp-card');
+    if (!container) return;
+
+    if (optionalIndex !== undefined) {
+      currentFunnyStampIndex = optionalIndex % FUNNY_STAMPS_DATA.length;
+    } else {
+      currentFunnyStampIndex = Math.floor(Math.random() * FUNNY_STAMPS_DATA.length);
+    }
+
+    const s = FUNNY_STAMPS_DATA[currentFunnyStampIndex];
+    container.innerHTML = `
+      <div class="flex items-center justify-between border-b border-white/10 pb-2 mb-2">
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-0.5 rounded bg-rose-500 text-slate-950 font-mono text-[10px] font-black tracking-wider">OFFICIAL SEAL</span>
+          <span class="text-xs font-black text-white">📜 全糖公審所・官方搞笑稱號認證</span>
+        </div>
+        <button type="button" onclick="window.LabApp.rollFunnyStamp()"
+          class="liquid-glass-btn px-2.5 py-1 rounded-lg text-rose-300 font-mono text-[11px] font-bold hover:scale-105 active:scale-95 transition flex items-center gap-1 shadow">
+          <span>🎲</span>
+          <span>換個稱號</span>
+        </button>
+      </div>
+
+      <div class="relative overflow-hidden bg-slate-950/80 rounded-xl p-3 border border-rose-500/30 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="space-y-1.5 text-center sm:text-left">
+          <div class="flex flex-wrap items-center justify-center sm:justify-start gap-1.5">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-white/10 text-slate-300 border border-white/15">
+              ${s.badge}
+            </span>
+            <span class="font-mono text-[10px] text-slate-400">${s.serial}</span>
+          </div>
+          <div class="text-base sm:text-lg font-black text-amber-300 tracking-tight drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]">
+            ${s.title}
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed max-w-sm">
+            ${s.desc}
+          </p>
+        </div>
+
+        <div class="shrink-0 relative select-none transform rotate-[-4deg] hover:rotate-0 transition-transform">
+          <div class="w-24 h-24 rounded-full border-4 border-double ${s.stampColor} flex flex-col items-center justify-center p-1 shadow-[0_0_15px_rgba(244,63,94,0.3)]">
+            <span class="text-[9px] font-mono font-black tracking-widest uppercase">OFFICIAL</span>
+            <span class="text-[11px] font-black leading-tight text-center my-0.5">${s.stamp}</span>
+            <span class="text-[8px] font-mono opacity-80">2026 CODEX</span>
+            <div class="w-12 h-0.5 bg-current opacity-50 my-0.5"></div>
+            <span class="text-[7px] font-mono opacity-70">全糖量測所認證</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function rollFunnyStamp() {
+    window.labAudio && window.labAudio.playStamp();
+    currentFunnyStampIndex = (currentFunnyStampIndex + 1) % FUNNY_STAMPS_DATA.length;
+    renderFunnyReceiptStamp(currentFunnyStampIndex);
+    showToast('官方印章稱號', '已換發全新搞笑官方認證印章！', 'rose');
   }
 
   function renderThermalReceipt(verdict) {
@@ -4332,6 +4473,8 @@
   }
 
   window.LabApp = {
+    rollFunnyStamp,
+    renderFunnyReceiptStamp,
     rotate3DCarousel,
     select3DCard,
     toggle3DAutoRotate,
